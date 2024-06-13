@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:id="@+id/linearLayout2"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="3dp"
+        android:layout_marginTop="2dp"
+        android:layout_marginEnd="3dp"
+        android:layout_marginBottom="10dp"
+        android:background="#E4DFB4"
+        android:orientation="vertical"
+        app:layout_constraintBottom_toTopOf="@+id/linearLayout3"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/linearLayout2">
+
+        <Button
+            android:id="@+id/bt_grupoinfo_menu_acciones"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:backgroundTint="#57AE74"
+            android:text="ACCIONES"
+            app:iconGravity="end" />
+
+        <LinearLayout
+            android:id="@+id/tl_grupoinfo_menu_acciones_content"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:tag="@string/help_tag_grupo_info_actions"
+            android:visibility="gone"
+            tools:visibility="visible">
+
+            <TableLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="5dp"
+                android:layout_marginBottom="10dp"
+                android:layout_weight="1"
+                android:background="#E4DFB4"
+                android:visibility="visible"
+                tools:visibility="visible">
+
+                <TableRow
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:gravity="center">
+
+                    <Button
+                        android:id="@+id/bt_grupoinfo_delete_grupo"
+                        android:layout_width="150dp"
+                        android:layout_height="65dp"
+                        android:layout_margin="5dp"
+                        android:tag="@string/rol_admin"
+                        android:text="ELIMINAR\ngrupo"
+                        app:cornerRadius="20dp"
+                        app:icon="@drawable/ic_baseline_delete_forever_24" />
+
+                    <Button
+                        android:id="@+id/bt_grupoinfo_salir"
+                        android:layout_width="150dp"
+                        android:layout_height="65dp"
+                        android:layout_margin="5dp"
+                        android:text="Salir"
+                        app:cornerRadius="20dp"
+                        app:icon="@drawable/ic_baseline_person_remove_24" />
+
+                </TableRow>
+
+            </TableLayout>
+
+            <include
+                android:id="@+id/help_grupo_info_actions"
+                layout="@layout/frame_help"></include>
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+
+</FrameLayout>

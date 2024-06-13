@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/message_custom_actionbar_container"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:id="@+id/message_custom_actionbar_main"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:orientation="horizontal">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/message_custom_actionbar_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+
+                android:layout_weight="1"
+                android:text="TITULO"
+                android:textSize="16sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/message_custom_actionbar_subtitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+
+                android:layout_weight="1"
+                android:textSize="14sp" />
+        </LinearLayout>
+        <ImageView
+            android:id="@+id/message_custom_actionbar_candado_cerrado"
+            android:layout_width="130dp"
+            android:layout_height="20dp"
+            android:layout_gravity="center"
+            android:layout_weight="1"
+            android:foregroundGravity="center"
+            android:visibility="visible"
+            app:srcCompat="@drawable/ic_baseline_lock_24_oscuro" />
+
+        <Button
+            android:id="@+id/message_custom_actionbar_members_online_count"
+            android:layout_width="69dp"
+            android:layout_height="40dp"
+            android:layout_gravity="center"
+            android:layout_marginEnd="10dp"
+            android:backgroundTint="#23B34C"
+            android:foregroundGravity="center"
+            android:gravity="center"
+            android:maxWidth="70dp"
+            android:maxLines="1"
+
+            android:text="33"
+            android:textSize="14sp"
+            android:visibility="visible"
+            app:icon="@drawable/ic_twotone_emoji_people_24"
+            app:iconPadding="0dp"
+            tools:visibility="visible" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/message_custom_actionbar_actions"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:orientation="horizontal"
+        android:visibility="gone"
+        tools:visibility="visible">
+
+        <ImageButton
+            android:id="@+id/message_custom_actionbar_resend"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:backgroundTint="#3DACFA"
+            android:tint="#00FFFFFF"
+            app:srcCompat="@drawable/ic_baseline_dynamic_message_toolbar_resend_feed_24" />
+
+        <ImageButton
+            android:id="@+id/message_custom_actionbar_reply"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:backgroundTint="#3DACFA"
+            android:tint="#00FFFFFF"
+            app:srcCompat="@drawable/ic_twotone_reply_message_toolbar_24" />
+
+        <ImageButton
+            android:id="@+id/message_custom_actionbar_delete"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:backgroundTint="#3DACFA"
+            android:tint="#00FFFFFF"
+            app:srcCompat="@drawable/ic_baseline_delete_forever_24" />
+
+        <ImageButton
+            android:id="@+id/message_custom_actionbar_close"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:backgroundTint="#3DACFA"
+            android:tint="#00FFFFFF"
+            app:srcCompat="@drawable/ic_baseline_close_24" />
+    </LinearLayout>
+
+</LinearLayout>

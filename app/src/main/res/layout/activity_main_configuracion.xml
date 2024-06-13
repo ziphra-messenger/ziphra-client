@@ -1,0 +1,582 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".activity.mainconfiguracion.MainConfiguracionActivity">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginStart="2dp"
+        android:layout_marginTop="2dp"
+        android:layout_marginEnd="2dp"
+        android:layout_marginBottom="2dp"
+        android:focusable="true"
+        android:focusableInTouchMode="true"
+        android:focusedByDefault="true"
+        android:orientation="vertical"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <ScrollView
+            android:id="@+id/main_conf_scrollView2"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:id="@+id/main_conf_encrypt_linearLayout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="3dp"
+                    android:layout_marginTop="2dp"
+                    android:layout_marginEnd="3dp"
+                    android:layout_marginBottom="10dp"
+                    android:background="#E4DFB4"
+                    android:orientation="vertical"
+                    android:visibility="gone"
+                    app:layout_constraintBottom_toTopOf="@+id/linearLayout3"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/linearLayout2">
+
+                    <Button
+                        android:id="@+id/main_conf_encrypt_server_title"
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:backgroundTint="#57AE74"
+                        android:text="ENCRIPTAR CONFIGURACION"
+                        app:iconGravity="end" />
+
+                    <TableLayout
+                        android:id="@+id/main_conf_encrypt_server_content"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="3dp"
+                        android:layout_marginTop="10dp"
+                        android:layout_marginEnd="3dp"
+                        android:background="#E4DFB4"
+                        android:visibility="visible">
+
+                        <TableRow
+                            android:layout_width="342dp"
+                            android:layout_height="match_parent"
+                            android:layout_gravity="center|center_horizontal|center_vertical"
+                            android:gravity="center|center_horizontal|center_vertical">
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:layout_gravity="center|center_horizontal|center_vertical"
+                                android:gravity="center|center_horizontal|center_vertical"
+                                android:orientation="horizontal">
+
+                                <Switch
+                                    android:id="@+id/switch1"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="Contraseña Activada" />
+                            </LinearLayout>
+
+                        </TableRow>
+
+                        <TableRow
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_gravity="center"
+                            android:gravity="center"></TableRow>
+
+                        <TableRow
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_gravity="center"
+                            android:gravity="center"></TableRow>
+
+                        <TableRow
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_gravity="center"
+                            android:gravity="center">
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center|center_horizontal|center_vertical"
+                                android:gravity="center|center_horizontal|center_vertical"
+                                android:orientation="horizontal">
+
+                                <TextView
+                                    android:id="@+id/textView3322"
+                                    android:layout_width="80dp"
+                                    android:layout_height="match_parent"
+                                    android:layout_gravity="center_vertical"
+                                    android:layout_weight="1"
+                                    android:gravity="center_vertical"
+                                    android:text="Confirmar"
+                                    android:textStyle="bold" />
+
+                                <EditText
+                                    android:id="@+id/editTextTextPasswor22d"
+                                    android:layout_width="170dp"
+                                    android:layout_height="wrap_content"
+                                    android:layout_weight="1"
+                                    android:ems="10"
+                                    android:inputType="textPassword" />
+
+                                <ImageButton
+                                    android:id="@+id/imageButton4"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_weight="1"
+                                    android:backgroundTint="#E4DFB4"
+                                    android:visibility="invisible"
+                                    app:srcCompat="@drawable/ic_baseline_remove_red_eye_24" />
+                            </LinearLayout>
+
+                        </TableRow>
+
+                        <TableRow
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:gravity="center">
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:orientation="horizontal" />
+
+                        </TableRow>
+
+                        <TableRow
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:gravity="center">
+
+                            <Button
+                                android:id="@+id/main_conf_encrypt_app_server_select"
+                                android:layout_width="200dp"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="3dp"
+                                android:layout_weight="0"
+                                android:text="Guardar"
+                                android:textSize="14sp"
+                                app:cornerRadius="20dp"
+                                app:icon="@drawable/ic_baseline_cloud_upload_24" />
+                        </TableRow>
+
+
+                        <TableRow
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:gravity="center">
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:layout_gravity="center|center_horizontal|center_vertical"
+                                android:layout_weight="1"
+                                android:orientation="horizontal"
+                                android:textAlignment="center">
+
+                            </LinearLayout>
+
+                        </TableRow>
+
+
+                        <TableRow
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:gravity="center">
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:layout_gravity="center|center_horizontal|center_vertical"
+                                android:layout_weight="1"
+                                android:orientation="horizontal"
+                                android:textAlignment="center">
+
+                            </LinearLayout>
+
+                        </TableRow>
+
+                        <TableRow
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:gravity="right">
+
+                            <ImageButton
+                                android:layout_width="wrap_content"
+                                android:layout_height="30dp"
+                                android:layout_gravity="right"
+                                android:backgroundTint="#E4DFB4"
+
+                                app:srcCompat="@drawable/ic_baseline_help_outline_24" />
+                        </TableRow>
+
+                    </TableLayout>
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/main_conf_linearLayout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="3dp"
+                    android:layout_marginTop="2dp"
+                    android:layout_marginEnd="3dp"
+                    android:layout_marginBottom="10dp"
+                    android:background="#E4DFB4"
+                    android:orientation="vertical"
+                    android:visibility="visible"
+                    app:layout_constraintBottom_toTopOf="@+id/linearLayout3"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/linearLayout2">
+
+                    <Button
+                        android:id="@+id/main_conf_server_title"
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:backgroundTint="#57AE74"
+                        android:text="SERVIDORES"
+                        app:iconGravity="end" />
+
+                    <TableLayout
+                        android:id="@+id/main_conf_server_content"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="3dp"
+                        android:layout_marginTop="10dp"
+                        android:layout_marginEnd="3dp"
+                        android:background="#E4DFB4"
+                        android:visibility="visible">
+
+                        <TableRow
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:gravity="center">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="10dp"
+                                android:layout_marginBottom="10dp"
+                                android:gravity="center|center_vertical"
+                                android:text="Servidor de Aplicacion"
+                                android:textSize="18sp"
+                                android:textStyle="bold" />
+                        </TableRow>
+
+                        <TableRow
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_gravity="center"
+                            android:gravity="center">
+
+                            <Spinner
+                                android:id="@+id/main_conf_app_server_list"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="20dp"
+                                android:layout_marginEnd="20dp"
+                                android:entries="@array/main_configuration_app_servers" />
+                        </TableRow>
+
+                        <TableRow
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:gravity="center"
+                            android:visibility="gone">
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:orientation="horizontal">
+
+                                <Button
+                                    android:id="@+id/main_conf_app_server_delete"
+                                    android:layout_width="122dp"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginEnd="3dp"
+                                    android:text="Borrar"
+                                    android:textSize="12sp"
+                                    app:cornerRadius="20dp"
+                                    app:icon="@drawable/ic_baseline_clear_24" />
+
+                                <Button
+                                    android:id="@+id/main_conf_app_server_edit"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginEnd="3dp"
+                                    android:text="Editar"
+                                    android:textSize="12sp"
+                                    app:cornerRadius="20dp"
+                                    app:icon="@drawable/ic_baseline_clear_24" />
+
+                                <Button
+                                    android:id="@+id/main_conf_app_server_add"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="Nuevo"
+                                    android:textSize="12sp"
+                                    app:cornerRadius="20dp"
+                                    app:icon="@drawable/ic_baseline_clear_24" />
+                            </LinearLayout>
+
+                        </TableRow>
+
+                        <TableRow
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:gravity="center">
+
+                            <Button
+                                android:id="@+id/main_conf_app_server_select"
+                                android:layout_width="200dp"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="3dp"
+                                android:layout_weight="0"
+                                android:text="Guardar"
+                                android:textSize="14sp"
+                                app:cornerRadius="20dp"
+                                app:icon="@drawable/ic_baseline_cloud_upload_24" />
+                        </TableRow>
+
+
+                        <TableRow
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:gravity="center">
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:layout_gravity="center|center_horizontal|center_vertical"
+                                android:layout_weight="1"
+                                android:orientation="horizontal"
+                                android:textAlignment="center">
+
+                            </LinearLayout>
+
+                        </TableRow>
+
+                        <TableRow
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:gravity="center">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="10dp"
+                                android:layout_marginBottom="10dp"
+                                android:gravity="center|center_vertical"
+                                android:text="Servidor Web Socket"
+                                android:textSize="18sp"
+                                android:textStyle="bold" />
+                        </TableRow>
+
+                        <TableRow
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_gravity="center"
+                            android:gravity="center">
+
+                            <Spinner
+                                android:id="@+id/main_conf_ws_server_list"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="20dp"
+                                android:layout_marginEnd="20dp"
+                                android:entries="@array/main_configuration_ws_servers" />
+                        </TableRow>
+
+                        <TableRow
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:gravity="center">
+
+                            <Button
+                                android:id="@+id/main_conf_ws_server_select"
+                                android:layout_width="200dp"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="3dp"
+                                android:layout_weight="0"
+                                android:text="Guardar"
+                                android:textSize="14sp"
+                                app:cornerRadius="20dp"
+                                app:icon="@drawable/ic_baseline_cloud_upload_24" />
+                        </TableRow>
+
+
+                        <TableRow
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:gravity="center">
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:layout_gravity="center|center_horizontal|center_vertical"
+                                android:layout_weight="1"
+                                android:orientation="horizontal"
+                                android:textAlignment="center">
+
+                            </LinearLayout>
+
+                        </TableRow>
+
+                        <TableRow
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:gravity="right">
+
+                            <ImageButton
+                                android:layout_width="wrap_content"
+                                android:layout_height="30dp"
+                                android:layout_gravity="right"
+                                android:backgroundTint="#E4DFB4"
+
+                                app:srcCompat="@drawable/ic_baseline_help_outline_24" />
+                        </TableRow>
+
+                    </TableLayout>
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/main_conf_developer_linearLayout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="3dp"
+                    android:layout_marginTop="2dp"
+                    android:layout_marginEnd="3dp"
+                    android:layout_marginBottom="10dp"
+                    android:background="#E4DFB4"
+                    android:orientation="vertical"
+                    android:visibility="visible"
+                    app:layout_constraintBottom_toTopOf="@+id/linearLayout3"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/linearLayout2">
+
+                    <Button
+                        android:id="@+id/main_conf_developer_server_title"
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:backgroundTint="#57AE74"
+                        android:text="General"
+                        app:iconGravity="end" />
+
+                    <TableLayout
+                        android:id="@+id/main_conf_developer_server_content"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="3dp"
+                        android:layout_marginTop="10dp"
+                        android:layout_marginEnd="3dp"
+                        android:background="#E4DFB4"
+                        android:visibility="visible">
+
+                        <TableRow
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:gravity="center">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="10dp"
+                                android:layout_marginBottom="10dp"
+                                android:gravity="center|center_vertical"
+                                android:text="Servidor de Aplicacion"
+                                android:textSize="18sp"
+                                android:textStyle="bold" />
+                        </TableRow>
+
+                        <TableRow
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_gravity="center"
+                            android:gravity="center">
+
+                            <Switch
+                                android:id="@+id/main_conf_developer_developer_switch"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Developer Mode" />
+                        </TableRow>
+
+                        <TableRow
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:gravity="center">
+
+                            <Button
+                                android:id="@+id/main_conf_developer_save"
+                                android:layout_width="200dp"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="3dp"
+                                android:layout_weight="0"
+                                android:text="Guardar"
+                                android:textSize="14sp"
+                                app:cornerRadius="20dp"
+                                app:icon="@drawable/ic_baseline_cloud_upload_24" />
+                        </TableRow>
+
+
+                        <TableRow
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:gravity="center">
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:layout_gravity="center|center_horizontal|center_vertical"
+                                android:layout_weight="1"
+                                android:orientation="horizontal"
+                                android:textAlignment="center">
+
+                            </LinearLayout>
+
+                        </TableRow>
+
+
+                        <TableRow
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:gravity="right">
+
+                            <ImageButton
+                                android:layout_width="wrap_content"
+                                android:layout_height="30dp"
+                                android:layout_gravity="right"
+                                android:backgroundTint="#E4DFB4"
+
+                                app:srcCompat="@drawable/ic_baseline_help_outline_24" />
+                        </TableRow>
+
+                    </TableLayout>
+
+                </LinearLayout>
+
+
+            </LinearLayout>
+
+
+        </ScrollView>
+
+    </LinearLayout>
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

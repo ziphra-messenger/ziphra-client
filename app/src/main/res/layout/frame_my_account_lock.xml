@@ -1,0 +1,193 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:id="@+id/my_account_lock_all"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="3dp"
+        android:layout_marginTop="2dp"
+        android:layout_marginEnd="3dp"
+        android:layout_marginBottom="10dp"
+        android:background="#E4DFB4"
+        android:orientation="vertical"
+        android:visibility="visible"
+        app:layout_constraintBottom_toTopOf="@+id/linearLayout3"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/linearLayout2"
+        tools:visibility="visible">
+
+        <Button
+            android:id="@+id/my_account_lock_title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:backgroundTint="#57AE74"
+            android:text="Bloqueo"
+            app:iconGravity="end" />
+
+        <LinearLayout
+            android:id="@+id/my_account_lock_content"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_gravity="center"
+            android:foregroundGravity="center_vertical"
+            android:orientation="vertical"
+            android:tag="@string/help_tag_myaccount_lock">
+
+            <Switch
+                android:id="@+id/my_account_lock_enabled"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:foregroundGravity="center_vertical"
+                android:padding="10dp"
+                android:text="Bloqueo Activado" />
+
+            <EditText
+                android:id="@+id/my_account_lock_minutos"
+                android:layout_width="100dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:ems="10"
+                android:foregroundGravity="center_vertical"
+                android:gravity="center"
+                android:hint="Minutos"
+                android:inputType="number"
+                android:padding="10dp"
+                android:visibility="gone" />
+
+            <TextView
+                android:id="@+id/my_account_lock_en_horas"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:padding="10dp"
+                android:text="TextView"
+                android:visibility="gone" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_gravity="center|center_vertical"
+                android:gravity="center|center_vertical"
+                android:orientation="horizontal">
+
+                <NumberPicker
+                    android:id="@+id/my_account_lock_picker_hora"
+                    android:layout_width="wrap_content"
+                    android:layout_height="100dp"
+                    android:layout_gravity="center|center_vertical"
+                    android:background="#5EC8FAC4"
+                    android:gravity="center|center_vertical"
+                    android:text="TextView" />
+
+                <TextView
+                    android:id="@+id/textView25"
+                    android:layout_width="20dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:gravity="center"
+                    android:text=":"
+                    android:textSize="24sp" />
+
+                <NumberPicker
+                    android:id="@+id/my_account_lock_picker_minutos"
+                    android:layout_width="wrap_content"
+                    android:layout_height="100dp"
+                    android:layout_gravity="center|center_vertical"
+                    android:background="#5EC8FAC4"
+                    android:gravity="center|center_vertical"
+                    android:text="TextView" />
+
+                <TextView
+                    android:id="@+id/textView27"
+                    android:layout_width="20dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:gravity="center"
+                    android:text=":"
+                    android:textSize="24sp" />
+
+                <NumberPicker
+                    android:id="@+id/my_account_lock_picker_segundos"
+                    android:layout_width="wrap_content"
+                    android:layout_height="100dp"
+                    android:layout_gravity="center|center_vertical"
+                    android:background="#5EC8FAC4"
+                    android:gravity="center|center_vertical"
+                    android:text="TextView" />
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/textView3"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:foregroundGravity="center_vertical"
+                android:padding="10dp"
+                android:text="Si activa esta opción a la cantidad de minutos establecidos se mostrará una pantalla de bloque en donde habria de escribir nuevamente la contraseña." />
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_gravity="center"
+                android:foregroundGravity="center_vertical"
+                android:gravity="center"
+                android:orientation="horizontal">
+
+
+                <Button
+                    android:id="@+id/my_account_lock_default"
+                    android:layout_width="110dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_margin="3dp"
+                    android:foregroundGravity="center_vertical"
+                    android:gravity="center"
+                    android:text="Default"
+                    app:cornerRadius="20dp" />
+
+                <Button
+                    android:id="@+id/my_account_lock_reset"
+                    android:layout_width="110dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_margin="3dp"
+                    android:backgroundTint="#438BE3"
+                    android:foregroundGravity="center_vertical"
+                    android:gravity="center"
+                    android:text="Reset"
+                    app:cornerRadius="20dp" />
+
+
+            </LinearLayout>
+
+            <Button
+                android:id="@+id/my_account_lock_save"
+                android:layout_width="110dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_margin="3dp"
+                android:layout_marginStart="15dp"
+                android:layout_span="3"
+                android:foregroundGravity="center_vertical"
+                android:gravity="center"
+                android:text="Guardar"
+                app:cornerRadius="20dp" />
+
+
+            <include
+                android:id="@+id/my_account_lock_help_include"
+                layout="@layout/frame_help" />
+        </LinearLayout>
+
+    </LinearLayout>
+
+
+</FrameLayout>

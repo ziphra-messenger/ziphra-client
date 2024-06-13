@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/root"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".activity.grupoinfo.GrupoInfoActivity">
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="match_parent"
+        android:layout_marginStart="2dp"
+        android:layout_marginTop="2dp"
+        android:layout_marginEnd="2dp"
+        android:layout_marginBottom="2dp"
+        android:focusable="true"
+        android:focusableInTouchMode="true"
+        android:focusedByDefault="true"
+        android:orientation="vertical"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <LinearLayout
+            android:id="@+id/grupo_info_no_admin_message"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="10dp"
+            android:background="#E4DFB4"
+            android:orientation="horizontal"
+            android:tag="@string/rol_no_admin_message"
+            android:textAlignment="center"
+            android:visibility="gone"
+            tools:visibility="visible">
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:tag="@string/help_tag_grupo_info_noadmin">
+
+                <TextView
+                    android:id="@+id/textView30"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="85"
+                    android:breakStrategy="balanced"
+                    android:text="Su perfil en el grupo no es Administrador. Solo podra realizar algunas acciones."
+                    android:textAlignment="center" />
+
+                <include
+                    android:id="@+id/grupoinfo_help_include_no_admin"
+                    layout="@layout/frame_help"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <ScrollView
+            android:id="@+id/scrollView2"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <include
+                    layout="@layout/frame_grupo_info_name"
+                    tools:visibility="gone" />
+
+                <include
+                    layout="@layout/frame_grupo_info_nickname"
+                    tools:visibility="gone" />
+
+                <include
+                    layout="@layout/frame_grupo_info_actions"
+                    tools:visibility="visible"></include>
+
+                <include
+                    layout="@layout/frame_grupo_info_lock"
+                    android:visibility="visible"
+                    tools:visibility="gone"></include>
+
+                <include layout="@layout/frame_grupo_info_conf_gral"></include>
+
+                <include
+                    layout="@layout/frame_grupo_info_integrantes"
+                    tools:visibility="gone"></include>
+            </LinearLayout>
+        </ScrollView>
+
+    </LinearLayout>
+
+    <include
+        android:id="@+id/user"
+        layout="@layout/custom_comp_general_progress_bar"
+        android:visibility="visible" />
+</androidx.constraintlayout.widget.ConstraintLayout>

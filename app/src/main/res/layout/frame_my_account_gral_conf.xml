@@ -1,0 +1,403 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginStart="3dp"
+        android:layout_marginEnd="3dp"
+        android:layout_marginBottom="10dp"
+        android:background="#E4DFB4"
+        android:gravity="center_horizontal"
+        android:orientation="vertical">
+
+        <Button
+            android:id="@+id/my_account_conf_gral_conf_title"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:backgroundTint="#57AE74"
+            android:text="CONFIGURACIONES GENERALES" />
+
+        <TableLayout
+
+
+            android:id="@+id/my_account_conf_gral_conf_content"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:background="#E4DFB4"
+            android:gravity="center_horizontal"
+            android:visibility="gone"
+            tools:visibility="visible">
+
+
+            <TableRow
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <TextView
+                    android:id="@+id/my_account_conf_reenvio_titulo"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="3dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_span="3"
+                    android:text="Politica de Reenvio de Mis Mensajes"
+                    android:textSize="16sp"
+                    android:textStyle="bold" />
+            </TableRow>
+
+            <TableRow
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginStart="3dp"
+                android:textAlignment="center">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:orientation="vertical">
+
+                    <CheckBox
+                        android:id="@+id/my_account_conf_reenvio"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="7dp"
+                        android:layout_weight="1"
+                        android:backgroundTint="#8F6969"
+                        android:buttonTint="#420808"
+                        android:text="Permitir" />
+
+                </LinearLayout>
+
+            </TableRow>
+
+
+            <TableRow
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:visibility="gone"
+                tools:visibility="visible">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="3dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_span="3"
+                    android:text="Politica de Mensajes Temporales"
+                    android:textSize="16sp"
+                    android:textStyle="bold" />
+            </TableRow>
+
+            <TableRow
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginStart="3dp"
+                android:textAlignment="center"
+                android:visibility="visible"
+                tools:visibility="visible">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:orientation="vertical">
+
+                    <CheckBox
+                        android:id="@+id/my_account_conf_temporal_obligatorio"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="7dp"
+                        android:layout_weight="1"
+                        android:backgroundTint="#8F6969"
+                        android:buttonTint="#420808"
+                        android:tag="@string/rol_admin"
+                        android:text="Siempre Enviar como Mensaje Temporal" />
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:id="@+id/my_account_conf_temporal_maximo_tiempo_permitido_titulo"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_vertical"
+                            android:layout_marginStart="7dp"
+                            android:layout_weight="1"
+                            android:text="Tiempo por Defecto"
+                            android:textStyle="bold" />
+
+                        <Spinner
+                            android:id="@+id/my_account_conf_temporal_maximo_tiempo_permitido"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_vertical"
+                            android:entries="@array/time_messages_values"
+                            android:spinnerMode="dialog" />
+
+                    </LinearLayout>
+
+                </LinearLayout>
+
+            </TableRow>
+
+            <TableRow
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="3dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_span="3"
+                    android:text="Politica de Mensajes Black"
+                    android:textSize="16sp"
+                    android:textStyle="bold" />
+            </TableRow>
+
+            <TableRow
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginStart="3dp"
+                android:textAlignment="center">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:orientation="horizontal">
+
+                    <CheckBox
+                        android:id="@+id/my_account_conf_black_obligatorio_adjunto"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="7dp"
+                        android:layout_weight="1"
+                        android:backgroundTint="#8F6969"
+                        android:buttonTint="#420808"
+                        android:tag="@string/rol_admin"
+                        android:text="Siempre cuando contenga Imagen o Video" />
+
+                </LinearLayout>
+
+            </TableRow>
+
+            <TableRow
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginStart="3dp"
+                android:textAlignment="center" />
+
+            <TableRow
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="3dp">
+
+                <TextView
+                    android:id="@+id/textView32"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_span="3"
+                    android:text="Permitir Descargas de mis Envios:"
+                    android:textSize="16sp"
+                    android:textStyle="bold" />
+
+            </TableRow>
+
+            <TableRow
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="3dp"
+                android:layout_marginBottom="7dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_span="3"
+                    android:layout_weight="1"
+                    android:orientation="vertical">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+
+                        <CheckBox
+                            android:id="@+id/my_account_conf_descarga_imagen"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="7dp"
+                            android:layout_weight="1"
+                            android:backgroundTint="#8F6969"
+                            android:buttonTint="#420808"
+                            android:tag="@string/rol_admin"
+                            android:text="Imagen"
+                            android:visibility="visible" />
+
+                        <CheckBox
+                            android:id="@+id/my_account_conf_descarga_audio"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="7dp"
+                            android:layout_weight="1"
+                            android:buttonTint="#420808"
+                            android:tag="@string/rol_admin"
+                            android:text="Audio"
+                            android:visibility="gone" />
+
+                        <CheckBox
+                            android:id="@+id/my_account_conf_descarga_video"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="7dp"
+                            android:layout_weight="1"
+                            android:buttonTint="#420808"
+                            android:tag="@string/rol_admin"
+                            android:text="Video"
+                            android:visibility="gone" />
+
+                    </LinearLayout>
+
+                </LinearLayout>
+
+            </TableRow>
+
+            <TableRow
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginStart="3dp"
+                android:layout_marginBottom="7dp">
+
+                <TextView
+                    android:id="@+id/textView34"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="3dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_span="3"
+                    android:text="Configuraciones Generales"
+                    android:textSize="16sp"
+                    android:textStyle="bold" />
+
+            </TableRow>
+
+
+            <TableRow
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginStart="3dp"
+                android:layout_marginBottom="7dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:orientation="vertical">
+
+                    <CheckBox
+                        android:id="@+id/my_account_conf_gen_ocultar_lista_integrantes"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="7dp"
+                        android:layout_weight="1"
+                        android:buttonTint="#420808"
+                        android:tag="@string/rol_admin"
+                        android:text="Ocultarme de la Lista de Integrantes de los Grupos"
+                        android:visibility="gone" />
+
+                    <CheckBox
+                        android:id="@+id/my_account_conf_gen_ocultar_estado"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="7dp"
+                        android:layout_weight="1"
+                        android:buttonTint="#420808"
+                        android:tag="@string/rol_admin"
+                        android:text="Ocultar Mi Estado de Recepcion/Envio" />
+
+                </LinearLayout>
+            </TableRow>
+
+
+            <TableRow
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_gravity="center|center_horizontal|center_vertical"
+                android:layout_marginStart="3dp"
+                android:layout_marginTop="10dp"
+                android:gravity="center|center_horizontal|center_vertical">
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="center|center_horizontal|center_vertical"
+                    android:gravity="center|center_horizontal|center_vertical"
+                    android:orientation="horizontal">
+
+                    <Button
+                        android:id="@+id/my_account_conf_reset"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_horizontal"
+                        android:layout_marginStart="5dp"
+                        android:layout_marginTop="10dp"
+                        android:layout_marginEnd="5dp"
+                        android:layout_span="5"
+                        android:tag="@string/rol_admin"
+                        android:text="Default"
+                        app:cornerRadius="20dp"
+                        app:icon="@drawable/ic_baseline_360_24" />
+
+                    <Button
+                        android:id="@+id/my_account_conf_save"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_horizontal"
+                        android:layout_marginStart="5dp"
+                        android:layout_marginTop="10dp"
+                        android:layout_marginEnd="5dp"
+                        android:layout_span="5"
+                        android:tag="@string/rol_admin"
+                        android:text="Guardar"
+                        app:cornerRadius="20dp"
+                        app:icon="@drawable/ic_baseline_cloud_upload_24" />
+                </LinearLayout>
+
+            </TableRow>
+
+            <TableRow
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="right">
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="right"
+                    android:tag="@string/help_tag_myaccount_gralconf">
+
+                    <include
+                        android:id="@+id/my_account_gral_conf_help_include"
+                        layout="@layout/frame_help"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="right" />
+
+                </LinearLayout>
+            </TableRow>
+
+        </TableLayout>
+    </LinearLayout>
+
+
+</FrameLayout>

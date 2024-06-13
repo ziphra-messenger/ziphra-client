@@ -1,0 +1,155 @@
+<resources>
+
+
+    <string-array name="main_configuration_app_servers">
+        <item>http://192.168.0.176:8080</item>
+        <item>https://privacity5.herokuapp.com</item>
+        <item>http://10.0.2.2:8080</item>
+
+    </string-array>
+    <string-array name="main_configuration_ws_servers">
+        <item>ws://192.168.0.176:8080</item>
+        <item>wss://privacity5.herokuapp.com</item>
+        <item>ws://10.0.2.2:8080</item>
+
+    </string-array>
+
+    <string-array name="servers_configuration">
+        <item>DESARROLLO</item>
+        <item>HEROKU</item>
+        <item>GOOGLE</item>
+    </string-array>
+
+
+    <string-array name="audio_message_time_configuration">
+        <item>1 minuto</item>
+        <item>2 minutos</item>
+        <item>3 minutos</item>
+        <item>4 minutos</item>
+        <item>5 minutos (default)</item>
+        <item>6 minutos</item>
+        <item>7 minutos</item>
+        <item>8 minutos</item>
+        <item>9 minutos</item>
+        <item>10 minutos</item>
+    </string-array>
+
+
+    <string-array name="my_account_message_spinner_values">
+        <item></item>
+        <item>✔</item>
+        <item>✘</item>
+    </string-array>
+    <string name="cruz">✘</string>
+    <string-array name="roles">
+        <item>Lectura</item>
+        <item>Miembro</item>
+
+        <item>Admin</item>
+    </string-array>
+
+    <string name="error_code__GRAL_1000">GENERAL_INVALID_ACCESS</string>
+    <string name="error_code__G_1000">No existe el Codigo de Invitacion</string>
+    <string name="error_code__G_1001">GRUPO_USER_IS_IN_THE_GRUPO</string>
+    <string name="error_code__G_1002">GRUPO_GRUPOID_BADFORMAT</string>
+    <string name="error_code__G_1003">GRUPO_NOT_EXISTS</string>
+    <string name="error_code__G_1004">GRUPO_USER_IS_NOT_IN_THE_GRUPO</string>
+    <string name="error_code__G_1005">GRUPO_USER_NOT_HAVE_PERMITION_ON_THIS_GRUPO_TO_ADD_MEMBERS</string>
+    <string name="error_code__G_1006">GRUPO_ROLE_NOT_EXISTS</string>
+    <string name="error_code__G_1007">GRUPO_USER_INVITATION_CODE_IS_NULL</string>
+    <string name="error_code__G_1008">GRUPO_INVITATION_EXIST_INVITATION</string>
+    <string name="error_code__G_1009">GRUPO_USER_INVITATION_CANT_BE_THE_SAME</string>
+    <string name="error_code__G_1010">GRUPO_USER_CANT_SEND_MESSAGE</string>
+    <string name="error_code__G_1011">GRUPO_USER_CANT_SEND_MESSAGE_READ_ONLY</string>
+    <string name="error_code__Z_1001">ZIP_COMPRESS</string>
+    <string name="error_code__Z_1002">ZIP_DESCOMPRESS</string>
+    <string name="error_code__RI_1000">REQUEST_ID_BAD_LENGTH</string>
+    <string name="error_code__RI_1001">REQUEST_ID_NOT_EXISTS</string>
+    <string name="error_code__RI_1002">REQUEST_ID_EXPIRED</string>
+    <string name="error_code__RI_1003">REQUEST_ID_CANT_BE_NULL</string>
+    <string name="error_code__U_1000">USER_USER_SYSTEM_NOT_EXISTS</string>
+    <string name="error_code__U_1001">USER_USER_NOT_LOGGER</string>
+    <string name="error_code__U_1002">USER_NICKNAME_IS_NULL</string>
+    <string name="error_code__U_1003">USER_NICKNAME_TOO_LONG</string>
+    <string name="error_code__U_1004">USER_NOT_EXISTS</string>
+    <string name="error_code__A_1000">AUTH_USERNAME_EXISTS</string>
+    <string name="error_code__A_1001">AUTH_USERNAME_IS_NULL</string>
+    <string name="error_code__A_1002">AUTH_USERNAME_IS_TOO_SHORT</string>
+    <string name="error_code__A_1003">Usuario y/o Contraseña Inválida</string>
+    <string name="error_code__M_1000">MESSAGE_MESSAGEID_BADFORMAT</string>
+    <string name="error_code__M_1001">MESSAGE_NOT_EXISTS</string>
+    <string name="error_code__M_1002">MESSAGE_NOT_MESSAGE_CREATOR</string>
+    <string name="error_code__MD_1000">MESSAGEDETAIL_MESSAGEDETAILID_BADFORMAT</string>
+    <string name="error_code__MD_1001">MESSAGEDETAIL_NOT_EXISTS</string>
+    <string name="error_code__MD_1002">MESSAGEDETAIL_IS_DELETED</string>
+    <string name="error_code__MD_1003">MESSAGEDETAIL_NOT_EXISTS_TIME_MESSAGE</string>
+    <string name="error_code__MY_1000">MYACCOUNT_INVITATION_CODE_NOT_AVAIBLE</string>
+    <string name="error_code__MY_1001">MYACCOUNT_INVITATION_CODE_CANT_BE_EMPTY</string>
+    <string name="error_code__E_1000">ENCRYPT_IS_NULL</string>
+    <string name="error_code__E_1001">ENCRYPT_PRIVATE_KEY_IS_NULL</string>
+    <string name="error_code__E_1002">ENCRYPT_PUBLIC_KEY_IS_NULL</string>
+    <string name="error_code__E_1003">ENCRYPT_PUBLIC_KEY_NO_ENCRIPT_IS_NULL</string>
+    <string name="error_code__E_1006">ENCRYPT_PUBLIC_KEY_MUST_BE_NULL</string>
+    <string name="error_code__EA_1003">ENCRYPT_AES_IS_NULL</string>
+    <string name="error_code__EA_1004">ENCRYPT_AES_SECRET_KEY_IS_NULL</string>
+    <string name="error_code__EA_1005">ENCRYPT_AES_SALT_IS_NULL</string>
+    <string name="error_code__EA_1006">ENCRYPT_PROCESS</string>
+
+
+    <string name="rol_miembro">Miembro</string>
+    <string name="rol_lectura">Lectura</string>
+    <string name="rol_admin">Admin</string>
+    <string name="rol_no_admin_message">NO_ADMIN_MESSAGE</string>
+    <string-array name="time_messages_values">
+        <item>15 s</item>
+        <item>30 s</item>
+        <item> 1 m</item>
+        <item> 5 m</item>
+        <item>10 m</item>
+        <item>30 m</item>
+        <item> 1 h</item>
+    </string-array>
+
+    <string-array name="time_messages_values_in_seconds">
+        <item>15</item>
+        <item>30</item>
+        <item>60</item>
+        <item>300</item>
+        <item>600</item>
+        <item>1800</item>
+        <item>3600</item>
+    </string-array>
+
+    <string name="app_name">Privacity</string>
+    <string name="error_codigo">ERROR CODIGO</string>
+
+    <string name="ok">OK</string>
+
+    <string name="registro_title">Registracion</string>
+
+    <string name="registro_validation_user_empty">El usuario no puede estar vacio</string>
+    <string name="registro_validation_user_too_short">El usuario debe tener al menos %1$ caracteres</string>
+    <string name="registro_validation_user_too_long">El usuario debe tener maximo %1$ caracteres</string>
+
+    <string name="registro_validation_nickname_empty">El nickname no puede estar vacio</string>
+    <string name="registro_validation_nickname_too_long">El nickname debe tener maximo 30 caracteres</string>
+
+    <string name="registro_validation_user_exists">El nombre de usuario ya esta utilizado</string>
+    <string name="registro_validation_user_ok">El nombre de usuario es valido</string>
+    <string name="registro_validation_error">Hay error/es en la validacion</string>
+
+    <string name="registro_validation_password2">los password son diferentes</string>
+    <string name="registro_validation_password1_too_short">El password debe tener al menos 5 caracteres</string>
+    <string name="registro_validation_password1_too_long">El password debe tener al maximo 50</string>
+    <string name="registro_validation_password1_empty">el password no puede estar vacio</string>
+    <string name="registro_validation_password1_ok">el password es valido</string>
+    <string name="registro_validation_password2_ok">Los passwords son correctos</string>
+
+    <string name="password_incorrect">Password Incorrecto</string>
+    <string name="password_old_new_equals">El Password Nuevo debe ser diferente al Actual</string>
+
+    <string name="registro_user_created">El Usuario fue Creado</string>
+
+    <string name="registro_nickname_notification">Si se deja vacio se generará uno de forma aleatoria - Luego se puede cambiar.</string>
+
+</resources>

@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/boton_add_grupo"
+        android:title="Crear Grupo" />
+    <item
+        android:id="@+id/menu_grupo_codigo_invitacion"
+        android:title="Codigo Invitacion" />
+    <item
+        android:id="@+id/menu_grupo_mi_cuenta"
+        android:title="Mi Cuenta" />
+    <item
+        android:id="@+id/menu_grupo_server_gral_conf"
+        android:title="Acerca de" />
+    <item
+        android:id="@+id/menu_item_grupo_logout"
+        android:title="Salir" />
+</menu>

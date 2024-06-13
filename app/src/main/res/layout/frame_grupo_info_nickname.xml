@@ -1,0 +1,175 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:id="@+id/grupo_info_nickname_all"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="3dp"
+        android:layout_marginTop="2dp"
+        android:layout_marginEnd="3dp"
+        android:layout_marginBottom="10dp"
+        android:background="#E4DFB4"
+        android:orientation="vertical"
+        android:visibility="visible"
+        app:layout_constraintBottom_toTopOf="@+id/linearLayout3"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/linearLayout2"
+        tools:visibility="visible">
+
+        <Button
+            android:id="@+id/grupo_info_nickname_title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:backgroundTint="#57AE74"
+            android:text="Nickname del Grupo"
+            app:iconGravity="end" />
+
+        <TableLayout
+            android:id="@+id/grupo_info_nickname_content"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="3dp"
+            android:layout_marginEnd="3dp"
+            android:background="#E4DFB4"
+            android:visibility="gone"
+            tools:visibility="visible">
+            <TableRow
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="center"/>
+
+            <TableRow
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="center">
+
+                <EditText
+                    android:id="@+id/grupo_info_nickname_new"
+                    android:layout_width="287dp"
+                    android:layout_height="wrap_content"
+                    android:drawableEnd="@drawable/ic_baseline_clear_24"
+                    android:ems="10"
+                    android:gravity="center"
+                    android:inputType="textPersonName" />
+            </TableRow>
+
+            <TableRow
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_gravity="center"
+                android:gravity="center">
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="center"
+                    android:gravity="center"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:id="@+id/grupo_info_nickname_help"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_marginStart="40dp"
+                        android:layout_marginTop="10dp"
+                        android:layout_marginEnd="40dp"
+                        android:layout_marginBottom="10dp"
+                        android:breakStrategy="balanced"
+                        android:gravity="center"
+                        android:text="Si se deja en blanco se usará el Nickname General que actualmente es:" />
+                </LinearLayout>
+            </TableRow>
+
+            <TableRow
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_gravity="center"
+                android:gravity="center">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="center"
+                    android:gravity="center"
+                    android:orientation="horizontal">
+
+                    <Button
+                        android:id="@+id/grupo_info_nickname_generate"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Generar un Nickname Aleatorio"
+                        app:cornerRadius="20dp" />
+                </LinearLayout>
+
+            </TableRow>
+
+            <TableRow
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="center">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="center|center_horizontal|center_vertical"
+                    android:layout_span="3"
+                    android:gravity="center"
+                    android:orientation="horizontal"
+                    android:textAlignment="center">
+
+                    <Button
+                        android:id="@+id/grupo_info_nickname_reset"
+                        android:layout_width="110dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="15dp"
+                        android:backgroundTint="#438BE3"
+                        android:gravity="center"
+                        android:text="Reset"
+                        app:cornerRadius="20dp" />
+
+                    <Button
+                        android:id="@+id/grupo_info_nickname_save"
+                        android:layout_width="110dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="15dp"
+                        android:layout_span="3"
+                        android:gravity="center"
+                        android:text="Guardar"
+                        app:cornerRadius="20dp" />
+                </LinearLayout>
+
+            </TableRow>
+
+            <TableRow
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:gravity="right">
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:gravity="right"
+                    android:tag="@string/help_tag_myaccount_nickname">
+
+                    <include
+                        android:id="@+id/grupo_info_nickname_help_include"
+                        layout="@layout/frame_help"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" />
+
+                </LinearLayout>
+
+
+            </TableRow>
+
+        </TableLayout>
+    </LinearLayout>
+
+
+</FrameLayout>

@@ -1,0 +1,253 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:id="@+id/grupoinfo_name_all"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="3dp"
+        android:layout_marginTop="2dp"
+        android:layout_marginEnd="3dp"
+        android:layout_marginBottom="10dp"
+        android:background="#E4DFB4"
+        android:orientation="vertical"
+        android:visibility="visible"
+        app:layout_constraintBottom_toTopOf="@+id/linearLayout3"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/linearLayout2">
+
+        <Button
+            android:id="@+id/bt_grupoinfo_menu_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:backgroundTint="#57AE74"
+            android:text="NOMBRE DEL GRUPO"
+            app:iconGravity="end" />
+
+        <TableLayout
+            android:id="@+id/tl_grupoinfo_menu_name_content"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="3dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginEnd="3dp"
+            android:background="#E4DFB4"
+            android:visibility="gone"
+            tools:visibility="visible">
+
+            <TableRow
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="center">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginBottom="10dp"
+                    android:gravity="center|center_vertical"
+                    android:text="Para Todos los Integrantes"
+                    android:textSize="18sp" />
+            </TableRow>
+
+            <TableRow
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_gravity="center"
+                android:gravity="center">
+
+                <EditText
+                    android:id="@+id/grupoinfo_name_grupo_name"
+                    android:layout_width="287dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="10dp"
+                    android:ems="10"
+                    android:inputType="textPersonName"
+                    android:tag="@string/rol_admin"
+                    android:textAlignment="center" />
+            </TableRow>
+
+            <TableRow
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="center">
+
+                <TextView
+                    android:id="@+id/tv_grupoinfo_name_validation"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="3dp"
+                    android:gravity="center|center_vertical"
+                    android:text="TextView" />
+            </TableRow>
+
+            <TableRow
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="center">
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="center|center_horizontal|center_vertical"
+                    android:gravity="center"
+                    android:orientation="horizontal"
+                    android:textAlignment="center">
+
+                    <Button
+                        android:id="@+id/bt_grupoinfo_name_reset"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="15dp"
+                        android:backgroundTint="#438BE3"
+                        android:tag="@string/rol_admin"
+                        android:text="Reset"
+                        app:cornerRadius="20dp"
+                        app:icon="@drawable/ic_baseline_360_24" />
+
+                    <Button
+                        android:id="@+id/bt_grupoinfo_name_save"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_marginStart="15dp"
+                        android:tag="@string/rol_admin"
+                        android:text="Guardar"
+                        app:cornerRadius="20dp"
+                        app:icon="@drawable/ic_baseline_cloud_upload_24" />
+                </LinearLayout>
+
+            </TableRow>
+
+            <TableRow
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="center">
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="center|center_horizontal|center_vertical"
+                    android:layout_marginTop="3dp"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:orientation="vertical"
+                    android:textAlignment="center">
+
+                    <Button
+                        android:id="@+id/bt_grupoinfo_menu_nickname"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:backgroundTint="#57AE74"
+                        android:text="Configuracion Personal"
+                        app:iconGravity="end" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center|center_horizontal"
+                        android:layout_marginTop="20dp"
+                        android:layout_marginBottom="10dp"
+                        android:gravity="center|center_horizontal|center_vertical"
+                        android:text="Alias del Grupo"
+                        android:textSize="18sp" />
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:orientation="horizontal">
+
+                        <EditText
+                            android:id="@+id/grupoinfo_name_grupo_nam2e2"
+                            android:layout_width="287dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginEnd="10dp"
+                            android:ems="10"
+                            android:inputType="textPersonName"
+                            android:textAlignment="center" />
+
+                        <ImageButton
+                            android:id="@+id/imageButton"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:backgroundTint="#E4DFB4"
+                            app:srcCompat="@drawable/ic_baseline_clear_24" />
+                    </LinearLayout>
+
+                </LinearLayout>
+
+            </TableRow>
+
+            <TableRow
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center">
+
+                <TextView
+                    android:id="@+id/tv_my_account_nickname_validation34"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="3dp"
+                    android:gravity="center|center_vertical"
+                    android:text="TextView" />
+
+            </TableRow>
+
+            <TableRow
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="center">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="center|center_horizontal|center_vertical"
+                    android:layout_marginBottom="10dp"
+                    android:layout_span="3"
+                    android:orientation="horizontal"
+                    android:textAlignment="center">
+
+                    <Button
+                        android:id="@+id/bt_my_account_nickname_reset3"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="15dp"
+                        android:backgroundTint="#438BE3"
+                        android:text="Reset"
+                        app:cornerRadius="20dp"
+                        app:icon="@drawable/ic_baseline_360_24" />
+
+                    <Button
+                        android:id="@+id/bt_my_account_nickname_save34"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="15dp"
+                        android:layout_span="3"
+                        android:text="Guardar"
+                        app:cornerRadius="20dp"
+                        app:icon="@drawable/ic_baseline_cloud_upload_24" />
+                </LinearLayout>
+
+            </TableRow>
+
+
+            <TableRow
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="right"
+                android:tag="@string/help_tag_grupo_info_gruponame">
+
+                <include
+                    android:id="@+id/grupo_info_help_name"
+                    layout="@layout/frame_help" />
+            </TableRow>
+
+        </TableLayout>
+    </LinearLayout>
+
+
+</FrameLayout>

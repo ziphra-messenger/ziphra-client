@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".activity.about.AboutActivity">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+            <include layout="@layout/frame_about_team"></include>
+            <include layout="@layout/frame_about_server_info"></include>
+            <include layout="@layout/frame_about_asym_encrypt"></include>
+            <include layout="@layout/frame_about_public_aes"></include>
+            <include layout="@layout/frame_about_session_aes"></include>
+            <include layout="@layout/frame_about_messaging_aes"></include>
+            <include layout="@layout/frame_about_invitation_aes"></include>
+            <include layout="@layout/frame_about_privacity_id_aes"></include>
+            <include layout="@layout/frame_about_personal_aes"></include>
+            <include layout="@layout/frame_about_extra_aes"></include>
+            <include layout="@layout/frame_about_auth"></include>
+        </LinearLayout>
+    </ScrollView>
+
+
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

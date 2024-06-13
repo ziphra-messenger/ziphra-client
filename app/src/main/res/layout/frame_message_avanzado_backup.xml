@@ -1,0 +1,514 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <HorizontalScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:nestedScrollingEnabled="true"
+        android:overScrollMode="ifContentScrolls"
+        android:scrollIndicators="bottom">
+
+        <TableLayout
+            android:id="@+id/avanzada"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="1dp"
+            android:layout_marginBottom="1dp"
+            android:background="#E4DFB4"
+            android:visibility="gone"
+            tools:visibility="visible">
+
+
+            <TableRow
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginStart="3dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_span="4"
+                    android:text="Envio Avanzado"
+                    android:textSize="16sp"
+                    android:textStyle="bold" />
+            </TableRow>
+
+
+            <TableRow
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_marginStart="3dp"
+                android:textAlignment="center">
+
+                <TextView
+                    android:id="@+id/textView14"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="3dp"
+                    android:text="Black"
+                    android:visibility="visible" />
+
+                <Spinner
+
+                    android:id="@+id/sp_message_avanzado_black_always"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:backgroundTint="#4C4949"
+                    android:dropDownWidth="50dp"
+
+                    android:spinnerMode="dialog"
+                    android:textSize="14sp"
+                    android:visibility="visible" />
+
+                <TextView
+                    android:id="@+id/textView6"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Anonimo" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="horizontal">
+
+                    <Spinner
+
+                        android:id="@+id/sp_message_avanzado_anonimo_always"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+
+                        android:spinnerMode="dialog"
+                        android:textSize="14sp" />
+
+                    <TextView
+                        android:id="@+id/tv_message_avanzado_anonimo_always"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="TextView"
+                        android:visibility="gone" />
+                </LinearLayout>
+
+            </TableRow>
+
+            <TableRow
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginStart="3dp">
+
+                <TextView
+                    android:id="@+id/textView5"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="3dp"
+                    android:text="Tiempo" />
+
+                <Spinner
+                    android:id="@+id/sp_message_avanzado_time_values"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:addStatesFromChildren="false"
+                    android:focusedByDefault="false"
+                    android:spinnerMode="dialog"
+                    android:textAlignment="center" />
+
+                <TextView
+                    android:id="@+id/textView16"
+                    android:layout_width="109dp"
+                    android:layout_height="wrap_content"
+                    android:text="Time" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="horizontal">
+
+                    <Spinner
+
+                        android:id="@+id/sp_message_avanzado_time_always"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+
+                        android:spinnerMode="dialog"
+                        android:textSize="14sp" />
+
+                    <TextView
+                        android:id="@+id/tv_message_avanzado_time_always"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="TextView"
+                        android:visibility="gone" />
+                </LinearLayout>
+
+            </TableRow>
+
+            <TableRow
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginStart="3dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="3dp"
+                    android:layout_marginEnd="8dp"
+                    android:text="Alias" />
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_marginStart="3dp"
+                    android:orientation="horizontal">
+
+                    <Spinner
+
+                        android:id="@+id/sp_message_avanzado_change_nickname_number"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+
+                        android:spinnerMode="dialog"
+                        android:textSize="14sp"
+                        android:visibility="visible" />
+
+                    <TextView
+                        android:id="@+id/tv_message_avanzado_change_nickname_number"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="TextView"
+                        android:visibility="gone" />
+                </LinearLayout>
+
+                <TextView
+                    android:id="@+id/textView26"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="3dp"
+                    android:text="Reenvio" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="horizontal">
+
+                    <Spinner
+
+                        android:id="@+id/sp_message_avanzado_reenvio"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+
+                        android:spinnerMode="dialog"
+                        android:textSize="14sp"
+                        android:visibility="visible" />
+
+                    <TextView
+                        android:id="@+id/tv_message_avanzado_reenvio"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="TextView"
+                        android:visibility="gone" />
+                </LinearLayout>
+
+            </TableRow>
+
+            <TableRow
+                android:layout_width="match_parent"
+                android:layout_height="63dp">
+
+
+                <TextView
+                    android:id="@+id/grupo_info_conf_extra_encrip_titulo"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Extra Encrypt" />
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:orientation="horizontal">
+
+                    <Spinner
+
+                        android:id="@+id/sp_message_avanzado_extra_aes_always"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+
+                        android:spinnerMode="dialog"
+                        android:textSize="14sp" />
+
+                    <TextView
+                        android:id="@+id/tv_message_avanzado_extra_aes_always"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="TextView"
+                        android:visibility="gone" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="10dp"
+                    android:layout_height="30dp"
+                    android:layout_span="2"
+                    android:orientation="horizontal">
+
+                    <Button
+                        android:id="@+id/bt_message_avanzada_auto_gen"
+                        android:layout_width="50dp"
+                        android:layout_height="35dp"
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginStart="0dp"
+                        android:layout_span="2"
+                        android:text="Gen"
+                        android:textSize="12sp"
+                        app:cornerRadius="20dp" />
+                </LinearLayout>
+
+            </TableRow>
+
+            <TableRow android:layout_width="wrap_content">
+
+                <TextView
+                    android:id="@+id/textView28"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginStart="3dp"
+                    android:text="Key" />
+
+                <EditText
+                    android:id="@+id/tv_message_secret_key"
+                    android:layout_width="80dp"
+                    android:layout_height="match_parent"
+                    android:inputType="textPassword"
+                    android:textSize="14sp" />
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_span="2"
+                    android:orientation="horizontal">
+
+                    <ImageButton
+                        android:id="@+id/ib_message_avanzado_show_secret_key"
+                        android:layout_width="38dp"
+                        android:layout_height="22dp"
+                        android:backgroundTint="#E4DFB4"
+                        app:srcCompat="@drawable/ic_eye" />
+
+                    <ImageButton
+                        android:id="@+id/ib_message_avanzado_copy"
+                        android:layout_width="50dp"
+                        android:layout_height="27dp"
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginStart="3dp"
+                        android:backgroundTint="#E4DFB4"
+                        app:srcCompat="@drawable/ic_copy_clipboard" />
+                </LinearLayout>
+
+            </TableRow>
+
+            <TableRow></TableRow>
+
+            <TableRow
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginStart="3dp">
+
+                <TextView
+                    android:id="@+id/textView2222"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="3dp"
+                    android:layout_span="3"
+                    android:text="Permitir Descargas"
+                    android:textSize="16sp"
+                    android:textStyle="bold"
+                    android:visibility="gone" />
+
+            </TableRow>
+
+            <TableRow
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginStart="3dp"
+                android:visibility="gone">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_span="4"
+                    android:orientation="horizontal">
+
+                    <CheckBox
+                        android:id="@+id/checkBox4"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="Imagen"
+                        android:textSize="10sp" />
+
+                    <CheckBox
+                        android:id="@+id/checkBox7"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="Audio"
+                        android:textSize="10sp" />
+
+                    <CheckBox
+                        android:id="@+id/checkBox8"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="Video"
+                        android:textSize="10sp" />
+                </LinearLayout>
+
+            </TableRow>
+
+            <TableRow
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+            </TableRow>
+
+            <TableRow
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginStart="3dp">
+
+                <TextView
+                    android:id="@+id/textView22"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_span="3"
+                    android:text="Recepcion Avanzado"
+                    android:textSize="16sp"
+                    android:textStyle="bold" />
+
+            </TableRow>
+
+            <TableRow
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginStart="3dp">
+
+                <TextView
+                    android:id="@+id/textView23"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="3dp"
+                    android:text="Black" />
+
+                <Spinner
+
+                    android:id="@+id/sp_message_avanzado_black_recepcion"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+
+                    android:textSize="14sp" />
+
+                <TextView
+                    android:id="@+id/textView24"
+                    android:layout_width="123dp"
+                    android:layout_height="wrap_content"
+                    android:text="Anonimo" />
+
+                <Spinner
+
+                    android:id="@+id/sp_message_avanzado_anonimo_recepcion"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+
+                    android:textSize="14sp" />
+            </TableRow>
+
+            <TableRow
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginStart="3dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_span="3"
+                    android:baselineAligned="false"
+                    android:gravity="end"
+                    android:orientation="horizontal">
+
+                    <Button
+                        android:id="@+id/bt_message_avanzado_clse"
+                        android:layout_width="wrap_content"
+                        android:layout_height="35dp"
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginEnd="3dp"
+                        android:layout_span="3"
+                        android:gravity="center_horizontal"
+                        android:text="Cerrar"
+                        android:textAlignment="gravity"
+                        android:textSize="12sp"
+                        app:cornerRadius="20dp"
+
+                        app:iconGravity="end" />
+
+                    <Button
+                        android:id="@+id/bt_message_avanzado_save"
+                        android:layout_width="wrap_content"
+                        android:layout_height="35dp"
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginEnd="3dp"
+                        android:layout_span="3"
+                        android:gravity="center_horizontal"
+                        android:text="Guardar"
+                        android:textAlignment="gravity"
+                        android:textSize="12sp"
+                        app:cornerRadius="20dp"
+
+                        app:iconGravity="end" />
+
+                    <ImageButton
+                        android:id="@+id/ib_message_avanzado_pregunta"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center|center_vertical"
+                        android:backgroundTint="#E4DFB4"
+                        android:foregroundGravity="center_vertical"
+                        app:srcCompat="@drawable/ic_baseline_contact_support_24" />
+
+                </LinearLayout>
+
+            </TableRow>
+
+            <TableRow
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginStart="3dp">
+
+                <Space
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+
+                <RadioButton
+                    android:id="@+id/rb_message_send_file"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="Archivo"
+                    android:visibility="gone" />
+
+                <Button
+                    android:id="@+id/enviar_file"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="Button"
+                    android:visibility="gone" />
+            </TableRow>
+
+        </TableLayout>
+    </HorizontalScrollView>
+
+
+</FrameLayout>

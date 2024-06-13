@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".activity.myaccount.MyAccountActivity">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <include layout="@layout/frame_my_account_nickname"></include>
+
+            <include layout="@layout/frame_my_account_password"></include>
+            <include layout="@layout/frame_my_account_login_skip"></include>
+            <include layout="@layout/frame_my_account_lock"></include>
+
+            <include
+                layout="@layout/frame_my_account_gral_conf"
+                android:visibility="visible"></include>
+        </LinearLayout>
+    </ScrollView>
+
+
+    <include
+        android:id="@+id/user"
+        layout="@layout/custom_comp_general_progress_bar"
+        android:visibility="visible" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

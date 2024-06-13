@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/cardView"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="5dp"
+    android:background="#E4DFB4"
+    android:backgroundTint="#E4DFB4"
+    app:cardCornerRadius="5dp"
+    app:cardElevation="10dp">
+
+    <LinearLayout
+        android:id="@+id/linearLayout11"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="3dp"
+        android:layout_marginEnd="3dp"
+        android:background="@drawable/rounf"
+        android:gravity="center_vertical"
+        android:minWidth="390dp"
+        android:orientation="horizontal"
+        android:paddingBottom="2dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <TextView
+            android:id="@+id/tv_grupo_info_itemlist_nickname"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="9dp"
+            android:layout_marginEnd="2dp"
+            android:layout_weight="1"
+            android:breakStrategy="balanced"
+            android:ellipsize="end"
+            android:gravity="center_vertical"
+            android:text="TextView"
+            android:textSize="14sp"
+            android:textStyle="bold" />
+
+        <Spinner
+            android:id="@+id/sp_grupo_info_itemlist_roles"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="3dp"
+            android:entries="@array/roles"
+            android:tag="@string/rol_admin" />
+
+        <ImageButton
+            android:id="@+id/ib_grupo_info_itemlist_add_member"
+            android:layout_width="53dp"
+            android:layout_height="wrap_content"
+            android:layout_margin="3dp"
+            android:layout_weight="0.08"
+            android:backgroundTint="#77C6FF95"
+            android:tag="@string/rol_admin"
+            app:srcCompat="@drawable/ic_baseline_person_remove_24" />
+
+        <ImageButton
+            android:id="@+id/ib_grupo_info_itemlist_save_role2"
+            android:layout_width="47dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_marginEnd="10dp"
+            android:backgroundTint="#77C6FF95"
+            android:scaleType="fitStart"
+            android:tag="@string/rol_admin"
+            app:srcCompat="@drawable/ic_baseline_pause_24" />
+
+    </LinearLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
