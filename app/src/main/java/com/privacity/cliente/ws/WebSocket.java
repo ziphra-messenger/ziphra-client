@@ -193,7 +193,7 @@ public class WebSocket {
                             //ObservatorGrupos.getInstance().removeUserFromGrupo(p);
                             Observers.grupo().updateOnline(p);
                         } else if (p.getAction().equals(ConstantProtocolo.PROTOCOLO_ACTION_GRUPO_SAVE_GENERAL_CONFIGURATION_LOCK)){
-
+                            System.out.println(GsonFormated.get().toJson(p));
                             Observers.grupo().updateGrupoLock(p.getSaveGrupoGralConfLockResponseDTO());
 
 
@@ -216,10 +216,25 @@ public class WebSocket {
                                 }
                             }*/
                         }
+                     else if (p.getAction().equals("/grupo/blockGrupoRemoto")){
+                        System.out.println(GsonFormated.get().toJson(p));
 
 
+                        {
+                            Intent intent = new Intent("finish_message_activity");
+                            activity.sendBroadcast(intent);
+                        }
+
+                        {
+                            Intent intent = new Intent("finish_activity");
+                            activity.sendBroadcast(intent);
+                        }
 
                     }
+
+                    }
+
+
                 }, throwable -> {
                     if ( connectWS != null ){
                         connectWS.actionFail("Error on Subscribe Personal Channel");

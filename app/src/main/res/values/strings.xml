@@ -111,6 +111,7 @@
     <string name="error_code__G_1010">GRUPO_USER_CANT_SEND_MESSAGE</string>
     <string name="error_code__G_1011">GRUPO_USER_CANT_SEND_MESSAGE_READ_ONLY</string>
     <string name="error_code__G_1012">GRUPO_GENERAL_CONF_LOCK_MIN_SECONDS_VALIDATION</string>
+    <string name="error_code__G_1013">GRUPO_ROLE_NOT_ALLOW_THIS_ACTION</string>
     <string name="error_code__Z_1001">ZIP_COMPRESS</string>
     <string name="error_code__Z_1002">ZIP_DESCOMPRESS</string>
     <string name="error_code__RI_1000">REQUEST_ID_BAD_LENGTH</string>

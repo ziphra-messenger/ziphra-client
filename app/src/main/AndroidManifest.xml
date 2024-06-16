@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.privacity.cliente">
+    package="com.privacity.cliente" >
 
     <uses-permission android:name="com.android.alarm.permission.SET_ALARM" />
     <uses-permission android:name="android.permission.INTERNET" />
@@ -39,8 +39,9 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.Cliente"
-        android:usesCleartextTraffic="true">
-
+        android:usesCleartextTraffic="true" >
+        <activity android:name=".GrupoBloqueoRemoto" >
+        </activity>
         <activity android:name=".activity.errorconsole.ErrorConsoleActivity" />
         <activity android:name=".activity.TestActivity" />
         <activity android:name=".activity.lock.LockActivity" />
@@ -59,7 +60,7 @@
         <activity android:name=".activity.message.MessageActivity" />
         <activity android:name=".activity.grupo.GrupoActivity" />
         <activity android:name=".activity.registro.RegistroActivity" />
-        <activity android:name=".activity.main.MainActivity">
+        <activity android:name=".activity.main.MainActivity" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

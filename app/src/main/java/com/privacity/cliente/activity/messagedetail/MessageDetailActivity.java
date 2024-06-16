@@ -1,5 +1,9 @@
 package com.privacity.cliente.activity.messagedetail;
 
+import android.content.BroadcastReceiver;
+import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.widget.CheckBox;
@@ -70,7 +74,25 @@ public class MessageDetailActivity extends CustomAppCompatActivity
 
         GrupoUserConfDTO conf = Observers.grupo().getGrupoById(m.getIdGrupo()).getUserConfDTO();
 
+        BroadcastReceiver broadcastReceiver = new BroadcastReceiver() {
 
+            @Override
+            public void onReceive(Context arg0, Intent intent) {
+                String action = intent.getAction();
+                if (action.equals("finish_activity")) {
+                    myFinish();
+                }
+            }
+        };
+        registerReceiver(broadcastReceiver, new IntentFilter("finish_activity"));
+
+    }
+
+    public void myFinish() {
+
+                SingletonValues.getInstance().setMessageDetailSeleccionado(null);
+        Observers.passwordGrupo().remove(this);
+        finish();
     }
 
     @Override

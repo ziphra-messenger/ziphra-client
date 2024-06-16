@@ -87,6 +87,7 @@ import com.privacity.cliente.singleton.SingletonValues;
 import com.privacity.cliente.singleton.impl.SingletonServer;
 import com.privacity.cliente.singleton.interfaces.ObservadoresGrupos;
 import com.privacity.cliente.singleton.interfaces.ObservadoresMensajes;
+import com.privacity.cliente.singleton.observers.ObserverGrupo;
 import com.privacity.cliente.singleton.observers.ObserverMessage;
 import com.privacity.cliente.util.ChangeVisibility;
 import com.privacity.cliente.util.GsonFormated;
@@ -99,6 +100,7 @@ import com.privacity.common.dto.MessageDetailDTO;
 import com.privacity.common.dto.ProtocoloDTO;
 import com.privacity.common.dto.UsuarioDTO;
 import com.privacity.common.dto.WrittingDTO;
+import com.privacity.common.dto.request.GrupoBlockRemotoRequestDTO;
 import com.privacity.common.enumeration.ConfigurationStateEnum;
 import com.privacity.common.enumeration.MediaTypeEnum;
 import com.privacity.common.enumeration.MessageState;
@@ -1299,12 +1301,12 @@ public class MessageActivity extends GrupoSelectedCustomAppCompatActivity
         MediaDTO mediaDTO = getMediaDTOToSend();
         removeAttach();
         // esto es solo desarrollo
-        if (txt.getText().toString().equals("Mensaje de prueba")){
+ /*       if (txt.getText().toString().equals("Mensaje de prueba")){
             txt.setText( txt.getText().toString() +" User: " +
                     SingletonValues.getInstance().getUsuario().getNickname() +" > " +
                     SingletonValues.getInstance().getCounterNextValue());
         }
-
+*/
         if (replyParent != null){
             if ( replyParent.isBlackMessage()){
                 black = true;
@@ -1365,6 +1367,10 @@ public class MessageActivity extends GrupoSelectedCustomAppCompatActivity
         }else if ( id == R.id.menu_message_grupo_info){
             Intent intent = new Intent(this, GrupoInfoActivity.class);
             startActivity(intent);
+
+        }else if ( id == R.id.menu_message_grupo_bloqueo_remoto){
+                this.ejecutarGrupoBloqueoRemoto();
+
         }else{
             if (getGrupoSeleccionado().getIdGrupo() != null){
                 //ObservatorGrupos.getInstance().avisarCambioUnread(SingletonValues.getInstance().getGrupoSeleccionado().getIdGrupo());
@@ -2355,4 +2361,45 @@ public class MessageActivity extends GrupoSelectedCustomAppCompatActivity
     public void lock(Grupo g) {
 
     }
+
+    private void ejecutarGrupoBloqueoRemoto() {
+
+
+        ProtocoloDTO p = new ProtocoloDTO();
+        p.setComponent("/grupo");
+        p.setAction("/grupo/blockGrupoRemoto");
+
+        GrupoBlockRemotoRequestDTO o = new GrupoBlockRemotoRequestDTO();
+
+        o.setIdGrupo(ObserverGrupo.getInstance().getMisGrupoList().stream().findFirst().get().getIdGrupo());
+        o.setIdUsuario(SingletonValues.getInstance().getUsuario().getIdUsuario());
+        p.setObjectDTO(GsonFormated.get().toJson(o));
+
+        RestExecute.doit(this, p,
+                new CallbackRest() {
+
+                    @Override
+                    public void response(ResponseEntity<ProtocoloDTO> response) {
+
+
+
+
+
+
+
+                    }
+
+                    @Override
+                    public void onError(ResponseEntity<ProtocoloDTO> response) {
+
+                    }
+
+                    @Override
+                    public void beforeShowErrorMessage(String msg) {
+
+                    }
+                });
+
+    }
+
 }

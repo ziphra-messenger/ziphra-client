@@ -241,9 +241,10 @@ public class ObserverGrupo implements SingletonReset {
 
         }else{
             misGrupoPorId.get(r.getIdGrupo()).getCountDownTimer().cancel();
+            avisarLock(misGrupoPorId.get(r.getIdGrupo()));
         }
 
 
-        avisarLock(misGrupoPorId.get(r.getIdGrupo()));
+
     }
 }

@@ -502,7 +502,7 @@ public class RecyclerMessageAdapter extends RecyclerView.Adapter<RecyclerHolder>
 
         txt = ListListener.setListenerReadMoreLess(item.getMessage(), rch, txt,isReply);
         rch.getTvMessageListText().setText(txt);
-        rch.getTvMessageListText().setText(txt + " > " + item.getMessage().getIdMessage());
+        //rch.getTvMessageListText().setText(txt + " > " + item.getMessage().getIdMessage());
 
 
         //final boolean secretKeyValidaFinal = secretKeyValida;

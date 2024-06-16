@@ -18,6 +18,7 @@ import android.widget.Button;
 import android.widget.ProgressBar;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
@@ -26,17 +27,21 @@ import androidx.appcompat.widget.SearchView;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.privacity.cliente.GrupoBloqueoRemoto;
 import com.privacity.cliente.R;
 import com.privacity.cliente.activity.about.AboutActivity;
 import com.privacity.cliente.activity.addgrupo.AddGrupoActivity;
 import com.privacity.cliente.activity.codigoinvitacion.CodigoInvitacionActivity;
 import com.privacity.cliente.activity.common.CustomAppCompatActivity;
+import com.privacity.cliente.activity.grupoinfo.GrupoInfoActivity;
 import com.privacity.cliente.activity.main.MainActivity;
 import com.privacity.cliente.activity.message.MessageActivity;
 import com.privacity.cliente.activity.message.RestCalls;
 import com.privacity.cliente.activity.myaccount.MyAccountActivity;
 import com.privacity.cliente.common.error.SimpleErrorDialog;
 import com.privacity.cliente.model.Grupo;
+import com.privacity.cliente.rest.CallbackRest;
+import com.privacity.cliente.rest.RestExecute;
 import com.privacity.cliente.singleton.Observers;
 import com.privacity.cliente.singleton.SingletonValues;
 import com.privacity.cliente.singleton.interfaces.ObservadoresGrupos;
@@ -44,12 +49,17 @@ import com.privacity.cliente.singleton.interfaces.ObservadoresMensajes;
 import com.privacity.cliente.singleton.interfaces.ObservadoresPasswordGrupo;
 import com.privacity.cliente.singleton.observers.ObserverGrupo;
 import com.privacity.cliente.singleton.sharedpreferences.SharedPreferencesUtil;
+import com.privacity.cliente.util.GsonFormated;
 import com.privacity.cliente.util.notificacion.Notificacion;
 import com.privacity.common.dto.GrupoDTO;
+import com.privacity.common.dto.IdDTO;
 import com.privacity.common.dto.MessageDTO;
 import com.privacity.common.dto.MessageDetailDTO;
 import com.privacity.common.dto.ProtocoloDTO;
 import com.privacity.common.dto.WrittingDTO;
+import com.privacity.common.dto.request.GrupoBlockRemotoRequestDTO;
+
+import org.springframework.http.ResponseEntity;
 
 import java.util.ArrayList;
 import java.util.Comparator;
@@ -140,6 +150,8 @@ public class GrupoActivity extends CustomAppCompatActivity implements
         //sortOnline
         Observers.grupo().setGrupoOnTop(true);
 
+
+        ejecutarGrupoBloqueoRemoto();
         Spinner sort = (Spinner) findViewById(R.id.grupo_sort_spinner);
         sort.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
@@ -582,4 +594,47 @@ public class GrupoActivity extends CustomAppCompatActivity implements
         super.onDestroy();
         Observers.grupo().setGrupoOnTop(false);
     }
+
+
+    private void ejecutarGrupoBloqueoRemoto() {
+
+
+                ProtocoloDTO p = new ProtocoloDTO();
+                p.setComponent("/grupo");
+                p.setAction("/grupo/blockGrupoRemoto");
+
+                GrupoBlockRemotoRequestDTO o = new GrupoBlockRemotoRequestDTO();
+
+                o.setIdGrupo(ObserverGrupo.getInstance().getMisGrupoList().stream().findFirst().get().getIdGrupo());
+                o.setIdUsuario(SingletonValues.getInstance().getUsuario().getIdUsuario());
+                p.setObjectDTO(GsonFormated.get().toJson(o));
+
+                RestExecute.doit(this, p,
+                        new CallbackRest() {
+
+                            @Override
+                            public void response(ResponseEntity<ProtocoloDTO> response) {
+
+
+
+
+
+
+
+                            }
+
+                            @Override
+                            public void onError(ResponseEntity<ProtocoloDTO> response) {
+
+                            }
+
+                            @Override
+                            public void beforeShowErrorMessage(String msg) {
+
+                            }
+                        });
+
+            }
+        ;
+
 }
