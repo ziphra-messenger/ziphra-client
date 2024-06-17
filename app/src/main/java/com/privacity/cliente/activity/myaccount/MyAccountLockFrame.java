@@ -16,6 +16,7 @@ import com.privacity.cliente.common.error.SimpleErrorDialog;
 import com.privacity.cliente.includes.ProgressBarUtil;
 import com.privacity.cliente.rest.CallbackRest;
 import com.privacity.cliente.rest.RestExecute;
+import com.privacity.cliente.singleton.countdown.SingletonMyAccountConfLockDownTimer;
 import com.privacity.cliente.util.GsonFormated;
 import com.privacity.cliente.util.MenuAcordeonObject;
 import com.privacity.cliente.util.MenuAcordeonUtil;
@@ -149,7 +150,8 @@ public class MyAccountLockFrame {
                     public void response(ResponseEntity<ProtocoloDTO> response) {
                         ProgressBarUtil.hide(activity, progressBar);
                         SingletonValues.getInstance().getMyAccountConfDTO().setLock(dto);
-                        SingletonValues.getInstance().passwordCountDownTimerRestart();
+
+                        SingletonMyAccountConfLockDownTimer.getInstance().restart(true);
                         Toast.makeText(activity,"Guardado",Toast. LENGTH_SHORT).show();
                     }
 

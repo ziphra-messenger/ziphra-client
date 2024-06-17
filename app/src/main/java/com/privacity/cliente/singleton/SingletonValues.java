@@ -11,7 +11,6 @@ import com.privacity.cliente.encrypt.RSA;
 import com.privacity.cliente.model.Grupo;
 import com.privacity.cliente.singleton.interfaces.SingletonReset;
 import com.privacity.cliente.singleton.observers.ObserverGrupo;
-import com.privacity.cliente.util.countdowntimer.PasswordShortLiveCountDownTimer;
 import com.privacity.cliente.ws.WebSocket;
 import com.privacity.common.dto.AESDTO;
 import com.privacity.common.dto.MyAccountConfDTO;
@@ -214,7 +213,7 @@ public class SingletonValues implements SingletonReset {
     public void setShowingLock(boolean showingLock) {
         this.showingLock = showingLock;
     }
-
+/*
     private PasswordShortLiveCountDownTimer passwordShortLiveCountDownTimer = new PasswordShortLiveCountDownTimer();
 
     public PasswordShortLiveCountDownTimer getPasswordShortLiveCountDownTimer() {
@@ -238,7 +237,7 @@ public class SingletonValues implements SingletonReset {
 
         passwordCountDownTimer = new CountDownTimer(
                 SingletonValues.getInstance().getMyAccountConfDTO().getLock().getSeconds()*1000
-                , SingletonValues.getInstance().getMyAccountConfDTO().getLock().getSeconds()*1000
+                , SingletonValues.getInstance().getMyAccountConfDTO().getLock().getSeconds()*100
 
                  ) {
 
@@ -255,7 +254,7 @@ public class SingletonValues implements SingletonReset {
         passwordCountDownTimer.start();
         Observers.password().passwordSet();
     }
-
+*/
 
     public String getPassword() {
         return password;

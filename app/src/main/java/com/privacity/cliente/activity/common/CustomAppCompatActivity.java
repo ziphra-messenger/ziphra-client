@@ -21,6 +21,7 @@ import com.privacity.cliente.singleton.Observers;
 import com.privacity.cliente.singleton.SingletonSessionFinish;
 import com.privacity.cliente.singleton.SingletonValues;
 import com.privacity.cliente.singleton.Singletons;
+import com.privacity.cliente.singleton.countdown.SingletonMyAccountConfLockDownTimer;
 import com.privacity.cliente.singleton.interfaces.ObservadoresPassword;
 import com.privacity.common.enumeration.GrupoRolesEnum;
 
@@ -87,7 +88,6 @@ public abstract class CustomAppCompatActivity extends AppCompatActivity implemen
 
         Observers.password().suscribirse(this);
 
-        SingletonValues.getInstance().passwordCountDownTimerRestart();
     }
 
     protected void reconnectOffline(){
@@ -168,7 +168,7 @@ public abstract class CustomAppCompatActivity extends AppCompatActivity implemen
 
         SingletonSessionFinish.getInstance().restart();
         Observers.password().suscribirse(this);
-        SingletonValues.getInstance().passwordCountDownTimerRestart();
+
 
     }
 
@@ -184,7 +184,7 @@ public abstract class CustomAppCompatActivity extends AppCompatActivity implemen
     protected void onStart() {
         super.onStart();
         Observers.password().suscribirse(this);
-        SingletonValues.getInstance().passwordCountDownTimerRestart();
+
     }
 
     @Override
@@ -227,5 +227,24 @@ public abstract class CustomAppCompatActivity extends AppCompatActivity implemen
 
     public Grupo getGrupoSeleccionado(){
         return SingletonValues.getInstance().getGrupoSeleccionado();
+    }
+
+    private long lastSingletonMyAccountConfLockDownTimerRestart=new java.util.Date().getTime();
+    @Override
+    public void onUserInteraction() {
+        super.onUserInteraction();
+
+        if(SingletonMyAccountConfLockDownTimer.getInstance().isRunning() ) {
+
+            if (
+                    new java.util.Date().getTime() - lastSingletonMyAccountConfLockDownTimerRestart
+                            > 2000) {
+                SingletonMyAccountConfLockDownTimer.getInstance().restart();
+            }
+            {
+                System.out.println("Tiempo para lock la app IGNORANDO EVENTO");
+            }
+        }
+
     }
 }

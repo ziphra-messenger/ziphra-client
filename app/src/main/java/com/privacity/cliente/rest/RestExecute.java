@@ -85,9 +85,6 @@ public class RestExecute {
     public static void doitSend(Activity context, ProtocoloDTO pOrigen, byte[] data,  CallbackRest callbackRestOrigen) {
         if (!checkInternet(context,callbackRestOrigen))return;
 
-        SingletonValues.getInstance().passwordCountDownTimerRestart();
-
-
 
         String requestIdClientSide = requestIdClientSide();
 
@@ -105,8 +102,6 @@ public class RestExecute {
 
     public static void doitDownload(Activity context, ProtocoloDTO pOrigen, CallbackRestDownload callbackRestOrigen) {
         //if (!checkInternet(context,callbackRestOrigen))return;
-        SingletonValues.getInstance().passwordCountDownTimerRestart();
-
 
 
         String requestIdClientSide = requestIdClientSide();
@@ -224,8 +219,6 @@ public class RestExecute {
                     callbackRestOrigen, secure);
             taskinner.execute();
         } else {
-
-            SingletonValues.getInstance().passwordCountDownTimerRestart();
 
 
 

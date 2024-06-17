@@ -19,9 +19,11 @@ import com.privacity.cliente.activity.grupo.GrupoActivity;
 import com.privacity.cliente.model.Grupo;
 import com.privacity.cliente.singleton.Observers;
 import com.privacity.cliente.singleton.SingletonValues;
+import com.privacity.cliente.singleton.countdown.SingletonMyAccountConfLockDownTimer;
 import com.privacity.cliente.singleton.impl.SingletonServer;
 import com.privacity.cliente.singleton.interfaces.ObservadoresGrupos;
 import com.privacity.cliente.singleton.sharedpreferences.SharedPreferencesUtil;
+import com.privacity.cliente.singleton.countdown.SingletonPasswordInMemoryLifeTime;
 import com.privacity.cliente.ws.WebSocket;
 import com.privacity.common.dto.GrupoDTO;
 import com.vanniktech.emoji.EmojiManager;
@@ -66,7 +68,7 @@ public class LoadingActivity extends AppCompatActivity implements ObservadoresGr
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_loading);
-        SingletonValues.getInstance().getPasswordShortLiveCountDownTimer().restart();
+
         loadingConsole = (TextView) findViewById(R.id.loading_console);
         loadingConsole.setMovementMethod(new ScrollingMovementMethod());
 
@@ -100,8 +102,7 @@ public class LoadingActivity extends AppCompatActivity implements ObservadoresGr
         ((Button)findViewById(R.id.loading_console_error_goon)).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent i = new Intent(LoadingActivity.this, GrupoActivity.class);
-                startActivity(i);
+                callGrupoActivity();
             }
         });
 
@@ -124,8 +125,9 @@ public class LoadingActivity extends AppCompatActivity implements ObservadoresGr
     protected void onResume() {
         super.onResume();
 
-        LoadingAsyncTask t = new LoadingAsyncTask(() -> comenzar());
-        t.execute();
+       // LoadingAsyncTask t = new LoadingAsyncTask(() -> comenzar());
+       // t.execute();
+        comenzar();
     }
 
     protected void comenzar() {
@@ -221,12 +223,11 @@ public class LoadingActivity extends AppCompatActivity implements ObservadoresGr
 
             ) {
                 ingresandoGrupos=true;
-                SingletonValues.getInstance().passwordCountDownTimerRestart();
+
 
                 addTextConsole("Ingresando a Privacity");
 
-                Intent i = new Intent(LoadingActivity.this, GrupoActivity.class);
-                startActivity(i);
+                callGrupoActivity();
             }else{
                 addTextConsole("Error en la carga inicial");
 
@@ -239,6 +240,15 @@ public class LoadingActivity extends AppCompatActivity implements ObservadoresGr
             }
         }
 
+    }
+
+    public void callGrupoActivity() {
+        SingletonPasswordInMemoryLifeTime.getInstance().restart();
+        SingletonMyAccountConfLockDownTimer.getInstance().setup(this);
+        SingletonMyAccountConfLockDownTimer.getInstance().restart();
+        Intent i = new Intent(LoadingActivity.this, GrupoActivity.class);
+
+        startActivity(i);
     }
 
     private void showAppServer(){

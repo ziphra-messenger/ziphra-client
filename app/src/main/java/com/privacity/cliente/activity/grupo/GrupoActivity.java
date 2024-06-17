@@ -57,7 +57,7 @@ import com.privacity.common.dto.MessageDTO;
 import com.privacity.common.dto.MessageDetailDTO;
 import com.privacity.common.dto.ProtocoloDTO;
 import com.privacity.common.dto.WrittingDTO;
-import com.privacity.common.dto.request.GrupoBlockRemotoRequestDTO;
+
 
 import org.springframework.http.ResponseEntity;
 
@@ -151,7 +151,6 @@ public class GrupoActivity extends CustomAppCompatActivity implements
         Observers.grupo().setGrupoOnTop(true);
 
 
-        ejecutarGrupoBloqueoRemoto();
         Spinner sort = (Spinner) findViewById(R.id.grupo_sort_spinner);
         sort.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
@@ -596,45 +595,5 @@ public class GrupoActivity extends CustomAppCompatActivity implements
     }
 
 
-    private void ejecutarGrupoBloqueoRemoto() {
-
-
-                ProtocoloDTO p = new ProtocoloDTO();
-                p.setComponent("/grupo");
-                p.setAction("/grupo/blockGrupoRemoto");
-
-                GrupoBlockRemotoRequestDTO o = new GrupoBlockRemotoRequestDTO();
-
-                o.setIdGrupo(ObserverGrupo.getInstance().getMisGrupoList().stream().findFirst().get().getIdGrupo());
-                o.setIdUsuario(SingletonValues.getInstance().getUsuario().getIdUsuario());
-                p.setObjectDTO(GsonFormated.get().toJson(o));
-
-                RestExecute.doit(this, p,
-                        new CallbackRest() {
-
-                            @Override
-                            public void response(ResponseEntity<ProtocoloDTO> response) {
-
-
-
-
-
-
-
-                            }
-
-                            @Override
-                            public void onError(ResponseEntity<ProtocoloDTO> response) {
-
-                            }
-
-                            @Override
-                            public void beforeShowErrorMessage(String msg) {
-
-                            }
-                        });
-
-            }
-        ;
 
 }

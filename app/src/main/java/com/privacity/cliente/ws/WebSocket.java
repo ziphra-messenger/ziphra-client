@@ -9,9 +9,13 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.privacity.cliente.activity.loading.LoadingActivity;
+import com.privacity.cliente.activity.lock.LockActivity;
+import com.privacity.cliente.activity.main.MainActivity;
 import com.privacity.cliente.rest.restcalls.grupo.GrupoById;
 import com.privacity.cliente.singleton.Observers;
 import com.privacity.cliente.singleton.SingletonValues;
+import com.privacity.cliente.singleton.countdown.SingletonMyAccountConfLockDownTimer;
 import com.privacity.cliente.singleton.impl.SingletonServer;
 import com.privacity.cliente.util.GsonFormated;
 import com.privacity.common.config.ConstantProtocolo;
@@ -216,22 +220,19 @@ public class WebSocket {
                                 }
                             }*/
                         }
-                     else if (p.getAction().equals("/grupo/blockGrupoRemoto")){
-                        System.out.println(GsonFormated.get().toJson(p));
+                     else if (p.getAction().equals("/grupo/blockGrupoRemoto")) {
+                            System.out.println(GsonFormated.get().toJson(p));
+
+                            if (!SingletonMyAccountConfLockDownTimer.getInstance().isLocked()) {
+                                Intent i = new Intent(activity, LockActivity.class);
+
+                                i.putExtra(ConstantProtocolo.PROTOCOLO_ACTION_GRUPO_BLOCK_REMOTO, true);
 
 
-                        {
-                            Intent intent = new Intent("finish_message_activity");
-                            activity.sendBroadcast(intent);
+                                activity.startActivity(i);
+
+                            }
                         }
-
-                        {
-                            Intent intent = new Intent("finish_activity");
-                            activity.sendBroadcast(intent);
-                        }
-
-                    }
-
                     }
 
 

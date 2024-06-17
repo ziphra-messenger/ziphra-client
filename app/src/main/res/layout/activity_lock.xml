@@ -2,86 +2,106 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_gravity="center_horizontal"
     tools:context=".activity.lock.LockActivity">
 
     <TableLayout
-        android:id="@+id/tableLayout3"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="30dp"
-
-        android:layout_marginEnd="30dp"
-        android:background="@drawable/login_stylo"
-        android:gravity="center"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="32dp"
+        android:foregroundGravity="center"
+        android:gravity="center_horizontal"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.19">
+        app:layout_constraintTop_toTopOf="parent">
 
         <TableRow
+            android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:gravity="center">
+            android:gravity="center_horizontal">
+
+            <Button
+                android:id="@+id/lock_bloqueo_remoto_mensaje"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_margin="10dp"
+                android:layout_marginTop="30dp"
+                android:layout_marginBottom="14dp"
+                android:backgroundTint="#EB3A3A"
+                android:clickable="false"
+                android:gravity="center_horizontal|center_vertical"
+                android:text="Algun grupo ha enviado un\n bloqueo remoto"
+                app:cornerRadius="20dp" />
+        </TableRow>
+
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center_horizontal">
 
             <TableLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent">
+                android:id="@+id/tableLayout3"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="30dp"
 
+                android:layout_marginEnd="30dp"
+                android:background="@drawable/login_stylo"
+                android:gravity="center">
 
                 <TableRow
-                    android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:layout_marginStart="5dp"
-                    android:layout_marginTop="20dp">
+                    android:gravity="center">
 
-                    <include layout="@layout/custom_comp_password_eye" />
+                    <TableLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent">
+
+
+                        <TableRow
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_marginStart="5dp"
+                            android:layout_marginTop="20dp">
+
+                            <include layout="@layout/custom_comp_password_eye" />
+                        </TableRow>
+
+                        <TableRow
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_marginStart="5dp" />
+
+                    </TableLayout>
+
                 </TableRow>
 
                 <TableRow
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:layout_marginStart="5dp" />
+                    android:layout_marginTop="30dp"
+                    android:gravity="center">
+
+                    <Button
+                        android:id="@+id/lock_ingresar"
+                        android:layout_width="100dp"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_margin="10dp"
+                        android:text="Ingresar"
+                        app:cornerRadius="20dp"
+                        app:icon="@drawable/ic_baseline_login_24" />
+
+                </TableRow>
 
             </TableLayout>
-
         </TableRow>
 
-        <TableRow
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_marginTop="30dp"
-            android:gravity="center">
-
-            <Button
-                android:id="@+id/lock_ingresar"
-                android:layout_width="100dp"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_margin="10dp"
-                android:text="Ingresar"
-                app:cornerRadius="20dp"
-                app:icon="@drawable/ic_baseline_login_24" />
-
-        </TableRow>
-
-        <TableRow
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:gravity="center"
-            android:visibility="visible" />
-
-        <TableRow
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:gravity="center"
-            android:visibility="visible" />
-
-        <TableRow
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:gravity="center"
-            android:visibility="visible" />
     </TableLayout>
+
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -18,6 +18,7 @@ import com.privacity.cliente.model.Grupo;
 import com.privacity.cliente.rest.restcalls.grupo.PasswordGrupoValidationCallRest;
 import com.privacity.cliente.singleton.Observers;
 import com.privacity.cliente.singleton.SingletonValues;
+import com.privacity.cliente.singleton.countdown.SingletonPasswordInMemoryLifeTime;
 import com.privacity.common.dto.GrupoDTO;
 import com.privacity.common.dto.GrupoGralConfDTO;
 import com.privacity.common.dto.GrupoGralConfPasswordDTO;
@@ -67,10 +68,7 @@ public class SimpleErrorDialog {
             public void onClick(DialogInterface dialog, int id) {
 
                 if (password.getText().toString().equals(SingletonValues.getInstance().getPassword())){
-                    SingletonValues.getInstance().passwordCountDownTimerRestart();
-                    Observers.password().passwordSet();
-
-                    SingletonValues.getInstance().getPasswordShortLiveCountDownTimer().restart();
+                    SingletonPasswordInMemoryLifeTime.getInstance().restart();
                     i.action();
                 }else{
                     Toast.makeText(context,"Password Incorrecto",Toast. LENGTH_SHORT).show();
@@ -86,7 +84,7 @@ public class SimpleErrorDialog {
 
         AlertDialog dialog = builder.create();
 
-        if ( !SingletonValues.getInstance().getPasswordShortLiveCountDownTimer().isRunning()){
+        if ( !SingletonPasswordInMemoryLifeTime.getInstance().isRunning()){
             dialog.show();
 
         }else{
@@ -106,7 +104,7 @@ public class SimpleErrorDialog {
             public void onClick(DialogInterface dialog, int id) {
 
                 if (password.getText().toString().equals(SingletonValues.getInstance().getPassword())){
-                    SingletonValues.getInstance().passwordCountDownTimerRestart();
+                    SingletonPasswordInMemoryLifeTime.getInstance().restart();
                     i.action();
                 }else{
                     Toast.makeText(context,"Password Incorrecto",Toast. LENGTH_SHORT).show();

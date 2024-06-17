@@ -12,6 +12,7 @@ import android.widget.ImageButton;
 import com.privacity.cliente.R;
 import com.privacity.cliente.singleton.SingletonValues;
 import com.privacity.cliente.common.component.SecureFieldAndEye;
+import com.privacity.cliente.singleton.countdown.SingletonPasswordInMemoryLifeTime;
 import com.privacity.common.config.ConstantValidation;
 
 public class SecureFieldAndEyeUtil {
@@ -117,7 +118,7 @@ public class SecureFieldAndEyeUtil {
 
     public static boolean passwordUserCompare(Activity activity, SecureFieldAndEye currentPassword) {
         if (currentPassword.getField().getText().toString().equals(SingletonValues.getInstance().getPassword())){
-            SingletonValues.getInstance().passwordCountDownTimerRestart();
+            SingletonPasswordInMemoryLifeTime.getInstance().restart();
             return true;
         }else{
             currentPassword.getField().setError(activity.getResources().getString(R.string.password_incorrect));

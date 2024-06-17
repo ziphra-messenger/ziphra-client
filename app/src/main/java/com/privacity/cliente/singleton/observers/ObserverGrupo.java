@@ -205,7 +205,9 @@ public class ObserverGrupo implements SingletonReset {
         Grupo gs = GsonFormated.get().fromJson(p.getObjectDTO(), Grupo.class);
         System.out.println("update -> " +gs.toString());
 
-        //if (misGrupoPorId.get(gs.getIdGrupo()) != null)
+        if (misGrupoPorId.get(gs.getIdGrupo()) == null){
+            misGrupoPorId.put(gs.getIdGrupo(),gs);
+        }
         misGrupoPorId.get(gs.getIdGrupo()).setMembersOnLine(gs.getMembersOnLine());
         avisarActualizarLista();
 

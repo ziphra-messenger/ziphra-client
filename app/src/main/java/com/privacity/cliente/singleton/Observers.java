@@ -28,6 +28,7 @@ public class Observers {
         message().reset();
         password().reset();
         passwordGrupo().reset();
+        //SingletonPasswordInMemoryLifeTime.getInstance().reset();
     }
 
 }

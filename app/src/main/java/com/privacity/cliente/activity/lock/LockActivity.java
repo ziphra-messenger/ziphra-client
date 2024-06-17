@@ -17,12 +17,17 @@ import com.privacity.cliente.R;
 import com.privacity.cliente.singleton.SingletonValues;
 import com.privacity.cliente.common.component.SecureFieldAndEye;
 import com.privacity.cliente.includes.SecureFieldAndEyeUtil;
+import com.privacity.cliente.singleton.countdown.SingletonMyAccountConfLockDownTimer;
+import com.privacity.cliente.singleton.countdown.SingletonPasswordInMemoryLifeTime;
+import com.privacity.common.config.ConstantProtocolo;
 
 public class LockActivity extends AppCompatActivity {
 
     private SecureFieldAndEye currentPassword;
     private Button lockIngresar;
     int reintentos=0;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -30,6 +35,7 @@ public class LockActivity extends AppCompatActivity {
 /**
  * agregar reintentos
  */
+        SingletonMyAccountConfLockDownTimer.getInstance().setLocked(true);
         BroadcastReceiver broadcastReceiver = new BroadcastReceiver() {
 
             @Override
@@ -60,8 +66,10 @@ public class LockActivity extends AppCompatActivity {
             public void onClick(View v) {
 
                 if (currentPassword.getField().getText().toString().equals(SingletonValues.getInstance().getPassword())){
-                    SingletonValues.getInstance().passwordCountDownTimerRestart();
-                    SingletonValues.getInstance().setShowingLock(false);
+                    SingletonMyAccountConfLockDownTimer.getInstance().setLocked(false);
+                    SingletonPasswordInMemoryLifeTime.getInstance().restart();
+                    SingletonMyAccountConfLockDownTimer.getInstance().restart();
+
                     finish();
                 }else{
                     reintentos++;
@@ -76,10 +84,20 @@ public class LockActivity extends AppCompatActivity {
             }
         });
 
+        Bundle extras = getIntent().getExtras();
+        if (extras != null && extras.getBoolean(ConstantProtocolo.PROTOCOLO_ACTION_GRUPO_BLOCK_REMOTO)){
+            this.findViewById(R.id.lock_bloqueo_remoto_mensaje).setVisibility(View.VISIBLE);
+        }else{
+            this.findViewById(R.id.lock_bloqueo_remoto_mensaje).setVisibility(View.INVISIBLE);
+        }
+
+
     }
+
 
     @Override
     public void onBackPressed() {
         // Do Here what ever you want do on back press;
     }
+
 }

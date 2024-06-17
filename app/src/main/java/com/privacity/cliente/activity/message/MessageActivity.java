@@ -69,6 +69,7 @@ import com.privacity.cliente.activity.message.attach.MessageAttach;
 import com.privacity.cliente.activity.message.avanzado.MessageAvanzado;
 import com.privacity.cliente.activity.message.customactionbar.MessageCustomActionBar;
 import com.privacity.cliente.activity.message.customactionbar.MessageReplyFrame;
+import com.privacity.cliente.activity.message.delegate.BloqueoRemotoDelegate;
 import com.privacity.cliente.activity.messagedetail.MessageDetailActivity;
 import com.privacity.cliente.activity.messageresend.MessageResendActivity;
 import com.privacity.cliente.activity.messageresend.MessageUtil;
@@ -100,7 +101,7 @@ import com.privacity.common.dto.MessageDetailDTO;
 import com.privacity.common.dto.ProtocoloDTO;
 import com.privacity.common.dto.UsuarioDTO;
 import com.privacity.common.dto.WrittingDTO;
-import com.privacity.common.dto.request.GrupoBlockRemotoRequestDTO;
+
 import com.privacity.common.enumeration.ConfigurationStateEnum;
 import com.privacity.common.enumeration.MediaTypeEnum;
 import com.privacity.common.enumeration.MessageState;
@@ -1369,7 +1370,7 @@ public class MessageActivity extends GrupoSelectedCustomAppCompatActivity
             startActivity(intent);
 
         }else if ( id == R.id.menu_message_grupo_bloqueo_remoto){
-                this.ejecutarGrupoBloqueoRemoto();
+                new BloqueoRemotoDelegate().ejecutarGrupoBloqueoRemoto(MessageActivity.this);
 
         }else{
             if (getGrupoSeleccionado().getIdGrupo() != null){
@@ -2362,44 +2363,5 @@ public class MessageActivity extends GrupoSelectedCustomAppCompatActivity
 
     }
 
-    private void ejecutarGrupoBloqueoRemoto() {
-
-
-        ProtocoloDTO p = new ProtocoloDTO();
-        p.setComponent("/grupo");
-        p.setAction("/grupo/blockGrupoRemoto");
-
-        GrupoBlockRemotoRequestDTO o = new GrupoBlockRemotoRequestDTO();
-
-        o.setIdGrupo(ObserverGrupo.getInstance().getMisGrupoList().stream().findFirst().get().getIdGrupo());
-        o.setIdUsuario(SingletonValues.getInstance().getUsuario().getIdUsuario());
-        p.setObjectDTO(GsonFormated.get().toJson(o));
-
-        RestExecute.doit(this, p,
-                new CallbackRest() {
-
-                    @Override
-                    public void response(ResponseEntity<ProtocoloDTO> response) {
-
-
-
-
-
-
-
-                    }
-
-                    @Override
-                    public void onError(ResponseEntity<ProtocoloDTO> response) {
-
-                    }
-
-                    @Override
-                    public void beforeShowErrorMessage(String msg) {
-
-                    }
-                });
-
-    }
 
 }
