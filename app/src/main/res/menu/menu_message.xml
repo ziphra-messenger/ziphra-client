@@ -14,7 +14,5 @@
     <item
         android:id="@+id/menu_message_grupo_info"
         android:title="Informacion del Grupo" />
-    <item
-        android:id="@+id/menu_message_grupo_bloqueo_remoto"
-        android:title="Grupo Bloqueo Remoto a Todos" />
+>
 </menu>

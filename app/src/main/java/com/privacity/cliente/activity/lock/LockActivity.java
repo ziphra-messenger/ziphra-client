@@ -14,18 +14,26 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.privacity.cliente.R;
+import com.privacity.cliente.includes.ProgressBarUtil;
+import com.privacity.cliente.rest.CallbackRest;
+import com.privacity.cliente.rest.RestExecute;
 import com.privacity.cliente.singleton.SingletonValues;
 import com.privacity.cliente.common.component.SecureFieldAndEye;
 import com.privacity.cliente.includes.SecureFieldAndEyeUtil;
 import com.privacity.cliente.singleton.countdown.SingletonMyAccountConfLockDownTimer;
 import com.privacity.cliente.singleton.countdown.SingletonPasswordInMemoryLifeTime;
+import com.privacity.cliente.singleton.sharedpreferences.SharedPreferencesUtil;
+import com.privacity.cliente.util.GsonFormated;
 import com.privacity.common.config.ConstantProtocolo;
+import com.privacity.common.dto.ProtocoloDTO;
+
+import org.springframework.http.ResponseEntity;
 
 public class LockActivity extends AppCompatActivity {
 
     private SecureFieldAndEye currentPassword;
     private Button lockIngresar;
-    int reintentos=0;
+    int reintentos;
 
 
     @Override
@@ -34,7 +42,7 @@ public class LockActivity extends AppCompatActivity {
         setContentView(R.layout.activity_lock);
 /**
  * agregar reintentos
- */
+ /*
         SingletonMyAccountConfLockDownTimer.getInstance().setLocked(true);
         BroadcastReceiver broadcastReceiver = new BroadcastReceiver() {
 
@@ -47,7 +55,7 @@ public class LockActivity extends AppCompatActivity {
             }
         };
         registerReceiver(broadcastReceiver, new IntentFilter("finish_all_activities"));
-
+*/
         SingletonValues.getInstance().setShowingLock(true);
 
         lockIngresar = (Button) findViewById(R.id.lock_ingresar);
@@ -60,7 +68,7 @@ public class LockActivity extends AppCompatActivity {
         );
         SecureFieldAndEyeUtil.setPasswordMaxLenght(currentPassword);
         SecureFieldAndEyeUtil.listener(currentPassword);
-
+        reintentos=0;
         lockIngresar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -76,9 +84,21 @@ public class LockActivity extends AppCompatActivity {
                     //currentPassword.getField().setError("Password Incorrecto");
                     Toast.makeText(LockActivity.this,"Password Incorrecto\nIntento " + reintentos + " de 3",Toast. LENGTH_SHORT).show();
 
-                    if (reintentos == 3 ){
-                        Intent intent = new Intent("finish_all_activities");
-                        LockActivity.this.sendBroadcast(intent);
+                    if (reintentos >= 3 ){
+                        lockIngresar.setEnabled(false);
+                        try {
+                            if (SingletonValues.getInstance().getMyAccountConfDTO().isLoginSkip()){
+                                save();
+                            }else{
+                                Intent intent = new Intent("finish_all_activities");
+                                LockActivity.this.sendBroadcast(intent);
+                                finish();
+                            }
+
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+
                     }
                 }
             }
@@ -93,11 +113,64 @@ public class LockActivity extends AppCompatActivity {
 
 
     }
+    private void save() throws Exception {
 
+
+        boolean dto =  false;
+
+        ProtocoloDTO p = new ProtocoloDTO();
+        p.setComponent(ConstantProtocolo.PROTOCOLO_COMPONENT_MY_ACCOUNT);
+        p.setAction(ConstantProtocolo.PROTOCOLO_ACTION_MY_ACCOUNT_SAVE_LOGIN_SKIP);
+
+        p.setObjectDTO(GsonFormated.get().toJson(dto));
+
+
+        RestExecute.doit(this, p,
+                new CallbackRest() {
+
+                    @Override
+                    public void response(ResponseEntity<ProtocoloDTO> response) {
+
+                        SingletonValues.getInstance().getMyAccountConfDTO().setLoginSkip(dto);
+                        SharedPreferencesUtil.deleteSharedPreferencesUserPass(LockActivity.this);
+                        LockActivity.this.finish();
+                    }
+
+                    @Override
+                    public void onError(ResponseEntity<ProtocoloDTO> response) {
+                        Intent intent = new Intent("finish_all_activities");
+                        LockActivity.this.sendBroadcast(intent);
+                        LockActivity.this.finish();
+                    }
+
+                    @Override
+                    public void beforeShowErrorMessage(String msg) {
+                        Intent intent = new Intent("finish_all_activities");
+                        LockActivity.this.sendBroadcast(intent);
+                        LockActivity.this.finish();
+                    }
+
+                });
+
+
+    }
 
     @Override
     public void onBackPressed() {
         // Do Here what ever you want do on back press;
     }
 
+    @Override
+    protected void onStop() {
+        super.onStop();
+        SingletonMyAccountConfLockDownTimer.getInstance().setLocked(false);
+
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        SingletonMyAccountConfLockDownTimer.getInstance().setLocked(true);
+
+    }
 }

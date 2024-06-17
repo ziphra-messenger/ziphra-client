@@ -309,6 +309,10 @@ public class SingletonValues implements SingletonReset {
 
 
         if ( idGrupoSeleccionado == null) return null;
+        if ( ObserverGrupo.getInstance().getGrupoById(idGrupoSeleccionado) == null){
+            idGrupoSeleccionado=null;
+            return null;
+        }
 
         ObserverGrupo.getInstance().getGrupoById(idGrupoSeleccionado).getCountDownTimer().restart();
         return ObserverGrupo.getInstance().getGrupoById(idGrupoSeleccionado);

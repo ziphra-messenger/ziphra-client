@@ -81,6 +81,8 @@ public class MessageDetailActivity extends CustomAppCompatActivity
                 String action = intent.getAction();
                 if (action.equals("finish_activity")) {
                     myFinish();
+                }else if (action.equals("finish_all_activities")) {
+                    myFinish();
                 }
             }
         };

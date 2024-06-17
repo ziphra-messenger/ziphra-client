@@ -1,9 +1,11 @@
 package com.privacity.cliente.activity.grupo;
 
 import android.app.NotificationManager;
+import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.graphics.Color;
 import android.graphics.Typeface;
 import android.net.Uri;
@@ -149,7 +151,19 @@ public class GrupoActivity extends CustomAppCompatActivity implements
 
         //sortOnline
         Observers.grupo().setGrupoOnTop(true);
+//
+        BroadcastReceiver broadcastReceiver = new BroadcastReceiver() {
 
+            @Override
+            public void onReceive(Context arg0, Intent intent) {
+                String action = intent.getAction();
+                if (action.equals("finish_all_activities")) {
+                    finish();
+                }
+            }
+        };
+        registerReceiver(broadcastReceiver, new IntentFilter("finish_all_activities"));
+        //
 
         Spinner sort = (Spinner) findViewById(R.id.grupo_sort_spinner);
         sort.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
@@ -496,14 +510,16 @@ public class GrupoActivity extends CustomAppCompatActivity implements
                 && SingletonValues.getInstance().getGrupoSeleccionado().getIdGrupo().equals(g.idGrupo)
         ) {
 
-            {
-                Intent intent = new Intent("finish_message_activity");
-                this.sendBroadcast(intent);
-            }
+            if ( SingletonValues.getInstance().getGrupoSeleccionado().getLock().isEnabled() ) {
+                {
+                    Intent intent = new Intent("finish_message_activity");
+                    this.sendBroadcast(intent);
+                }
 
-            {
-                Intent intent = new Intent("finish_activity");
-                this.sendBroadcast(intent);
+                {
+                    Intent intent = new Intent("finish_activity");
+                    this.sendBroadcast(intent);
+                }
             }
         }
 

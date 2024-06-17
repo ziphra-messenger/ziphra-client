@@ -684,6 +684,7 @@ public class MessageActivity extends GrupoSelectedCustomAppCompatActivity
 
     @Override
     public void avisarLock(GrupoDTO g) {
+       messageCustomActionBar.actualizarConfLockCandadoCerrado();
 
     }
 
@@ -1369,8 +1370,7 @@ public class MessageActivity extends GrupoSelectedCustomAppCompatActivity
             Intent intent = new Intent(this, GrupoInfoActivity.class);
             startActivity(intent);
 
-        }else if ( id == R.id.menu_message_grupo_bloqueo_remoto){
-                new BloqueoRemotoDelegate().ejecutarGrupoBloqueoRemoto(MessageActivity.this);
+
 
         }else{
             if (getGrupoSeleccionado().getIdGrupo() != null){

@@ -24,6 +24,9 @@ import com.privacity.cliente.singleton.observers.ObserverGrupo;
 import java.util.Iterator;
 import java.util.Set;
 
+import lombok.Data;
+
+@Data
 public class MessageCustomActionBar {
 
     private final MessageActivity activity;

@@ -4,6 +4,7 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.res.Resources;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.os.Bundle;
@@ -30,6 +31,8 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.privacity.cliente.R;
 import com.privacity.cliente.activity.addmember.AddMembersToGrupoActivity;
 import com.privacity.cliente.activity.common.CustomAppCompatActivity;
+import com.privacity.cliente.activity.message.MessageActivity;
+import com.privacity.cliente.activity.message.delegate.BloqueoRemotoDelegate;
 import com.privacity.cliente.common.error.SimpleErrorDialog;
 import com.privacity.cliente.model.Grupo;
 import com.privacity.cliente.rest.CallbackRest;
@@ -51,7 +54,10 @@ import org.jetbrains.annotations.NotNull;
 import org.springframework.http.ResponseEntity;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
+
+import lombok.Data;
 
 public class GrupoInfoActivity extends CustomAppCompatActivity implements
         ObservadoresPasswordGrupo, RecyclerGrupoInfoAdapter.RecyclerItemClick, SearchView.OnQueryTextListener {
@@ -143,6 +149,12 @@ public class GrupoInfoActivity extends CustomAppCompatActivity implements
             }
         };
         registerReceiver(broadcastReceiver, new IntentFilter("finish_activity"));
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        iniciarAcciones();
     }
 
     public void myFinish() {
@@ -346,10 +358,88 @@ public class GrupoInfoActivity extends CustomAppCompatActivity implements
             }
         });
         btGrupoInfoDeleteGrupo = (Button) findViewById(R.id.bt_grupoinfo_delete_grupo);
-        btGrupoInfoDeleteGrupo.setOnClickListener(
-                getListenerGrupoInfoDeleteGrupo()
-        );
 
+
+        Resources res = this.getResources();
+
+
+        final Counter count= new Counter();
+
+        ArrayList<Button> mylistBotones = new ArrayList<Button>();
+
+
+        ArrayList<String> mylist = new ArrayList<String>();
+        for(int i = 1 ; i <=4 ; i++){
+            mylist.add(i+"");
+            mylistBotones.add(findViewById(res.getIdentifier("bt_grupo_info_bloqueo_remoto_" + i, "id", this.getPackageName())));
+            mylistBotones.get(i-1).setOnClickListener(check(count,mylistBotones));
+        }
+        resetBotonos(mylistBotones);
+
+        System.out.println("Original List : \n" + mylist);
+
+        Collections.shuffle(mylist);
+
+        for(int i = 1 ; i <=4 ; i++){
+            mylistBotones.get(i-1).setText(mylist.get(i-1));
+        }
+
+    }
+
+    @NotNull
+    private View.OnClickListener check(final Counter count, ArrayList<Button> mylistBotones) {
+        return new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (((count.getCount()) + "").equals(((Button) view).getText())) {
+                    view.setBackgroundColor(Color.parseColor("#57AE74"));
+
+                    count.add();
+                    if (count.getCount() > mylistBotones.size()){
+                        new BloqueoRemotoDelegate().ejecutarGrupoBloqueoRemoto(GrupoInfoActivity.this);
+                       new Thread(new Runnable() {
+                           @Override
+                           public void run() {
+                               try {
+                                   Thread.sleep(2000);
+                                   count.reset();
+                                   resetBotonos(mylistBotones);
+                               } catch (InterruptedException e) {
+                                   count.reset();
+                                   resetBotonos(mylistBotones);
+                               }
+                           }
+                       }).start();
+
+
+                    }
+                }else{
+                    count.reset();
+                    resetBotonos(mylistBotones);
+                }
+            }
+        };
+    }
+
+    private void resetBotonos(ArrayList<Button> mylistBotones) {
+
+        for(Button b : mylistBotones){
+            b.setBackgroundColor(Color.RED);
+        }
+    }
+
+
+
+    @Data
+    private class Counter {
+        private int count=1;
+
+        public void add(){
+            count++;
+        }
+        public void reset(){
+            count=1;
+        }
     }
     private void ocultarViewToNotAdmin(View v){
         v.setBackgroundColor(Color.LTGRAY);

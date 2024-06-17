@@ -13,6 +13,7 @@ import com.privacity.common.enumeration.MessageState;
 
 import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Set;
@@ -120,17 +121,32 @@ public class ObserverGrupo implements SingletonReset {
     }
 
     public void addGrupo(Grupo grupo, boolean index0) {
-
+        System.out.println("*********************************************");
+        System.out.println(GsonFormated.get().toJson(grupo));
         if ( misGrupoPorId.containsKey(grupo.getIdGrupo())){
-            return;
+            System.out.println("VIEJO GRUPO");
+            System.out.println(GsonFormated.get().toJson(misGrupoPorId.get(grupo.getIdGrupo())));
+            //viejoGrupo =misGrupoPorId.get(grupo.getIdGrupo());
+        }else{
+            misGrupoPorId.put(grupo.getIdGrupo(), grupo);
         }
-        misGrupoPorId.put(grupo.getIdGrupo(), grupo);
-
+        System.out.println("*********************************************");
         avisar(grupo);
     }
 
     @Override
     public void reset() {
+        Iterator<Grupo> i = getMisGrupoList().stream().iterator();
+        while (i.hasNext()){
+            Grupo g = i.next();
+
+                if (g.getCountDownTimer().isPasswordCountDownTimerRunning()){
+                   g.getCountDownTimer().cancel();
+
+
+            }
+            misGrupoPorId.remove(g.idGrupo);
+        }
         instance = null;
     }
 
@@ -146,6 +162,11 @@ public class ObserverGrupo implements SingletonReset {
     }
 
     public void GrupoRemove(String idGrupo) {
+        if (misGrupoPorId.get(idGrupo) != null){
+            if (misGrupoPorId.get(idGrupo).getCountDownTimer().isPasswordCountDownTimerRunning()){
+                misGrupoPorId.get(idGrupo).getCountDownTimer().cancel();
+            }
+        }
         misGrupoPorId.remove(idGrupo);
         avisarGrupoRemove(idGrupo);
     }
@@ -235,7 +256,7 @@ public class ObserverGrupo implements SingletonReset {
     public void updateGrupoLock(SaveGrupoGralConfLockResponseDTO r) {
         misGrupoPorId.get(r.getIdGrupo()).setLock(r.getLock());
         misGrupoPorId.get(r.getIdGrupo()).setPassword(r.getPassword());
-
+        avisarLock(misGrupoPorId.get(r.getIdGrupo()));
         if ( r.lock.isEnabled()){
             if ( misGrupoPorId.get(r.getIdGrupo()).getCountDownTimer().isPasswordCountDownTimerRunning()){
                 misGrupoPorId.get(r.getIdGrupo()).getCountDownTimer().restart();
@@ -243,7 +264,7 @@ public class ObserverGrupo implements SingletonReset {
 
         }else{
             misGrupoPorId.get(r.getIdGrupo()).getCountDownTimer().cancel();
-            avisarLock(misGrupoPorId.get(r.getIdGrupo()));
+
         }
 
 
