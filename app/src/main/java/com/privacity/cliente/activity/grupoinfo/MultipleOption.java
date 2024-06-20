@@ -23,25 +23,28 @@ public class MultipleOption {
 
     @SuppressLint("ResourceType")
     public boolean isSelected(){
-        return grupo.getCheckedRadioButtonId() >= 0;
+        if (grupo != null) {
+            return grupo.getCheckedRadioButtonId() >= 0;
+        }
+        return false;
     }
 
     public ConfigurationStateEnum getSelectedValue(){
-        if (permitir.isChecked()) return ConfigurationStateEnum.ALLOW;
-        else if (bloquear.isChecked()) return ConfigurationStateEnum.BLOCK;
+        if (permitir != null && permitir.isChecked()) return ConfigurationStateEnum.ALLOW;
+        else if (bloquear != null && bloquear.isChecked()) return ConfigurationStateEnum.BLOCK;
         else if ( obligatorio !=null) {
             if (obligatorio.isChecked()) return ConfigurationStateEnum.MANDATORY;
         }
-        return null;
+        return ConfigurationStateEnum.ALLOW;
     }
 
-    public void setValue(ConfigurationStateEnum resend) {
-        permitir.setChecked(false);
-        bloquear.setChecked(false);
+    public void setValue(ConfigurationStateEnum value) {
+        if (permitir != null) permitir.setChecked(false);
+        if (bloquear != null) bloquear.setChecked(false);
         if (obligatorio != null) obligatorio.setChecked(false);
 
-        if (resend.equals(ConfigurationStateEnum.ALLOW)) permitir.setChecked(true);
-        if (resend.equals(ConfigurationStateEnum.BLOCK)) bloquear.setChecked(true);
-        if (resend.equals(ConfigurationStateEnum.MANDATORY)) obligatorio.setChecked(true);
+        if (value.equals(ConfigurationStateEnum.ALLOW) && permitir != null ) permitir.setChecked(true);
+        if (value.equals(ConfigurationStateEnum.BLOCK) && bloquear != null ) bloquear.setChecked(true);
+        if (value.equals(ConfigurationStateEnum.MANDATORY) && obligatorio != null ) obligatorio.setChecked(true);
     }
 }

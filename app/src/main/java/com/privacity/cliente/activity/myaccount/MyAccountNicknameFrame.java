@@ -37,7 +37,7 @@ public class MyAccountNicknameFrame {
     public MyAccountNicknameFrame(MyAccountActivity activity) {
 
         reset=(Button) activity.findViewById(R.id.my_account_nickname_reset);
-        save=(Button) activity.findViewById(R.id.my_account_nickname_reset);
+        save=(Button) activity.findViewById(R.id.my_account_nickname_save);
 
         nickname=(EditText) activity.findViewById(R.id.my_account_nickname_new);
         NicknameUtil.setNicknameMaxLenght(nickname);

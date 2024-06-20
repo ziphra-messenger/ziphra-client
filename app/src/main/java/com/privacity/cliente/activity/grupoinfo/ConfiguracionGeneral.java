@@ -33,7 +33,7 @@ public class ConfiguracionGeneral {
     private ConfiguracionGeneralTemporal temporal;
     private CheckBox confBlackObligatorioAdjunto;
     private MultipleOption extraEncript;
-    private ConfiguracionGeneralDescarga descarga;
+    private MultipleOption descargaImagen;
     private ConfiguracionGeneralOtras otras;
     private Button reset;
 
@@ -54,7 +54,7 @@ public class ConfiguracionGeneral {
         temporal.getConfTemporalMaximoTiempoPermitido().setSelection(4);
         confBlackObligatorioAdjunto.setChecked(false);
         extraEncript.getPermitir().setChecked(true);
-        descarga.getConfDescargaImagen().setChecked(true);
+        descargaImagen.getPermitir().setChecked(true);
 //        descarga.getConfDescargaAudio().setChecked(true);
 //        descarga.getConfDescargaVideo().setChecked(true);
 
@@ -135,7 +135,7 @@ public class ConfiguracionGeneral {
         dto.setAnonimo(this.getAnonimo().getSelectedValue());
         dto.setAudiochat(this.getAudioChat().getAudioChat().getSelectedValue());
         dto.setBlackMessageAttachMandatory(this.getConfBlackObligatorioAdjunto().isChecked());
-        dto.setDownloadAllowImage(this.getDescarga().getConfDescargaImagen().isChecked());
+        dto.setDownloadAllowImage(this.getDescargaImagen().getSelectedValue());
 //        dto.setDownloadAllowAudio(this.getDescarga().getConfDescargaAudio().isChecked());
 //        dto.setDownloadAllowVideo(this.getDescarga().getConfDescargaVideo().isChecked());
         dto.setExtraEncrypt(this.getExtraEncript().getSelectedValue());
@@ -174,7 +174,7 @@ public class ConfiguracionGeneral {
         temporal.getConfTemporalObligatorio().setChecked(c.isTimeMessageMandatory());
         confBlackObligatorioAdjunto.setChecked(c.isBlackMessageAttachMandatory());
 
-        descarga.getConfDescargaImagen().setChecked(c.isDownloadAllowImage());
+        descargaImagen.setValue(c.getDownloadAllowImage());
 //        descarga.getConfDescargaAudio().setChecked(c.isDownloadAllowAudio());
 //        descarga.getConfDescargaVideo().setChecked(c.isDownloadAllowVideo());
 

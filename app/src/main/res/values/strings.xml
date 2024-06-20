@@ -29,8 +29,12 @@
     </string-array>
 
     <string-array name="main_configuration_app_servers">
-
         <item>http://10.0.2.2:8080</item>
+        <item>http://10.0.2.2:62805/</item>
+        <item>http://181.46.164.43:80</item>
+        <item>http://100.118.42.131:8080/</item>
+        <item>http://100.118.42.131:62805/</item>
+        <item>http://10.0.2.2:8082</item>
         <item>http://192.168.0.176:8080</item>
         <item>http://privacity.ddns.net:8080</item>
 
@@ -43,8 +47,12 @@
 
     <string-array name="main_configuration_help_servers">
         <item>http://10.0.2.2:8080</item>
+        <item>http://10.0.2.2:62805/</item>
+        <item>http://181.46.164.43:80</item>
+        <item>http://100.118.42.131:62805/</item>
+        <item>http://10.0.2.2:8082</item>
         <item>http://192.168.0.176:8080</item>
-
+        <item>http://100.118.42.131:8080/</item>
         <item>http://34.75.84.243:8080</item>
 
 
@@ -53,6 +61,13 @@
 
     <string-array name="main_configuration_ws_servers">
         <item>ws://10.0.2.2:8080</item>
+        <item>ws://100.118.42.131:8080</item>
+        <item>ws:10.0.2.2:8080</item>
+        <item>ws:100.118.42.131:8080</item>
+        <item>http://10.0.2.2:62805</item>
+        <item>http://181.46.164.43:80</item>
+        <item>http://100.118.42.131:62805/</item>
+        <item>http://10.0.2.2:8082</item>
         <item>ws://192.168.0.176:8080</item>
 
         <item>ws://34.75.84.243:8080</item>

@@ -248,12 +248,14 @@ public class AddMembersToGrupoActivity extends CustomAppCompatActivity implement
 
 
         String rol = roles.getSelectedItem().toString();
-        if (rol.equals(getString(R.string.rol_miembro))){
+        if (rol.equals(getString(R.string.rol_lectura))) {
+            o.setRole(GrupoRolesEnum.READONLY);
+        } else if (rol.equals(getString(R.string.rol_miembro))){
             o.setRole(GrupoRolesEnum.MEMBER);
+        }else if (rol.equals(getString(R.string.rol_lectura))){
+            o.setRole(GrupoRolesEnum.MODERATOR);
         }else if (rol.equals(getString(R.string.rol_admin))){
             o.setRole(GrupoRolesEnum.ADMIN);
-        }else if (rol.equals(getString(R.string.rol_lectura))){
-            o.setRole(GrupoRolesEnum.READONLY);
         }else {
             throw new Exception("NO EXISTE EL ROL");
         }

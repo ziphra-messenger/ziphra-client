@@ -16,22 +16,24 @@ public class AESEncrypt {
         return encrypt(aesdto, SingletonValues.getInstance().getEncryptKeysToUse().getPublicKey());
     }
     public static AESDTO encrypt(AESDTO aesdto, PublicKey publicKey) throws IOException, GeneralSecurityException {
+        AESDTO r = new AESDTO();
+
         RSA t = new RSA();
         {
             byte[] enc = t.encryptFilePublic(aesdto.getSecretKeyAES().getBytes(), publicKey);
-            aesdto.setSecretKeyAES(Base64.getEncoder().encodeToString(enc));
+            r.setSecretKeyAES(Base64.getEncoder().encodeToString(enc));
         }
 
         {
             byte[] enc = t.encryptFilePublic(aesdto.getSaltAES().getBytes(), publicKey);
-            aesdto.setSaltAES(Base64.getEncoder().encodeToString(enc));
+            r.setSaltAES(Base64.getEncoder().encodeToString(enc));
         }
         {
             byte[] enc = t.encryptFilePublic(aesdto.getIteration().getBytes(), publicKey);
-            aesdto.setIteration(Base64.getEncoder().encodeToString(enc));
+            r.setIteration(Base64.getEncoder().encodeToString(enc));
         }
 
-        return aesdto;
+        return r;
     }
 
     public static AESDTO desencrypt(AESDTO aesdto, PrivateKey privateKey) throws IOException, GeneralSecurityException {

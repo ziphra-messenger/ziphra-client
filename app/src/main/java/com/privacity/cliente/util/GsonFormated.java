@@ -9,7 +9,7 @@ public class GsonFormated {
 
     public static Gson get(){
         return new GsonBuilder()
-                .setPrettyPrinting()
+                //.setPrettyPrinting()
                 .registerTypeAdapter(LocalDateTime.class, new LocalDateAdapter())
 //                .registerTypeAdapter(byte[].class, new ByteArrayToBase64TypeAdapter())
                 .create();

@@ -15,7 +15,7 @@ public class MessageAttach {
     protected final ImageButton audio;
     protected final ImageButton doc;
     protected final ImageButton camera;
-
+    protected final ImageButton video;
     protected final View contenedor;
 
     protected final Activity activity;
@@ -27,6 +27,7 @@ public class MessageAttach {
         audio = (ImageButton) activity.findViewById(R.id.message_attach_audio);
         doc = (ImageButton) activity.findViewById(R.id.message_attach_doc);
         camera = (ImageButton) activity.findViewById(R.id.message_attach_camera);
+        video = (ImageButton) activity.findViewById(R.id.message_attach_video);
 
         contenedor  = (View) activity.findViewById(R.id.message_attach_contenedor);
 
@@ -37,7 +38,7 @@ public class MessageAttach {
     public void setListener(){
 
         camera.setOnClickListener(TakePhoto.getListener(activity));
-
+        video.setOnClickListener(TakeVideo.getListener(activity));
 
         image.setOnClickListener(GetImage.getListener(activity));
 

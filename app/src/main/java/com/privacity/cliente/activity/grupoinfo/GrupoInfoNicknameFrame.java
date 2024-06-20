@@ -20,7 +20,10 @@ import com.privacity.cliente.util.GsonFormated;
 import com.privacity.cliente.util.MenuAcordeonObject;
 import com.privacity.cliente.util.MenuAcordeonUtil;
 import com.privacity.cliente.util.NicknameUtil;
+import com.privacity.common.config.ConstantProtocolo;
 import com.privacity.common.dto.ProtocoloDTO;
+import com.privacity.common.dto.request.GrupoInfoNicknameRequestDTO;
+import com.privacity.common.dto.request.RegisterUserRequestDTO;
 
 import org.springframework.http.ResponseEntity;
 
@@ -115,13 +118,17 @@ public class GrupoInfoNicknameFrame {
         if (!validationSave()) return;
 
         ProgressBarUtil.show(activity, activity.progressBar);
-        String dto =  buildDTO();
+
 
         ProtocoloDTO p = new ProtocoloDTO();
-/*        p.setComponent(ConstantProtocolo.PROTOCOLO_COMPONENT_MY_ACCOUNT);
-        p.setAction(ConstantProtocolo.PROTOCOLO_ACTION_GRUPO_INFO_SAVE_NICKNAME);
-*/
-        p.setObjectDTO(GsonFormated.get().toJson(dto));
+       p.setComponent(ConstantProtocolo.PROTOCOLO_COMPONENT_GRUPO);
+        p.setAction(ConstantProtocolo.PROTOCOLO_ACTION_GRUPO_SAVE_NICKNAME);
+
+        GrupoInfoNicknameRequestDTO l = new GrupoInfoNicknameRequestDTO();
+        l.setNickname(nickname.getText().toString());
+        l.setIdGrupo(SingletonValues.getInstance().getGrupoSeleccionado().getIdGrupo());
+
+        p.setObjectDTO(GsonFormated.get().toJson(l));
 
 
         RestExecute.doit(activity, p,
@@ -132,7 +139,10 @@ public class GrupoInfoNicknameFrame {
                         ProgressBarUtil.hide(activity, activity.progressBar);
                         //SingletonValues.getInstance().getUsuario().setNickname(nickname.getText().toString());
                         //SingletonValues.getInstance().getMyAccountConfDTO().setShowAlias(aliasSwitch.isChecked());
-                        Observers.grupo().getGrupoById(SingletonValues.getInstance().getGrupoSeleccionado().getIdGrupo()).setAlias(nickname.getText().toString());
+
+
+                        SingletonValues.getInstance().getGrupoSeleccionado().getUserForGrupoDTO().setNickname ( nickname.getText().toString());
+                        //loadValues();
                         Toast.makeText(activity,"Guardado",Toast. LENGTH_SHORT).show();
                     }
 
@@ -155,13 +165,13 @@ public class GrupoInfoNicknameFrame {
     private boolean validationSave() {
 
         if (!NicknameUtil.validarNickname(activity, nickname,true)) return false;
-        if (!NicknameUtil.compareCurrentNickname(
-                SingletonValues.getInstance().getGrupoSeleccionado().getIdGrupo(),
+/*        if (!NicknameUtil.compareCurrentNickname(
+                SingletonValues.getInstance().getGrupoSeleccionado().getUserForGrupoDTO().getNicknameGrupo(),
                 nickname)){
             Toast.makeText(activity,"Guardado",Toast. LENGTH_SHORT).show();
             return false;
         }
-
+*/
         return true;
     }
 
@@ -171,8 +181,8 @@ public class GrupoInfoNicknameFrame {
 
 
     public void loadValues() {
-        nickname.setText(Observers.grupo().getGrupoById(SingletonValues.getInstance().getGrupoSeleccionado().getIdGrupo()).getAlias());
-        help.setText(help.getText().toString() + " " + SingletonValues.getInstance().getUsuario().getNickname());
+        nickname.setText(SingletonValues.getInstance().getGrupoSeleccionado().getUserForGrupoDTO().getNickname());
+                help.setText(help.getText().toString() + " " + SingletonValues.getInstance().getUsuario().getNickname());
 
     }
 }

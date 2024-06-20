@@ -41,6 +41,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
@@ -179,6 +180,10 @@ public class MessageActivity extends GrupoSelectedCustomAppCompatActivity
     private ImageButton ibMessageAvanzadoHideSecretKey;
     private Spinner spMessageAvanzadoBlackAlways;
     private Spinner spMessageAvanzadoAnonimoAlways;
+
+    private Spinner spMessageAvanzadoAllowDownloadImage;
+    private CheckBox cbMessageAvanzadoAllowDownloadAudio;
+    private CheckBox cbMessageAvanzadoAllowDownloadVideo;
 
     private Spinner spMessageAvanzadoTimeAlways;
     private Spinner spMessageAvanzadoReenvio;
@@ -426,6 +431,7 @@ public class MessageActivity extends GrupoSelectedCustomAppCompatActivity
         c.setTimeMessageAlways(MessageUtil.getGrupoUserConfEnum(spMessageAvanzadoTimeAlways, true));
         c.setPermitirReenvio(MessageUtil.getGrupoUserConfEnum(spMessageAvanzadoReenvio,true));
         c.setExtraAesAlways(MessageUtil.getGrupoUserConfEnum(spMessageAvanzadoExtraAesAlways,true));
+        c.setDownloadAllowImage(MessageUtil.getGrupoUserConfEnum(spMessageAvanzadoAllowDownloadImage,true));
         //c.setNicknameForGrupo(etMessageAvanzadoNicknameForGrupo.getText().toString());
         return c;
     }
@@ -447,6 +453,16 @@ public class MessageActivity extends GrupoSelectedCustomAppCompatActivity
         setSpinnerListener(spMessageAvanzadoChageNicknameNumber,R.id.tv_message_avanzado_change_nickname_number);
 
 
+        spMessageAvanzadoAllowDownloadImage.setSelection(MessageUtil.getSpinnerItem(MasterGeneralConfiguration.buildImageDownload(getGrupoSeleccionado().getIdGrupo()),false));
+        setSpinnerListener(spMessageAvanzadoAllowDownloadImage,R.id.tv_message_avanzado_allow_download_imagen);
+
+
+        /*
+        private CheckBox cbMessageAvanzadoAllowDownloadImage;
+        private CheckBox cbMessageAvanzadoAllowDownloadAudio;
+        private CheckBox cbMessageAvanzadoAllowDownloadVideo;
+
+ */
         /*
                     Resources res = activity.getResources();
             String[] a = res.getStringArray(R.array.time_messages_values_in_seconds);
@@ -541,6 +557,11 @@ public class MessageActivity extends GrupoSelectedCustomAppCompatActivity
         //spinnerTime = (Spinner) findViewById(R.id.sp_message_avanzado_time_values);
         //spinnerTime.setSelection(1);
 
+        spMessageAvanzadoAllowDownloadImage = (Spinner) findViewById(R.id.sp_message_avanzado_allow_download_imagen);
+        cbMessageAvanzadoAllowDownloadAudio = (CheckBox) findViewById(R.id.ib_message_avanzado_allow_download_audio);
+        cbMessageAvanzadoAllowDownloadVideo = (CheckBox) findViewById(R.id.ib_message_avanzado_allow_download_video);
+
+
 
         spMessageAvanzadoChageNicknameNumber = (Spinner) findViewById(R.id.sp_message_avanzado_change_nickname_number);
         spMessageAvanzadoBlackAlways = (Spinner) findViewById(R.id.sp_message_avanzado_black_always);
@@ -599,6 +620,9 @@ public class MessageActivity extends GrupoSelectedCustomAppCompatActivity
         renderSpinner(spMessageAvanzadoBlackRecepcion, MasterGeneralConfiguration.buildSiempreBlackReceptionConfigurationByGrupo(getGrupoSeleccionado().getIdGrupo()),false);
         renderSpinner(spMessageAvanzadoAnonimoRecepcion, MasterGeneralConfiguration.buildSiempreAnonimoReceptionConfigurationByGrupo(getGrupoSeleccionado().getIdGrupo()),false);
 
+
+        renderSpinner(spMessageAvanzadoAllowDownloadImage, MasterGeneralConfiguration.buildImageDownload(getGrupoSeleccionado().getIdGrupo()),true);
+
 //        if (GrupoUtil.isGrupoDeDos(MessageActivity.this.grupoSeleccionado)){
 //            spMessageAvanzadoAnonimoAlways.setSelection(1);
 //            spMessageAvanzadoAnonimoRecepcion.setSelection(1);
@@ -611,6 +635,7 @@ public class MessageActivity extends GrupoSelectedCustomAppCompatActivity
         setAvanzadoSpinnerColor(spMessageAvanzadoBlackAlways,false,null,null);
         setAvanzadoSpinnerColor(spMessageAvanzadoChageNicknameNumber,true,(TextView)findViewById(R.id.tv_message_avanzado_change_nickname_number),MasterGeneralConfiguration.buildHideNicknameConfigurationByGrupo(getGrupoSeleccionado().getIdGrupo()));
         setAvanzadoSpinnerColor(spMessageAvanzadoAnonimoAlways,true,(TextView)findViewById(R.id.tv_message_avanzado_anonimo_always),MasterGeneralConfiguration.buildSiempreAnonimoConfigurationByGrupo(getGrupoSeleccionado().getIdGrupo()));
+        setAvanzadoSpinnerColor(spMessageAvanzadoAllowDownloadImage,true,(TextView)findViewById(R.id.tv_message_avanzado_allow_download_imagen),MasterGeneralConfiguration.buildImageDownload(getGrupoSeleccionado().getIdGrupo()));
 
         setAvanzadoSpinnerColor(spMessageAvanzadoTimeAlways,true,(TextView)findViewById(R.id.tv_message_avanzado_time_always),MasterGeneralConfiguration.buildSiempreTemporalConfigurationByGrupo(getGrupoSeleccionado().getIdGrupo()));
         setAvanzadoSpinnerColor(spMessageAvanzadoReenvio,true,(TextView)findViewById(R.id.tv_message_avanzado_reenvio),MasterGeneralConfiguration.buildResendPermitidoConfigurationByGrupo(getGrupoSeleccionado().getIdGrupo()));
@@ -619,6 +644,8 @@ public class MessageActivity extends GrupoSelectedCustomAppCompatActivity
 //
         setAvanzadoSpinnerColor(spMessageAvanzadoBlackRecepcion, adapter,false,null,null);
         setAvanzadoSpinnerColor(spMessageAvanzadoAnonimoRecepcion,adapter,false,null,null);
+
+        //setAvanzadoSpinnerColor(spMessageAvanzadoAllowDownloadImage,adapter,false,null,null);
 
         tvMessageSecretKey.setText(getGrupoSeleccionado().getPassword().getPasswordExtraEncrypt());
     }
@@ -1214,6 +1241,7 @@ public class MessageActivity extends GrupoSelectedCustomAppCompatActivity
 
         return false;
     }
+
     @Override
     public boolean onContextItemSelected(MenuItem item) {
 
@@ -1319,6 +1347,8 @@ public class MessageActivity extends GrupoSelectedCustomAppCompatActivity
 
         }
 
+
+
         (new MessageUtil()).sendMessage(MessageActivity.this,
                 idMessageDTOreply,
                 extraAesToUse,
@@ -1369,8 +1399,6 @@ public class MessageActivity extends GrupoSelectedCustomAppCompatActivity
         }else if ( id == R.id.menu_message_grupo_info){
             Intent intent = new Intent(this, GrupoInfoActivity.class);
             startActivity(intent);
-
-
 
         }else{
             if (getGrupoSeleccionado().getIdGrupo() != null){
@@ -1942,7 +1970,7 @@ public class MessageActivity extends GrupoSelectedCustomAppCompatActivity
                 //String encoded = Base64.encodeToString(byteArray, Base64.DEFAULT);
 
                 mediaDTO.setData(byteArray);
-                mediaDTO.setMediaType(MediaTypeEnum.IMAGE.name());
+                mediaDTO.setMediaType(MediaTypeEnum.IMAGE);
             }
 
             {
@@ -1966,7 +1994,7 @@ public class MessageActivity extends GrupoSelectedCustomAppCompatActivity
             audioList.clear();
 
             mediaDTO.setData(byteArray);
-            mediaDTO.setMediaType(MediaTypeEnum.AUDIO_MESSAGE.name());
+            mediaDTO.setMediaType(MediaTypeEnum.AUDIO_MESSAGE);
         }
 
 

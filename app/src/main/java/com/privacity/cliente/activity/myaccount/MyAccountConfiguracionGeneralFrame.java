@@ -128,6 +128,9 @@ public class MyAccountConfiguracionGeneralFrame {
                     @Override
                     public void response(ResponseEntity<ProtocoloDTO> response) {
                         ProgressBarUtil.hide(activity, activity.progressBar);
+                        dto.setLock(SingletonValues.getInstance().getMyAccountConfDTO().getLock());
+                        SingletonValues.getInstance().setMyAccountConfDTO(dto);
+
                         SingletonValues.getInstance().setMyAccountConfDTO(dto);
                         Toast.makeText(activity,"Guardado",Toast. LENGTH_SHORT).show();
                     }

@@ -397,7 +397,7 @@ public class RecyclerMessageAdapter extends RecyclerView.Adapter<RecyclerHolder>
                     if (!item.isOcularDetails()) {
                         SingletonValues.getInstance().setImagenFull(bit2);
                         Intent intent = new Intent(v.getContext(), ImageFullActivity.class);
-                        //intent.putExtra("imagen", b);
+                        intent.putExtra("idMessageToMap", item.getMessage().getIdMessageToMap());
                         v.getContext().startActivity(intent);
                     }
 

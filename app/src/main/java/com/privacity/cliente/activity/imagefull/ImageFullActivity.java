@@ -22,9 +22,13 @@ import androidx.appcompat.app.ActionBar;
 import com.privacity.cliente.R;
 import com.privacity.cliente.activity.common.CustomAppCompatActivity;
 import com.privacity.cliente.model.Grupo;
+import com.privacity.cliente.model.Message;
 import com.privacity.cliente.singleton.Observers;
 import com.privacity.cliente.singleton.SingletonValues;
+import com.privacity.cliente.singleton.interfaces.ObservadoresMensajes;
 import com.privacity.cliente.singleton.interfaces.ObservadoresPasswordGrupo;
+import com.privacity.cliente.singleton.observers.ObserverGrupo;
+import com.privacity.cliente.singleton.observers.ObserverMessage;
 
 public  class ImageFullActivity extends CustomAppCompatActivity implements ObservadoresPasswordGrupo, View.OnTouchListener {
 
@@ -48,7 +52,7 @@ public  class ImageFullActivity extends CustomAppCompatActivity implements Obser
     PointF mid = new PointF();
     float oldDist = 1f;
     private ImageView view;
-
+    String idMessageToMap;
     @Override
     protected boolean isOnlyAdmin() {
         return false;
@@ -63,10 +67,10 @@ public  class ImageFullActivity extends CustomAppCompatActivity implements Obser
         actionBar.setTitle("Visor de Imagen");
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         Observers.passwordGrupo().suscribirse(this);
-        //Bundle b = getIntent().getExtras();
+        Bundle b = getIntent().getExtras();
         //Bitmap index = b.getParcelable("imagen");
 
-        //Bitmap imagen = getIntent().getStringExtra("imagen");
+        idMessageToMap = getIntent().getStringExtra("idMessageToMap");
 
         view  = (ImageView)findViewById(R.id.iv_imagefull_image);
         //Bitmap bit = convert(imagen);
@@ -97,6 +101,19 @@ public  class ImageFullActivity extends CustomAppCompatActivity implements Obser
         int id = itemMenu.getItemId();
 
         if ( id ==R.id.menu_descargar){
+
+            Message m = ObserverMessage.getInstance().getMensajesPorId(idMessageToMap);
+//            m.getMediaDTO().isDownloadable()
+           Grupo g = ObserverGrupo.getInstance().getGrupoById(m.getIdGrupo());
+            if (!m.getMediaDTO().isDownloadable()
+            ){
+
+                Toast tost = Toast.makeText(getBaseContext(), "El Mensaje no permite descargar su Imagen", Toast.LENGTH_SHORT);
+                tost.show();
+
+                return true;
+            }
+
             view.buildDrawingCache();
             Bitmap bmap = view.getDrawingCache();
 

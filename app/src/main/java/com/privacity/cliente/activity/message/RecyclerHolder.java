@@ -432,6 +432,28 @@ public class RecyclerHolder extends RecyclerView.ViewHolder /*implements View.On
             rch.setOwnMessage(true);
         }
 
+
+        if (item.getMessage().isTimeMessage()){
+            rch.setMessageTimeActive(true);
+            rch.getBtActivateMessageTime().setVisibility(View.VISIBLE);
+            rch.getLayoutMessageFrame().setVisibility(View.VISIBLE);
+            rch.getLayoutMessageContentData().setVisibility(View.GONE);
+
+
+        }else{
+            rch.setMessageTimeActive(false);
+            rch.getBtActivateMessageTime().setVisibility(View.GONE);
+
+        }
+
+        if (!rch.isMessageBlackActive() &&  !rch.isMessageTimeActive()){
+            rch.getLayoutAllMessageSinPersonalEncrypt().setVisibility(View.VISIBLE);
+        }
+        if (item.getMessage().getText() != null && !item.getMessage().getText().equals("")){
+            rch.getTvMessageListText().setVisibility(View.VISIBLE);
+        }else{
+            rch.getTvMessageListText().setVisibility(View.GONE);
+        }
         if (!isReply && (item.getMessage().isBlackMessage() ||
                 MasterGeneralConfiguration.buildSiempreBlackReceptionConfigurationByGrupo(item.getMessage().getIdGrupo()).isValue())
         ){
@@ -460,29 +482,7 @@ public class RecyclerHolder extends RecyclerView.ViewHolder /*implements View.On
             rch.getLayoutMessageFrame().setVisibility(View.VISIBLE);
 
         }
-        if (item.getMessage().isTimeMessage()){
-            rch.setMessageTimeActive(true);
-            rch.getBtActivateMessageTime().setVisibility(View.VISIBLE);
-            rch.getLayoutMessageFrame().setVisibility(View.VISIBLE);
-            rch.getLayoutMessageContentData().setVisibility(View.GONE);
-
-
-        }else{
-            rch.setMessageTimeActive(false);
-            rch.getBtActivateMessageTime().setVisibility(View.GONE);
-
-        }
-
-        if (!rch.isMessageBlackActive() &&  !rch.isMessageTimeActive()){
-            rch.getLayoutAllMessageSinPersonalEncrypt().setVisibility(View.VISIBLE);
-        }
-        if (item.getMessage().getText() != null && !item.getMessage().getText().equals("")){
-            rch.getTvMessageListText().setVisibility(View.VISIBLE);
-        }else{
-            rch.getTvMessageListText().setVisibility(View.GONE);
-        }
-
-        if (item.getMessage().getMediaDTO() != null && item.getMessage().getMediaDTO().getMediaType().equals(MediaTypeEnum.AUDIO_MESSAGE.name())){
+        if (item.getMessage().getMediaDTO() != null && item.getMessage().getMediaDTO().getMediaType().equals(MediaTypeEnum.AUDIO_MESSAGE)){
 
             rch.getLayoutAudiochat().setVisibility(View.VISIBLE);
 
@@ -504,7 +504,7 @@ public class RecyclerHolder extends RecyclerView.ViewHolder /*implements View.On
             rch.getLayoutAudiochat().setVisibility(View.GONE);
             rch.setHasMediaAudioChat(false);
         }
-        if (item.getMessage().getMediaDTO() != null && item.getMessage().getMediaDTO().getMediaType().equals(MediaTypeEnum.IMAGE.name())){
+        if (item.getMessage().getMediaDTO() != null && item.getMessage().getMediaDTO().getMediaType().equals(MediaTypeEnum.IMAGE)){
             rch.getLayoutItemListImage().setVisibility(View.VISIBLE);
 
             if (item.getMessage().getMediaDTO().getData() != null){

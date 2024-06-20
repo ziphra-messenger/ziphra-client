@@ -74,7 +74,7 @@ public class ListListener {
 
                         @Override
                         public void run() {
-                            if (!rch.isHasMediaAudioChat()){
+                            if (!rch.isHasMediaAudioChat() && !item.getMessage().isTimeMessage()){
 
                                 Observers.message().cambiarEstadoUso(item.getMessageDetailDTO(), true,context);
                             }

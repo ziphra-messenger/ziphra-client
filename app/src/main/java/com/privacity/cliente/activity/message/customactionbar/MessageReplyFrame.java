@@ -82,11 +82,11 @@ public class MessageReplyFrame {
         }
 
         if ( parentReply.getMessage().getMediaDTO() != null ){
-            if (parentReply.getMessage().getMediaDTO().getMediaType().equals(MediaTypeEnum.AUDIO_MESSAGE.name())){
+            if (parentReply.getMessage().getMediaDTO().getMediaType().equals(MediaTypeEnum.AUDIO_MESSAGE)){
                 text.setText("Mensaje de Audio");
             }
 
-            if (parentReply.getMessage().getMediaDTO().getMediaType().equals(MediaTypeEnum.IMAGE.name())){
+            if (parentReply.getMessage().getMediaDTO().getMediaType().equals(MediaTypeEnum.IMAGE)){
                 image.setImageDrawable(parentReply.getRch().getIvItemListImageMedia().getDrawable());
             }else{
                 image.setVisibility(View.GONE);

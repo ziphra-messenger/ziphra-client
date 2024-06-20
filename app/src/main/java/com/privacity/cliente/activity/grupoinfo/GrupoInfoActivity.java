@@ -31,7 +31,6 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.privacity.cliente.R;
 import com.privacity.cliente.activity.addmember.AddMembersToGrupoActivity;
 import com.privacity.cliente.activity.common.CustomAppCompatActivity;
-import com.privacity.cliente.activity.message.MessageActivity;
 import com.privacity.cliente.activity.message.delegate.BloqueoRemotoDelegate;
 import com.privacity.cliente.common.error.SimpleErrorDialog;
 import com.privacity.cliente.model.Grupo;
@@ -204,11 +203,16 @@ public class GrupoInfoActivity extends CustomAppCompatActivity implements
                 )
         );
 
-        configuracionGeneral.setDescarga(new ConfiguracionGeneralDescarga(
-                (CheckBox) findViewById(R.id.grupo_info_conf_descarga_imagen)
-//                (CheckBox) findViewById(R.id.grupo_info_conf_descarga_audio),
-//                (CheckBox) findViewById(R.id.grupo_info_conf_descarga_video)
-        ));
+
+
+        configuracionGeneral.setDescargaImagen(new MultipleOption(
+                (TextView) findViewById(R.id.grupo_info_conf_imagen_descarga_titulo),
+                (RadioGroup) findViewById(R.id.grupo_info_conf_imagen_descarga_grupo),
+                (RadioButton)findViewById(R.id.grupo_info_conf_imagen_descarga_permitir),
+                (RadioButton)findViewById(R.id.grupo_info_conf_imagen_descarga_bloquear),
+               null)
+        );
+
         configuracionGeneral.setOtras(new ConfiguracionGeneralOtras(
                 (CheckBox) findViewById(R.id.grupo_info_conf_gen_cambiar_nickname),
                 (CheckBox) findViewById(R.id.grupo_info_conf_gen_ocultar_detalles),
@@ -495,15 +499,19 @@ getIdsMyGrupos();
         Observers.passwordGrupo().remove(this);
     }
     private List<ItemListGrupoInfo> getItems() {
+        ArrayList<ItemListGrupoInfo> r = new ArrayList<ItemListGrupoInfo>();
+        if (ObserverGrupo.getInstance().getGrupoById(SingletonValues.getInstance().getGrupoSeleccionado().getIdGrupo()) != null){
+
 
         UserForGrupoDTO[] list = ObserverGrupo.getInstance().getGrupoById(SingletonValues.getInstance().getGrupoSeleccionado().getIdGrupo()).getUsersForGrupoDTO();
-        ArrayList<ItemListGrupoInfo> r = new ArrayList<ItemListGrupoInfo>();
+
 
         for (int k = 0; k < list.length ; k++){
             ItemListGrupoInfo i = new ItemListGrupoInfo();
             UserForGrupoDTO e = list[k];
             i.setUsersForGrupoDTO(e);
             r.add(i);
+        }
         }
 
 

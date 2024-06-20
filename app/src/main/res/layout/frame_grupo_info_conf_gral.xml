@@ -93,7 +93,69 @@
                     android:layout_marginStart="3dp"
                     android:layout_marginTop="10dp"
                     android:layout_span="3"
+                    android:text="Politica de Descarga de Imagenes adjuntas"
+                    android:textSize="16sp"
+                    android:textStyle="bold" />
+            </TableRow>
+
+            <TableRow
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginStart="3dp"
+                android:textAlignment="center">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:orientation="horizontal">
+
+                    <RadioGroup
+                        android:id="@+id/grupo_info_conf_imagen_descarga_grupo"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:tag="@string/rol_admin">
+
+                        <RadioButton
+                            android:id="@+id/grupo_info_conf_imagen_descarga_permitir"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="5dp"
+                            android:layout_weight="3"
+                            android:buttonTint="#420808"
+                            android:tag="@string/rol_admin"
+                            android:text="Sin politica" />
+
+                        <RadioButton
+                            android:id="@+id/grupo_info_conf_imagen_descarga_bloquear"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="5dp"
+                            android:layout_weight="3"
+                            android:buttonTint="#420808"
+                            android:tag="@string/rol_admin"
+                            android:text="Nunca Permitir" />
+
+
+                    </RadioGroup>
+                </LinearLayout>
+
+            </TableRow>
+
+            <TableRow
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <TextView
+                    android:id="@+id/grupo_info_conf_imagen_descarga_titulo"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="3dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_span="3"
                     android:text="Politica de Mensajes Anonimos"
+
                     android:textSize="16sp"
                     android:textStyle="bold" />
             </TableRow>
@@ -150,8 +212,6 @@
                 </LinearLayout>
 
             </TableRow>
-
-
             <TableRow
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
@@ -369,22 +429,6 @@
             </TableRow>
 
             <TableRow
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="3dp">
-
-                <TextView
-                    android:id="@+id/textView32"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_span="3"
-                    android:text="Permitir Descargas de:"
-                    android:textSize="16sp"
-                    android:textStyle="bold" />
-
-            </TableRow>
-
-            <TableRow
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="3dp"
@@ -402,38 +446,11 @@
                         android:layout_height="wrap_content"
                         android:orientation="horizontal">
 
-                        <CheckBox
-                            android:id="@+id/grupo_info_conf_descarga_imagen"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_margin="7dp"
-                            android:layout_weight="1"
-                            android:backgroundTint="#8F6969"
-                            android:buttonTint="#420808"
-                            android:tag="@string/rol_admin"
-                            android:text="Imagen" />
 
-                        <CheckBox
-                            android:id="@+id/grupo_info_conf_descarga_audio"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_margin="7dp"
-                            android:layout_weight="1"
-                            android:buttonTint="#420808"
-                            android:tag="@string/rol_admin"
-                            android:text="Audio"
-                            android:visibility="gone" />
 
-                        <CheckBox
-                            android:id="@+id/grupo_info_conf_descarga_video"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_margin="7dp"
-                            android:layout_weight="1"
-                            android:buttonTint="#420808"
-                            android:tag="@string/rol_admin"
-                            android:text="Video"
-                            android:visibility="gone" />
+                        <TableRow
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"/>
 
                     </LinearLayout>
 

@@ -27,7 +27,8 @@ public class NicknameUtil {
 
     public static boolean compareCurrentNickname(String idGrupo , TextView t) {
         String nicknameActual = Observers.grupo().getGrupoById(idGrupo).getAlias();
-        return nicknameActual.equals(t.getText().toString());
+
+        return t.getText().toString().equals(nicknameActual);
     }
     public static boolean validarNickname(Activity activity, TextView t) {
         return validarNickname(activity,t, false);

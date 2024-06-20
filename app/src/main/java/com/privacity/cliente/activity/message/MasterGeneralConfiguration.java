@@ -1,5 +1,7 @@
 package com.privacity.cliente.activity.message;
 
+import android.widget.CheckBox;
+
 import com.privacity.cliente.model.Grupo;
 import com.privacity.cliente.singleton.Observers;
 import com.privacity.cliente.singleton.SingletonValues;
@@ -56,7 +58,7 @@ public class MasterGeneralConfiguration {
 
         GrupoUserConfDTO grupoUser = Observers.grupo().getGrupoById(idGrupo).getUserConfDTO();
 
-        if ( grupoUser.getBlackMessageAlways().equals(GrupoUserConfEnum.GRUPO_TRUE) ) {
+        if ( GrupoUserConfEnum.GRUPO_TRUE.equals(grupoUser.getBlackMessageAlways()) ) {
             ConfType conf = new ConfType();
             conf.setValue(true);
             return conf;
@@ -70,7 +72,7 @@ public class MasterGeneralConfiguration {
 
         GrupoUserConfDTO grupoUser = Observers.grupo().getGrupoById(idGrupo).getUserConfDTO();
 
-        if ( grupoUser.getBlackMessageRecived().equals(GrupoUserConfEnum.GRUPO_TRUE) ) {
+        if ( GrupoUserConfEnum.GRUPO_TRUE.equals(grupoUser.getBlackMessageRecived()) ) {
             ConfType conf = new ConfType();
             conf.setValue(true);
             return conf;
@@ -155,7 +157,7 @@ public class MasterGeneralConfiguration {
         return conf;
     }
 
-    public static ConfType buildSiempreAnonimoConfigurationByGrupo(String idGrupo){
+    public static ConfType  buildSiempreAnonimoConfigurationByGrupo(String idGrupo){
 
         Grupo grupo = Observers.grupo().getGrupoById(idGrupo);
 
@@ -225,4 +227,40 @@ public class MasterGeneralConfiguration {
 
         return conf;
     }
+
+    public static ConfType buildImageDownload(String idGrupo){
+
+        Grupo grupo = Observers.grupo().getGrupoById(idGrupo);
+
+        GrupoUserConfDTO grupoUser = Observers.grupo().getGrupoById(idGrupo).getUserConfDTO();
+        GrupoGralConfDTO grupoGeneral = grupo.getGralConfDTO();
+        //MyAccountConfDTO myAccount = SingletonValues.getInstance().getMyAccountConfDTO();
+        //
+        ConfType conf = new ConfType();
+
+        if (grupoGeneral.getDownloadAllowImage().equals(ConfigurationStateEnum.BLOCK)){
+            conf.setValue(false);
+            conf.setSuperiorConf(false);
+            conf.setSuperiorValue(false);
+            conf.setGanaGrupo(true);
+        }if (grupoGeneral.getDownloadAllowImage().equals(ConfigurationStateEnum.MANDATORY)){
+            conf.setValue(true);
+            conf.setSuperiorConf(true);
+            conf.setSuperiorValue(true);
+            conf.setGanaGrupo(true);
+        }else{
+            if ( grupoUser.getDownloadAllowImage().equals(GrupoUserConfEnum.GRUPO_TRUE) ){
+                conf.setValue(true);
+            }
+            if ( grupoUser.getDownloadAllowImage().equals(GrupoUserConfEnum.GRUPO_FALSE) ){
+                conf.setValue(false);
+            }
+
+            conf.setSuperiorValue(false);
+
+        }
+
+        return conf;
+    }
+
 }

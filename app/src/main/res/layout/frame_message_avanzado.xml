@@ -333,21 +333,36 @@
             android:orientation="horizontal">
 
             <CheckBox
-                android:id="@+id/checkBox7"
+                android:id="@+id/ib_message_avanzado_allow_download_audio"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Audio"
                 android:textSize="10sp" />
 
-            <CheckBox
-                android:id="@+id/checkBox4"
+            <TextView
+                android:id="@+id/textVie2w6"
+                android:layout_width="65dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="3dp"
+                android:text="Imagen" />
+
+            <Spinner
+
+                android:id="@+id/sp_message_avanzado_allow_download_imagen"
+                android:layout_width="105dp"
+                android:layout_height="match_parent"
+
+                android:spinnerMode="dialog"
+                android:textSize="14sp" />
+
+            <TextView
+                android:id="@+id/tv_message_avanzado_allow_download_imagen"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Imagen"
-                android:textSize="10sp" />
-
+                android:text="TextView"
+                android:visibility="gone" />
             <CheckBox
-                android:id="@+id/checkBox8"
+                android:id="@+id/ib_message_avanzado_allow_download_video"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Video"

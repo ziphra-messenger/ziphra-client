@@ -183,8 +183,9 @@ public class ObserverGrupo implements SingletonReset {
 
     public void updateGrupoAcceptInvitation(Grupo l) {
         Grupo grupoActual = misGrupoPorId.get(l.getIdGrupo());
-        grupoActual.setGrupoInvitationDTO(l.getGrupoInvitationDTO());
+        grupoActual.setGrupoInvitationDTO(null);
         grupoActual.setUserConfDTO(l.getUserConfDTO());
+
         grupoActual.setUserForGrupoDTO(l.getUserForGrupoDTO());
         grupoActual.setGralConfDTO(l.getGralConfDTO());
         grupoActual.setAlias(l.getAlias());

@@ -5,16 +5,21 @@ import android.content.res.Resources;
 import android.util.Log;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.privacity.cliente.R;
 import com.privacity.cliente.activity.message.ConfType;
+import com.privacity.cliente.activity.message.MasterGeneralConfiguration;
 import com.privacity.cliente.common.error.SimpleErrorDialog;
 import com.privacity.cliente.encrypt.AEStoUse;
+import com.privacity.cliente.model.Grupo;
 import com.privacity.cliente.model.Message;
 import com.privacity.cliente.rest.CallbackRest;
 import com.privacity.cliente.rest.RestExecute;
 import com.privacity.cliente.singleton.Observers;
 import com.privacity.cliente.singleton.SingletonValues;
+import com.privacity.cliente.singleton.observers.ObserverGrupo;
+import com.privacity.cliente.singleton.observers.ObserverMessage;
 import com.privacity.common.dto.GrupoUserConfDTO;
 import com.privacity.common.dto.IdMessageDTO;
 import com.privacity.common.dto.MediaDTO;
@@ -23,6 +28,7 @@ import com.privacity.common.dto.MessageDetailDTO;
 import com.privacity.common.dto.ProtocoloDTO;
 import com.privacity.common.dto.UsuarioDTO;
 import com.privacity.common.enumeration.GrupoUserConfEnum;
+import com.privacity.common.enumeration.MediaTypeEnum;
 import com.privacity.common.enumeration.MessageState;
 
 import org.springframework.http.ResponseEntity;
@@ -41,7 +47,9 @@ public class MessageUtil {
         conf.setTimeMessageAlways(GrupoUserConfEnum.GRUPO_FALSE);
         conf.setAnonimoAlways(GrupoUserConfEnum.GRUPO_FALSE);
         conf.setPermitirReenvio(GrupoUserConfEnum.GRUPO_TRUE);
-
+        conf.setDownloadAllowImage(GrupoUserConfEnum.GRUPO_TRUE);
+        conf.setDownloadAllowAudio(GrupoUserConfEnum.GRUPO_TRUE);
+        conf.setDownloadAllowVideo(GrupoUserConfEnum.GRUPO_TRUE);
         conf.setTimeMessageSeconds(300);
 
         conf.setBlackMessageRecived(GrupoUserConfEnum.GRUPO_FALSE);
@@ -159,9 +167,22 @@ public class MessageUtil {
                             boolean isBlack, boolean isTime, boolean isAnonimo, boolean isSecret,
                             boolean isPermitirReenvio, boolean isRetry, Integer timeSeconds) throws Exception {
 
+        if (ObserverGrupo.getInstance().getGrupoById(idGrupo).getGralConfDTO().isBlackMessageAttachMandatory()){
+            if (mediaDTO != null && ( mediaDTO.getMediaType().equals(MediaTypeEnum.IMAGE)
+            || mediaDTO.getMediaType().equals(MediaTypeEnum.VIDEO) )){
+                isBlack=true;
+            }
+
+
+        }
+        if (mediaDTO != null && ( mediaDTO.getMediaType().equals(MediaTypeEnum.IMAGE))){
+            ConfType conf = MasterGeneralConfiguration.buildImageDownload(idGrupo);
+            mediaDTO.setDownloadable(conf.value);
+        }
+
         if ((txt == null || txt.equals("")) && mediaDTO == null) return;
 
-        if (isTime) isBlack=false;
+        //if (isTime) isBlack=false;
         String asyncId = SingletonValues.getInstance().getCounterNextValue();
 
         String txtStr=new String(txt);
@@ -220,9 +241,11 @@ public class MessageUtil {
 
         if (mediaDTO != null){
 
+
             if (!isRetry) {
                 media = new MediaDTO();
                 media.setMediaType(mediaDTO.getMediaType());
+                media.setDownloadable(mediaDTO.isDownloadable());
                 {
                     byte[] encoded = mediaDTO.getData();
 
@@ -271,6 +294,7 @@ public class MessageUtil {
         if (mediaDTO != null){
             mensaje.setMediaDTO(new MediaDTO());
             mensaje.getMediaDTO().setMediaType(miMensaje.getMediaDTO().getMediaType());
+            mensaje.getMediaDTO().setDownloadable(miMensaje.getMediaDTO().isDownloadable());
             mensaje.getMediaDTO().setIdGrupo(miMensaje.getIdGrupo());
             data = Observers.grupo().getGrupoById(idGrupo).getAESToUse().getAES(miMensaje.getMediaDTO().getData());
 

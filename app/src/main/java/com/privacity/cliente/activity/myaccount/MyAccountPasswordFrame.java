@@ -21,6 +21,8 @@ import com.privacity.cliente.util.MenuAcordeonUtil;
 import com.privacity.common.config.ConstantProtocolo;
 import com.privacity.common.dto.MyAccountConfDTO;
 import com.privacity.common.dto.ProtocoloDTO;
+import com.privacity.common.dto.UsuarioDTO;
+import com.privacity.common.dto.request.LoginRequestDTO;
 
 import org.springframework.http.ResponseEntity;
 
@@ -108,8 +110,9 @@ public class MyAccountPasswordFrame {
         ProtocoloDTO p = new ProtocoloDTO();
         p.setComponent(ConstantProtocolo.PROTOCOLO_COMPONENT_MY_ACCOUNT);
         p.setAction(ConstantProtocolo.PROTOCOLO_ACTION_MY_ACCOUNT_SAVE_PASSWORD);
-
-        p.setObjectDTO(GsonFormated.get().toJson(EncryptUtil.toHash(newPassword.getField().getText().toString())));
+        LoginRequestDTO l = new LoginRequestDTO();
+        l.setPassword(EncryptUtil.toHash(newPassword.getField().getText().toString()));
+        p.setObjectDTO(GsonFormated.get().toJson(l));
 
 
         RestExecute.doit(activity, p,

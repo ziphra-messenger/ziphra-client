@@ -19,6 +19,11 @@ android {
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
+
+    dexOptions {
+        incremental true
+        javaMaxHeapSize "4g"
+    }
     packagingOptions {
         exclude 'META-INF/ASL2.0'
         exclude 'META-INF/LICENSE'
