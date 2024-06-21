@@ -19,6 +19,7 @@ import com.privacity.cliente.common.error.SimpleErrorDialog;
 import com.privacity.cliente.model.Grupo;
 import com.privacity.cliente.singleton.Observers;
 import com.privacity.cliente.singleton.SingletonValues;
+import com.privacity.cliente.singleton.impl.SingletonServer;
 import com.privacity.cliente.singleton.observers.ObserverGrupo;
 
 import java.util.Iterator;
@@ -146,7 +147,14 @@ public class MessageCustomActionBar {
     }
 
     public void loadValues(){
-        mainTitle.setText(SingletonValues.getInstance().getGrupoSeleccionado().getName());
+
+        if (SingletonServer.getInstance().isDeveloper()) {
+            mainTitle.setText(SingletonValues.getInstance().getGrupoSeleccionado().getName()
+                    + " - " + SingletonValues.getInstance().getUsuario().getNickname());
+        }else{
+            mainTitle.setText(SingletonValues.getInstance().getGrupoSeleccionado().getName());
+        }
+
 
         actualizarConfLockCandadoCerrado();
 

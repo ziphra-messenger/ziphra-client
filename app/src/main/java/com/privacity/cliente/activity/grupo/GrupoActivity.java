@@ -46,6 +46,7 @@ import com.privacity.cliente.rest.CallbackRest;
 import com.privacity.cliente.rest.RestExecute;
 import com.privacity.cliente.singleton.Observers;
 import com.privacity.cliente.singleton.SingletonValues;
+import com.privacity.cliente.singleton.impl.SingletonServer;
 import com.privacity.cliente.singleton.interfaces.ObservadoresGrupos;
 import com.privacity.cliente.singleton.interfaces.ObservadoresMensajes;
 import com.privacity.cliente.singleton.interfaces.ObservadoresPasswordGrupo;
@@ -147,7 +148,13 @@ public class GrupoActivity extends CustomAppCompatActivity implements
         Observers.passwordGrupo().suscribirse(this);
 
         ActionBar actionBar = getSupportActionBar();
-        actionBar.setTitle("PrivaCity - Grupos");
+
+        if (SingletonServer.getInstance().isDeveloper()){
+            actionBar.setTitle("PrivaCity - Grupos - " + SingletonValues.getInstance().getUsuario().getNickname());
+        }else{
+            actionBar.setTitle("PrivaCity - Grupos");
+        }
+
 
         //sortOnline
         Observers.grupo().setGrupoOnTop(true);
