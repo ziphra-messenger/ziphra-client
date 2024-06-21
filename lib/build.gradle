@@ -25,6 +25,12 @@ apply plugin: 'com.github.dcendents.android-maven'
 group='com.github.NaikSoftware'
 
 android {
+    signingConfigs {
+        developer {
+        }
+        qa {
+        }
+    }
     compileSdkVersion 30
 
     defaultConfig {
@@ -43,6 +49,10 @@ android {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+        developer {
+        }
+        qa {
         }
     }
 

@@ -116,6 +116,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
+import java.nio.ByteBuffer;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
@@ -276,20 +277,7 @@ public class MessageActivity extends GrupoSelectedCustomAppCompatActivity
         rvLista.setAdapter(adapter);
 
 
-        Button getHistorialPrueba = (Button) findViewById(R.id.mensaje_prueba_get_historial);
-        getHistorialPrueba.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                String idMessage=null;
-                if (items.size() > 0){
-                    idMessage = items.get(0).getMessage().getIdMessage();
-                }
-                GetMessageHistorialById.loadMessagesContador(MessageActivity.this, MessageActivity.this.getGrupoSeleccionado().getIdGrupo(), idMessage);
 
-
-
-            }
-        });
 
         initListener();
         registerForContextMenu(rvLista);
@@ -987,23 +975,42 @@ public class MessageActivity extends GrupoSelectedCustomAppCompatActivity
         };
         enviarMessageButton.setOnTouchListener(speakTouchListener);
 
-        findViewById(R.id.mensaje_de_prueba_boton).setOnClickListener(v -> {
-            txt.setText("Mensaje de prueba");
-            //enviarMessageButtonOnClick();
-        });
+        if (SingletonServer.getInstance().isDeveloper()) {
+            findViewById(R.id.mensaje_de_prueba_boton).setOnClickListener(v -> {
+                txt.setText("Mensaje de prueba");
+                //enviarMessageButtonOnClick();
+            });
 
-        findViewById(R.id.mensaje_de_prueba_boton2).setOnClickListener(v -> {
-            txt.setText("Mensaje de prueba");
-            enviarMessageButtonOnClick();
-        });
+            findViewById(R.id.mensaje_de_prueba_boton2).setOnClickListener(v -> {
+                txt.setText("Mensaje de prueba");
+                enviarMessageButtonOnClick();
+            });
 
+            Button getHistorialPrueba = (Button) findViewById(R.id.mensaje_prueba_get_historial);
+            getHistorialPrueba.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    String idMessage=null;
+                    if (items.size() > 0){
+                        idMessage = items.get(0).getMessage().getIdMessage();
+                    }
+                    GetMessageHistorialById.loadMessagesContador(MessageActivity.this, MessageActivity.this.getGrupoSeleccionado().getIdGrupo(), idMessage);
+
+
+
+                }
+            });
+
+        }else{
+            findViewById(R.id.mensaje_de_prueba_boton).setVisibility(View.GONE);
+            findViewById(R.id.mensaje_de_prueba_boton2).setVisibility(View.GONE);
+            findViewById(R.id.mensaje_prueba_get_historial).setVisibility(View.GONE);
+
+        }
         if ( Observers.grupo().amIReadOnly(SingletonValues.getInstance().getGrupoSeleccionado().getIdGrupo())){
             findViewById(R.id.mensaje_de_prueba).setVisibility(View.GONE);
 
-        }else{
-            SingletonServer.getInstance().isShowDeveloperModeView(findViewById(R.id.mensaje_de_prueba));
         }
-
 
         enviarMessageButton.setOnClickListener(v -> enviarMessageButtonOnClick());
 
@@ -1184,15 +1191,15 @@ public class MessageActivity extends GrupoSelectedCustomAppCompatActivity
                 bitmapCompleto = MediaStore.Images.Media.getBitmap(getContentResolver(), filePath);
 
                 if ((bitmapCompleto.getWidth() * bitmapCompleto.getHeight()) * (1 / Math.pow(1, 2)) >
-                        IMAGE_MAX_SIZE_COMPLETO) {
+                        IMAGE_MAX_SIZE_COMPLETO/100) {
                     bitmapCompleto = getBitmap(getContentResolver(), filePath, IMAGE_MAX_SIZE_COMPLETO);
                 }
 
                 bitmapMiniatura = MediaStore.Images.Media.getBitmap(getContentResolver(), filePath);
 
                 if ((bitmapCompleto.getWidth() * bitmapCompleto.getHeight()) * (1 / Math.pow(1, 2)) >
-                        IMAGE_MAX_SIZE_MINIATURA) {
-                    bitmapCompleto = getBitmap(getContentResolver(), filePath,IMAGE_MAX_SIZE_MINIATURA);
+                        IMAGE_MAX_SIZE_MINIATURA/100) {
+                    bitmapMiniatura = getBitmap(getContentResolver(), filePath,IMAGE_MAX_SIZE_COMPLETO);
                 }
 
 
@@ -1964,22 +1971,53 @@ public class MessageActivity extends GrupoSelectedCustomAppCompatActivity
             mediaDTO = new MediaDTO();
 
             {
-                ByteArrayOutputStream stream = new ByteArrayOutputStream();
-                bitmapCompleto.compress(Bitmap.CompressFormat.PNG, 100, stream);
-                byte[] byteArray = stream.toByteArray();
-                //String encoded = Base64.encodeToString(byteArray, Base64.DEFAULT);
+                if (bitmapCompleto.isRecycled()){
 
-                mediaDTO.setData(byteArray);
+                    int size     = bitmapCompleto.getRowBytes() * bitmapCompleto.getHeight();
+                    ByteBuffer b = ByteBuffer.allocate(size);
+
+                    bitmapCompleto.copyPixelsToBuffer(b);
+
+                    byte[] bytes = new byte[size];
+
+
+                        b.get(bytes, 0, bytes.length);
+                    mediaDTO.setData(bytes);
+                }else {
+
+
+                    ByteArrayOutputStream stream = new ByteArrayOutputStream();
+                    bitmapCompleto.compress(Bitmap.CompressFormat.PNG, 100, stream);
+                    byte[] byteArray = stream.toByteArray();
+                    //String encoded = Base64.encodeToString(byteArray, Base64.DEFAULT);
+
+                    mediaDTO.setData(byteArray);
+                }
                 mediaDTO.setMediaType(MediaTypeEnum.IMAGE);
             }
 
             {
-                ByteArrayOutputStream stream = new ByteArrayOutputStream();
-                bitmapMiniatura.compress(Bitmap.CompressFormat.PNG, 100, stream);
-                byte[] byteArray = stream.toByteArray();
-                //String encoded = Base64.encodeToString(byteArray, Base64.DEFAULT);
+                if (bitmapMiniatura.isRecycled()){
 
-                mediaDTO.setMiniatura(byteArray);
+                    int size     = bitmapMiniatura.getRowBytes() * bitmapMiniatura.getHeight();
+                    ByteBuffer b = ByteBuffer.allocate(size);
+
+                    bitmapMiniatura.copyPixelsToBuffer(b);
+
+                    byte[] bytes = new byte[size];
+
+
+                    b.get(bytes, 0, bytes.length);
+                    mediaDTO.setMiniatura(bytes);
+                }else {
+
+                    ByteArrayOutputStream stream = new ByteArrayOutputStream();
+                    bitmapMiniatura.compress(Bitmap.CompressFormat.PNG, 100, stream);
+                    byte[] byteArray = stream.toByteArray();
+                    //String encoded = Base64.encodeToString(byteArray, Base64.DEFAULT);
+
+                    mediaDTO.setMiniatura(byteArray);
+                }
             }
         }
 
@@ -2002,8 +2040,8 @@ public class MessageActivity extends GrupoSelectedCustomAppCompatActivity
     }
 
     //final int IMAGE_MAX_SIZE = 1200000;
-    final int IMAGE_MAX_SIZE_COMPLETO = 10000;
-    final int IMAGE_MAX_SIZE_MINIATURA = 600000;
+    final int IMAGE_MAX_SIZE_COMPLETO = 1200000;
+    final int IMAGE_MAX_SIZE_MINIATURA = 50000;
 
     private Bitmap getBitmapCamera(   ContentResolver mContentResolver , byte[] b, int imagenMaxSize) {
 
@@ -2048,7 +2086,7 @@ public class MessageActivity extends GrupoSelectedCustomAppCompatActivity
 
                 Bitmap scaledBitmap = Bitmap.createScaledBitmap(resultBitmap, (int) x,
                         (int) y, true);
-                resultBitmap.recycle();
+               // resultBitmap.recycle();
                 resultBitmap = scaledBitmap;
 
                 System.gc();
@@ -2110,7 +2148,7 @@ public class MessageActivity extends GrupoSelectedCustomAppCompatActivity
 
                 Bitmap scaledBitmap = Bitmap.createScaledBitmap(resultBitmap, (int) x,
                         (int) y, true);
-                resultBitmap.recycle();
+              //  resultBitmap.recycle();
                 resultBitmap = scaledBitmap;
 
                 System.gc();

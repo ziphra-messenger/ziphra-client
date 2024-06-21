@@ -5,6 +5,12 @@ plugins {
 }
 
 android {
+    signingConfigs {
+        developer {
+        }
+        qa {
+        }
+    }
     compileSdkVersion 30
     buildToolsVersion "30.0.3"
 
@@ -38,10 +44,24 @@ android {
     }
 
     buildTypes {
+
+        developer {
+            manifestPlaceholders privacity_environment: 'DEVELOPER'
+            signingConfig signingConfigs.debug
+        }
+
+        qa {
+            manifestPlaceholders privacity_environment: 'QA'
+            signingConfig signingConfigs.debug
+
+        }
+
         release {
+            manifestPlaceholders privacity_environment: 'RELEASE'
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
+
     }
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8

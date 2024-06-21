@@ -21,6 +21,10 @@
     <string name="help_tag_myaccount_gralconf">/myaccount/gralconf.html</string>
     <string name="help_tag_myaccount_login_skip">/myaccount/loginskip.html</string>
 
+    <string name="privacity_environment">general</string>
+
+
+
     <string-array name="grupo_sort">
         <item></item>
         <item>Name</item>
@@ -29,51 +33,21 @@
     </string-array>
 
     <string-array name="main_configuration_app_servers">
+        <item>http://testprivacity.myddns.me:8080</item>
         <item>http://10.0.2.2:8080</item>
-        <item>http://10.0.2.2:62805/</item>
-        <item>http://181.46.164.43:80</item>
-        <item>http://100.118.42.131:8080/</item>
-        <item>http://100.118.42.131:62805/</item>
-        <item>http://10.0.2.2:8082</item>
-        <item>http://192.168.0.176:8080</item>
-        <item>http://privacity.ddns.net:8080</item>
-
-
-        <item>http://34.75.84.243:8080</item>
-
-
-        <item>https://pcv1-331503.rj.r.appspot.com</item>
+        <item>http://100.118.42.131:8080</item>
     </string-array>
 
     <string-array name="main_configuration_help_servers">
+        <item>http://testprivacity.myddns.me:8080</item>
         <item>http://10.0.2.2:8080</item>
-        <item>http://10.0.2.2:62805/</item>
-        <item>http://181.46.164.43:80</item>
-        <item>http://100.118.42.131:62805/</item>
-        <item>http://10.0.2.2:8082</item>
-        <item>http://192.168.0.176:8080</item>
-        <item>http://100.118.42.131:8080/</item>
-        <item>http://34.75.84.243:8080</item>
-
-
-        <item>https://pcv1-331503.rj.r.appspot.com</item>
+        <item>http://100.118.42.131:8080</item>
     </string-array>
 
     <string-array name="main_configuration_ws_servers">
+        <item>ws://testprivacity.myddns.me:8080</item>
         <item>ws://10.0.2.2:8080</item>
         <item>ws://100.118.42.131:8080</item>
-        <item>ws:10.0.2.2:8080</item>
-        <item>ws:100.118.42.131:8080</item>
-        <item>http://10.0.2.2:62805</item>
-        <item>http://181.46.164.43:80</item>
-        <item>http://100.118.42.131:62805/</item>
-        <item>http://10.0.2.2:8082</item>
-        <item>ws://192.168.0.176:8080</item>
-
-        <item>ws://34.75.84.243:8080</item>
-
-
-        <item>wss://pcv1-331503.rj.r.appspot.com</item>
     </string-array>
 
     <string-array name="servers_configuration">

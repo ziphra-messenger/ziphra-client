@@ -4,6 +4,8 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.pm.ApplicationInfo;
+import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
@@ -51,6 +53,7 @@ import com.privacity.cliente.util.GsonFormated;
 import com.privacity.common.config.ConstantProtocolo;
 import com.privacity.common.dto.ProtocoloDTO;
 import com.privacity.common.dto.request.LoginRequestDTO;
+import com.privacity.common.enumeration.EnvironmentEnum;
 
 import org.springframework.http.ResponseEntity;
 
@@ -72,16 +75,14 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
 
+
         super.onResume();
         ProgressBarUtil.hide(MainActivity.this, progressBar);
         SingletonSessionFinish.getInstance().cancel();
 
         setDefaultServer();
 
-        if (!noValidate) {
-            SingletonServer.getInstance().isShowDeveloperModeView(findViewById(R.id.main_login_1));
-            SingletonServer.getInstance().isShowDeveloperModeView(findViewById(R.id.main_login_2));
-        }
+
         //new Intent(Settings.ACTION_REQUEST_IGNORE_BATTERY_OPTIMIZATIONS, Uri.parse("package:"+"com.privacity.cliente"));
      }
 
@@ -143,6 +144,19 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
         };
+
+        try {
+            ApplicationInfo ai = this.getPackageManager().getApplicationInfo(
+                    this.getPackageName(), PackageManager.GET_META_DATA);
+
+            String valor = ai.metaData.getString("privacity_environment");
+
+            System.out.println("-------- Entorno : " + valor);
+            SingletonServer.getInstance().setEnvironment(EnvironmentEnum.valueOf(valor));
+
+        } catch (PackageManager.NameNotFoundException e) {
+            e.printStackTrace();
+        }
         registerReceiver(broadcastReceiver, new IntentFilter("finish_application"));
 
         System.out.println( " ---> " + SingletonValues.getInstance().isLogout());
@@ -212,8 +226,9 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
         });
-
-        ((Button) findViewById(R.id.C)).setOnClickListener(new View.OnClickListener() {
+        //((Button) findViewById(R.id.C))
+                ;
+        ((Button) SingletonServer.getInstance().setVisibility( findViewById(R.id.C) )).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 username.setText("1");
@@ -225,8 +240,8 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
         });
-        ((Button) findViewById(R.id.C2)).setVisibility(View.VISIBLE);
-        ((Button) findViewById(R.id.C2)).setOnClickListener(new View.OnClickListener() {
+
+        ((Button) SingletonServer.getInstance().setVisibility( findViewById(R.id.C2) )).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 username.setText("2");
@@ -239,7 +254,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        ((Button) findViewById(R.id.C3)).setOnClickListener(new View.OnClickListener() {
+        ((Button) SingletonServer.getInstance().setVisibility( findViewById(R.id.C3) )).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 username.setText("3");
@@ -251,8 +266,8 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
         });
-        ((Button) findViewById(R.id.C4)).setVisibility(View.VISIBLE);
-        ((Button) findViewById(R.id.C4)).setOnClickListener(new View.OnClickListener() {
+
+        ((Button) SingletonServer.getInstance().setVisibility( findViewById(R.id.C4) )).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 username.setText("4");
@@ -317,6 +332,8 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
+        if (!SingletonServer.getInstance().isDeveloper()) return false;
+
         getMenuInflater().inflate(R.menu.menu_main, menu);
         return true;
     }

@@ -275,7 +275,21 @@
                                 android:textSize="18sp"
                                 android:textStyle="bold" />
                         </TableRow>
+                        <TableRow
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:gravity="center">
 
+                            <EditText
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="10dp"
+                                android:layout_marginBottom="10dp"
+                                android:gravity="center|center_vertical"
+                                android:text="100.11.11.11"
+                                android:textSize="18sp"
+                                android:textStyle="bold" />
+                        </TableRow>
                         <TableRow
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
@@ -288,7 +302,8 @@
                                 android:layout_height="wrap_content"
                                 android:layout_marginStart="20dp"
                                 android:layout_marginEnd="20dp"
-                                android:entries="@array/main_configuration_app_servers" />
+                                android:entries="@array/main_configuration_app_servers"
+                                android:focusable="true" />
                         </TableRow>
 
                         <TableRow
@@ -384,7 +399,21 @@
                                 android:textSize="18sp"
                                 android:textStyle="bold" />
                         </TableRow>
+                        <TableRow
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:gravity="center">
 
+                            <EditText
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="10dp"
+                                android:layout_marginBottom="10dp"
+                                android:gravity="center|center_vertical"
+                                android:text="100.11.11.11"
+                                android:textSize="18sp"
+                                android:textStyle="bold" />
+                        </TableRow>
                         <TableRow
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
@@ -451,6 +480,8 @@
 
                     </TableLayout>
 
+
+
                 </LinearLayout>
 
                 <LinearLayout
@@ -463,7 +494,7 @@
                     android:layout_marginBottom="10dp"
                     android:background="#E4DFB4"
                     android:orientation="vertical"
-                    android:visibility="visible"
+                    android:visibility="gone"
                     app:layout_constraintBottom_toTopOf="@+id/linearLayout3"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
@@ -475,6 +506,7 @@
                         android:layout_height="wrap_content"
                         android:backgroundTint="#57AE74"
                         android:text="General"
+                        android:visibility="visible"
                         app:iconGravity="end" />
 
                     <TableLayout

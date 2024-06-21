@@ -52,8 +52,12 @@ public class RestTemplateProtocoloFile extends AsyncTask<Void, Void, ResponseEnt
 
     @Override
     protected ResponseEntity<ProtocoloDTO> doInBackground(Void... voids) {
-
+        //System.gc();
             try {
+
+                if ( protocoloDTO.getMessageDTO().getMediaDTO() != null &&  protocoloDTO.getMessageDTO().getMediaDTO().getData() != null){
+                    protocoloDTO.getMessageDTO().getMediaDTO().setData(null);
+                }
                 String toSend="";
                 toSend = SingletonValues.getInstance().getSessionAEStoUse().getAES(GsonFormated.get().toJson(protocoloDTO));
 
