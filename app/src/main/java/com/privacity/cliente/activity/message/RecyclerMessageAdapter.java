@@ -29,6 +29,7 @@ import com.privacity.cliente.rest.restcalls.CallbackRestDownload;
 import com.privacity.cliente.rest.restcalls.message.GetMessageById;
 import com.privacity.cliente.singleton.Observers;
 import com.privacity.cliente.singleton.SingletonValues;
+import com.privacity.cliente.singleton.impl.SingletonServer;
 import com.privacity.common.config.ConstantProtocolo;
 import com.privacity.common.dto.IdMessageDTO;
 import com.privacity.common.dto.MessageDTO;
@@ -500,9 +501,19 @@ public class RecyclerMessageAdapter extends RecyclerView.Adapter<RecyclerHolder>
 
         }
 
+        if (SingletonServer.getInstance().isDeveloper()) {
+            txt = "mensaje: " + txt
+                    + "\n User Creador: " + item.getMessage().getUsuarioCreacion().getNickname()
+                    + "\n IdMessage: " + item.getMessage().getIdMessage()
+                    + "\n IdGrupo: " + item.getMessage().getIdGrupo();
+
+        }
+
         txt = ListListener.setListenerReadMoreLess(item.getMessage(), rch, txt,isReply);
         rch.getTvMessageListText().setText(txt);
-        //rch.getTvMessageListText().setText(txt + " > " + item.getMessage().getIdMessage());
+
+
+
 
 
         //final boolean secretKeyValidaFinal = secretKeyValida;

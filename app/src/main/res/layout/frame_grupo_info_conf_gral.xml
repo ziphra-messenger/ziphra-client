@@ -5,6 +5,15 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
+
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical" />
+
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -35,636 +44,813 @@
             android:visibility="gone"
             tools:visibility="visible">
 
-
             <TableRow
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
 
-                <TextView
-                    android:id="@+id/grupo_info_conf_reenvio_titulo"
-                    android:layout_width="wrap_content"
+                <ScrollView
+                    android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="3dp"
-                    android:layout_marginTop="10dp"
-                    android:layout_span="3"
-                    android:text="Politica de Reenvio de Mensajes"
-                    android:textSize="16sp"
-                    android:textStyle="bold" />
-            </TableRow>
-
-            <TableRow
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_marginStart="3dp"
-                android:textAlignment="center">
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:orientation="vertical">
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:orientation="horizontal">
-
-                        <CheckBox
-                            android:id="@+id/grupo_info_conf_resend"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:text="Permitir" />
-
-                    </LinearLayout>
-
-                </LinearLayout>
-
-            </TableRow>
-
-            <TableRow
-                android:layout_width="match_parent"
-                android:layout_height="match_parent">
-
-                <TextView
-                    android:id="@+id/grupo_info_conf_anonimo_titulo"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="3dp"
-                    android:layout_marginTop="10dp"
-                    android:layout_span="3"
-                    android:text="Politica de Descarga de Imagenes adjuntas"
-                    android:textSize="16sp"
-                    android:textStyle="bold" />
-            </TableRow>
-
-            <TableRow
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_marginStart="3dp"
-                android:textAlignment="center">
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:orientation="horizontal">
-
-                    <RadioGroup
-                        android:id="@+id/grupo_info_conf_imagen_descarga_grupo"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:orientation="horizontal"
-                        android:tag="@string/rol_admin">
-
-                        <RadioButton
-                            android:id="@+id/grupo_info_conf_imagen_descarga_permitir"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_margin="5dp"
-                            android:layout_weight="3"
-                            android:buttonTint="#420808"
-                            android:tag="@string/rol_admin"
-                            android:text="Sin politica" />
-
-                        <RadioButton
-                            android:id="@+id/grupo_info_conf_imagen_descarga_bloquear"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_margin="5dp"
-                            android:layout_weight="3"
-                            android:buttonTint="#420808"
-                            android:tag="@string/rol_admin"
-                            android:text="Nunca Permitir" />
-
-
-                    </RadioGroup>
-                </LinearLayout>
-
-            </TableRow>
-
-            <TableRow
-                android:layout_width="match_parent"
-                android:layout_height="match_parent">
-
-                <TextView
-                    android:id="@+id/grupo_info_conf_imagen_descarga_titulo"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="3dp"
-                    android:layout_marginTop="10dp"
-                    android:layout_span="3"
-                    android:text="Politica de Mensajes Anonimos"
-
-                    android:textSize="16sp"
-                    android:textStyle="bold" />
-            </TableRow>
-
-            <TableRow
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_marginStart="3dp"
-                android:textAlignment="center">
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:orientation="horizontal">
-
-                    <RadioGroup
-                        android:id="@+id/grupo_info_conf_anonimo_grupo"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:orientation="horizontal"
-                        android:tag="@string/rol_admin">
-
-                        <RadioButton
-                            android:id="@+id/grupo_info_conf_anonimo_permitir"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_margin="5dp"
-                            android:layout_weight="3"
-                            android:buttonTint="#420808"
-                            android:tag="@string/rol_admin"
-                            android:text="Permitir" />
-
-                        <RadioButton
-                            android:id="@+id/grupo_info_conf_anonimo_bloquear"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_margin="5dp"
-                            android:layout_weight="3"
-                            android:buttonTint="#420808"
-                            android:tag="@string/rol_admin"
-                            android:text="Bloquear" />
-
-                        <RadioButton
-                            android:id="@+id/grupo_info_conf_anonimo_obligatorio"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_margin="5dp"
-                            android:layout_weight="3"
-                            android:buttonTint="#420808"
-                            android:tag="@string/rol_admin"
-                            android:text="Obligatorio" />
-                    </RadioGroup>
-                </LinearLayout>
-
-            </TableRow>
-            <TableRow
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:visibility="gone">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="3dp"
-                    android:layout_marginTop="10dp"
-                    android:layout_span="3"
-                    android:text="Politica de Mensajes Temporales"
-                    android:textSize="16sp"
-                    android:textStyle="bold" />
-            </TableRow>
-
-            <TableRow
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_marginStart="3dp"
-                android:textAlignment="center"
-                android:visibility="gone">
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:orientation="vertical">
-
-                    <CheckBox
-                        android:id="@+id/grupo_info_conf_temporal_obligatorio"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_margin="7dp"
-                        android:layout_weight="1"
-                        android:backgroundTint="#8F6969"
-                        android:buttonTint="#420808"
-                        android:tag="@string/rol_admin"
-                        android:text="Siempre Obligatorio" />
-
-                    <LinearLayout
-                        android:layout_width="wrap_content"
-                        android:layout_height="match_parent"
-                        android:orientation="horizontal">
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="center_vertical"
-                            android:layout_marginStart="7dp"
-                            android:layout_weight="1"
-                            android:text="Tiempo Minimo Aceptado"
-                            android:textStyle="bold" />
-
-                        <Spinner
-                            android:id="@+id/grupo_info_conf_temporal_maximo_tiempo_permitido"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="center_vertical"
-                            android:entries="@array/time_messages_values"
-                            android:spinnerMode="dialog" />
-
-                    </LinearLayout>
-
-                </LinearLayout>
-
-            </TableRow>
-
-            <TableRow
-                android:layout_width="match_parent"
-                android:layout_height="match_parent">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="3dp"
-                    android:layout_marginTop="10dp"
-                    android:layout_span="3"
-                    android:text="Politica de Mensajes Black"
-                    android:textSize="16sp"
-                    android:textStyle="bold" />
-            </TableRow>
-
-            <TableRow
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_marginStart="3dp"
-                android:textAlignment="center">
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:orientation="horizontal">
-
-                    <CheckBox
-                        android:id="@+id/grupo_info_conf_black_obligatorio_adjunto"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_margin="7dp"
-                        android:layout_weight="1"
-                        android:backgroundTint="#8F6969"
-                        android:buttonTint="#420808"
-                        android:tag="@string/rol_admin"
-                        android:text="Obligatorio cuando contiene Imagen o Video" />
-
-                </LinearLayout>
-
-            </TableRow>
-
-            <TableRow
-                android:layout_width="match_parent"
-                android:layout_height="match_parent">
-
-                <TextView
-                    android:id="@+id/grupo_info_conf_audiochat_titulo"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="3dp"
-                    android:layout_marginTop="10dp"
-                    android:layout_span="3"
-                    android:text="Politica de Mensajes de Audio"
-                    android:textSize="16sp"
-                    android:textStyle="bold" />
-            </TableRow>
-
-            <TableRow
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_marginStart="3dp"
-                android:textAlignment="center">
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:orientation="horizontal">
-
-                    <RadioGroup
-                        android:id="@+id/grupo_info_conf_audiochat_grupo"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:orientation="horizontal"
-                        android:tag="@string/rol_admin">
-
-                        <RadioButton
-                            android:id="@+id/grupo_info_conf_audiochat_permitir"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_margin="5dp"
-                            android:layout_weight="3"
-                            android:buttonTint="#420808"
-                            android:tag="@string/rol_admin"
-                            android:text="Permitir" />
-
-                        <RadioButton
-                            android:id="@+id/grupo_info_conf_audiochat_bloquear"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_margin="5dp"
-                            android:layout_weight="3"
-                            android:buttonTint="#420808"
-                            android:tag="@string/rol_admin"
-                            android:text="Bloquear" />
-
-                        <RadioButton
-                            android:id="@+id/radioBu3tton333344333"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_margin="7dp"
-                            android:layout_weight="3"
-                            android:buttonTint="#420808"
-                            android:tag="@string/rol_admin"
-                            android:text="Obligatorio"
-                            android:visibility="invisible" />
-                    </RadioGroup>
-                </LinearLayout>
-
-            </TableRow>
-
-            <TableRow
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_gravity="left"
-                android:layout_marginStart="3dp"
-                android:layout_marginTop="7dp"
-                android:layout_marginBottom="7dp"
-                android:gravity="left">
-
-                <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:orientation="horizontal">
-
-                    <TextView
-                        android:id="@+id/textVie2222222w36"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center_vertical"
-                        android:layout_marginStart="7dp"
-                        android:layout_weight="1"
-                        android:text="Tiempo Maximo"
-                        android:textStyle="bold" />
-
-                    <Spinner
-                        android:id="@+id/grupo_info_conf_audiochat_maximo_tiempo"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center_vertical"
-                        android:entries="@array/audio_message_time_configuration"
-                        android:spinnerMode="dialog" />
-
-                </LinearLayout>
-
-            </TableRow>
-
-            <TableRow
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="3dp"
-                android:layout_marginBottom="7dp">
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_span="3"
-                    android:layout_weight="1"
-                    android:orientation="vertical">
+                    android:fadeScrollbars="false"
+                    android:nestedScrollingEnabled="true"
+                    android:scrollbarAlwaysDrawVerticalTrack="true"
+                    android:scrollbarSize="30dp"
+                    android:scrollbarStyle="insideOverlay"
+                    android:scrollbars="vertical"
+                    android:verticalScrollbarPosition="left"
+                    android:visibility="visible">
 
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:orientation="horizontal">
+                        android:orientation="vertical">
 
+                        <TableLayout
 
-
-                        <TableRow
                             android:layout_width="match_parent"
-                            android:layout_height="match_parent"/>
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_horizontal"
+                            android:background="#E4DFB4"
+                            android:gravity="center_horizontal"
+                            android:visibility="visible"
+                            tools:visibility="visible">
 
+                            <TableRow
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent">
+
+                                <TextView
+                                    android:id="@+id/grupo_info_conf_reenvio_titulo"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginStart="3dp"
+                                    android:layout_marginTop="10dp"
+                                    android:layout_span="3"
+                                    android:text="Politica de Reenvio de Mensajes"
+                                    android:textSize="16sp"
+                                    android:textStyle="bold" />
+                            </TableRow>
+
+                            <TableRow
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:layout_marginStart="3dp"
+                                android:textAlignment="center">
+
+                                <LinearLayout
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_weight="1"
+                                    android:orientation="vertical">
+
+                                    <LinearLayout
+                                        android:layout_width="match_parent"
+                                        android:layout_height="match_parent"
+                                        android:orientation="horizontal">
+
+                                        <CheckBox
+                                            android:id="@+id/grupo_info_conf_resend"
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:layout_weight="1"
+                                            android:text="Permitir" />
+
+                                    </LinearLayout>
+
+                                </LinearLayout>
+
+                            </TableRow>
+
+                            <TableRow
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent">
+
+                                <TextView
+                                    android:id="@+id/grupo_info_conf_imagen_descarga_titulo"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginStart="3dp"
+                                    android:layout_marginTop="10dp"
+                                    android:layout_span="3"
+                                    android:text="Politica de Descarga de Imagenes adjuntas"
+                                    android:textSize="16sp"
+                                    android:textStyle="bold" />
+                            </TableRow>
+
+                            <TableRow
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:layout_marginStart="3dp"
+                                android:textAlignment="center">
+
+                                <LinearLayout
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_weight="1"
+                                    android:orientation="horizontal">
+
+                                    <RadioGroup
+                                        android:id="@+id/grupo_info_conf_imagen_descarga_grupo"
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"
+                                        android:orientation="horizontal"
+                                        android:tag="@string/rol_admin">
+
+                                        <RadioButton
+                                            android:id="@+id/grupo_info_conf_imagen_descarga_permitir"
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:layout_margin="5dp"
+                                            android:layout_weight="3"
+                                            android:buttonTint="#420808"
+                                            android:tag="@string/rol_admin"
+                                            android:text="Sin politica" />
+
+                                        <RadioButton
+                                            android:id="@+id/grupo_info_conf_imagen_descarga_bloquear"
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:layout_margin="5dp"
+                                            android:layout_weight="3"
+                                            android:buttonTint="#420808"
+                                            android:tag="@string/rol_admin"
+                                            android:text="Nunca Permitir" />
+
+
+                                    </RadioGroup>
+                                </LinearLayout>
+
+                            </TableRow>
+
+                            <TableRow
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent">
+
+                                <TextView
+                                    android:id="@+id/grupo_info_conf_video_descarga_titulo"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginStart="3dp"
+                                    android:layout_marginTop="10dp"
+                                    android:layout_span="3"
+                                    android:text="Politica de Descarga de Video adjuntas"
+                                    android:textSize="16sp"
+                                    android:textStyle="bold" />
+                            </TableRow>
+
+                            <TableRow
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:layout_marginStart="3dp"
+                                android:textAlignment="center">
+
+                                <LinearLayout
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_weight="1"
+                                    android:orientation="horizontal">
+
+                                    <RadioGroup
+                                        android:id="@+id/grupo_info_conf_video_descarga_grupo"
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"
+                                        android:orientation="horizontal"
+                                        android:tag="@string/rol_admin">
+
+                                        <RadioButton
+                                            android:id="@+id/grupo_info_conf_video_descarga_permitir"
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:layout_margin="5dp"
+                                            android:layout_weight="3"
+                                            android:buttonTint="#420808"
+                                            android:tag="@string/rol_admin"
+                                            android:text="Sin politica" />
+
+                                        <RadioButton
+                                            android:id="@+id/grupo_info_conf_video_descarga_bloquear"
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:layout_margin="5dp"
+                                            android:layout_weight="3"
+                                            android:buttonTint="#420808"
+                                            android:tag="@string/rol_admin"
+                                            android:text="Nunca Permitir" />
+
+
+                                    </RadioGroup>
+                                </LinearLayout>
+
+                            </TableRow>
+
+                            <TableRow
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent">
+
+                                <TextView
+                                    android:id="@+id/grupo_info_conf_audio_descarga_titulo"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginStart="3dp"
+                                    android:layout_marginTop="10dp"
+                                    android:layout_span="3"
+                                    android:text="Politica de Descarga de Audio adjuntas"
+                                    android:textSize="16sp"
+                                    android:textStyle="bold" />
+                            </TableRow>
+
+                            <TableRow
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:layout_marginStart="3dp"
+                                android:textAlignment="center">
+
+                                <LinearLayout
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_weight="1"
+                                    android:orientation="horizontal">
+
+                                    <RadioGroup
+                                        android:id="@+id/grupo_info_conf_audio_descarga_grupo"
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"
+                                        android:orientation="horizontal"
+                                        android:tag="@string/rol_admin">
+
+                                        <RadioButton
+                                            android:id="@+id/grupo_info_conf_audio_descarga_permitir"
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:layout_margin="5dp"
+                                            android:layout_weight="3"
+                                            android:buttonTint="#420808"
+                                            android:tag="@string/rol_admin"
+                                            android:text="Sin politica" />
+
+                                        <RadioButton
+                                            android:id="@+id/grupo_info_conf_audio_descarga_bloquear"
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:layout_margin="5dp"
+                                            android:layout_weight="3"
+                                            android:buttonTint="#420808"
+                                            android:tag="@string/rol_admin"
+                                            android:text="Nunca Permitir" />
+
+
+                                    </RadioGroup>
+                                </LinearLayout>
+
+                            </TableRow>
+
+                            <TableRow
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent">
+
+                                <TextView
+                                    android:id="@+id/grupo_info_conf_anonimo_titulo"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginStart="3dp"
+                                    android:layout_marginTop="10dp"
+                                    android:layout_span="3"
+                                    android:text="Politica de Mensajes Anonimos"
+
+                                    android:textSize="16sp"
+                                    android:textStyle="bold" />
+                            </TableRow>
+
+                            <TableRow
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:layout_marginStart="3dp"
+                                android:textAlignment="center">
+
+                                <LinearLayout
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_weight="1"
+                                    android:orientation="horizontal">
+
+                                    <RadioGroup
+                                        android:id="@+id/grupo_info_conf_anonimo_grupo"
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"
+                                        android:orientation="horizontal"
+                                        android:tag="@string/rol_admin">
+
+                                        <RadioButton
+                                            android:id="@+id/grupo_info_conf_anonimo_permitir"
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:layout_margin="5dp"
+                                            android:layout_weight="3"
+                                            android:buttonTint="#420808"
+                                            android:tag="@string/rol_admin"
+                                            android:text="Permitir" />
+
+                                        <RadioButton
+                                            android:id="@+id/grupo_info_conf_anonimo_bloquear"
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:layout_margin="5dp"
+                                            android:layout_weight="3"
+                                            android:buttonTint="#420808"
+                                            android:tag="@string/rol_admin"
+                                            android:text="Bloquear" />
+
+                                        <RadioButton
+                                            android:id="@+id/grupo_info_conf_anonimo_obligatorio"
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:layout_margin="5dp"
+                                            android:layout_weight="3"
+                                            android:buttonTint="#420808"
+                                            android:tag="@string/rol_admin"
+                                            android:text="Obligatorio" />
+                                    </RadioGroup>
+                                </LinearLayout>
+
+                            </TableRow>
+
+                            <TableRow
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:visibility="gone">
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginStart="3dp"
+                                    android:layout_marginTop="10dp"
+                                    android:layout_span="3"
+                                    android:text="Politica de Mensajes Temporales"
+                                    android:textSize="16sp"
+                                    android:textStyle="bold" />
+                            </TableRow>
+
+                            <TableRow
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:layout_marginStart="3dp"
+                                android:textAlignment="center"
+                                android:visibility="gone">
+
+                                <LinearLayout
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_weight="1"
+                                    android:orientation="vertical">
+
+                                    <CheckBox
+                                        android:id="@+id/grupo_info_conf_temporal_obligatorio"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:layout_margin="7dp"
+                                        android:layout_weight="1"
+                                        android:backgroundTint="#8F6969"
+                                        android:buttonTint="#420808"
+                                        android:tag="@string/rol_admin"
+                                        android:text="Siempre Obligatorio" />
+
+                                    <LinearLayout
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="match_parent"
+                                        android:orientation="horizontal">
+
+                                        <TextView
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:layout_gravity="center_vertical"
+                                            android:layout_marginStart="7dp"
+                                            android:layout_weight="1"
+                                            android:text="Tiempo Minimo Aceptado"
+                                            android:textStyle="bold" />
+
+                                        <Spinner
+                                            android:id="@+id/grupo_info_conf_temporal_maximo_tiempo_permitido"
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:layout_gravity="center_vertical"
+                                            android:entries="@array/time_messages_values"
+                                            android:spinnerMode="dialog" />
+
+                                    </LinearLayout>
+
+                                </LinearLayout>
+
+                            </TableRow>
+
+                            <TableRow
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent">
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginStart="3dp"
+                                    android:layout_marginTop="10dp"
+                                    android:layout_span="3"
+                                    android:text="Politica de Mensajes Black"
+                                    android:textSize="16sp"
+                                    android:textStyle="bold" />
+                            </TableRow>
+
+                            <TableRow
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:layout_marginStart="3dp"
+                                android:textAlignment="center">
+
+                                <LinearLayout
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_weight="1"
+                                    android:orientation="horizontal">
+
+                                    <CheckBox
+                                        android:id="@+id/grupo_info_conf_black_obligatorio_adjunto"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:layout_margin="7dp"
+                                        android:layout_weight="1"
+                                        android:backgroundTint="#8F6969"
+                                        android:buttonTint="#420808"
+                                        android:tag="@string/rol_admin"
+                                        android:text="Obligatorio cuando contiene Imagen o Video" />
+
+                                </LinearLayout>
+
+                            </TableRow>
+
+                            <TableRow
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent">
+
+                                <TextView
+                                    android:id="@+id/grupo_info_conf_audiochat_titulo"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginStart="3dp"
+                                    android:layout_marginTop="10dp"
+                                    android:layout_span="3"
+                                    android:text="Politica de Mensajes de Audio"
+                                    android:textSize="16sp"
+                                    android:textStyle="bold" />
+                            </TableRow>
+
+                            <TableRow
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:layout_marginStart="3dp"
+                                android:textAlignment="center">
+
+                                <LinearLayout
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_weight="1"
+                                    android:orientation="horizontal">
+
+                                    <RadioGroup
+                                        android:id="@+id/grupo_info_conf_audiochat_grupo"
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"
+                                        android:orientation="horizontal"
+                                        android:tag="@string/rol_admin">
+
+                                        <RadioButton
+                                            android:id="@+id/grupo_info_conf_audiochat_permitir"
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:layout_margin="5dp"
+                                            android:layout_weight="3"
+                                            android:buttonTint="#420808"
+                                            android:tag="@string/rol_admin"
+                                            android:text="Permitir" />
+
+                                        <RadioButton
+                                            android:id="@+id/grupo_info_conf_audiochat_bloquear"
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:layout_margin="5dp"
+                                            android:layout_weight="3"
+                                            android:buttonTint="#420808"
+                                            android:tag="@string/rol_admin"
+                                            android:text="Bloquear" />
+
+                                        <RadioButton
+                                            android:id="@+id/radioBu3tton333344333"
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:layout_margin="7dp"
+                                            android:layout_weight="3"
+                                            android:buttonTint="#420808"
+                                            android:tag="@string/rol_admin"
+                                            android:text="Obligatorio"
+                                            android:visibility="invisible" />
+                                    </RadioGroup>
+                                </LinearLayout>
+
+                            </TableRow>
+
+                            <TableRow
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="left"
+                                android:layout_marginStart="3dp"
+                                android:layout_marginTop="7dp"
+                                android:layout_marginBottom="7dp"
+                                android:gravity="left">
+
+                                <LinearLayout
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="match_parent"
+                                    android:orientation="horizontal">
+
+                                    <TextView
+                                        android:id="@+id/textVie2222222w36"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:layout_gravity="center_vertical"
+                                        android:layout_marginStart="7dp"
+                                        android:layout_weight="1"
+                                        android:text="Tiempo Maximo"
+                                        android:textStyle="bold" />
+
+                                    <Spinner
+                                        android:id="@+id/grupo_info_conf_audiochat_maximo_tiempo"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:layout_gravity="center_vertical"
+                                        android:entries="@array/audio_message_time_configuration"
+                                        android:spinnerMode="dialog" />
+
+                                </LinearLayout>
+
+                            </TableRow>
+
+                            <TableRow
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="3dp"
+                                android:layout_marginBottom="7dp">
+
+                                <LinearLayout
+                                    android:layout_width="match_parent"
+                                    android:layout_height="match_parent"
+                                    android:layout_span="3"
+                                    android:layout_weight="1"
+                                    android:orientation="vertical">
+
+                                    <LinearLayout
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"
+                                        android:orientation="horizontal">
+
+
+                                        <TableRow
+                                            android:layout_width="match_parent"
+                                            android:layout_height="match_parent" />
+
+                                    </LinearLayout>
+
+                                </LinearLayout>
+
+                            </TableRow>
+
+                            <TableRow
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:layout_marginStart="3dp"
+                                android:layout_marginBottom="7dp">
+
+                                <TextView
+                                    android:id="@+id/textView34"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginStart="3dp"
+                                    android:layout_marginTop="10dp"
+                                    android:layout_span="3"
+                                    android:text="Configuraciones Generales"
+                                    android:textSize="16sp"
+                                    android:textStyle="bold" />
+
+                            </TableRow>
+
+
+                            <TableRow
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:layout_marginStart="3dp"
+                                android:layout_marginBottom="7dp">
+
+                                <LinearLayout
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_weight="1"
+                                    android:orientation="vertical">
+
+                                    <CheckBox
+                                        android:id="@+id/grupo_info_conf_gen_cambiar_nickname"
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"
+                                        android:layout_margin="7dp"
+                                        android:layout_weight="1"
+                                        android:buttonTint="#420808"
+                                        android:tag="@string/rol_admin"
+                                        android:text="Usar Alias Aleatorio de Grupo" />
+
+                                    <CheckBox
+                                        android:id="@+id/grupo_info_conf_gen_ocultar_lista_integrantes"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:layout_margin="7dp"
+                                        android:layout_weight="1"
+                                        android:buttonTint="#420808"
+                                        android:tag="@string/rol_admin"
+                                        android:text="Ocultar la Lista de Integrantes " />
+
+                                    <CheckBox
+                                        android:id="@+id/grupo_info_conf_gen_ocultar_detalles"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:layout_margin="7dp"
+                                        android:layout_weight="1"
+                                        android:buttonTint="#420808"
+                                        android:tag="@string/rol_admin"
+                                        android:text="Ocultar Detalles del Mensaje" />
+
+                                    <CheckBox
+                                        android:id="@+id/grupo_info_conf_gen_ocultar_estado"
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"
+                                        android:layout_margin="7dp"
+                                        android:layout_weight="1"
+                                        android:buttonTint="#420808"
+                                        android:tag="@string/rol_admin"
+                                        android:text="Ocultar Estado de Recepcion/Envio" />
+
+                                </LinearLayout>
+                            </TableRow>
+
+                            <TableRow
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:layout_gravity="center_vertical"
+                                android:layout_marginStart="3dp"
+                                android:layout_marginBottom="7dp"
+                                android:gravity="center_vertical">
+
+                                <LinearLayout
+                                    android:layout_width="match_parent"
+                                    android:layout_height="match_parent"
+                                    android:layout_weight="1"
+                                    android:orientation="horizontal">
+
+                                    <TextView
+                                        android:id="@+id/grupo_info_conf_extra_encrip_titulo"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:layout_gravity="center_vertical"
+                                        android:layout_weight="1"
+                                        android:text="Extra Encriptacion Obligatoria"
+                                        android:textSize="16sp"
+                                        android:textStyle="bold" />
+
+                                </LinearLayout>
+
+                            </TableRow>
+
+                            <TableRow
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:layout_marginStart="3dp"
+                                android:layout_weight="1"
+                                android:textAlignment="center">
+
+                                <LinearLayout
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_weight="1"
+                                    android:orientation="horizontal">
+
+                                    <RadioGroup
+                                        android:id="@+id/grupo_info_conf_extra_encrip_grupo"
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"
+                                        android:orientation="horizontal"
+                                        android:tag="@string/rol_admin">
+
+                                        <RadioButton
+                                            android:id="@+id/grupo_info_conf_extra_encrip_permitir"
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:layout_margin="5dp"
+                                            android:layout_weight="3"
+                                            android:buttonTint="#420808"
+                                            android:tag="@string/rol_admin"
+                                            android:text="Permitir" />
+
+                                        <RadioButton
+                                            android:id="@+id/grupo_info_conf_extra_encrip_bloquear"
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:layout_margin="5dp"
+                                            android:layout_weight="3"
+                                            android:buttonTint="#420808"
+                                            android:tag="@string/rol_admin"
+                                            android:text="Bloquear" />
+
+                                        <RadioButton
+                                            android:id="@+id/grupo_info_conf_extra_encrip_obligatorio"
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:layout_margin="5dp"
+                                            android:layout_weight="3"
+                                            android:buttonTint="#420808"
+                                            android:tag="@string/rol_admin"
+                                            android:text="Obligatorio" />
+                                    </RadioGroup>
+                                </LinearLayout>
+
+                            </TableRow>
+
+                        </TableLayout>
                     </LinearLayout>
-
-                </LinearLayout>
+                </ScrollView>
 
             </TableRow>
 
             <TableRow
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_marginStart="3dp"
-                android:layout_marginBottom="7dp">
+                android:layout_height="match_parent" >
 
-                <TextView
-                    android:id="@+id/textView34"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="3dp"
-                    android:layout_marginTop="10dp"
-                    android:layout_span="3"
-                    android:text="Configuraciones Generales"
-                    android:textSize="16sp"
-                    android:textStyle="bold" />
-
-            </TableRow>
+                <TableLayout
 
 
-            <TableRow
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_marginStart="3dp"
-                android:layout_marginBottom="7dp">
-
-                <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:orientation="vertical">
+                    android:layout_gravity="center_horizontal"
+                    android:background="#E4DFB4"
+                    android:gravity="center_horizontal"
+                    android:visibility="visible">
 
-                    <CheckBox
-                        android:id="@+id/grupo_info_conf_gen_cambiar_nickname"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_margin="7dp"
-                        android:layout_weight="1"
-                        android:buttonTint="#420808"
-                        android:tag="@string/rol_admin"
-                        android:text="Usar Alias Aleatorio de Grupo" />
-
-                    <CheckBox
-                        android:id="@+id/grupo_info_conf_gen_ocultar_lista_integrantes"
+                    <TableRow
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_margin="7dp"
-                        android:layout_weight="1"
-                        android:buttonTint="#420808"
-                        android:tag="@string/rol_admin"
-                        android:text="Ocultar la Lista de Integrantes " />
-
-                    <CheckBox
-                        android:id="@+id/grupo_info_conf_gen_ocultar_detalles"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_margin="7dp"
-                        android:layout_weight="1"
-                        android:buttonTint="#420808"
-                        android:tag="@string/rol_admin"
-                        android:text="Ocultar Detalles del Mensaje" />
-
-                    <CheckBox
-                        android:id="@+id/grupo_info_conf_gen_ocultar_estado"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_margin="7dp"
-                        android:layout_weight="1"
-                        android:buttonTint="#420808"
-                        android:tag="@string/rol_admin"
-                        android:text="Ocultar Estado de Recepcion/Envio" />
-
-                </LinearLayout>
-            </TableRow>
-
-            <TableRow
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_gravity="center_vertical"
-                android:layout_marginStart="3dp"
-                android:layout_marginBottom="7dp"
-                android:gravity="center_vertical">
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1"
-                    android:orientation="horizontal">
-
-                    <TextView
-                        android:id="@+id/grupo_info_conf_extra_encrip_titulo"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center_vertical"
-                        android:layout_weight="1"
-                        android:text="Extra Encriptacion Obligatoria"
-                        android:textSize="16sp"
-                        android:textStyle="bold" />
-
-                </LinearLayout>
-
-            </TableRow>
-
-            <TableRow
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_marginStart="3dp"
-                android:layout_weight="1"
-                android:textAlignment="center">
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:orientation="horizontal">
-
-                    <RadioGroup
-                        android:id="@+id/grupo_info_conf_extra_encrip_grupo"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:orientation="horizontal"
-                        android:tag="@string/rol_admin">
-
-                        <RadioButton
-                            android:id="@+id/grupo_info_conf_extra_encrip_permitir"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_margin="5dp"
-                            android:layout_weight="3"
-                            android:buttonTint="#420808"
-                            android:tag="@string/rol_admin"
-                            android:text="Permitir" />
-
-                        <RadioButton
-                            android:id="@+id/grupo_info_conf_extra_encrip_bloquear"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_margin="5dp"
-                            android:layout_weight="3"
-                            android:buttonTint="#420808"
-                            android:tag="@string/rol_admin"
-                            android:text="Bloquear" />
-
-                        <RadioButton
-                            android:id="@+id/grupo_info_conf_extra_encrip_obligatorio"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_margin="5dp"
-                            android:layout_weight="3"
-                            android:buttonTint="#420808"
-                            android:tag="@string/rol_admin"
-                            android:text="Obligatorio" />
-                    </RadioGroup>
-                </LinearLayout>
-
-            </TableRow>
-
-
-            <TableRow
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:layout_gravity="center"
-                android:layout_marginStart="3dp"
-                android:layout_marginTop="10dp"
-                android:gravity="center">
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_gravity="center"
-                    android:orientation="horizontal">
-
-                    <Button
-                        android:id="@+id/grupo_info_conf_reset"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginEnd="15dp"
-                        android:backgroundTint="#438BE3"
-                        android:tag="@string/rol_admin"
-                        android:text="Default"
-                        app:cornerRadius="20dp"
-                        app:icon="@drawable/ic_baseline_360_24" />
-
-                    <Button
-                        android:id="@+id/grupo_info_conf_save"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center_horizontal"
-                        android:layout_marginStart="5dp"
+                        android:layout_height="match_parent"
+                        android:layout_gravity="center"
+                        android:layout_marginStart="3dp"
                         android:layout_marginTop="10dp"
-                        android:layout_marginEnd="5dp"
-                        android:layout_span="5"
-                        android:tag="@string/rol_admin"
-                        android:text="Guardar"
-                        app:cornerRadius="20dp"
-                        app:icon="@drawable/ic_baseline_cloud_upload_24" />
-                </LinearLayout>
+                        android:gravity="center">
 
-            </TableRow>
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_gravity="center"
+                            android:orientation="horizontal">
 
-            <TableRow
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:gravity="right"
-                android:tag="@string/help_tag_grupo_info_granconf">
+                            <Button
+                                android:id="@+id/grupo_info_conf_reset"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginEnd="15dp"
+                                android:backgroundTint="#438BE3"
+                                android:tag="@string/rol_admin"
+                                android:text="Default"
+                                app:cornerRadius="20dp"
+                                app:icon="@drawable/ic_baseline_360_24" />
 
-<include android:id="@+id/grupo_info_help_conf_gral_include" layout="@layout/frame_help" />
+                            <Button
+                                android:id="@+id/grupo_info_conf_save"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center_horizontal"
+                                android:layout_marginStart="5dp"
+                                android:layout_marginTop="10dp"
+                                android:layout_marginEnd="5dp"
+                                android:layout_span="5"
+                                android:tag="@string/rol_admin"
+                                android:text="Guardar"
+                                app:cornerRadius="20dp"
+                                app:icon="@drawable/ic_baseline_cloud_upload_24" />
+                        </LinearLayout>
+
+                    </TableRow>
+
+                    <TableRow
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:gravity="right"
+                        android:tag="@string/help_tag_grupo_info_granconf">
+
+                        <include
+                            android:id="@+id/grupo_info_help_conf_gral_include"
+                            layout="@layout/frame_help" />
+                    </TableRow>
+
+
+                </TableLayout>
             </TableRow>
 
         </TableLayout>

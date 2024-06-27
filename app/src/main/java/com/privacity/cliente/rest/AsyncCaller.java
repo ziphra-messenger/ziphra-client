@@ -24,6 +24,7 @@ public class AsyncCaller extends AsyncTask<Void, Void, Void>
                 URL myUrl = new URL(url);
                 URLConnection connection = myUrl.openConnection();
                 connection.setConnectTimeout(timeout);
+
                 connection.connect();
 
                 success=true;

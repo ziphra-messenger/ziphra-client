@@ -35,6 +35,7 @@ import com.privacity.cliente.activity.about.AboutActivity;
 import com.privacity.cliente.activity.addgrupo.AddGrupoActivity;
 import com.privacity.cliente.activity.codigoinvitacion.CodigoInvitacionActivity;
 import com.privacity.cliente.activity.common.CustomAppCompatActivity;
+import com.privacity.cliente.activity.grupo.delegate.UsuarioCloseSessionRest;
 import com.privacity.cliente.activity.grupoinfo.GrupoInfoActivity;
 import com.privacity.cliente.activity.main.MainActivity;
 import com.privacity.cliente.activity.message.MessageActivity;
@@ -165,10 +166,11 @@ public class GrupoActivity extends CustomAppCompatActivity implements
             public void onReceive(Context arg0, Intent intent) {
                 String action = intent.getAction();
                 if (action.equals("finish_all_activities")) {
-                    finish();
+                    UsuarioCloseSessionRest.doIt(GrupoActivity.this);
                 }
             }
         };
+
         registerReceiver(broadcastReceiver, new IntentFilter("finish_all_activities"));
         //
 
@@ -336,6 +338,9 @@ public class GrupoActivity extends CustomAppCompatActivity implements
         super.finish();
         Observers.grupo().setGrupoOnTop(false);
         SingletonValues.getInstance().getWebSocket().disconnectStomp();
+
+
+
         //Intent intent = new Intent(this, MainActivity.class);
         //this.startActivity(intent);
     }

@@ -79,7 +79,7 @@ public class ObserverMessage implements SingletonReset {
                     }
                     ;
                     if (o2.getMessagesDetailDTO()[0].getEstado().equals(MessageState.MY_MESSAGE_SENDING.name())){
-                        return -1;
+                        return 1;
                     }
                     ;
 

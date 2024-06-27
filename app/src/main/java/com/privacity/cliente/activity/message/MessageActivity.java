@@ -711,9 +711,9 @@ public class MessageActivity extends GrupoSelectedCustomAppCompatActivity
         final TextView textFijo;
         final int conf;
         final ConfType defecto;
-        Listener(Spinner spinner, RecyclerMessageAdapter adapter, boolean configurable, TextView textFijo,ConfType defecto) {
+        Listener(Spinner spinner, RecyclerMessageAdapter adapter2, boolean configurable, TextView textFijo,ConfType defecto) {
             this.spinner = spinner;
-            this.adapter = adapter;
+            adapter = adapter2;
             this.configurable = configurable;
             this.textFijo = textFijo;
             this.defecto = defecto;
@@ -1338,12 +1338,12 @@ public class MessageActivity extends GrupoSelectedCustomAppCompatActivity
         MediaDTO mediaDTO = getMediaDTOToSend();
         removeAttach();
         // esto es solo desarrollo
- /*       if (txt.getText().toString().equals("Mensaje de prueba")){
-            txt.setText( txt.getText().toString() +" User: " +
-                    SingletonValues.getInstance().getUsuario().getNickname() +" > " +
-                    SingletonValues.getInstance().getCounterNextValue());
+        if (SingletonServer.getInstance().isDeveloper()) {
+            txt.setText(txt.getText().toString()
+                    + "\n Nickname: " + SingletonValues.getInstance().getUsuario().getNickname()
+                    + "\n Counter nextvalue  " + SingletonValues.getInstance().getCounterNextValue());
         }
-*/
+
         if (replyParent != null){
             if ( replyParent.isBlackMessage()){
                 black = true;
