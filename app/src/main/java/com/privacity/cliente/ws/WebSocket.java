@@ -150,54 +150,54 @@ public class WebSocket {
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(topicMessage -> {
                     //Log.d(TAG, "Received " + topicMessage.getPayload());
-                    String protocoloJson = SingletonValues.getInstance().getSessionAEStoUseWS().getAESDecrypt(topicMessage.getPayload());
 
-                    ProtocoloDTO p = GsonFormated.get().fromJson(protocoloJson, ProtocoloDTO.class);
-                    Log.d(TAG, "MENSAJE RECIbIDO " + GsonFormated.get().toJson(p));
+                    try {
+                        String protocoloJson = SingletonValues.getInstance().getSessionAEStoUseWS().getAESDecrypt(topicMessage.getPayload());
 
-
-                    if ( p.getComponent().equals(ConstantProtocolo.PROTOCOLO_COMPONENT_MESSAGE)){
-
-                        if (p.getSaveGrupoGralConfLockResponseDTO() != null){
-                            Observers.grupo().updateGrupoLock(p.getSaveGrupoGralConfLockResponseDTO());
-                        }
-
-                        if (p.getAction().equals(ConstantProtocolo.PROTOCOLO_ACTION_MESSAGE_RECIVIED)){
-
-                            //MessageDTO id = GsonFormated.get().fromJson(p.getObjectDTO(), MessageDTO.class);
-                            Observers.message().mensajeNuevoWS(p, true, activity);
-                            //GetMessageById.get(activity, id.getIdGrupo(), id.getIdMessage());
+                        ProtocoloDTO p = GsonFormated.get().fromJson(protocoloJson, ProtocoloDTO.class);
+                        Log.d(TAG, "MENSAJE RECIbIDO " + GsonFormated.get().toJson(p));
 
 
-                        }else if (p.getAction().equals(ConstantProtocolo.PROTOCOLO_ACTION_MESSAGE_CHANGE_STATE)){
-                            changeStateDetail(p);
-                        }else if (p.getAction().equals("/message/deleteForEveryone")){
+                        if (p.getComponent().equals(ConstantProtocolo.PROTOCOLO_COMPONENT_MESSAGE)) {
 
-                            Observers.message().removeMessage(p);
-                        }
-                    }else if ( p.getComponent().equals(ConstantProtocolo.PROTOCOLO_COMPONENT_GRUPO)){
-                        if (p.getAction().equals("/grupo/addUser/addMe")){
+                            if (p.getSaveGrupoGralConfLockResponseDTO() != null) {
+                                Observers.grupo().updateGrupoLock(p.getSaveGrupoGralConfLockResponseDTO());
+                            }
+
+                            if (p.getAction().equals(ConstantProtocolo.PROTOCOLO_ACTION_MESSAGE_RECIVIED)) {
+
+                                //MessageDTO id = GsonFormated.get().fromJson(p.getObjectDTO(), MessageDTO.class);
+                                Observers.message().mensajeNuevoWS(p, true, activity);
+                                //GetMessageById.get(activity, id.getIdGrupo(), id.getIdMessage());
 
 
+                            } else if (p.getAction().equals(ConstantProtocolo.PROTOCOLO_ACTION_MESSAGE_CHANGE_STATE)) {
+                                changeStateDetail(p);
+                            } else if (p.getAction().equals("/message/deleteForEveryone" )) {
+
+                                Observers.message().removeMessage(p);
+                            }
+                        } else if (p.getComponent().equals(ConstantProtocolo.PROTOCOLO_COMPONENT_GRUPO)) {
+                            if (p.getAction().equals("/grupo/addUser/addMe" )) {
 
 
-                        } else if (p.getAction().equals(ConstantProtocolo.PROTOCOLO_ACTION_GRUPO_INVITATION_RECIVED)){
-                            Observers.grupo().addGrupo(p);
-                        } else if (p.getAction().equals(ConstantProtocolo.PROTOCOLO_ACTION_GRUPO_REMOVE_USER)){
-                            //ObservatorGrupos.getInstance().removeUserFromGrupo(p);
-                            Observers.message().removeAllMessageFromUser(p);
-                        } else if (p.getAction().equals(ConstantProtocolo.PROTOCOLO_ACTION_GRUPO_WRITTING)){
-                            //ObservatorGrupos.getInstance().removeUserFromGrupo(p);
-                            Observers.message().writting(p);
-                        } else if (p.getAction().equals(ConstantProtocolo.PROTOCOLO_ACTION_GRUPO_STOP_WRITTING)){
-                            //ObservatorGrupos.getInstance().removeUserFromGrupo(p);
-                            Observers.message().writtingStop(p);
-                        } else if (p.getAction().equals(ConstantProtocolo.PROTOCOLO_ACTION_GRUPO_HOW_MANY_MEMBERS_ONLINE)){
-                            //ObservatorGrupos.getInstance().removeUserFromGrupo(p);
-                            Observers.grupo().updateOnline(p);
-                        } else if (p.getAction().equals(ConstantProtocolo.PROTOCOLO_ACTION_GRUPO_SAVE_GENERAL_CONFIGURATION_LOCK)){
-                            System.out.println(GsonFormated.get().toJson(p));
-                            Observers.grupo().updateGrupoLock(p.getSaveGrupoGralConfLockResponseDTO());
+                            } else if (p.getAction().equals(ConstantProtocolo.PROTOCOLO_ACTION_GRUPO_INVITATION_RECIVED)) {
+                                Observers.grupo().addGrupo(p);
+                            } else if (p.getAction().equals(ConstantProtocolo.PROTOCOLO_ACTION_GRUPO_REMOVE_USER)) {
+                                //ObservatorGrupos.getInstance().removeUserFromGrupo(p);
+                                Observers.message().removeAllMessageFromUser(p);
+                            } else if (p.getAction().equals(ConstantProtocolo.PROTOCOLO_ACTION_GRUPO_WRITTING)) {
+                                //ObservatorGrupos.getInstance().removeUserFromGrupo(p);
+                                Observers.message().writting(p);
+                            } else if (p.getAction().equals(ConstantProtocolo.PROTOCOLO_ACTION_GRUPO_STOP_WRITTING)) {
+                                //ObservatorGrupos.getInstance().removeUserFromGrupo(p);
+                                Observers.message().writtingStop(p);
+                            } else if (p.getAction().equals(ConstantProtocolo.PROTOCOLO_ACTION_GRUPO_HOW_MANY_MEMBERS_ONLINE)) {
+                                //ObservatorGrupos.getInstance().removeUserFromGrupo(p);
+                                Observers.grupo().updateOnline(p);
+                            } else if (p.getAction().equals(ConstantProtocolo.PROTOCOLO_ACTION_GRUPO_SAVE_GENERAL_CONFIGURATION_LOCK)) {
+                                System.out.println(GsonFormated.get().toJson(p));
+                                Observers.grupo().updateGrupoLock(p.getSaveGrupoGralConfLockResponseDTO());
 
 
 /*                            if (
@@ -218,23 +218,24 @@ public class WebSocket {
                                     }
                                 }
                             }*/
-                        }
-                     else if (p.getAction().equals("/grupo/blockGrupoRemoto")) {
-                            System.out.println(GsonFormated.get().toJson(p));
+                            } else if (p.getAction().equals("/grupo/blockGrupoRemoto" )) {
+                                System.out.println(GsonFormated.get().toJson(p));
 
-                            if (!SingletonMyAccountConfLockDownTimer.getInstance().isLocked()) {
-                                Intent i = new Intent(activity, LockActivity.class);
+                                if (!SingletonMyAccountConfLockDownTimer.getInstance().isLocked()) {
+                                    Intent i = new Intent(activity, LockActivity.class);
 
-                                i.putExtra(ConstantProtocolo.PROTOCOLO_ACTION_GRUPO_BLOCK_REMOTO, true);
+                                    i.putExtra(ConstantProtocolo.PROTOCOLO_ACTION_GRUPO_BLOCK_REMOTO, true);
 
 
-                                activity.startActivity(i);
+                                    activity.startActivity(i);
 
+                                }
                             }
                         }
+
+                    }catch (Exception e){
+                        e.printStackTrace();
                     }
-
-
                 }, throwable -> {
                     if ( connectWS != null ){
                         connectWS.actionFail("Error on Subscribe Personal Channel");

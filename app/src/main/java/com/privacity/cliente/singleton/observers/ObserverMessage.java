@@ -276,7 +276,7 @@ public class ObserverMessage implements SingletonReset {
 
 
         System.out.println("mensaje recibido 1");
-        System.out.println(gson.toJson(protocoloDTO.getMessageDTO()));
+       // System.out.println(gson.toJson(protocoloDTO.getMessageDTO()));
 
         Message messageMapped = new Message(protocoloDTO.getMessageDTO());
         messageMapped.setReply(isReply);
@@ -382,7 +382,7 @@ public class ObserverMessage implements SingletonReset {
 
 
        System.out.println("mensaje recibido 2");
-        System.out.println(gson.toJson(mensaje));
+        //System.out.println(gson.toJson(mensaje));
         /*
         if (finalMedia != null){
             mensaje.setText(finalMedia.getText());
