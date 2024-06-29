@@ -127,7 +127,7 @@ public class RestTemplateProtocolo extends AsyncTask<Void, Void, ResponseEntity<
                 s = rt.postForEntity(url, entity, String.class);
 
                 //if (logOn) Log.i(">> ProtocoloDTO ENCRIPTADO ", s.getBody().toString());
-                String sBodyDescr = SingletonValues.getInstance().getSessionAEStoUse().getAESDecrypt(s.getBody());
+                String sBodyDescr = SingletonValues.getInstance().getSessionAEStoUseServerEncrypt().getAESDecrypt(s.getBody());
                 //if (logOn) Log.i("ProtocoloDTO  sBodyDescr <<", sBodyDescr);
                 ProtocoloDTO pReturn = gson.fromJson(sBodyDescr, ProtocoloDTO.class);
 

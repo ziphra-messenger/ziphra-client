@@ -23,6 +23,9 @@ import java.time.Duration;
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
 
+import lombok.Getter;
+import lombok.Setter;
+
 public class SingletonValues implements SingletonReset {
 
     private ItemListMessage messageDetailSeleccionado;
@@ -40,6 +43,12 @@ public class SingletonValues implements SingletonReset {
     private String idGrupoSeleccionado;
     private AEStoUse personalAEStoUse;
     private AEStoUse sessionAEStoUse;
+    @Getter
+    @Setter
+    private AEStoUse sessionAEStoUseWS;
+    @Getter
+    @Setter
+    private AEStoUse sessionAEStoUseServerEncrypt;
     private EncryptKeysToUse encryptKeysToUse;
     private RSA rsa;
     private LocalDateTime serverTime;

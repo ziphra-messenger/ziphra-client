@@ -40,9 +40,10 @@
     </string-array>
 
     <string-array name="main_configuration_help_servers">
+        <item>http://10.0.2.2:8080</item>
         <item>https://10.0.2.2:8080</item>
         <item>http://testprivacity.myddns.me:8080</item>
-        <item>http://10.0.2.2:8080</item>
+
         <item>http://100.118.42.131:8080</item>
     </string-array>
 

@@ -3,6 +3,7 @@ package com.privacity.cliente.activity.loading;
 import android.content.Intent;
 import android.util.Log;
 
+import com.privacity.cliente.encrypt.AEStoUse;
 import com.privacity.cliente.encrypt.EncryptKeysToUse;
 import com.privacity.cliente.encrypt.EncryptUtil;
 import com.privacity.cliente.encrypt.RSA;
@@ -31,29 +32,43 @@ public class LoadingActivityCrearKeysDelegate {
     }
 
     public void crearKeys() throws Exception {
-        loadingActivity.addTextConsole("Getting Login Data");
+        loadingActivity.addTextConsole("Getting Login Data" );
         Intent intent = loadingActivity.getIntent();
-        String protocoloDTO = intent.getStringExtra("protocoloDTO");
-        String username = intent.getStringExtra("username");
-        String password = intent.getStringExtra("password");
-        loadingActivity.addTextConsole("Creating Personal Encrypt");
+        String protocoloDTO = intent.getStringExtra("protocoloDTO" );
+        String username = intent.getStringExtra("username" );
+        String password = intent.getStringExtra("password" );
+        loadingActivity.addTextConsole("Creating Personal Encrypt" );
         createPersonalAES(username);
 
         String prettyJsonString = GsonFormated.get().toJson(protocoloDTO);
         Log.i("ProtocoloDTO  prettyJsonString <<", prettyJsonString);
         LoginDTOResponse l = GsonFormated.get().fromJson(protocoloDTO, LoginDTOResponse.class);
-        loadingActivity.addTextConsole("Deserializing Personal Private Key");
+        loadingActivity.addTextConsole("Deserializing Personal Private Key" );
         createPersonalPrivateKey(l);
         createSessionAES(l);
 
         LoginDataDTO data = l.getLoginDataDTO();
-        loadingActivity.addTextConsole("Saving Token");
+        loadingActivity.addTextConsole("Saving Token" );
         SingletonValues.getInstance().setToken(
                 SingletonValues.getInstance().getSystemGralConf().getAuth().getTokenType()
                         + " " + data.getToken());
         SingletonValues.getInstance().setInvitationCode(data.invitationCode);
         SingletonValues.getInstance().setPassword(password);
         SingletonValues.getInstance().setMyAccountConfDTO(data.getMyAccountGralConfDTO());
+        SingletonValues.getInstance().setSessionAEStoUseWS(
+        new AEStoUse(data.getSessionAESDTOWS().secretKeyAES,
+                data.getSessionAESDTOWS().getSaltAES(),
+                Integer.parseInt(data.getSessionAESDTOWS().getIteration()),
+                SingletonValues.getInstance().getSystemGralConf().getPublicAES().getBits())
+        );
+
+        SingletonValues.getInstance().setSessionAEStoUseServerEncrypt(
+                new AEStoUse(data.getSessionAESDTOServerEncrypt().getSecretKeyAES(),
+                        data.getSessionAESDTOServerEncrypt().getSaltAES(),
+                        Integer.parseInt(data.getSessionAESDTOServerEncrypt().getIteration()),
+                        SingletonValues.getInstance().getSystemGralConf().getPublicAES().getBits())
+        );
+
         UsuarioDTO u = new UsuarioDTO();
         u.setNickname(data.getNickname());
         u.setIdUsuario(data.getId() + "");

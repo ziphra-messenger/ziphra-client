@@ -81,27 +81,27 @@ public class RecyclerMessageDetailAdapter extends RecyclerView.Adapter<RecyclerM
 
         //}
 
-        holder.tvMessageDetailItemState.setText(item.messageDetailDTO.getEstado());
+        holder.tvMessageDetailItemState.setText(item.messageDetailDTO.getEstado().name());
 
 
 
         //}
 
-        holder.tvMessageDetailItemState.setText(item.messageDetailDTO.getEstado());
+        holder.tvMessageDetailItemState.setText(item.messageDetailDTO.getEstado().name());
 
 
-        if (item.messageDetailDTO.getEstado().equals(MessageState.MY_MESSAGE_ERROR_NOT_SEND.name())) {
+        if (item.messageDetailDTO.getEstado().equals(MessageState.MY_MESSAGE_ERROR_NOT_SEND)) {
             holder.tvMessageDetailItemStateTilde.setText("✘");
         }
-    else if (item.messageDetailDTO.getEstado().equals(MessageState.MY_MESSAGE_SENT.name())) {
+    else if (item.messageDetailDTO.getEstado().equals(MessageState.MY_MESSAGE_SENT)) {
                 holder.tvMessageDetailItemStateTilde.setText("");
-            } else if (item.messageDetailDTO.getEstado().equals(MessageState.MY_MESSAGE_SENDING.name())) {
+            } else if (item.messageDetailDTO.getEstado().equals(MessageState.MY_MESSAGE_SENDING)) {
                 holder.tvMessageDetailItemStateTilde.setText("");
-            } else if (item.messageDetailDTO.getEstado().equals(MessageState.DESTINY_SERVER.name())) {
+            } else if (item.messageDetailDTO.getEstado().equals(MessageState.DESTINY_SERVER)) {
                 holder.tvMessageDetailItemStateTilde.setText("✓");
-            } else if (item.messageDetailDTO.getEstado().equals(MessageState.DESTINY_DELIVERED.name())) {
+            } else if (item.messageDetailDTO.getEstado().equals(MessageState.DESTINY_DELIVERED)) {
                 holder.tvMessageDetailItemStateTilde.setText("✓✓");
-            } else if (item.messageDetailDTO.getEstado().equals(MessageState.DESTINY_READED.name())) {
+            } else if (item.messageDetailDTO.getEstado().equals(MessageState.DESTINY_READED)) {
                 holder.tvMessageDetailItemStateTilde.setText("✓✓✓");
             }
 

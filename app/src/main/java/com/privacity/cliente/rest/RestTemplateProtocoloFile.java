@@ -101,7 +101,7 @@ public class RestTemplateProtocoloFile extends AsyncTask<Void, Void, ResponseEnt
                 final ResponseEntity<String> s = template.exchange(url,
                         HttpMethod.POST, httpEntity, String.class);
 
-                String sBodyDescr = SingletonValues.getInstance().getSessionAEStoUse().getAESDecrypt(s.getBody());
+                String sBodyDescr = SingletonValues.getInstance().getSessionAEStoUseServerEncrypt().getAESDecrypt(s.getBody());
                  ProtocoloDTO pReturn = GsonFormated.get().fromJson(sBodyDescr, ProtocoloDTO.class);
 
                 return new ResponseEntity<ProtocoloDTO>(pReturn, HttpStatus.OK);

@@ -823,15 +823,15 @@ public class RecyclerHolder extends RecyclerView.ViewHolder /*implements View.On
 
         menu.add(1, v.getId(), 0, "Responder");//groupId, itemId, order, title
         if (!this.itemListMessage.getMessage().isTimeMessage() && !this.itemListMessage.getMessage().isSystemMessage()
-                && !this.itemListMessage.getMessageDetailDTO().getEstado().equals(MessageState.MY_MESSAGE_SENDING.name())
-                && !this.itemListMessage.getMessageDetailDTO().getEstado().equals(MessageState.MY_MESSAGE_ERROR_NOT_SEND.name())
+                && !this.itemListMessage.getMessageDetailDTO().getEstado().equals(MessageState.MY_MESSAGE_SENDING)
+                && !this.itemListMessage.getMessageDetailDTO().getEstado().equals(MessageState.MY_MESSAGE_ERROR_NOT_SEND)
                 && this.itemListMessage.getMessage().isPermitirReenvio() )
         {
             menu.add(1, v.getId(), 0, "Reenviar");//groupId, itemId, order, title
         }
 
 
-        if (this.itemListMessage.getMessageDetailDTO().getEstado().equals(MessageState.MY_MESSAGE_ERROR_NOT_SEND.name())){
+        if (this.itemListMessage.getMessageDetailDTO().getEstado().equals(MessageState.MY_MESSAGE_ERROR_NOT_SEND)){
             menu.add(1, v.getId(), 0, "Reintentar");//groupId, itemId, order, title
         }
         SubMenu subMenuEliminar = menu.addSubMenu("Eliminar");

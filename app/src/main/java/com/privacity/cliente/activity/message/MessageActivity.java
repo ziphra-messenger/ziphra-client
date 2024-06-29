@@ -1499,17 +1499,17 @@ public class MessageActivity extends GrupoSelectedCustomAppCompatActivity
             public int compare(ItemListMessage o1, ItemListMessage o2) {
                 try {
 
-                if ( o1.getMessage().getMessagesDetailDTO()[0].getEstado().equals(MessageState.MY_MESSAGE_SENDING.name()) &&
-                        o2.getMessage().getMessagesDetailDTO()[0].getEstado().equals(MessageState.MY_MESSAGE_SENDING.name())){
+                if ( o1.getMessage().getMessagesDetailDTO()[0].getEstado().equals(MessageState.MY_MESSAGE_SENDING) &&
+                        o2.getMessage().getMessagesDetailDTO()[0].getEstado().equals(MessageState.MY_MESSAGE_SENDING)){
 
                     int value =  o1.getMessage().getIdMessage().compareTo(o2.getMessage().getIdMessage());
                     return value;
 
                 }
-                if (o1.getMessage().getMessagesDetailDTO()[0].getEstado().equals(MessageState.MY_MESSAGE_SENDING.name())){
+                if (o1.getMessage().getMessagesDetailDTO()[0].getEstado().equals(MessageState.MY_MESSAGE_SENDING)){
                     return 1;
                 };
-                if (o2.getMessage().getMessagesDetailDTO()[0].getEstado().equals(MessageState.MY_MESSAGE_SENDING.name())){
+                if (o2.getMessage().getMessagesDetailDTO()[0].getEstado().equals(MessageState.MY_MESSAGE_SENDING)){
                     return -1;
                 };
 

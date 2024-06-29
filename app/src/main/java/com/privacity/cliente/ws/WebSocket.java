@@ -150,8 +150,7 @@ public class WebSocket {
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(topicMessage -> {
                     //Log.d(TAG, "Received " + topicMessage.getPayload());
-
-                    String protocoloJson = SingletonValues.getInstance().getSessionAEStoUse().getAESDecrypt(topicMessage.getPayload());
+                    String protocoloJson = SingletonValues.getInstance().getSessionAEStoUseWS().getAESDecrypt(topicMessage.getPayload());
 
                     ProtocoloDTO p = GsonFormated.get().fromJson(protocoloJson, ProtocoloDTO.class);
                     Log.d(TAG, "MENSAJE RECIbIDO " + GsonFormated.get().toJson(p));

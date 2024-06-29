@@ -221,9 +221,9 @@ public class RecyclerMessageAdapter extends RecyclerView.Adapter<RecyclerHolder>
 //            grupoDeDos=true;
 //        }
 
-        if (grupoDeDos || item.getMessageDetailDTO().getEstado().equals(MessageState.MY_MESSAGE_SENT.name())
-                || item.getMessageDetailDTO().getEstado().equals(MessageState.MY_MESSAGE_SENDING.name())
-                || item.getMessageDetailDTO().getEstado().equals(MessageState.MY_MESSAGE_ERROR_NOT_SEND.name())
+        if (grupoDeDos || item.getMessageDetailDTO().getEstado().equals(MessageState.MY_MESSAGE_SENT)
+                || item.getMessageDetailDTO().getEstado().equals(MessageState.MY_MESSAGE_SENDING)
+                || item.getMessageDetailDTO().getEstado().equals(MessageState.MY_MESSAGE_ERROR_NOT_SEND)
         ) {
 
             //rch.getTvRemitente().setVisibility(View.GONE);
@@ -409,8 +409,8 @@ public class RecyclerMessageAdapter extends RecyclerView.Adapter<RecyclerHolder>
         if (!item.getMessage().isSystemMessage()
             && !isReply
         ) {
-            if (!item.messageDetailDTO.getEstado().equals(MessageState.MY_MESSAGE_SENDING.name()) &&
-                    !item.messageDetailDTO.getEstado().equals(MessageState.MY_MESSAGE_ERROR_NOT_SEND.name())) {
+            if (!item.messageDetailDTO.getEstado().equals(MessageState.MY_MESSAGE_SENDING) &&
+                    !item.messageDetailDTO.getEstado().equals(MessageState.MY_MESSAGE_ERROR_NOT_SEND)) {
 
                 String estado = getEstadoString(item, grupoDeDos);
                 if (estado.equals("✓✓✓")) {
@@ -421,7 +421,7 @@ public class RecyclerMessageAdapter extends RecyclerView.Adapter<RecyclerHolder>
                 rch.getTvState().setText(estado);
             } else {
                 rch.getTvState().setTextColor(Color.BLACK);
-                rch.getTvState().setText(item.messageDetailDTO.getEstado());
+                rch.getTvState().setText(item.messageDetailDTO.getEstado().name());
             }
         }else{
             rch.getTvState().setText("");
@@ -502,10 +502,12 @@ public class RecyclerMessageAdapter extends RecyclerView.Adapter<RecyclerHolder>
         }
 
         if (SingletonServer.getInstance().isDeveloper()) {
-            txt = "mensaje: " + txt
-                    + "\n User Creador: " + item.getMessage().getUsuarioCreacion().getNickname()
+            txt = "Texto: " + txt
+                    + "\n Nick Creador: " + ((item.getMessage().getUsuarioCreacion() == null) ? "null" : item.getMessage().getUsuarioCreacion().getNickname())
+                    + "\n Id Creador: " + ((item.getMessage().getUsuarioCreacion() == null) ? "null" : item.getMessage().getUsuarioCreacion().getIdUsuario())
                     + "\n IdMessage: " + item.getMessage().getIdMessage()
-                    + "\n IdGrupo: " + item.getMessage().getIdGrupo();
+                    + "\n IdGrupo: " + item.getMessage().getIdGrupo()
+                    + "\n Cantidad de Usuarios Enviados: " + item.getMessage().getMessagesDetailDTO().length;
 
         }
 
@@ -533,8 +535,8 @@ public class RecyclerMessageAdapter extends RecyclerView.Adapter<RecyclerHolder>
                         rch.getBtActivateMessageTime().setText((MessageUtil.CalcularTiempoFormaterSinHora(ms.getCountDownTimer().getSeconds())) + "");
 
                         if (!rch.isHasMediaAudioChat() &&
-                                (!item.getMessageDetailDTO().getEstado().equals("MY_MESSAGE_SENT") &&
-                                        !item.getMessageDetailDTO().getEstado().equals("DESTINY_READED")
+                                (!item.getMessageDetailDTO().getEstado().equals(MessageState.MY_MESSAGE_SENT) &&
+                                        !item.getMessageDetailDTO().getEstado().equals(MessageState.DESTINY_READED)
                                 )
                         ) {
                             Observers.message().cambiarEstadoUso(item.getMessageDetailDTO(), true, messageActivity);
@@ -735,15 +737,15 @@ public class RecyclerMessageAdapter extends RecyclerView.Adapter<RecyclerHolder>
         int leido = 0;
 
         for (int i = 0; i < item.getMessage().getMessagesDetailDTO().length; i++) {
-            if (item.getMessage().getMessagesDetailDTO()[i].getEstado().equals(MessageState.MY_MESSAGE_SENT.name())) {
+            if (item.getMessage().getMessagesDetailDTO()[i].getEstado().equals(MessageState.MY_MESSAGE_SENT)) {
                 enviado++;
-            } else if (item.getMessage().getMessagesDetailDTO()[i].getEstado().equals(MessageState.MY_MESSAGE_SENDING.name())) {
+            } else if (item.getMessage().getMessagesDetailDTO()[i].getEstado().equals(MessageState.MY_MESSAGE_SENDING)) {
                 enviando++;
-            } else if (item.getMessage().getMessagesDetailDTO()[i].getEstado().equals(MessageState.DESTINY_SERVER.name())) {
+            } else if (item.getMessage().getMessagesDetailDTO()[i].getEstado().equals(MessageState.DESTINY_SERVER)) {
                 esperando++;
-            } else if (item.getMessage().getMessagesDetailDTO()[i].getEstado().equals(MessageState.DESTINY_DELIVERED.name())) {
+            } else if (item.getMessage().getMessagesDetailDTO()[i].getEstado().equals(MessageState.DESTINY_DELIVERED)) {
                 recibido++;
-            } else if (item.getMessage().getMessagesDetailDTO()[i].getEstado().equals(MessageState.DESTINY_READED.name())) {
+            } else if (item.getMessage().getMessagesDetailDTO()[i].getEstado().equals(MessageState.DESTINY_READED)) {
                 leido++;
             }
         }
@@ -757,7 +759,7 @@ public class RecyclerMessageAdapter extends RecyclerView.Adapter<RecyclerHolder>
 
 
             if ( esperando == 0 && recibido == 0 && leido==0 ){
-                estado = EstadoName.getNameToShow(item.getMessageDetailDTO().getEstado());
+                estado = EstadoName.getNameToShow(item.getMessageDetailDTO().getEstado().name());
             }else{
                 if (grupoDeDos){
                     String esperandoString = (esperando>0) ?"✓":"";

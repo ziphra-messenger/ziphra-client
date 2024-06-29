@@ -14,12 +14,31 @@ import javax.crypto.spec.IvParameterSpec;
 import javax.crypto.spec.PBEKeySpec;
 import javax.crypto.spec.SecretKeySpec;
 
+import lombok.Data;
+
+@Data
 public class AEStoUse {
 
 	private Cipher decrypt;
 	private Cipher encrypt;
 
+	private String secretKeyAES;
+	private String saltAES;
+	private int iteration;
+	private int bits;
+
 	public AEStoUse(String secretKeyAES, String saltAES, int iteration, int bits) throws Exception {
+		System.out.println("AEStoUse: "
+				+ " secretKeyAES- " + secretKeyAES
+		+ " saltAES- " + saltAES
+				+ " iteration- " + iteration
+				+ " bits- " + bits);
+		this.secretKeyAES=secretKeyAES;
+		this.saltAES=saltAES;
+		this.iteration=iteration;
+		this.bits=bits;
+
+
 
 		{
 			byte[] iv = new byte[16];
@@ -59,15 +78,17 @@ public class AEStoUse {
 	}
 
 	public String getAESDecrypt(String data) throws Exception {
-		
-		
+
+		System.out.println("Entrada: ///" + data + "///");
 		if (data == null) return null;
 		//if (data == "") return null;
 		String r;
 		if (data.charAt(data.length() - 1) == '"'){
-			r = new String(decrypt.doFinal(Base64.getDecoder().decode(GsonFormated.get().fromJson(data,String.class).getBytes())));
+			r = new String(decrypt.doFinal(Base64.getDecoder().decode(GsonFormated.get().fromJson(data,String.class).getBytes(("UTF-8")))));
 		}else{
-			r = new String(decrypt.doFinal(Base64.getDecoder().decode(data.getBytes())));
+			byte[] b = Base64.getDecoder().decode(data.getBytes("UTF-8" ));
+			System.out.println("byy: ///" + new String(b) + "///");
+			r = new String(decrypt.doFinal(b));
 		}
 
 		//System.out.println("Entrada: " + data + " Salida: " + r);

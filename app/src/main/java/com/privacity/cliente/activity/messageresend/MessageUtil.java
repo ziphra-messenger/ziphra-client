@@ -228,7 +228,7 @@ public class MessageUtil {
         miMensaje.setMessagesDetailDTO(new MessageDetailDTO[1]);
 
         miMensaje.getMessagesDetailDTO()[0] = new MessageDetailDTO();
-        miMensaje.getMessagesDetailDTO()[0].setEstado(MessageState.MY_MESSAGE_SENDING.name());
+        miMensaje.getMessagesDetailDTO()[0].setEstado(MessageState.MY_MESSAGE_SENDING);
         miMensaje.getMessagesDetailDTO()[0].setUsuarioDestino(miMensaje.getUsuarioCreacion());
         miMensaje.getMessagesDetailDTO()[0].setIdGrupo(miMensaje.getIdGrupo());
 
@@ -339,7 +339,7 @@ public class MessageUtil {
                     @Override
                     public void onError(ResponseEntity<ProtocoloDTO> response) {
                         miMensaje.getMessagesDetailDTO()[0].setIdMessage(response.getBody().getAsyncId());
-                        miMensaje.getMessagesDetailDTO()[0].setEstado(MessageState.MY_MESSAGE_ERROR_NOT_SEND.name());
+                        miMensaje.getMessagesDetailDTO()[0].setEstado(MessageState.MY_MESSAGE_ERROR_NOT_SEND);
                         response.getBody().setMessageDTO(miMensaje);
                         response.getBody().getMessageDTO().setIdMessage(response.getBody().getAsyncId());
                         Observers.message().mensaje(response.getBody(),true,activity);

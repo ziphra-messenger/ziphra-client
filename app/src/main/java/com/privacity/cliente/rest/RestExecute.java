@@ -136,7 +136,8 @@ public class RestExecute {
             , AEStoUse aeStoUse
             , AESDTO aesdtoToSend
     ) {
-
+        System.out.println("AEStoUse: " + aeStoUse.toString());
+        System.out.println("aesdtoToSend: " + aesdtoToSend.toString());
         String requestIdClientSide = requestIdClientSide();
         ProtocoloWrapperDTO wrapper = new ProtocoloWrapperDTO();
 
@@ -147,13 +148,15 @@ public class RestExecute {
         RequestIdDTO requestIdClientSideDTO = new RequestIdDTO();
         requestIdClientSideDTO.setRequestIdClientSide(requestIdClientSide);
 
+
         Gson gson = GsonFormated.get();
 
         // tiene que tomar la fecha del servidor
         requestIdClientSideDTO.setDate(SingletonValues.getInstance().calculateServerTime());
         p.setObjectDTO(gson.toJson(requestIdClientSideDTO));
-
+        System.out.println("protocoloNoEncrypt: " + p.toString());
         String protocoloNoEncrypt = gson.toJson(p);
+        System.out.println("protocoloEncrypt: " + protocoloNoEncrypt.toString());
         String protocoloEncrypt = aeStoUse.getAES(protocoloNoEncrypt);
 
         wrapper.setProtocoloDTO(protocoloEncrypt);
