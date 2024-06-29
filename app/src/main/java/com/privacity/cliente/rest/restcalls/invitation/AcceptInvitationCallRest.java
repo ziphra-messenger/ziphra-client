@@ -52,7 +52,9 @@ public class AcceptInvitationCallRest {
         String saltAESDescr = EncryptUtil.encryptKeyDesencrypt(encryptKeysToUseGrupo,grupo.getGrupoInvitationDTO().getAesDTO().getSaltAES());
         String iteratorAESDescr = EncryptUtil.encryptKeyDesencrypt(encryptKeysToUseGrupo,grupo.getGrupoInvitationDTO().getAesDTO().getIteration());
 
-        AESDTO aesGrupoDTO = EncryptUtil.encriptarAES(new AESDTO(secretKeyAESDescr, saltAESDescr, iteratorAESDescr),
+        AESDTO aesGrupoDTO = EncryptUtil.encriptarAES(new AESDTO(secretKeyAESDescr, saltAESDescr, iteratorAESDescr,
+                        SingletonValues.getInstance().getSystemGralConf().getMessagingAES().getBits()+""
+                ),
                 SingletonValues.getInstance().getEncryptKeysToUse(),
                 SingletonValues.getInstance().getEncryptKeysToUse().getPublicKey()
         );

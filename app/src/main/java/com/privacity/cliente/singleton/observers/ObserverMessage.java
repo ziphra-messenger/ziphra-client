@@ -2,6 +2,8 @@ package com.privacity.cliente.singleton.observers;
 
 import android.app.Activity;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.privacity.cliente.activity.grupo.GrupoActivity;
 import com.privacity.cliente.activity.message.ItemListMessage;
 import com.privacity.cliente.common.error.SimpleErrorDialog;
@@ -14,6 +16,7 @@ import com.privacity.cliente.singleton.SingletonValues;
 import com.privacity.cliente.singleton.interfaces.ObservadoresMensajes;
 import com.privacity.cliente.singleton.interfaces.SingletonReset;
 import com.privacity.cliente.util.GsonFormated;
+import com.privacity.cliente.util.LocalDateAdapter;
 import com.privacity.cliente.util.notificacion.Notificacion;
 import com.privacity.common.config.ConstantProtocolo;
 import com.privacity.common.dto.MessageDTO;
@@ -25,6 +28,7 @@ import com.privacity.common.enumeration.MessageState;
 
 import org.springframework.http.ResponseEntity;
 
+import java.time.LocalDateTime;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
@@ -263,6 +267,17 @@ public class ObserverMessage implements SingletonReset {
         mensaje(protocoloDTO,avisar,context,false);
     }
     public synchronized void mensaje(ProtocoloDTO protocoloDTO, boolean avisar, Activity context, boolean isReply) {
+        Gson gson = new GsonBuilder()
+                .setPrettyPrinting()
+                .registerTypeAdapter(LocalDateTime.class, new LocalDateAdapter())
+                .create();
+
+
+
+
+        System.out.println("mensaje recibido 1");
+        System.out.println(gson.toJson(protocoloDTO.getMessageDTO()));
+
         Message messageMapped = new Message(protocoloDTO.getMessageDTO());
         messageMapped.setReply(isReply);
         protocoloDTO.setMessageDTO(messageMapped);
@@ -365,6 +380,9 @@ public class ObserverMessage implements SingletonReset {
         Message mensaje = (Message) protocoloDTO.getMessageDTO();
 
 
+
+       System.out.println("mensaje recibido 2");
+        System.out.println(gson.toJson(mensaje));
         /*
         if (finalMedia != null){
             mensaje.setText(finalMedia.getText());
@@ -373,6 +391,9 @@ public class ObserverMessage implements SingletonReset {
             }
 
         }*/
+
+        System.out.println("mi id usuario");
+        System.out.println(SingletonValues.getInstance().getUsuario().getIdUsuario());
         MessageDetailDTO miMensaje=null;
 
         if (!todosLosMensajesPorGrupo.containsKey(mensaje.getIdGrupo())){
@@ -393,6 +414,7 @@ public class ObserverMessage implements SingletonReset {
                 mensajesDetailsPorGrupo.get(mensaje.getIdGrupo()).add(nuevo);
 
                 if (nuevo.getUsuarioDestino().getIdUsuario().equals(SingletonValues.getInstance().getUsuario().getIdUsuario())) {
+                    System.out.println("miMensaje = nuevo;");
                     miMensaje = nuevo;
                 }
             }

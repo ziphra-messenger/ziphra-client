@@ -143,6 +143,8 @@ public class LoadingActivityCrearKeysDelegate {
         System.out.println("sessionAESKey = " + sessionAESKey);
         System.out.println("sessionAESSalt = " + sessionAESSalt);
         System.out.println("sessionAESIterator = " + sessionAESIterator);
-        SingletonValues.getInstance().setSessionAESToUse(new AESDTO(sessionAESKey, sessionAESSalt, sessionAESIterator));
+        SingletonValues.getInstance().setSessionAESToUse(new AESDTO(sessionAESKey, sessionAESSalt, sessionAESIterator,
+                SingletonValues.getInstance().getSystemGralConf().getMessagingAES().getBits()+""
+                ));
     }
 }

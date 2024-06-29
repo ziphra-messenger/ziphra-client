@@ -86,7 +86,7 @@ public class EncryptUtil {
             System.out.println(s2.s);
         }
 
-        return new AESDTO(s2.s, s.s, 1000+"");
+        return new AESDTO(s2.s, s.s, 1000+"",SingletonValues.getInstance().getSystemGralConf().getMessagingAES().getBits()+"");
 
     }
 
