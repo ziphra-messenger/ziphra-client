@@ -30,7 +30,8 @@ import com.privacity.cliente.rest.restcalls.message.GetMessageById;
 import com.privacity.cliente.singleton.Observers;
 import com.privacity.cliente.singleton.SingletonValues;
 import com.privacity.cliente.singleton.impl.SingletonServer;
-import com.privacity.common.config.ConstantProtocolo;
+import com.privacity.common.enumeration.ProtocoloComponentsEnum;import com.privacity.common.enumeration.ProtocoloActionsEnum;
+
 import com.privacity.common.dto.IdMessageDTO;
 import com.privacity.common.dto.MessageDTO;
 import com.privacity.common.dto.ProtocoloDTO;
@@ -602,8 +603,8 @@ public class RecyclerMessageAdapter extends RecyclerView.Adapter<RecyclerHolder>
         message.setDownloadingMedia(true);
 
         ProtocoloDTO p = new ProtocoloDTO();
-        p.setComponent(ConstantProtocolo.PROTOCOLO_COMPONENT_MESSAGE);
-        p.setAction("/message/getDataMedia1");
+        p.setComponent(ProtocoloComponentsEnum.PROTOCOLO_COMPONENT_MESSAGE);
+        p.setAction(ProtocoloActionsEnum.MESSAGE_GET_MEDIA_1);
 
         MessageDTO o = new MessageDTO();
         o.setIdGrupo(message.getIdGrupo());
@@ -669,8 +670,8 @@ public class RecyclerMessageAdapter extends RecyclerView.Adapter<RecyclerHolder>
     private void restDownloadImage(RecyclerHolderGeneric rch, Message message) {
         message.setDownloadingMedia(true);
         ProtocoloDTO p = new ProtocoloDTO();
-        p.setComponent(ConstantProtocolo.PROTOCOLO_COMPONENT_MESSAGE);
-        p.setAction("/message/getDataMedia2");
+        p.setComponent(ProtocoloComponentsEnum.PROTOCOLO_COMPONENT_MESSAGE);
+        p.setAction(ProtocoloActionsEnum.MESSAGE_GET_MEDIA_2);
 
         MessageDTO o = new MessageDTO();
         o.setIdGrupo(message.getIdGrupo());

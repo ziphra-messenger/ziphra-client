@@ -7,7 +7,8 @@ import com.privacity.cliente.rest.CallbackRest;
 import com.privacity.cliente.rest.RestExecute;
 import com.privacity.cliente.singleton.Observers;
 import com.privacity.cliente.util.GsonFormated;
-import com.privacity.common.config.ConstantProtocolo;
+import com.privacity.common.enumeration.ProtocoloComponentsEnum;import com.privacity.common.enumeration.ProtocoloActionsEnum;
+
 import com.privacity.common.dto.IdMessageDTO;
 import com.privacity.common.dto.MessageDTO;
 import com.privacity.common.dto.ProtocoloDTO;
@@ -22,8 +23,8 @@ public class GetMessageHistorialById {
 //        tvLoadingGetNewMessagesCount.setVisibility(View.VISIBLE);
 
         ProtocoloDTO p = new ProtocoloDTO();
-        p.setComponent(ConstantProtocolo.PROTOCOLO_COMPONENT_MESSAGE);
-        p.setAction("/message/get/id/historial"
+        p.setComponent(ProtocoloComponentsEnum.PROTOCOLO_COMPONENT_MESSAGE);
+        p.setAction(ProtocoloActionsEnum.MESSAGE_GET_ID_HISTORIAL
         );
 
         p.setObjectDTO( GsonFormated.get().toJson(new IdMessageDTO(idGrupo, idMessage)));
@@ -73,8 +74,8 @@ public class GetMessageHistorialById {
 
         for ( int i = 0 ; i < list.length ; i++){
             ProtocoloDTO p = new ProtocoloDTO();
-            p.setComponent(ConstantProtocolo.PROTOCOLO_COMPONENT_MESSAGE);
-            p.setAction(ConstantProtocolo.PROTOCOLO_ACTION_MESSAGE_GET_MESSAGE);
+            p.setComponent(ProtocoloComponentsEnum.PROTOCOLO_COMPONENT_MESSAGE);
+            p.setAction(ProtocoloActionsEnum.PROTOCOLO_ACTION_MESSAGE_GET_MESSAGE);
             final int num = i+1;
             MessageDTO o = new MessageDTO();
             o.setIdGrupo(list[i].getIdGrupo());

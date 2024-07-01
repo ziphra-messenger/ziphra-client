@@ -14,7 +14,8 @@ import com.privacity.cliente.rest.restcalls.CallbackRestDownload;
 import com.privacity.cliente.singleton.SingletonValues;
 import com.privacity.cliente.singleton.reconnect.SingletonReconnect;
 import com.privacity.cliente.util.GsonFormated;
-import com.privacity.common.config.ConstantProtocolo;
+import com.privacity.common.enumeration.ProtocoloComponentsEnum;import com.privacity.common.enumeration.ProtocoloActionsEnum;
+
 import com.privacity.common.dto.AESDTO;
 import com.privacity.common.dto.ProtocoloDTO;
 import com.privacity.common.dto.ProtocoloWrapperDTO;
@@ -142,8 +143,8 @@ public class RestExecute {
         ProtocoloWrapperDTO wrapper = new ProtocoloWrapperDTO();
 
         ProtocoloDTO p = new ProtocoloDTO();
-        p.setComponent(ConstantProtocolo.PROTOCOLO_COMPONENT_REQUEST_ID);
-        p.setAction(ConstantProtocolo.PROTOCOLO_ACTION_REQUEST_ID_PUBLIC_GET);
+        p.setComponent(ProtocoloComponentsEnum.PROTOCOLO_COMPONENT_REQUEST_ID);
+        p.setAction(ProtocoloActionsEnum.PROTOCOLO_ACTION_REQUEST_ID_PUBLIC_GET);
 
         RequestIdDTO requestIdClientSideDTO = new RequestIdDTO();
         requestIdClientSideDTO.setRequestIdClientSide(requestIdClientSide);

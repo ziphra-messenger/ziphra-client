@@ -19,6 +19,8 @@ import com.privacity.common.dto.AESDTO;
 import com.privacity.common.dto.EncryptKeysDTO;
 import com.privacity.common.dto.ProtocoloDTO;
 import com.privacity.common.dto.request.GrupoInvitationAcceptRequestDTO;
+import com.privacity.common.enumeration.ProtocoloActionsEnum;
+import com.privacity.common.enumeration.ProtocoloComponentsEnum;
 
 import org.springframework.http.ResponseEntity;
 
@@ -61,8 +63,8 @@ public class AcceptInvitationCallRest {
         //encriptar los aes y enviar al servidor;
 
         ProtocoloDTO p = new ProtocoloDTO();
-        p.setComponent("/grupo");
-        p.setAction("/grupo/acceptInvitation");
+        p.setComponent(ProtocoloComponentsEnum.PROTOCOLO_COMPONENT_GRUPO);
+        p.setAction(ProtocoloActionsEnum.GRUPO_ACCEPT_INVITATION);
 
         GrupoInvitationAcceptRequestDTO o = new GrupoInvitationAcceptRequestDTO();
         o.setIdGrupo(grupo.getIdGrupo());

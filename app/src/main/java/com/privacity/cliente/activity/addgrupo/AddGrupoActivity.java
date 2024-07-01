@@ -24,7 +24,8 @@ import com.privacity.cliente.rest.RestExecute;
 import com.privacity.cliente.singleton.Observers;
 import com.privacity.cliente.singleton.SingletonValues;
 import com.privacity.cliente.util.GsonFormated;
-import com.privacity.common.config.ConstantProtocolo;
+import com.privacity.common.enumeration.ProtocoloComponentsEnum;import com.privacity.common.enumeration.ProtocoloActionsEnum;
+
 import com.privacity.common.dto.AESDTO;
 import com.privacity.common.dto.ProtocoloDTO;
 import com.privacity.common.dto.request.GrupoNewRequestDTO;
@@ -121,8 +122,8 @@ public class AddGrupoActivity extends CustomAppCompatActivity {
 
 
                 ProtocoloDTO p = new ProtocoloDTO();
-                p.setComponent(ConstantProtocolo.PROTOCOLO_COMPONENT_GRUPO);
-                p.setAction(ConstantProtocolo.PROTOCOLO_ACTION_GRUPO_NEW_GRUPO);
+                p.setComponent(ProtocoloComponentsEnum.PROTOCOLO_COMPONENT_GRUPO);
+                p.setAction(ProtocoloActionsEnum.PROTOCOLO_ACTION_GRUPO_NEW_GRUPO);
 
                 p.setObjectDTO(GsonFormated.get().toJson(request));
 

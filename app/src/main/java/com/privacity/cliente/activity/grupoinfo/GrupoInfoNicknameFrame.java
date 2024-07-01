@@ -20,7 +20,8 @@ import com.privacity.cliente.util.GsonFormated;
 import com.privacity.cliente.util.MenuAcordeonObject;
 import com.privacity.cliente.util.MenuAcordeonUtil;
 import com.privacity.cliente.util.NicknameUtil;
-import com.privacity.common.config.ConstantProtocolo;
+import com.privacity.common.enumeration.ProtocoloComponentsEnum;import com.privacity.common.enumeration.ProtocoloActionsEnum;
+
 import com.privacity.common.dto.ProtocoloDTO;
 import com.privacity.common.dto.request.GrupoInfoNicknameRequestDTO;
 import com.privacity.common.dto.request.RegisterUserRequestDTO;
@@ -121,8 +122,8 @@ public class GrupoInfoNicknameFrame {
 
 
         ProtocoloDTO p = new ProtocoloDTO();
-       p.setComponent(ConstantProtocolo.PROTOCOLO_COMPONENT_GRUPO);
-        p.setAction(ConstantProtocolo.PROTOCOLO_ACTION_GRUPO_SAVE_NICKNAME);
+       p.setComponent(ProtocoloComponentsEnum.PROTOCOLO_COMPONENT_GRUPO);
+        p.setAction(ProtocoloActionsEnum.PROTOCOLO_ACTION_GRUPO_SAVE_NICKNAME);
 
         GrupoInfoNicknameRequestDTO l = new GrupoInfoNicknameRequestDTO();
         l.setNickname(nickname.getText().toString());

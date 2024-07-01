@@ -12,7 +12,8 @@ import com.privacity.cliente.rest.CallbackRest;
 import com.privacity.cliente.rest.InnerCallbackRest;
 import com.privacity.cliente.rest.RestExecute;
 import com.privacity.cliente.util.GsonFormated;
-import com.privacity.common.config.ConstantProtocolo;
+import com.privacity.common.enumeration.ProtocoloComponentsEnum;import com.privacity.common.enumeration.ProtocoloActionsEnum;
+
 import com.privacity.common.dto.AESDTO;
 import com.privacity.common.dto.ProtocoloDTO;
 
@@ -27,8 +28,8 @@ public class GetServerPublicKey {
 
 
         ProtocoloDTO p = new ProtocoloDTO();
-        p.setComponent(ConstantProtocolo.PROTOCOLO_COMPONENT_PRIVACITY_RSA);
-        p.setAction(ConstantProtocolo.PROTOCOLO_ACTION_PRIVACITY_RSA_GET_PUBLIC_KEY);
+        p.setComponent(ProtocoloComponentsEnum.PROTOCOLO_COMPONENT_PRIVACITY_RSA);
+        p.setAction(ProtocoloActionsEnum.PROTOCOLO_ACTION_PRIVACITY_RSA_GET_PUBLIC_KEY);
 
         RestExecute.doit(context, p, new CallbackRest() {
             @Override

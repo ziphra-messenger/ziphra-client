@@ -14,7 +14,8 @@ import com.privacity.cliente.singleton.SingletonValues;
 import com.privacity.cliente.common.error.SimpleErrorDialog;
 import com.privacity.cliente.rest.CallbackRest;
 import com.privacity.cliente.rest.RestExecute;
-import com.privacity.common.config.ConstantProtocolo;
+import com.privacity.common.enumeration.ProtocoloComponentsEnum;import com.privacity.common.enumeration.ProtocoloActionsEnum;
+
 import com.privacity.common.dto.GrupoDTO;
 import com.privacity.common.dto.GrupoGralConfDTO;
 import com.privacity.common.dto.ProtocoloDTO;
@@ -97,8 +98,8 @@ public class ConfiguracionGeneral {
 
 
         ProtocoloDTO p = new ProtocoloDTO();
-        p.setComponent(ConstantProtocolo.PROTOCOLO_COMPONENT_GRUPO);
-        p.setAction(ConstantProtocolo.PROTOCOLO_ACTION_GRUPO_SAVE_GENERAL_CONFIGURATION);
+        p.setComponent(ProtocoloComponentsEnum.PROTOCOLO_COMPONENT_GRUPO);
+        p.setAction(ProtocoloActionsEnum.PROTOCOLO_ACTION_GRUPO_SAVE_GENERAL_CONFIGURATION);
         p.setObjectDTO(new Gson().toJson(dto));
 
         RestExecute.doit(activity, p,

@@ -31,7 +31,8 @@ import com.privacity.cliente.singleton.Observers;
 import com.privacity.cliente.singleton.SingletonValues;
 import com.privacity.cliente.singleton.interfaces.ObservadoresPassword;
 import com.privacity.cliente.util.GsonFormated;
-import com.privacity.common.config.ConstantProtocolo;
+import com.privacity.common.enumeration.ProtocoloComponentsEnum;import com.privacity.common.enumeration.ProtocoloActionsEnum;
+
 import com.privacity.common.config.ConstantValidation;
 import com.privacity.common.dto.AESDTO;
 import com.privacity.common.dto.EncryptKeysDTO;
@@ -196,8 +197,8 @@ public class AddMembersToGrupoActivity extends CustomAppCompatActivity implement
 
     public void getPublicKeyByInvitationCodeRest(String idGrupo, String invitationCode) {
         ProtocoloDTO p = new ProtocoloDTO();
-        p.setComponent(ConstantProtocolo.PROTOCOLO_COMPONENT_ENCRYPT_KEYS);
-        p.setAction(ConstantProtocolo.PROTOCOLO_ACTION_ENCRYPT_KEYS_GET);
+        p.setComponent(ProtocoloComponentsEnum.PROTOCOLO_COMPONENT_ENCRYPT_KEYS);
+        p.setAction(ProtocoloActionsEnum.PROTOCOLO_ACTION_ENCRYPT_KEYS_GET);
 
         PublicKeyByInvitationCodeRequestDTO o = new PublicKeyByInvitationCodeRequestDTO(idGrupo, invitationCode);
         p.setObjectDTO(GsonFormated.get().toJson(o));
@@ -238,8 +239,8 @@ public class AddMembersToGrupoActivity extends CustomAppCompatActivity implement
         AESDTO aesGrupoDTO = RestCalls.encriptarAES(g, encryptKeysDTO);
 
         ProtocoloDTO p = new ProtocoloDTO();
-        p.setComponent("/grupo");
-        p.setAction("/grupo/sentInvitation");
+        p.setComponent(ProtocoloComponentsEnum.PROTOCOLO_COMPONENT_GRUPO);
+        p.setAction(ProtocoloActionsEnum.GRUPO_SENT_INVITATION);
 
         GrupoAddUserRequestDTO o = new GrupoAddUserRequestDTO();
         o.setIdGrupo(idGrupo);

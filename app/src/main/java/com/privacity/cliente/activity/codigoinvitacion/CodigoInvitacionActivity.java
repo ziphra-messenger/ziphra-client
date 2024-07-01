@@ -40,6 +40,8 @@ import com.privacity.common.dto.EncryptKeysDTO;
 import com.privacity.common.dto.ProtocoloDTO;
 import com.privacity.common.dto.UserInvitationCodeDTO;
 import com.privacity.common.dto.response.MyAccountGenerateInvitationCodeResponseDTO;
+import com.privacity.common.enumeration.ProtocoloActionsEnum;
+import com.privacity.common.enumeration.ProtocoloComponentsEnum;
 
 import org.springframework.http.ResponseEntity;
 
@@ -181,8 +183,8 @@ public class CodigoInvitacionActivity extends CustomAppCompatActivity implements
             @Override
             public void onClick(View v) {
                 ProtocoloDTO p = new ProtocoloDTO();
-                p.setComponent("/myAccount");
-                p.setAction("/myAccount/invitationCodeGenerator");
+                p.setComponent(ProtocoloComponentsEnum.PROTOCOLO_COMPONENT_MY_ACCOUNT);
+                p.setAction(ProtocoloActionsEnum.MY_ACCOUNT_INVITATION_CODE_GENERATOR);
 
 
                 EncryptKeysDTO ek = null;
@@ -266,8 +268,8 @@ public class CodigoInvitacionActivity extends CustomAppCompatActivity implements
             return;
         }
         ProtocoloDTO p = new ProtocoloDTO();
-        p.setComponent("/myAccount");
-        p.setAction("/myAccount/saveCodeAvailable");
+        p.setComponent(ProtocoloComponentsEnum.PROTOCOLO_COMPONENT_MY_ACCOUNT);
+        p.setAction(ProtocoloActionsEnum.MY_ACCOUNT_SAVE_CODE_AVAILABLE);
 
 
         EncryptKeysDTO ek = null;
@@ -355,8 +357,8 @@ public class CodigoInvitacionActivity extends CustomAppCompatActivity implements
 
 
         ProtocoloDTO p = new ProtocoloDTO();
-        p.setComponent("/myAccount");
-        p.setAction("/myAccount/isInvitationCodeAvailable");
+        p.setComponent(ProtocoloComponentsEnum.PROTOCOLO_COMPONENT_MY_ACCOUNT);
+        p.setAction(ProtocoloActionsEnum.MY_ACCOUNT_IS_INVITATION_CODE_AVAILABLE);
 
 
         p.setObjectDTO(GsonFormated.get().toJson(tvCodigoInvitacion.getText().toString()));

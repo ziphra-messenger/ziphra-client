@@ -16,7 +16,8 @@ import com.privacity.cliente.rest.restcalls.ServerConfRest;
 import com.privacity.cliente.singleton.SingletonLoginValues;
 import com.privacity.cliente.singleton.SingletonValues;
 import com.privacity.cliente.util.GsonFormated;
-import com.privacity.common.config.ConstantProtocolo;
+import com.privacity.common.enumeration.ProtocoloComponentsEnum;import com.privacity.common.enumeration.ProtocoloActionsEnum;
+
 import com.privacity.common.dto.ProtocoloDTO;
 import com.privacity.common.dto.request.LoginRequestDTO;
 
@@ -72,8 +73,8 @@ public class ReconnectionSyncSession {
         Gson gson = GsonFormated.get();
 
         ProtocoloDTO p = new ProtocoloDTO();
-        p.setComponent(ConstantProtocolo.PROTOCOLO_COMPONENT_AUTH);
-        p.setAction(ConstantProtocolo.PROTOCOLO_ACTION_AUTH_LOGIN);
+        p.setComponent(ProtocoloComponentsEnum.PROTOCOLO_COMPONENT_AUTH);
+        p.setAction(ProtocoloActionsEnum.PROTOCOLO_ACTION_AUTH_LOGIN);
 
         LoginRequestDTO t = new LoginRequestDTO();
         t.setUsername(SingletonValues.getInstance().getUsernameHash());

@@ -12,7 +12,8 @@ import com.privacity.cliente.rest.RestExecute;
 import com.privacity.cliente.singleton.Observers;
 import com.privacity.cliente.singleton.SingletonValues;
 import com.privacity.cliente.util.GsonFormated;
-import com.privacity.common.config.ConstantProtocolo;
+import com.privacity.common.enumeration.ProtocoloComponentsEnum;import com.privacity.common.enumeration.ProtocoloActionsEnum;
+
 import com.privacity.common.dto.AESDTO;
 import com.privacity.common.dto.EncryptKeysDTO;
 import com.privacity.common.dto.GrupoDTO;
@@ -34,8 +35,8 @@ public class RestCalls {
     public static void loadMessagesContador(Activity context) {
 
         ProtocoloDTO p = new ProtocoloDTO();
-        p.setComponent(ConstantProtocolo.PROTOCOLO_COMPONENT_MESSAGE);
-        p.setAction(ConstantProtocolo.PROTOCOLO_ACTION_MESSAGE_GET_ALL_ID_MESSAGE_UNREAD
+        p.setComponent(ProtocoloComponentsEnum.PROTOCOLO_COMPONENT_MESSAGE);
+        p.setAction(ProtocoloActionsEnum.PROTOCOLO_ACTION_MESSAGE_GET_ALL_ID_MESSAGE_UNREAD
         );
         RestExecute.doit(context, p,
                 new CallbackRest(){
@@ -70,8 +71,8 @@ public class RestCalls {
 
         for ( int i = 0 ; i < list.length ; i++){
             ProtocoloDTO p = new ProtocoloDTO();
-            p.setComponent(ConstantProtocolo.PROTOCOLO_COMPONENT_MESSAGE);
-            p.setAction(ConstantProtocolo.PROTOCOLO_ACTION_MESSAGE_GET_MESSAGE);
+            p.setComponent(ProtocoloComponentsEnum.PROTOCOLO_COMPONENT_MESSAGE);
+            p.setAction(ProtocoloActionsEnum.PROTOCOLO_ACTION_MESSAGE_GET_MESSAGE);
 
             MessageDTO o = new MessageDTO();
             o.setIdGrupo(list[i].getIdGrupo());
@@ -141,11 +142,11 @@ public class RestCalls {
         //MessageDetailDTO detail = SingletonValues.getInstance().getMessageDetailSeleccionado().getMessageDetailDTO();
 
         ProtocoloDTO p = new ProtocoloDTO();
-        p.setComponent("/message");
+        p.setComponent(ProtocoloComponentsEnum.PROTOCOLO_COMPONENT_MESSAGE);
         if (deleteFor.equals( DeleteForEnum.FOR_EVERYONE)){
-            p.setAction("/message/deleteForEveryone");
+            p.setAction(ProtocoloActionsEnum.PROTOCOLO_ACTION_MESSAGE_DELETE_FOR_EVERYONE);
         }else {
-            p.setAction("/message/deleteForMe");
+            p.setAction(ProtocoloActionsEnum.MESSAGE_DELETE_FOR_ME);
         }
 
 
@@ -197,8 +198,8 @@ public class RestCalls {
 
     public static void emptyList(MessageActivity messageActivity,String grupoSeleccionado) {
         ProtocoloDTO p = new ProtocoloDTO();
-        p.setComponent("/message");
-        p.setAction("/message/emptyList");
+        p.setComponent(ProtocoloComponentsEnum.PROTOCOLO_COMPONENT_MESSAGE);
+        p.setAction(ProtocoloActionsEnum.MESSAGE_EMPTY_LIST);
 
         GrupoDTO o = new GrupoDTO();
         o.setIdGrupo(grupoSeleccionado);
@@ -227,8 +228,8 @@ public class RestCalls {
 
     public static void loadOldMessages(MessageActivity messageActivity,String grupoSeleccionado, List<ItemListMessage> items) {
         ProtocoloDTO p = new ProtocoloDTO();
-        p.setComponent("/message");
-        p.setAction("/message/get/loadMessages");
+        p.setComponent(ProtocoloComponentsEnum.PROTOCOLO_COMPONENT_MESSAGE);
+        p.setAction(ProtocoloActionsEnum.MESSAGE_GET_LOAD_MESSAGES);
 
         MessageDTO m = new MessageDTO();
         m.setIdGrupo(grupoSeleccionado);

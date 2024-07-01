@@ -16,7 +16,8 @@ import com.privacity.cliente.singleton.sharedpreferences.SharedPreferencesUtil;
 import com.privacity.cliente.util.GsonFormated;
 import com.privacity.cliente.util.MenuAcordeonObject;
 import com.privacity.cliente.util.MenuAcordeonUtil;
-import com.privacity.common.config.ConstantProtocolo;
+import com.privacity.common.enumeration.ProtocoloComponentsEnum;import com.privacity.common.enumeration.ProtocoloActionsEnum;
+
 import com.privacity.common.dto.MyAccountConfDTO;
 import com.privacity.common.dto.ProtocoloDTO;
 
@@ -108,8 +109,8 @@ public class MyAccountLoginSkipFrame {
         boolean dto =  enabled.isChecked();
 
         ProtocoloDTO p = new ProtocoloDTO();
-        p.setComponent(ConstantProtocolo.PROTOCOLO_COMPONENT_MY_ACCOUNT);
-        p.setAction(ConstantProtocolo.PROTOCOLO_ACTION_MY_ACCOUNT_SAVE_LOGIN_SKIP);
+        p.setComponent(ProtocoloComponentsEnum.PROTOCOLO_COMPONENT_MY_ACCOUNT);
+        p.setAction(ProtocoloActionsEnum.PROTOCOLO_ACTION_MY_ACCOUNT_SAVE_LOGIN_SKIP);
 
         p.setObjectDTO(GsonFormated.get().toJson(dto));
 

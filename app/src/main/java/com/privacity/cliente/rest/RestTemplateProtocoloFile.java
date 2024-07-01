@@ -72,7 +72,7 @@ public class RestTemplateProtocoloFile extends AsyncTask<Void, Void, ResponseEnt
                 RestTemplate template = getRestTemplate();
 
 
-                String url = SingletonServer.getInstance().getAppServer() + SystemGralConfURLs.CONSTANT_URL_PATH_PRIVATE_SEND;
+                String url = SingletonServer.getInstance().getAppServer() + "/" + SystemGralConfURLs.CONSTANT_URL_PATH_PRIVATE_SEND;
 
 
                 final HttpHeaders headers = new HttpHeaders();

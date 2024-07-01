@@ -106,6 +106,8 @@ import com.privacity.common.dto.WrittingDTO;
 import com.privacity.common.enumeration.ConfigurationStateEnum;
 import com.privacity.common.enumeration.MediaTypeEnum;
 import com.privacity.common.enumeration.MessageState;
+import com.privacity.common.enumeration.ProtocoloActionsEnum;
+import com.privacity.common.enumeration.ProtocoloComponentsEnum;
 import com.vanniktech.emoji.EmojiPopup;
 
 import org.jetbrains.annotations.NotNull;
@@ -305,8 +307,8 @@ public class MessageActivity extends GrupoSelectedCustomAppCompatActivity
                     @Override
                     public void action() {
                         ProtocoloDTO p = new ProtocoloDTO();
-                        p.setComponent("/grupo");
-                        p.setAction("/grupo/saveGrupoUserConf");
+                        p.setComponent(ProtocoloComponentsEnum.PROTOCOLO_COMPONENT_GRUPO);
+                        p.setAction(ProtocoloActionsEnum.GRUPO_SAVE_GRUPO_USER_CONF);
 
                         GrupoUserConfDTO c = getGrupoUserConfDTO();
 

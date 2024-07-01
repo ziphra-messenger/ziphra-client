@@ -30,6 +30,8 @@ import com.privacity.common.dto.UsuarioDTO;
 import com.privacity.common.enumeration.GrupoUserConfEnum;
 import com.privacity.common.enumeration.MediaTypeEnum;
 import com.privacity.common.enumeration.MessageState;
+import com.privacity.common.enumeration.ProtocoloActionsEnum;
+import com.privacity.common.enumeration.ProtocoloComponentsEnum;
 
 import org.springframework.http.ResponseEntity;
 
@@ -169,7 +171,7 @@ public class MessageUtil {
 
         if (ObserverGrupo.getInstance().getGrupoById(idGrupo).getGralConfDTO().isBlackMessageAttachMandatory()){
             if (mediaDTO != null && ( mediaDTO.getMediaType().equals(MediaTypeEnum.IMAGE)
-            || mediaDTO.getMediaType().equals(MediaTypeEnum.VIDEO) )){
+                    || mediaDTO.getMediaType().equals(MediaTypeEnum.VIDEO) )){
                 isBlack=true;
             }
 
@@ -311,8 +313,8 @@ public class MessageUtil {
 
 
         ProtocoloDTO p = new ProtocoloDTO();
-        p.setComponent("/message");
-        p.setAction("/message/send");
+        p.setComponent(ProtocoloComponentsEnum.PROTOCOLO_COMPONENT_MESSAGE);
+        p.setAction(ProtocoloActionsEnum.PROTOCOLO_ACTION_MESSAGE_SEND);
         p.setAsyncId(asyncId);
         p.setMessageDTO(mensaje);
 

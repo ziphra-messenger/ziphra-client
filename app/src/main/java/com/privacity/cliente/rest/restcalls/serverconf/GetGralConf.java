@@ -7,7 +7,8 @@ import com.privacity.cliente.rest.CallbackRest;
 import com.privacity.cliente.rest.InnerCallbackRest;
 import com.privacity.cliente.rest.RestExecute;
 import com.privacity.cliente.util.GsonFormated;
-import com.privacity.common.config.ConstantProtocolo;
+import com.privacity.common.enumeration.ProtocoloComponentsEnum;import com.privacity.common.enumeration.ProtocoloActionsEnum;
+
 import com.privacity.common.dto.ProtocoloDTO;
 import com.privacity.common.dto.servergralconf.SystemGralConf;
 
@@ -18,8 +19,8 @@ public class GetGralConf {
     public static void getGralConf(Activity context, CallbackRest callbackRest, InnerCallbackRest innerCallbackRest) {
 
         ProtocoloDTO p = new ProtocoloDTO();
-        p.setComponent(ConstantProtocolo.PROTOCOLO_COMPONENT_SERVER_CONF_UNSECURE);
-        p.setAction("/serverConf/getGralConf");
+        p.setComponent(ProtocoloComponentsEnum.PROTOCOLO_COMPONENT_SERVER_CONF_UNSECURE);
+        p.setAction(ProtocoloActionsEnum.PROTOCOLO_ACTION_SERVER_CONF_UNSECURE_GET_GRAL_CONF);
         RestExecute.doit(context, p,
                 new CallbackRest() {
 

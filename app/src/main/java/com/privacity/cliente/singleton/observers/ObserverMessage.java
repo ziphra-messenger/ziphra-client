@@ -18,7 +18,8 @@ import com.privacity.cliente.singleton.interfaces.SingletonReset;
 import com.privacity.cliente.util.GsonFormated;
 import com.privacity.cliente.util.LocalDateAdapter;
 import com.privacity.cliente.util.notificacion.Notificacion;
-import com.privacity.common.config.ConstantProtocolo;
+import com.privacity.common.enumeration.ProtocoloComponentsEnum;import com.privacity.common.enumeration.ProtocoloActionsEnum;
+
 import com.privacity.common.dto.MessageDTO;
 import com.privacity.common.dto.MessageDetailDTO;
 import com.privacity.common.dto.ProtocoloDTO;
@@ -567,8 +568,8 @@ public void cambiarEstadoUso(MessageDetailDTO miMensaje, boolean forzar,Activity
     public void mensajeChangeState(MessageDetailDTO md, Activity context) {
 
         ProtocoloDTO p = new ProtocoloDTO();
-        p.setComponent(ConstantProtocolo.PROTOCOLO_COMPONENT_MESSAGE);
-        p.setAction(ConstantProtocolo.PROTOCOLO_ACTION_MESSAGE_CHANGE_STATE);
+        p.setComponent(ProtocoloComponentsEnum.PROTOCOLO_COMPONENT_MESSAGE);
+        p.setAction(ProtocoloActionsEnum.PROTOCOLO_ACTION_MESSAGE_CHANGE_STATE);
         p.setObjectDTO(GsonFormated.get().toJson(md));
         RestExecute.doit(context,
                 p, new CallbackRest(){

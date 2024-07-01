@@ -34,7 +34,8 @@ import com.privacity.cliente.rest.InnerCallbackRest;
 import com.privacity.cliente.rest.RestExecute;
 import com.privacity.cliente.rest.restcalls.ServerConfRest;
 import com.privacity.cliente.util.NicknameUtil;
-import com.privacity.common.config.ConstantProtocolo;
+import com.privacity.common.enumeration.ProtocoloComponentsEnum;import com.privacity.common.enumeration.ProtocoloActionsEnum;
+
 import com.privacity.common.config.ConstantValidation;
 import com.privacity.common.dto.AESDTO;
 import com.privacity.common.dto.EncryptKeysDTO;
@@ -233,8 +234,8 @@ public class RegistroActivity extends AppCompatActivity {
         EncryptKeysDTO encriptionCodeEncryptKeys = EncryptUtil.invitationCodeEncryptKeysGenerator(personalAEStoUse);
 
         ProtocoloDTO p = new ProtocoloDTO();
-        p.setComponent(ConstantProtocolo.PROTOCOLO_COMPONENT_AUTH);
-        p.setAction(ConstantProtocolo.PROTOCOLO_ACTION_AUTH_REGISTER);
+        p.setComponent(ProtocoloComponentsEnum.PROTOCOLO_COMPONENT_AUTH);
+        p.setAction(ProtocoloActionsEnum.PROTOCOLO_ACTION_AUTH_REGISTER);
 
         RegisterUserRequestDTO u = new RegisterUserRequestDTO();
         u.setInvitationCodeEncryptKeysDTO(encriptionCodeEncryptKeys);
@@ -387,8 +388,8 @@ public class RegistroActivity extends AppCompatActivity {
     private void validarUsuarioRestInnerCallback() throws Exception {
 
         ProtocoloDTO p = new ProtocoloDTO();
-        p.setComponent(ConstantProtocolo.PROTOCOLO_COMPONENT_AUTH);
-        p.setAction(ConstantProtocolo.PROTOCOLO_ACTION_AUTH_VALIDATE_USERNAME);
+        p.setComponent(ProtocoloComponentsEnum.PROTOCOLO_COMPONENT_AUTH);
+        p.setAction(ProtocoloActionsEnum.PROTOCOLO_ACTION_AUTH_VALIDATE_USERNAME);
 
         ValidateUsernameDTO u = new ValidateUsernameDTO();
         u.setUsername(toHash(usernameRegistro.getText().toString()));

@@ -62,8 +62,8 @@ public class MyAccountActivity extends CustomAppCompatActivity {
 //                    @Override
 //                    public void action() {
 //                        ProtocoloDTO p = new ProtocoloDTO();
-//                        p.setComponent("/myAccount");
-//                        p.setAction("/myAccount/save/nickname");
+//                        p.setComponent(ProtocoloComponentsEnum.PROTOCOLO_COMPONENT_MY_ACCOUNT);
+//                        p.setAction("ProtocoloActionsEnum.PROTOCOLO_ACTION_/myAccount/save/nickname");
 //
 //                        UsuarioDTO c = new UsuarioDTO();
 //                        c.setNickname(etMyAccountNickname.getText().toString());

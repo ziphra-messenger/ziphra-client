@@ -7,7 +7,8 @@ import android.os.CountDownTimer;
 import com.privacity.cliente.activity.lock.LockActivity;
 import com.privacity.cliente.singleton.SingletonValues;
 import com.privacity.cliente.singleton.interfaces.SingletonReset;
-import com.privacity.common.config.ConstantProtocolo;
+import com.privacity.common.enumeration.ProtocoloComponentsEnum;import com.privacity.common.enumeration.ProtocoloActionsEnum;
+
 
 import lombok.Getter;
 import lombok.Setter;

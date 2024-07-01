@@ -16,6 +16,8 @@ import com.privacity.cliente.singleton.observers.ObserverGrupo;
 import com.privacity.cliente.util.GsonFormated;
 import com.privacity.common.dto.GrupoDTO;
 import com.privacity.common.dto.ProtocoloDTO;
+import com.privacity.common.enumeration.ProtocoloActionsEnum;
+import com.privacity.common.enumeration.ProtocoloComponentsEnum;
 
 import org.springframework.http.ResponseEntity;
 
@@ -25,8 +27,8 @@ public class PasswordGrupoValidationCallRest {
     public static void call(Activity activity, ProgressBar progressBar, Grupo grupo, GrupoDTO dto) throws Exception {
 
         ProtocoloDTO p = new ProtocoloDTO();
-        p.setComponent("/grupo");
-        p.setAction("/grupo/login");
+        p.setComponent(ProtocoloComponentsEnum.PROTOCOLO_COMPONENT_GRUPO);
+        p.setAction(ProtocoloActionsEnum.GRUPO_LOGIN);
 
         p.setObjectDTO(GsonFormated.get().toJson(dto));
 

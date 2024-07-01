@@ -26,7 +26,8 @@ import com.privacity.cliente.singleton.SingletonValues;
 import com.privacity.cliente.util.GsonFormated;
 import com.privacity.cliente.util.MenuAcordeonObject;
 import com.privacity.cliente.util.MenuAcordeonUtil;
-import com.privacity.common.config.ConstantProtocolo;
+import com.privacity.common.enumeration.ProtocoloComponentsEnum;import com.privacity.common.enumeration.ProtocoloActionsEnum;
+
 import com.privacity.common.dto.GrupoDTO;
 import com.privacity.common.dto.GrupoGralConfDTO;
 import com.privacity.common.dto.GrupoGralConfPasswordDTO;
@@ -220,8 +221,8 @@ public class GrupoInfoLock {
         GrupoDTO dto = buildPasswordDTO();
 
         ProtocoloDTO p = new ProtocoloDTO();
-        p.setComponent(ConstantProtocolo.PROTOCOLO_COMPONENT_GRUPO);
-        p.setAction(ConstantProtocolo.PROTOCOLO_ACTION_GRUPO_SAVE_GRAL_CONF_PASSWORD);
+        p.setComponent(ProtocoloComponentsEnum.PROTOCOLO_COMPONENT_GRUPO);
+        p.setAction(ProtocoloActionsEnum.PROTOCOLO_ACTION_GRUPO_SAVE_GRAL_CONF_PASSWORD);
 
         p.setObjectDTO(GsonFormated.get().toJson(dto));
 
@@ -293,8 +294,8 @@ public class GrupoInfoLock {
         GrupoDTO dto =  buildLockDTO();
 
         ProtocoloDTO p = new ProtocoloDTO();
-        p.setComponent(ConstantProtocolo.PROTOCOLO_COMPONENT_GRUPO);
-        p.setAction("/grupo/gralConf/save/lock");
+        p.setComponent(ProtocoloComponentsEnum.PROTOCOLO_COMPONENT_GRUPO);
+        p.setAction(ProtocoloActionsEnum.PROTOCOLO_ACTION_GRUPO_SAVE_GENERAL_CONFIGURATION_LOCK);
 
         p.setObjectDTO(GsonFormated.get().toJson(dto));
 

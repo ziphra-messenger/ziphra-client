@@ -43,7 +43,8 @@ import com.privacity.cliente.singleton.observers.ObserverGrupo;
 import com.privacity.cliente.util.DialogsToShow;
 import com.privacity.cliente.util.GsonFormated;
 import com.privacity.cliente.util.MenuAcordeonUtil;
-import com.privacity.common.config.ConstantProtocolo;
+import com.privacity.common.enumeration.ProtocoloComponentsEnum;import com.privacity.common.enumeration.ProtocoloActionsEnum;
+
 import com.privacity.common.dto.GrupoDTO;
 import com.privacity.common.dto.IdDTO;
 import com.privacity.common.dto.ProtocoloDTO;
@@ -252,8 +253,8 @@ public class GrupoInfoActivity extends CustomAppCompatActivity implements
             public void onClick(View v) {
 
                 ProtocoloDTO p = new ProtocoloDTO();
-                p.setComponent("/grupo");
-                p.setAction("/grupo/removeMe");
+                p.setComponent(ProtocoloComponentsEnum.PROTOCOLO_COMPONENT_GRUPO);
+                p.setAction(ProtocoloActionsEnum.GRUPO_REMOVE_ME);
 
                 IdDTO o = new IdDTO();
                 o.setId(SingletonValues.getInstance().getGrupoSeleccionado().getIdGrupo());
@@ -301,8 +302,8 @@ public class GrupoInfoActivity extends CustomAppCompatActivity implements
             public void onClick(View v) {
 
                 ProtocoloDTO p = new ProtocoloDTO();
-                p.setComponent("/grupo");
-                p.setAction("/grupo/removeMe");
+                p.setComponent(ProtocoloComponentsEnum.PROTOCOLO_COMPONENT_GRUPO);
+                p.setAction(ProtocoloActionsEnum.GRUPO_REMOVE_ME);
 
                 IdDTO o = new IdDTO();
                 o.setId(SingletonValues.getInstance().getGrupoSeleccionado().getIdGrupo());
@@ -569,8 +570,8 @@ getIdsMyGrupos();
 
 
         ProtocoloDTO p = new ProtocoloDTO();
-        p.setComponent(ConstantProtocolo.PROTOCOLO_COMPONENT_GRUPO);
-        p.setAction("/grupo/list/members"
+        p.setComponent(ProtocoloComponentsEnum.PROTOCOLO_COMPONENT_GRUPO);
+        p.setAction(ProtocoloActionsEnum.GRUPO_LIST_MEMBERS
         );
         GrupoDTO dto = new GrupoDTO().setIdGrupo(SingletonValues.getInstance().getGrupoSeleccionado().getIdGrupo());
         p.setObjectDTO(GsonFormated.get().toJson(dto));

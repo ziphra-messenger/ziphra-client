@@ -18,7 +18,8 @@ import com.privacity.cliente.rest.RestExecute;
 import com.privacity.cliente.util.GsonFormated;
 import com.privacity.cliente.util.MenuAcordeonObject;
 import com.privacity.cliente.util.MenuAcordeonUtil;
-import com.privacity.common.config.ConstantProtocolo;
+import com.privacity.common.enumeration.ProtocoloComponentsEnum;import com.privacity.common.enumeration.ProtocoloActionsEnum;
+
 import com.privacity.common.dto.MyAccountConfDTO;
 import com.privacity.common.dto.ProtocoloDTO;
 import com.privacity.common.dto.UsuarioDTO;
@@ -108,8 +109,8 @@ public class MyAccountPasswordFrame {
         MyAccountConfDTO dto =  buildDTO();
 
         ProtocoloDTO p = new ProtocoloDTO();
-        p.setComponent(ConstantProtocolo.PROTOCOLO_COMPONENT_MY_ACCOUNT);
-        p.setAction(ConstantProtocolo.PROTOCOLO_ACTION_MY_ACCOUNT_SAVE_PASSWORD);
+        p.setComponent(ProtocoloComponentsEnum.PROTOCOLO_COMPONENT_MY_ACCOUNT);
+        p.setAction(ProtocoloActionsEnum.PROTOCOLO_ACTION_MY_ACCOUNT_SAVE_PASSWORD);
         LoginRequestDTO l = new LoginRequestDTO();
         l.setPassword(EncryptUtil.toHash(newPassword.getField().getText().toString()));
         p.setObjectDTO(GsonFormated.get().toJson(l));

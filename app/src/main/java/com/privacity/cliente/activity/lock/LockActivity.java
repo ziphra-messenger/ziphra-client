@@ -24,7 +24,8 @@ import com.privacity.cliente.singleton.countdown.SingletonMyAccountConfLockDownT
 import com.privacity.cliente.singleton.countdown.SingletonPasswordInMemoryLifeTime;
 import com.privacity.cliente.singleton.sharedpreferences.SharedPreferencesUtil;
 import com.privacity.cliente.util.GsonFormated;
-import com.privacity.common.config.ConstantProtocolo;
+import com.privacity.common.enumeration.ProtocoloComponentsEnum;import com.privacity.common.enumeration.ProtocoloActionsEnum;
+
 import com.privacity.common.dto.ProtocoloDTO;
 
 import org.springframework.http.ResponseEntity;
@@ -105,7 +106,7 @@ public class LockActivity extends AppCompatActivity {
         });
 
         Bundle extras = getIntent().getExtras();
-        if (extras != null && extras.getBoolean(ConstantProtocolo.PROTOCOLO_ACTION_GRUPO_BLOCK_REMOTO)){
+        if (extras != null && extras.getBoolean(ProtocoloActionsEnum.PROTOCOLO_ACTION_GRUPO_BLOCK_REMOTO.toString())){
             this.findViewById(R.id.lock_bloqueo_remoto_mensaje).setVisibility(View.VISIBLE);
         }else{
             this.findViewById(R.id.lock_bloqueo_remoto_mensaje).setVisibility(View.INVISIBLE);
@@ -119,8 +120,8 @@ public class LockActivity extends AppCompatActivity {
         boolean dto =  false;
 
         ProtocoloDTO p = new ProtocoloDTO();
-        p.setComponent(ConstantProtocolo.PROTOCOLO_COMPONENT_MY_ACCOUNT);
-        p.setAction(ConstantProtocolo.PROTOCOLO_ACTION_MY_ACCOUNT_SAVE_LOGIN_SKIP);
+        p.setComponent(ProtocoloComponentsEnum.PROTOCOLO_COMPONENT_MY_ACCOUNT);
+        p.setAction(ProtocoloActionsEnum.PROTOCOLO_ACTION_MY_ACCOUNT_SAVE_LOGIN_SKIP);
 
         p.setObjectDTO(GsonFormated.get().toJson(dto));
 

@@ -10,7 +10,8 @@ import com.privacity.cliente.common.error.ErrorDialog;
 import com.privacity.cliente.rest.restcalls.reconnect.ReconnectionSyncSession;
 import com.privacity.cliente.singleton.SingletonValues;
 import com.privacity.cliente.util.GsonFormated;
-import com.privacity.common.config.ConstantProtocolo;
+import com.privacity.common.enumeration.ProtocoloComponentsEnum;import com.privacity.common.enumeration.ProtocoloActionsEnum;
+
 import com.privacity.common.config.SystemGralConfURLs;
 import com.privacity.common.dto.ProtocoloDTO;
 import com.privacity.common.enumeration.ExceptionReturnCode;
@@ -54,8 +55,8 @@ public class RestTemplateProtocolo extends AsyncTask<Void, Void, ResponseEntity<
     protected ResponseEntity<ProtocoloDTO> doInBackground(Void... voids) {
 
         final boolean  logOn;
-        if ( protocoloDTO.getAction().equals(ConstantProtocolo.PROTOCOLO_ACTION_REQUEST_ID_PUBLIC_GET) ||
-                protocoloDTO.getAction().equals(ConstantProtocolo.PROTOCOLO_ACTION_REQUEST_ID_PRIVATE_GET)
+        if ( protocoloDTO.getAction().equals(ProtocoloActionsEnum.PROTOCOLO_ACTION_REQUEST_ID_PUBLIC_GET) ||
+                protocoloDTO.getAction().equals(ProtocoloActionsEnum.PROTOCOLO_ACTION_REQUEST_ID_PRIVATE_GET)
         ){
             logOn= true;
         }else{
@@ -63,7 +64,7 @@ public class RestTemplateProtocolo extends AsyncTask<Void, Void, ResponseEntity<
             logOn= true;
         }
 
-        if (logOn) Log.i("------------------- Action", protocoloDTO.getAction());
+        if (logOn) Log.i("------------------- Action", protocoloDTO.getAction().toString());
 
 
         RestTemplate rt = new RestTemplate();

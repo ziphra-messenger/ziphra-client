@@ -7,7 +7,8 @@ import com.privacity.cliente.common.error.SimpleErrorDialog;
 import com.privacity.cliente.rest.CallbackRest;
 import com.privacity.cliente.rest.RestExecute;
 import com.privacity.cliente.util.GsonFormated;
-import com.privacity.common.config.ConstantProtocolo;
+import com.privacity.common.enumeration.ProtocoloComponentsEnum;import com.privacity.common.enumeration.ProtocoloActionsEnum;
+
 import com.privacity.common.dto.IdMessageDTO;
 import com.privacity.common.dto.MessageDTO;
 import com.privacity.common.dto.ProtocoloDTO;
@@ -22,8 +23,8 @@ public class GetMessageById {
 //        tvLoadingGetNewMessagesCount.setVisibility(View.VISIBLE);
 
         ProtocoloDTO p = new ProtocoloDTO();
-        p.setComponent(ConstantProtocolo.PROTOCOLO_COMPONENT_MESSAGE);
-        p.setAction(ConstantProtocolo.PROTOCOLO_ACTION_MESSAGE_GET_ALL_ID_MESSAGE_UNREAD
+        p.setComponent(ProtocoloComponentsEnum.PROTOCOLO_COMPONENT_MESSAGE);
+        p.setAction(ProtocoloActionsEnum.PROTOCOLO_ACTION_MESSAGE_GET_ALL_ID_MESSAGE_UNREAD
         );
         RestExecute.doit(activity, p,
                 new CallbackRest(){
@@ -70,8 +71,8 @@ public class GetMessageById {
 
         for ( int i = 0 ; i < list.length ; i++){
             ProtocoloDTO p = new ProtocoloDTO();
-            p.setComponent(ConstantProtocolo.PROTOCOLO_COMPONENT_MESSAGE);
-            p.setAction(ConstantProtocolo.PROTOCOLO_ACTION_MESSAGE_GET_MESSAGE);
+            p.setComponent(ProtocoloComponentsEnum.PROTOCOLO_COMPONENT_MESSAGE);
+            p.setAction(ProtocoloActionsEnum.PROTOCOLO_ACTION_MESSAGE_GET_MESSAGE);
             final int num = i+1;
             MessageDTO o = new MessageDTO();
             o.setIdGrupo(list[i].getIdGrupo());
@@ -128,8 +129,8 @@ public class GetMessageById {
 
 
             ProtocoloDTO p = new ProtocoloDTO();
-            p.setComponent(ConstantProtocolo.PROTOCOLO_COMPONENT_MESSAGE);
-            p.setAction(ConstantProtocolo.PROTOCOLO_ACTION_MESSAGE_GET_MESSAGE);
+            p.setComponent(ProtocoloComponentsEnum.PROTOCOLO_COMPONENT_MESSAGE);
+            p.setAction(ProtocoloActionsEnum.PROTOCOLO_ACTION_MESSAGE_GET_MESSAGE);
 
             MessageDTO o = new MessageDTO();
             o.setIdGrupo(id.getIdGrupo());
@@ -182,8 +183,8 @@ public class GetMessageById {
 
     public static void  get(Activity activity, String idGrupo, String idMessage) {
         ProtocoloDTO p = new ProtocoloDTO();
-        p.setComponent(ConstantProtocolo.PROTOCOLO_COMPONENT_MESSAGE);
-        p.setAction(ConstantProtocolo.PROTOCOLO_ACTION_MESSAGE_GET_MESSAGE);
+        p.setComponent(ProtocoloComponentsEnum.PROTOCOLO_COMPONENT_MESSAGE);
+        p.setAction(ProtocoloActionsEnum.PROTOCOLO_ACTION_MESSAGE_GET_MESSAGE);
 
         MessageDTO o = new MessageDTO();
         o.setIdGrupo(idGrupo);
