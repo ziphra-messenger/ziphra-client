@@ -55,8 +55,8 @@ public class RestTemplateProtocolo extends AsyncTask<Void, Void, ResponseEntity<
     protected ResponseEntity<ProtocoloDTO> doInBackground(Void... voids) {
 
         final boolean  logOn;
-        if ( protocoloDTO.getAction().equals(ProtocoloActionsEnum.PROTOCOLO_ACTION_REQUEST_ID_PUBLIC_GET) ||
-                protocoloDTO.getAction().equals(ProtocoloActionsEnum.PROTOCOLO_ACTION_REQUEST_ID_PRIVATE_GET)
+        if ( protocoloDTO.getAction().equals(ProtocoloActionsEnum.REQUEST_ID_PUBLIC_GET) ||
+                protocoloDTO.getAction().equals(ProtocoloActionsEnum.REQUEST_ID_PRIVATE_GET)
         ){
             logOn= true;
         }else{
@@ -78,7 +78,7 @@ public class RestTemplateProtocolo extends AsyncTask<Void, Void, ResponseEntity<
             HashMap<String, Object> map = new HashMap<String, Object>();
 
             {
-                String prettyJsonString = gson.toJson(protocoloDTO.getObjectDTO());
+                String prettyJsonString = gson.toJson(protocoloDTO);
                 if (logOn) Log.i(">> ProtocoloDTO >> ", prettyJsonString);
             }
 
@@ -93,6 +93,10 @@ public class RestTemplateProtocolo extends AsyncTask<Void, Void, ResponseEntity<
                     );
                 }*/
 
+                System.out.println(SingletonValues.getInstance().toString());
+                System.out.println(SingletonValues.getInstance().getSessionAEStoUse());
+                System.out.println(SingletonValues.getInstance().getSessionAEStoUse().toString());
+                System.out.println(protocoloDTO);
 
                 toSend = SingletonValues.getInstance().getSessionAEStoUse().getAES(gson.toJson(protocoloDTO));
 
@@ -195,8 +199,11 @@ public class RestTemplateProtocolo extends AsyncTask<Void, Void, ResponseEntity<
         if (response.getBody().getCodigoRespuesta() == null){
 
 
-
-            this.callbackRest.response(response);
+            try {
+                this.callbackRest.response(response);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
         }else{
 
             if(response.getBody().getCodigoRespuesta().equals(ExceptionReturnCode.AUTH_SESSION_OUTOFSYNC.getCode())){

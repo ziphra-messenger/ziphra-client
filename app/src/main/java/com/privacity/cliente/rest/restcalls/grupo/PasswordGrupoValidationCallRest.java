@@ -27,7 +27,7 @@ public class PasswordGrupoValidationCallRest {
     public static void call(Activity activity, ProgressBar progressBar, Grupo grupo, GrupoDTO dto) throws Exception {
 
         ProtocoloDTO p = new ProtocoloDTO();
-        p.setComponent(ProtocoloComponentsEnum.PROTOCOLO_COMPONENT_GRUPO);
+        p.setComponent(ProtocoloComponentsEnum.GRUPO);
         p.setAction(ProtocoloActionsEnum.GRUPO_LOGIN);
 
         p.setObjectDTO(GsonFormated.get().toJson(dto));

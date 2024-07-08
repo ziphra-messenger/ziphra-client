@@ -307,7 +307,7 @@ public class MessageActivity extends GrupoSelectedCustomAppCompatActivity
                     @Override
                     public void action() {
                         ProtocoloDTO p = new ProtocoloDTO();
-                        p.setComponent(ProtocoloComponentsEnum.PROTOCOLO_COMPONENT_GRUPO);
+                        p.setComponent(ProtocoloComponentsEnum.GRUPO);
                         p.setAction(ProtocoloActionsEnum.GRUPO_SAVE_GRUPO_USER_CONF);
 
                         GrupoUserConfDTO c = getGrupoUserConfDTO();
@@ -1327,7 +1327,7 @@ public class MessageActivity extends GrupoSelectedCustomAppCompatActivity
         boolean reply = false;
         if ( messageReplyFrame.getMessage() != null) {
             replyParent = messageReplyFrame.getMessage();
-            idMessageDTOreply = replyParent.getIdMessageDTO();
+            idMessageDTOreply = replyParent.buildIdMessageDTO();
             reply=true;
         }
         messageReplyFrame.getViewParent().setVisibility(View.GONE);
@@ -1445,7 +1445,7 @@ public class MessageActivity extends GrupoSelectedCustomAppCompatActivity
         MessageDTO mP = protocoloDTO.getMessageDTO();
 
 
-        Message m = Observers.message().getMensajesPorId(mP.getIdMessageToMap());
+        Message m = Observers.message().getMensajesPorId(mP.buildIdMessageToMap());
 
         if (m.isReply()){
             adapter.notifyDataSetChanged();
@@ -1456,9 +1456,9 @@ public class MessageActivity extends GrupoSelectedCustomAppCompatActivity
                 ItemListMessage item = items.get(k);
 
 
-                //if ( protocoloDTO.getMessageDTO().getIdMessageToMap().equals(item.getMessage().getIdMessageToMap())){
+                //if ( protocoloDTO.getMessageDTO().buildIdMessageToMap().equals(item.getMessage().buildIdMessageToMap())){
 
-                if ( (protocoloDTO.getMessageDTO().idGrupo + "{-}" + protocoloDTO.getAsyncId()).equals(item.getMessage().getIdMessageToMap())){
+                if ( (protocoloDTO.getMessageDTO().idGrupo + "{-}" + protocoloDTO.getAsyncId()).equals(item.getMessage().buildIdMessageToMap())){
                     item.setMessage(m);
 
                     item.setMessage((Message)protocoloDTO.getMessageDTO());
@@ -1530,9 +1530,9 @@ public class MessageActivity extends GrupoSelectedCustomAppCompatActivity
         if (adapter == null) return;
         adapter.notifyDataSetChanged();
        for ( int i=0; i < adapter.getItemCount(); i++){
-           if (ObserverMessage.getInstance().getMensajesPorId(items.get(i).getMessage().getIdMessageToMap()) == null) return;
+           if (ObserverMessage.getInstance().getMensajesPorId(items.get(i).getMessage().buildIdMessageToMap()) == null) return;
 
-           MessageDetailDTO[] md = ObserverMessage.getInstance().getMensajesPorId(items.get(i).getMessage().getIdMessageToMap()).getMessagesDetailDTO();
+           MessageDetailDTO[] md = ObserverMessage.getInstance().getMensajesPorId(items.get(i).getMessage().buildIdMessageToMap()).getMessagesDetailDTO();
            for ( int j=0; j <  md.length; j++) {
                if (md[j].getUsuarioDestino().getIdUsuario().equals( SingletonValues.getInstance().getUsuario().getIdUsuario())){
                    items.get(i).messageDetailDTO = (md[j]);
@@ -1571,7 +1571,7 @@ public class MessageActivity extends GrupoSelectedCustomAppCompatActivity
     @Override
     public void borrarMensaje(MessageDetailDTO detail) {
         for ( int i = items.size()-1 ; i>=0 ; i--){
-            if (items.get(i).getMessageDetailDTO().getIdMessageToMap().equals(detail.getIdMessageToMap())){
+            if (items.get(i).getMessageDetailDTO().buildIdMessageToMap().equals(detail.buildIdMessageToMap())){
                 items.remove(i);
                 adapter.notifyDataSetChanged();
                 return;
@@ -1918,7 +1918,7 @@ public class MessageActivity extends GrupoSelectedCustomAppCompatActivity
             if (e.getUsuarioDestino().getIdUsuario().equals(SingletonValues.getInstance().getUsuario().getIdUsuario())) {
 
 
-                MessageDTO m = Observers.message().getMensajesPorId(e.getIdMessageToMap());
+                MessageDTO m = Observers.message().getMensajesPorId(e.buildIdMessageToMap());
 
                 boolean reciboBlack = (!SingletonValues.getInstance().getUsuario().getIdUsuario().equals(getIdUsuario(m.getUsuarioCreacion()))
                         &&
@@ -1936,7 +1936,7 @@ public class MessageActivity extends GrupoSelectedCustomAppCompatActivity
 
 
                     items.add(
-                            new ItemListMessage(Observers.message().getMensajesPorId(e.getIdMessageToMap()),
+                            new ItemListMessage(Observers.message().getMensajesPorId(e.buildIdMessageToMap()),
                                     e)
                     );
                 }

@@ -313,8 +313,8 @@ public class MessageUtil {
 
 
         ProtocoloDTO p = new ProtocoloDTO();
-        p.setComponent(ProtocoloComponentsEnum.PROTOCOLO_COMPONENT_MESSAGE);
-        p.setAction(ProtocoloActionsEnum.PROTOCOLO_ACTION_MESSAGE_SEND);
+        p.setComponent(ProtocoloComponentsEnum.MESSAGE);
+        p.setAction(ProtocoloActionsEnum.MESSAGE_SEND);
         p.setAsyncId(asyncId);
         p.setMessageDTO(mensaje);
 

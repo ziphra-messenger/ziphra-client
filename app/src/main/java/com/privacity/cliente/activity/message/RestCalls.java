@@ -35,21 +35,28 @@ public class RestCalls {
     public static void loadMessagesContador(Activity context) {
 
         ProtocoloDTO p = new ProtocoloDTO();
-        p.setComponent(ProtocoloComponentsEnum.PROTOCOLO_COMPONENT_MESSAGE);
-        p.setAction(ProtocoloActionsEnum.PROTOCOLO_ACTION_MESSAGE_GET_ALL_ID_MESSAGE_UNREAD
+        p.setComponent(ProtocoloComponentsEnum.MESSAGE);
+        p.setAction(ProtocoloActionsEnum.MESSAGE_GET_ALL_ID_MESSAGE_UNREAD
         );
         RestExecute.doit(context, p,
                 new CallbackRest(){
 
                     @Override
                     public void response(ResponseEntity<ProtocoloDTO> response) {
-                        MessageDTO[] l = GsonFormated.get().fromJson(response.getBody().getObjectDTO(), MessageDTO[].class);
+                        try {
+                            String d = SingletonValues.getInstance().getSessionAEStoUseServerEncrypt().getAESDecrypt(response.getBody().getObjectDTO());
 
-                        //tvLoadingGetNewMessagesCount.setText("Obteniendo" + contadorMensajes + " de " + l.length);
 
-                        loadMessages(context, l);
+                            MessageDTO[] l = GsonFormated.get().fromJson(d, MessageDTO[].class);
+
+                            //tvLoadingGetNewMessagesCount.setText("Obteniendo" + contadorMensajes + " de " + l.length);
+
+                            loadMessages(context, l);
+
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
                     }
-
                     @Override
                     public void onError(ResponseEntity<ProtocoloDTO> response) {
 
@@ -71,8 +78,8 @@ public class RestCalls {
 
         for ( int i = 0 ; i < list.length ; i++){
             ProtocoloDTO p = new ProtocoloDTO();
-            p.setComponent(ProtocoloComponentsEnum.PROTOCOLO_COMPONENT_MESSAGE);
-            p.setAction(ProtocoloActionsEnum.PROTOCOLO_ACTION_MESSAGE_GET_MESSAGE);
+            p.setComponent(ProtocoloComponentsEnum.MESSAGE);
+            p.setAction(ProtocoloActionsEnum.MESSAGE_GET_MESSAGE);
 
             MessageDTO o = new MessageDTO();
             o.setIdGrupo(list[i].getIdGrupo());
@@ -110,7 +117,7 @@ public class RestCalls {
 
     public static void retry(MessageActivity messageActivity) throws Exception {
         MessageDetailDTO detail = SingletonValues.getInstance().getMessageDetailSeleccionado().getMessageDetailDTO();
-        MessageDTO message = Observers.message().getMensajesPorId(detail.getIdMessageToMap());
+        MessageDTO message = Observers.message().getMensajesPorId(detail.buildIdMessageToMap());
 
         (new MessageUtil()).sendMessage(messageActivity,
                 message.getParentReply(), null,
@@ -121,8 +128,8 @@ public class RestCalls {
                 message.isAnonimo(), message.isSecretKeyPersonal(),message.isPermitirReenvio(),
                 true, message.getTimeMessage());
 
-        Observers.message().removeMessage(detail.getIdGrupo(), detail.getIdMessageToMap());
-        if (SingletonValues.getInstance().getMessageDetailSeleccionado().getMessageDetailDTO().getIdMessageDetailToMap().equals(detail.getIdMessageDetailToMap())) {
+        Observers.message().removeMessage(detail.getIdGrupo(), detail.buildIdMessageToMap());
+        if (SingletonValues.getInstance().getMessageDetailSeleccionado().getMessageDetailDTO().buildIdMessageDetailToMap().equals(detail.buildIdMessageDetailToMap())) {
             SingletonValues.getInstance().setMessageDetailSeleccionado(null);
         }
     }
@@ -142,9 +149,9 @@ public class RestCalls {
         //MessageDetailDTO detail = SingletonValues.getInstance().getMessageDetailSeleccionado().getMessageDetailDTO();
 
         ProtocoloDTO p = new ProtocoloDTO();
-        p.setComponent(ProtocoloComponentsEnum.PROTOCOLO_COMPONENT_MESSAGE);
+        p.setComponent(ProtocoloComponentsEnum.MESSAGE);
         if (deleteFor.equals( DeleteForEnum.FOR_EVERYONE)){
-            p.setAction(ProtocoloActionsEnum.PROTOCOLO_ACTION_MESSAGE_DELETE_FOR_EVERYONE);
+            p.setAction(ProtocoloActionsEnum.MESSAGE_DELETE_FOR_EVERYONE);
         }else {
             p.setAction(ProtocoloActionsEnum.MESSAGE_DELETE_FOR_ME);
         }
@@ -160,13 +167,13 @@ public class RestCalls {
                     @Override
                     public void response(ResponseEntity<ProtocoloDTO> response) {
 
-                        Observers.message().removeMessage(idMessageDTO.getIdGrupo(), idMessageDTO.getIdMessageToMap());
+                        Observers.message().removeMessage(idMessageDTO.getIdGrupo(), idMessageDTO.buildIdMessageToMap());
 
                         //Message message = ;
 
 
                         /*
-                        if (SingletonValues.getInstance().getMessageDetailSeleccionado().getMessageDetailDTO().getIdMessageDetailToMap().equals(detail.getIdMessageDetailToMap())) {
+                        if (SingletonValues.getInstance().getMessageDetailSeleccionado().getMessageDetailDTO().buildIdMessageDetailToMap().equals(detail.buildIdMessageDetailToMap())) {
                             SingletonValues.getInstance().setMessageDetailSeleccionado(null);
                         }*/
                     }
@@ -198,7 +205,7 @@ public class RestCalls {
 
     public static void emptyList(MessageActivity messageActivity,String grupoSeleccionado) {
         ProtocoloDTO p = new ProtocoloDTO();
-        p.setComponent(ProtocoloComponentsEnum.PROTOCOLO_COMPONENT_MESSAGE);
+        p.setComponent(ProtocoloComponentsEnum.MESSAGE);
         p.setAction(ProtocoloActionsEnum.MESSAGE_EMPTY_LIST);
 
         GrupoDTO o = new GrupoDTO();
@@ -228,7 +235,7 @@ public class RestCalls {
 
     public static void loadOldMessages(MessageActivity messageActivity,String grupoSeleccionado, List<ItemListMessage> items) {
         ProtocoloDTO p = new ProtocoloDTO();
-        p.setComponent(ProtocoloComponentsEnum.PROTOCOLO_COMPONENT_MESSAGE);
+        p.setComponent(ProtocoloComponentsEnum.MESSAGE);
         p.setAction(ProtocoloActionsEnum.MESSAGE_GET_LOAD_MESSAGES);
 
         MessageDTO m = new MessageDTO();

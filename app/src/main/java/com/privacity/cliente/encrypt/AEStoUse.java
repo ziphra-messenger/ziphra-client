@@ -68,6 +68,7 @@ public class AEStoUse {
 
 
 	public String getAES(String data) {
+		System.out.println("getAES data: " + data);
 		try {
 			if (data == null) return null;
 			return Base64.getEncoder().encodeToString(encrypt.doFinal(data.getBytes()));
@@ -79,7 +80,7 @@ public class AEStoUse {
 
 	public String getAESDecrypt(String data) throws Exception {
 
-		System.out.println("Entrada: ///" + data + "///");
+		System.out.println("Entrada getAESDecrypt : ///" + data + "///");
 		if (data == null) return null;
 		//if (data == "") return null;
 		String r;
@@ -91,7 +92,7 @@ public class AEStoUse {
 			r = new String(decrypt.doFinal(b));
 		}
 
-		//System.out.println("Entrada: " + data + " Salida: " + r);
+		System.out.println("Salida getAESDecrypt : ///" + r + "///");
 		return r;
 
 

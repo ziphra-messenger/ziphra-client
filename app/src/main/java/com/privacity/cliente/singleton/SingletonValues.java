@@ -41,6 +41,9 @@ public class SingletonValues implements SingletonReset {
     private int counter=0;
     private Bitmap imagenFull;
     private String idGrupoSeleccionado;
+
+
+
     private AEStoUse personalAEStoUse;
     private AEStoUse sessionAEStoUse;
     @Getter
@@ -49,6 +52,7 @@ public class SingletonValues implements SingletonReset {
     @Getter
     @Setter
     private AEStoUse sessionAEStoUseServerEncrypt;
+
     private EncryptKeysToUse encryptKeysToUse;
     private RSA rsa;
     private LocalDateTime serverTime;

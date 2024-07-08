@@ -18,6 +18,7 @@ import com.privacity.cliente.singleton.SingletonValues;
 import com.privacity.cliente.singleton.countdown.SingletonMyAccountConfLockDownTimer;
 import com.privacity.cliente.singleton.impl.SingletonServer;
 import com.privacity.cliente.util.GsonFormated;
+import com.privacity.common.dto.response.SaveGrupoGralConfLockResponseDTO;
 import com.privacity.common.enumeration.ProtocoloComponentsEnum;import com.privacity.common.enumeration.ProtocoloActionsEnum;
 
 import com.privacity.common.dto.MessageDetailDTO;
@@ -153,53 +154,52 @@ public class WebSocket {
                     //Log.d(TAG, "Received " + topicMessage.getPayload());
 
                     try {
+                        Log.d(TAG, "MENSAJE RECIbIDO CRUDO" + topicMessage.getPayload());
                         String protocoloJson = SingletonValues.getInstance().getSessionAEStoUseWS().getAESDecrypt(topicMessage.getPayload());
 
                         ProtocoloDTO p = GsonFormated.get().fromJson(protocoloJson, ProtocoloDTO.class);
-                        Log.d(TAG, "MENSAJE RECIbIDO " + GsonFormated.get().toJson(p));
+                        Log.d(TAG, "MENSAJE RECIbIDO GSON " + GsonFormated.get().toJson(p));
 
 
-                        if (p.getComponent().equals(ProtocoloComponentsEnum.PROTOCOLO_COMPONENT_MESSAGE)) {
+                        if (p.getComponent().equals(ProtocoloComponentsEnum.MESSAGE)) {
 
-                            if (p.getSaveGrupoGralConfLockResponseDTO() != null) {
-                                Observers.grupo().updateGrupoLock(p.getSaveGrupoGralConfLockResponseDTO());
-                            }
 
-                            if (p.getAction().equals(ProtocoloActionsEnum.PROTOCOLO_ACTION_MESSAGE_RECIVIED)) {
+
+                            if (p.getAction().equals(ProtocoloActionsEnum.MESSAGE_RECIVIED)) {
 
                                 //MessageDTO id = GsonFormated.get().fromJson(p.getObjectDTO(), MessageDTO.class);
                                 Observers.message().mensajeNuevoWS(p, true, activity);
                                 //GetMessageById.get(activity, id.getIdGrupo(), id.getIdMessage());
 
 
-                            } else if (p.getAction().equals(ProtocoloActionsEnum.PROTOCOLO_ACTION_MESSAGE_CHANGE_STATE)) {
+                            } else if (p.getAction().equals(ProtocoloActionsEnum.MESSAGE_CHANGE_STATE)) {
                                 changeStateDetail(p);
                             } else if (p.getAction().equals("/message/deleteForEveryone" )) {
 
                                 Observers.message().removeMessage(p);
                             }
-                        } else if (p.getComponent().equals(ProtocoloComponentsEnum.PROTOCOLO_COMPONENT_GRUPO)) {
+                        } else if (p.getComponent().equals(ProtocoloComponentsEnum.GRUPO)) {
                             if (p.getAction().equals("/grupo/addUser/addMe" )) {
 
 
-                            } else if (p.getAction().equals(ProtocoloActionsEnum.PROTOCOLO_ACTION_GRUPO_INVITATION_RECIVED)) {
+                            } else if (p.getAction().equals(ProtocoloActionsEnum.GRUPO_INVITATION_RECIVED)) {
                                 Observers.grupo().addGrupo(p);
-                            } else if (p.getAction().equals(ProtocoloActionsEnum.PROTOCOLO_ACTION_GRUPO_REMOVE_USER)) {
+                            } else if (p.getAction().equals(ProtocoloActionsEnum.GRUPO_REMOVE_USER)) {
                                 //ObservatorGrupos.getInstance().removeUserFromGrupo(p);
                                 Observers.message().removeAllMessageFromUser(p);
-                            } else if (p.getAction().equals(ProtocoloActionsEnum.PROTOCOLO_ACTION_GRUPO_WRITTING)) {
+                            } else if (p.getAction().equals(ProtocoloActionsEnum.GRUPO_WRITTING)) {
                                 //ObservatorGrupos.getInstance().removeUserFromGrupo(p);
                                 Observers.message().writting(p);
-                            } else if (p.getAction().equals(ProtocoloActionsEnum.PROTOCOLO_ACTION_GRUPO_STOP_WRITTING)) {
+                            } else if (p.getAction().equals(ProtocoloActionsEnum.GRUPO_STOP_WRITTING)) {
                                 //ObservatorGrupos.getInstance().removeUserFromGrupo(p);
                                 Observers.message().writtingStop(p);
-                            } else if (p.getAction().equals(ProtocoloActionsEnum.PROTOCOLO_ACTION_GRUPO_HOW_MANY_MEMBERS_ONLINE)) {
+                            } else if (p.getAction().equals(ProtocoloActionsEnum.GRUPO_HOW_MANY_MEMBERS_ONLINE)) {
                                 //ObservatorGrupos.getInstance().removeUserFromGrupo(p);
                                 Observers.grupo().updateOnline(p);
-                            } else if (p.getAction().equals(ProtocoloActionsEnum.PROTOCOLO_ACTION_GRUPO_SAVE_GENERAL_CONFIGURATION_LOCK)) {
+                            } else if (p.getAction().equals(ProtocoloActionsEnum.GRUPO_SAVE_GENERAL_CONFIGURATION_LOCK)) {
                                 System.out.println(GsonFormated.get().toJson(p));
-                                Observers.grupo().updateGrupoLock(p.getSaveGrupoGralConfLockResponseDTO());
-
+                                SaveGrupoGralConfLockResponseDTO sgglr = mGson.fromJson(p.getObjectDTO(), SaveGrupoGralConfLockResponseDTO.class);
+                                Observers.grupo().updateGrupoLock(sgglr);
 
 /*                            if (
                                     SingletonValues.getInstance().getGrupoSeleccionado() != null &&
@@ -225,7 +225,7 @@ public class WebSocket {
                                 if (!SingletonMyAccountConfLockDownTimer.getInstance().isLocked()) {
                                     Intent i = new Intent(activity, LockActivity.class);
 
-                                    i.putExtra(ProtocoloActionsEnum.PROTOCOLO_ACTION_GRUPO_BLOCK_REMOTO.toString(), true);
+                                    i.putExtra(ProtocoloActionsEnum.GRUPO_BLOCK_REMOTO.toString(), true);
 
 
                                     activity.startActivity(i);

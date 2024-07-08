@@ -31,8 +31,8 @@ public class LoadingActivityGrupoRestDelegate {
         SingletonValues.getInstance().setGrupoSeleccionado(null);
 
         ProtocoloDTO p = new ProtocoloDTO();
-        p.setComponent(ProtocoloComponentsEnum.PROTOCOLO_COMPONENT_GRUPO);
-        p.setAction(ProtocoloActionsEnum.PROTOCOLO_ACTION_GRUPO_GET_IDS_MY_GRUPOS
+        p.setComponent(ProtocoloComponentsEnum.GRUPO);
+        p.setAction(ProtocoloActionsEnum.GRUPO_GET_IDS_MY_GRUPOS
         );
         RestExecute.doit(loadingActivity, p,
                 new CallbackRest() {
@@ -116,8 +116,8 @@ public class LoadingActivityGrupoRestDelegate {
                 loadingActivity.addTextConsole("Getting Grupo id : " + grupo.getId())
         );
         ProtocoloDTO p = new ProtocoloDTO();
-        p.setComponent(ProtocoloComponentsEnum.PROTOCOLO_COMPONENT_GRUPO);
-        p.setAction(ProtocoloActionsEnum.PROTOCOLO_ACTION_GRUPO_GET_GRUPO_BY_IDS);
+        p.setComponent(ProtocoloComponentsEnum.GRUPO);
+        p.setAction(ProtocoloActionsEnum.GRUPO_GET_GRUPO_BY_IDS);
 
         p.setObjectDTO(GsonFormated.get().toJson(g));
 

@@ -54,8 +54,9 @@ public class AcceptInvitationCallRest {
         String saltAESDescr = EncryptUtil.encryptKeyDesencrypt(encryptKeysToUseGrupo,grupo.getGrupoInvitationDTO().getAesDTO().getSaltAES());
         String iteratorAESDescr = EncryptUtil.encryptKeyDesencrypt(encryptKeysToUseGrupo,grupo.getGrupoInvitationDTO().getAesDTO().getIteration());
 
-        AESDTO aesGrupoDTO = EncryptUtil.encriptarAES(new AESDTO(secretKeyAESDescr, saltAESDescr, iteratorAESDescr,
-                        SingletonValues.getInstance().getSystemGralConf().getMessagingAES().getBits()+""
+        AESDTO aesGrupoDTO = EncryptUtil.encriptarAES(new AESDTO(secretKeyAESDescr, saltAESDescr,
+                        Integer.parseInt(iteratorAESDescr),
+                        SingletonValues.getInstance().getSystemGralConf().getMessagingAES().getBits()
                 ),
                 SingletonValues.getInstance().getEncryptKeysToUse(),
                 SingletonValues.getInstance().getEncryptKeysToUse().getPublicKey()
@@ -63,7 +64,7 @@ public class AcceptInvitationCallRest {
         //encriptar los aes y enviar al servidor;
 
         ProtocoloDTO p = new ProtocoloDTO();
-        p.setComponent(ProtocoloComponentsEnum.PROTOCOLO_COMPONENT_GRUPO);
+        p.setComponent(ProtocoloComponentsEnum.GRUPO);
         p.setAction(ProtocoloActionsEnum.GRUPO_ACCEPT_INVITATION);
 
         GrupoInvitationAcceptRequestDTO o = new GrupoInvitationAcceptRequestDTO();

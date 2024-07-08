@@ -109,8 +109,8 @@ public class MyAccountPasswordFrame {
         MyAccountConfDTO dto =  buildDTO();
 
         ProtocoloDTO p = new ProtocoloDTO();
-        p.setComponent(ProtocoloComponentsEnum.PROTOCOLO_COMPONENT_MY_ACCOUNT);
-        p.setAction(ProtocoloActionsEnum.PROTOCOLO_ACTION_MY_ACCOUNT_SAVE_PASSWORD);
+        p.setComponent(ProtocoloComponentsEnum.MY_ACCOUNT);
+        p.setAction(ProtocoloActionsEnum.MY_ACCOUNT_SAVE_PASSWORD);
         LoginRequestDTO l = new LoginRequestDTO();
         l.setPassword(EncryptUtil.toHash(newPassword.getField().getText().toString()));
         p.setObjectDTO(GsonFormated.get().toJson(l));

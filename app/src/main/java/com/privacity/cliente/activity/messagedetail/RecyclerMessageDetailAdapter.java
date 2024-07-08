@@ -26,7 +26,7 @@ public class RecyclerMessageDetailAdapter extends RecyclerView.Adapter<RecyclerM
     public RecyclerMessageDetailAdapter(List<ItemListMessageDetail> items) {
         this.items = items;
 
-        if (ObserverMessage.getInstance().getMensajesPorId(items.get(0).messageDetailDTO.getIdMessageToMap()).isAnonimo()) {
+        if (ObserverMessage.getInstance().getMensajesPorId(items.get(0).messageDetailDTO.buildIdMessageToMap()).isAnonimo()) {
             Comparator comparator = new Comparator() {
                 @Override
                 public int compare(Object o1, Object o2) {
@@ -69,11 +69,11 @@ public class RecyclerMessageDetailAdapter extends RecyclerView.Adapter<RecyclerM
 
         //holder.tvGruposUnreadCount.setText();
 
-       /* if (item.getMessageDetailDTO().getIdMessageDetailToMap().equals(SingletonValues.getInstance().getMessageDetailSeleccionado().getMessageDetailDTO().getIdMessageDetailToMap())
-        && !ObservatorMensajes.getInstance().getMensajesPorId(item.getMessageDetailDTO().getIdMessageToMap()).isSystemMessage()){
+       /* if (item.getMessageDetailDTO().buildIdMessageDetailToMap().equals(SingletonValues.getInstance().getMessageDetailSeleccionado().getMessageDetailDTO().buildIdMessageDetailToMap())
+        && !ObservatorMensajes.getInstance().getMensajesPorId(item.getMessageDetailDTO().buildIdMessageToMap()).isSystemMessage()){
             holder.tvMessageDetailItemUsername.setText(SingletonValues.getInstance().getMessageDetailSeleccionado().getNombreMostrado());
         }else{*/
-        if (ObserverMessage.getInstance().getMensajesPorId(item.messageDetailDTO.getIdMessageToMap()).isAnonimo()) {
+        if (ObserverMessage.getInstance().getMensajesPorId(item.messageDetailDTO.buildIdMessageToMap()).isAnonimo()) {
             holder.tvMessageDetailItemUsername.setText("Anonimo");
         } else {
             holder.tvMessageDetailItemUsername.setText(item.getMessageDetailDTO().getUsuarioDestino().getNickname());

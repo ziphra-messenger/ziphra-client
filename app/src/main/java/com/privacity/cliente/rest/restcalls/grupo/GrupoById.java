@@ -20,8 +20,8 @@ public class GrupoById {
     public void getGrupoById(Activity activity, IdDTO g) {
 
         ProtocoloDTO p = new ProtocoloDTO();
-        p.setComponent(ProtocoloComponentsEnum.PROTOCOLO_COMPONENT_GRUPO);
-        p.setAction(ProtocoloActionsEnum.PROTOCOLO_ACTION_GRUPO_GET_GRUPO_BY_ID);
+        p.setComponent(ProtocoloComponentsEnum.GRUPO);
+        p.setAction(ProtocoloActionsEnum.GRUPO_GET_GRUPO_BY_ID);
 
         p.setObjectDTO(GsonFormated.get().toJson(g));
 

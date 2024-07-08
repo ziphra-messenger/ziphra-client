@@ -28,8 +28,8 @@ public class GetServerPublicKey {
 
 
         ProtocoloDTO p = new ProtocoloDTO();
-        p.setComponent(ProtocoloComponentsEnum.PROTOCOLO_COMPONENT_PRIVACITY_RSA);
-        p.setAction(ProtocoloActionsEnum.PROTOCOLO_ACTION_PRIVACITY_RSA_GET_PUBLIC_KEY);
+        p.setComponent(ProtocoloComponentsEnum.PRIVACITY_RSA);
+        p.setAction(ProtocoloActionsEnum.PRIVACITY_RSA_GET_PUBLIC_KEY);
 
         RestExecute.doit(context, p, new CallbackRest() {
             @Override

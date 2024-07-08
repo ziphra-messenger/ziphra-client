@@ -73,8 +73,8 @@ public class ReconnectionSyncSession {
         Gson gson = GsonFormated.get();
 
         ProtocoloDTO p = new ProtocoloDTO();
-        p.setComponent(ProtocoloComponentsEnum.PROTOCOLO_COMPONENT_AUTH);
-        p.setAction(ProtocoloActionsEnum.PROTOCOLO_ACTION_AUTH_LOGIN);
+        p.setComponent(ProtocoloComponentsEnum.AUTH);
+        p.setAction(ProtocoloActionsEnum.AUTH_LOGIN);
 
         LoginRequestDTO t = new LoginRequestDTO();
         t.setUsername(SingletonValues.getInstance().getUsernameHash());

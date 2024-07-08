@@ -186,7 +186,7 @@ public class RecyclerMessageAdapter extends RecyclerView.Adapter<RecyclerHolder>
         }
 
         if ( item.getMessage().getParentReply() != null && item.getMessage().getParentReply().getIdMessage() != null && !isReply){
-            final String idMessageToMap = item.getMessage().getParentReply().getIdMessageToMap();
+            final String idMessageToMap = item.getMessage().getParentReply().buildIdMessageToMap();
             final IdMessageDTO idParentReply = item.getMessage().getParentReply();
             Message messageReply = Observers.message().getMensajesPorId(idMessageToMap);
 
@@ -399,7 +399,7 @@ public class RecyclerMessageAdapter extends RecyclerView.Adapter<RecyclerHolder>
                     if (!item.isOcularDetails()) {
                         SingletonValues.getInstance().setImagenFull(bit2);
                         Intent intent = new Intent(v.getContext(), ImageFullActivity.class);
-                        intent.putExtra("idMessageToMap", item.getMessage().getIdMessageToMap());
+                        intent.putExtra("idMessageToMap", item.getMessage().buildIdMessageToMap());
                         v.getContext().startActivity(intent);
                     }
 
@@ -603,7 +603,7 @@ public class RecyclerMessageAdapter extends RecyclerView.Adapter<RecyclerHolder>
         message.setDownloadingMedia(true);
 
         ProtocoloDTO p = new ProtocoloDTO();
-        p.setComponent(ProtocoloComponentsEnum.PROTOCOLO_COMPONENT_MESSAGE);
+        p.setComponent(ProtocoloComponentsEnum.MESSAGE);
         p.setAction(ProtocoloActionsEnum.MESSAGE_GET_MEDIA_1);
 
         MessageDTO o = new MessageDTO();
@@ -670,7 +670,7 @@ public class RecyclerMessageAdapter extends RecyclerView.Adapter<RecyclerHolder>
     private void restDownloadImage(RecyclerHolderGeneric rch, Message message) {
         message.setDownloadingMedia(true);
         ProtocoloDTO p = new ProtocoloDTO();
-        p.setComponent(ProtocoloComponentsEnum.PROTOCOLO_COMPONENT_MESSAGE);
+        p.setComponent(ProtocoloComponentsEnum.MESSAGE);
         p.setAction(ProtocoloActionsEnum.MESSAGE_GET_MEDIA_2);
 
         MessageDTO o = new MessageDTO();

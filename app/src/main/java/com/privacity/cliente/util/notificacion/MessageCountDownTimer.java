@@ -40,7 +40,7 @@ public class MessageCountDownTimer {
 
             public void onFinish() {
                 deleted=true;
-                Observers.message().removeMessage(message.getIdGrupo(), message.getIdMessageToMap());
+                Observers.message().removeMessage(message.getIdGrupo(), message.buildIdMessageToMap());
             }
         };
         timeMessageCountDownTimerRunning =true;

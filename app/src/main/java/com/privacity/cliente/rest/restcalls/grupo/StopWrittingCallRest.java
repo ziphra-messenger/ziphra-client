@@ -18,8 +18,8 @@ public class StopWrittingCallRest {
     public static void call(Activity activity, WrittingDTO dto) throws Exception {
 
         ProtocoloDTO p = new ProtocoloDTO();
-        p.setComponent(ProtocoloComponentsEnum.PROTOCOLO_COMPONENT_GRUPO);
-        p.setAction(ProtocoloActionsEnum.PROTOCOLO_ACTION_GRUPO_STOP_WRITTING);
+        p.setComponent(ProtocoloComponentsEnum.GRUPO);
+        p.setAction(ProtocoloActionsEnum.GRUPO_STOP_WRITTING);
 
         p.setObjectDTO(GsonFormated.get().toJson(dto));
 

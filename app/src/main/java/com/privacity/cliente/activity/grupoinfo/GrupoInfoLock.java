@@ -221,8 +221,8 @@ public class GrupoInfoLock {
         GrupoDTO dto = buildPasswordDTO();
 
         ProtocoloDTO p = new ProtocoloDTO();
-        p.setComponent(ProtocoloComponentsEnum.PROTOCOLO_COMPONENT_GRUPO);
-        p.setAction(ProtocoloActionsEnum.PROTOCOLO_ACTION_GRUPO_SAVE_GRAL_CONF_PASSWORD);
+        p.setComponent(ProtocoloComponentsEnum.GRUPO);
+        p.setAction(ProtocoloActionsEnum.GRUPO_SAVE_GRAL_CONF_PASSWORD);
 
         p.setObjectDTO(GsonFormated.get().toJson(dto));
 
@@ -294,8 +294,8 @@ public class GrupoInfoLock {
         GrupoDTO dto =  buildLockDTO();
 
         ProtocoloDTO p = new ProtocoloDTO();
-        p.setComponent(ProtocoloComponentsEnum.PROTOCOLO_COMPONENT_GRUPO);
-        p.setAction(ProtocoloActionsEnum.PROTOCOLO_ACTION_GRUPO_SAVE_GENERAL_CONFIGURATION_LOCK);
+        p.setComponent(ProtocoloComponentsEnum.GRUPO);
+        p.setAction(ProtocoloActionsEnum.GRUPO_SAVE_GENERAL_CONFIGURATION_LOCK);
 
         p.setObjectDTO(GsonFormated.get().toJson(dto));
 

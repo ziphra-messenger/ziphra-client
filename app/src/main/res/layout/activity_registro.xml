@@ -231,8 +231,28 @@
     </LinearLayout>
 
     <include
+        android:id="@+id/include2"
         layout="@layout/custom_comp_general_progress_bar"
+        android:visibility="visible"
         tools:visibility="gone" />
+
+    <TextView
+        android:id="@+id/tv_registro_creando"
+        android:layout_width="403dp"
+        android:layout_height="99dp"
+        android:layout_marginStart="400dp"
+        android:layout_marginTop="300dp"
+        android:background="#D7D46600"
+        android:foregroundGravity="center_vertical|center|center_horizontal"
+        android:gravity="center|center_horizontal|center_vertical"
+        android:text="Procesando"
+        android:textSize="30sp"
+        android:textStyle="bold"
+        android:visibility="gone"
+        app:layout_constraintEnd_toStartOf="@+id/include2"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:visibility="visible" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

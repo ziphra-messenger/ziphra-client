@@ -85,7 +85,14 @@ public class LoadingActivityCrearKeysDelegate {
     void createPersonalPrivateKey(LoginDTOResponse l) throws Exception {
 
         String privateEncr = l.getPrivateKey();
+        System.out.println("Entrada l.toString() : ///" + l.toString()  + "///");
+        System.out.println("Entrada l.getPrivateKey() : ///" + l.getPrivateKey()  + "///");
 
+        if (SingletonValues.getInstance().getPersonalAEStoUse() == null){
+            System.out.println("personal aes == null");
+        }else{
+        }
+        System.out.println("Entrada l.getPrivateKey() : ///" + l.getPrivateKey()  + "///");
         byte[] privateDesc = SingletonValues.getInstance().getPersonalAEStoUse().getAESDecrypt(GsonFormated.get().fromJson(privateEncr, byte[].class));
 
         KeyFactory kf3 = KeyFactory.getInstance("RSA");
@@ -143,8 +150,9 @@ public class LoadingActivityCrearKeysDelegate {
         System.out.println("sessionAESKey = " + sessionAESKey);
         System.out.println("sessionAESSalt = " + sessionAESSalt);
         System.out.println("sessionAESIterator = " + sessionAESIterator);
-        SingletonValues.getInstance().setSessionAESToUse(new AESDTO(sessionAESKey, sessionAESSalt, sessionAESIterator,
-                SingletonValues.getInstance().getSystemGralConf().getMessagingAES().getBits()+""
+        SingletonValues.getInstance().setSessionAESToUse(new AESDTO(sessionAESKey, sessionAESSalt,
+                Integer.parseInt(sessionAESIterator),
+                SingletonValues.getInstance().getSystemGralConf().getMessagingAES().getBits()
                 ));
     }
 }

@@ -70,7 +70,7 @@ public class RegistroActivity extends AppCompatActivity {
     private EditText tvRegistroNickname;
     private ProgressBar pbRegistro;
     private TextView tvRegistroNicknameValidate;
-
+    private TextView tvRegistroCreando;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -88,9 +88,11 @@ public class RegistroActivity extends AppCompatActivity {
         tvRegistroUsernameValidate = (TextView) findViewById(R.id.tv_registro_username_validate);
         passwordRegistro1 = (EditText) findViewById(R.id.tv_registro_password1);
         passwordRegistro2 = (EditText) findViewById(R.id.tv_registro_password2);
-
+        tvRegistroCreando = (TextView) findViewById(R.id.tv_registro_creando);
         pbRegistro = (android.widget.ProgressBar) findViewById(R.id.gral_progress_bar);
         pbRegistro.setVisibility(View.GONE);
+        tvRegistroCreando.setVisibility(View.GONE);
+
 
         tvRegistroPassword1Validate = (TextView) findViewById(R.id.tv_registro_password1_validacion);
         tvRegistroPassword2ValidateEqual = (TextView) findViewById(R.id.tv_registro_password2_validacion_equal);
@@ -101,6 +103,7 @@ public class RegistroActivity extends AppCompatActivity {
 
         passwordRegistro1.setFilters(new InputFilter[]{new InputFilter.LengthFilter(ConstantValidation.USER_PASSWORD_MAX_LENGTH)});
         passwordRegistro2.setFilters(new InputFilter[]{new InputFilter.LengthFilter(ConstantValidation.USER_PASSWORD_MAX_LENGTH)});
+
 
         initListener();
 
@@ -180,7 +183,7 @@ public class RegistroActivity extends AppCompatActivity {
             public void onClick(View v) {
 
                 ProgressBarUtil.changeState(RegistroActivity.this, pbRegistro);
-
+                tvRegistroCreando.setVisibility(pbRegistro.getVisibility());
                 validarUsuario();
                 validarNickname();
                 validarPassword1();
@@ -192,11 +195,13 @@ public class RegistroActivity extends AppCompatActivity {
                     } catch (Exception e) {
                         e.printStackTrace();
                         ProgressBarUtil.hide(RegistroActivity.this, pbRegistro);
+                        tvRegistroCreando.setVisibility(pbRegistro.getVisibility());
                         SimpleErrorDialog.errorDialog(RegistroActivity.this, "ERROR REGISTRO", e.getMessage());
 
                     }
                 }else{
                     ProgressBarUtil.changeState(RegistroActivity.this, pbRegistro);
+                    tvRegistroCreando.setVisibility(pbRegistro.getVisibility());
                     Toast toast=Toast. makeText(getApplicationContext(),R.string.registro_validation_error,Toast. LENGTH_SHORT);
                     toast.show();
                 }
@@ -205,7 +210,7 @@ public class RegistroActivity extends AppCompatActivity {
     }
 
     private void callNewUserRest() {
-
+        tvRegistroCreando.setText("Creando Claves de Encriptación");
         ServerConfRest.getTime(this, newUserCallback(), new InnerCallbackRest() {
             @Override
             public void action(Context context) {
@@ -214,6 +219,7 @@ public class RegistroActivity extends AppCompatActivity {
                 } catch (Exception e) {
                     e.printStackTrace();
                     ProgressBarUtil.hide(RegistroActivity.this, pbRegistro);
+                    tvRegistroCreando.setVisibility(pbRegistro.getVisibility());
                     SimpleErrorDialog.errorDialog(RegistroActivity.this, "ERROR REGISTRO", e.getMessage());
 
 
@@ -224,6 +230,7 @@ public class RegistroActivity extends AppCompatActivity {
 
     private void callNewUserRestInnerCallback() throws Exception {
 
+        tvRegistroCreando.setText("Finalizando Configuración");
         AESDTO personalAES = EncryptUtil.createPersonalAES(usernameRegistro.getText().toString());
         AEStoUse personalAEStoUse = AEStoUseFactory.getAEStoUsePersonal(personalAES.getSecretKeyAES(), personalAES.getSaltAES());
 
@@ -234,8 +241,8 @@ public class RegistroActivity extends AppCompatActivity {
         EncryptKeysDTO encriptionCodeEncryptKeys = EncryptUtil.invitationCodeEncryptKeysGenerator(personalAEStoUse);
 
         ProtocoloDTO p = new ProtocoloDTO();
-        p.setComponent(ProtocoloComponentsEnum.PROTOCOLO_COMPONENT_AUTH);
-        p.setAction(ProtocoloActionsEnum.PROTOCOLO_ACTION_AUTH_REGISTER);
+        p.setComponent(ProtocoloComponentsEnum.AUTH);
+        p.setAction(ProtocoloActionsEnum.AUTH_REGISTER);
 
         RegisterUserRequestDTO u = new RegisterUserRequestDTO();
         u.setInvitationCodeEncryptKeysDTO(encriptionCodeEncryptKeys);
@@ -244,6 +251,8 @@ public class RegistroActivity extends AppCompatActivity {
         u.setNickname(tvRegistroNickname.getText().toString());
         u.setPassword(EncryptUtil.toHash(passwordRegistro1.getText().toString()));
         u.setUsername(EncryptUtil.toHash(usernameRegistro.getText().toString()));
+
+
 
         p.setObjectDTO(GsonFormated.get().toJson(u));
         RestExecute.doitPublic(RegistroActivity.this, p,newUserCallback()
@@ -259,6 +268,7 @@ public class RegistroActivity extends AppCompatActivity {
             public void response(ResponseEntity<ProtocoloDTO> response) {
 
                 ProgressBarUtil.changeState(RegistroActivity.this, pbRegistro);
+                tvRegistroCreando.setVisibility(pbRegistro.getVisibility());
                 AlertDialog dialog = getAlertDialog();
                 dialog.show();
 
@@ -272,6 +282,7 @@ public class RegistroActivity extends AppCompatActivity {
 
             @Override
             public void beforeShowErrorMessage(String msg) {
+                tvRegistroCreando.setVisibility(pbRegistro.getVisibility());
                 ProgressBarUtil.changeState(RegistroActivity.this, pbRegistro);
             }
 
@@ -379,6 +390,7 @@ public class RegistroActivity extends AppCompatActivity {
                 } catch (Exception e) {
                     e.printStackTrace();
                     ProgressBarUtil.hide(RegistroActivity.this, pbRegistro);
+                    tvRegistroCreando.setVisibility(pbRegistro.getVisibility());
                     SimpleErrorDialog.errorDialog(RegistroActivity.this, "ERROR REGISTRO", e.getMessage());
 
                 }
@@ -388,8 +400,8 @@ public class RegistroActivity extends AppCompatActivity {
     private void validarUsuarioRestInnerCallback() throws Exception {
 
         ProtocoloDTO p = new ProtocoloDTO();
-        p.setComponent(ProtocoloComponentsEnum.PROTOCOLO_COMPONENT_AUTH);
-        p.setAction(ProtocoloActionsEnum.PROTOCOLO_ACTION_AUTH_VALIDATE_USERNAME);
+        p.setComponent(ProtocoloComponentsEnum.AUTH);
+        p.setAction(ProtocoloActionsEnum.AUTH_VALIDATE_USERNAME);
 
         ValidateUsernameDTO u = new ValidateUsernameDTO();
         u.setUsername(toHash(usernameRegistro.getText().toString()));
@@ -453,6 +465,7 @@ public class RegistroActivity extends AppCompatActivity {
     }
 
     private EncryptKeysDTO createEncryptKeys(AEStoUse personalAEStoUse) throws Exception {
+
         RSA t = new RSA();
         KeyPair keyPair = null;
 

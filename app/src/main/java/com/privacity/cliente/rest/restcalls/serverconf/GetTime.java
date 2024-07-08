@@ -20,8 +20,8 @@ public class GetTime {
     public static void getTime(Activity context, CallbackRest callbackRest, InnerCallbackRest innerCallbackRest) {
 
         ProtocoloDTO p = new ProtocoloDTO();
-        p.setComponent(ProtocoloComponentsEnum.PROTOCOLO_COMPONENT_SERVER_CONF_UNSECURE);
-        p.setAction(ProtocoloActionsEnum.PROTOCOLO_ACTION_SERVER_CONF_UNSECURE_GET_TIME);
+        p.setComponent(ProtocoloComponentsEnum.SERVER_CONF_UNSECURE);
+        p.setAction(ProtocoloActionsEnum.SERVER_CONF_UNSECURE_GET_TIME);
         RestExecute.doit(context, p,
                 new CallbackRest() {
 

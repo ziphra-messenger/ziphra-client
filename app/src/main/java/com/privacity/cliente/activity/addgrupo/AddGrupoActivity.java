@@ -122,8 +122,8 @@ public class AddGrupoActivity extends CustomAppCompatActivity {
 
 
                 ProtocoloDTO p = new ProtocoloDTO();
-                p.setComponent(ProtocoloComponentsEnum.PROTOCOLO_COMPONENT_GRUPO);
-                p.setAction(ProtocoloActionsEnum.PROTOCOLO_ACTION_GRUPO_NEW_GRUPO);
+                p.setComponent(ProtocoloComponentsEnum.GRUPO);
+                p.setAction(ProtocoloActionsEnum.GRUPO_NEW_GRUPO);
 
                 p.setObjectDTO(GsonFormated.get().toJson(request));
 

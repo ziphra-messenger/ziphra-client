@@ -473,8 +473,8 @@ public class MainActivity extends AppCompatActivity {
         Gson gson = GsonFormated.get();
 
         ProtocoloDTO p = new ProtocoloDTO();
-        p.setComponent(ProtocoloComponentsEnum.PROTOCOLO_COMPONENT_AUTH);
-        p.setAction(ProtocoloActionsEnum.PROTOCOLO_ACTION_AUTH_LOGIN);
+        p.setComponent(ProtocoloComponentsEnum.AUTH);
+        p.setAction(ProtocoloActionsEnum.AUTH_LOGIN);
 
         LoginRequestDTO t = new LoginRequestDTO();
         t.setUsername(EncryptUtil.toHash(userP));

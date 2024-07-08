@@ -187,7 +187,7 @@ public class ObserverMessage implements SingletonReset {
                 mensajesDetailsPorGrupo.put(body[i].getIdGrupo(), new CopyOnWriteArrayList<MessageDetailDTO>());
             }
             todosLosMensajesPorGrupo.get(body[i].getIdGrupo()).add(body[i]);
-            todosLosMensajesPorId.put(body[i].getIdMessageToMap(),body[i]);
+            todosLosMensajesPorId.put(body[i].buildIdMessageToMap(),body[i]);
 
             for ( int j = 0 ; j < body[i].getMessagesDetailDTO().length ; j++){
                 mensajesDetailsPorGrupo.get(body[i].getIdGrupo()).add(body[i].getMessagesDetailDTO()[j]);
@@ -203,7 +203,7 @@ public class ObserverMessage implements SingletonReset {
         if (todosLosMensajesPorGrupo.get(idGrupo) != null){
             for ( MessageDTO m : todosLosMensajesPorGrupo.get(idGrupo)){
 
-                todosLosMensajesPorId.remove(m.getIdMessageToMap());
+                todosLosMensajesPorId.remove(m.buildIdMessageToMap());
 
             }
         }
@@ -240,7 +240,7 @@ public class ObserverMessage implements SingletonReset {
             mensaje.setUsuarioCreacion(SingletonValues.getInstance().getUsuario());
         }
         */
-        todosLosMensajesPorId.put(mensaje.getIdMessageToMap(), mensaje);
+        todosLosMensajesPorId.put(mensaje.buildIdMessageToMap(), mensaje);
         peticiones.put(asyncId, mensaje);
 
         //p.setMessageDTO(mensaje);
@@ -289,8 +289,8 @@ public class ObserverMessage implements SingletonReset {
             borrarMensaje2(mpt.getMessagesDetailDTO()[0], true);
             //ObservatorGrupos.getInstance().avisarCambioUnread(mpt.idGrupo, +1);
             avisar=true;
-            String mptId = mpt.getIdMessageToMap();
-            String mptIpDetails = mpt.getMessagesDetailDTO()[0].getIdMessageDetailToMap();
+            String mptId = mpt.buildIdMessageToMap();
+            String mptIpDetails = mpt.getMessagesDetailDTO()[0].buildIdMessageDetailToMap();
 
 
             mpt.setUsuarioCreacion( ((Message) protocoloDTO.getMessageDTO()).getUsuarioCreacion() );
@@ -308,7 +308,7 @@ public class ObserverMessage implements SingletonReset {
                 MessageDetailDTO[] ms2 = ((Message) protocoloDTO.getMessageDTO()).getMessagesDetailDTO();
 
                 for (MessageDetailDTO md2 : ms2) {
-                    if (md1.getIdMessageDetailToMap().equals(md2.getIdMessageDetailToMap())) {
+                    if (md1.buildIdMessageDetailToMap().equals(md2.buildIdMessageDetailToMap())) {
                         if (!md1.getUsuarioDestino().equals(SingletonValues.getInstance().getUsuario().getIdUsuario())) {
                            if (md1.getEstado().ordinal()< md2.getEstado().ordinal()){
                                md1.setEstado( md2.getEstado());
@@ -325,13 +325,13 @@ public class ObserverMessage implements SingletonReset {
         } else if (protocoloDTO.getMessageDTO().isSystemMessage()){
             estadoMensajeAddElement(protocoloDTO.getMessageDTO().getIdGrupo());
 
-            if ( this.todosLosMensajesPorId.containsKey(protocoloDTO.getMessageDTO().getIdMessageToMap())){
+            if ( this.todosLosMensajesPorId.containsKey(protocoloDTO.getMessageDTO().buildIdMessageToMap())){
                 return;
             }
 
         }else{
 
-            if ( this.todosLosMensajesPorId.containsKey(protocoloDTO.getMessageDTO().getIdMessageToMap())){
+            if ( this.todosLosMensajesPorId.containsKey(protocoloDTO.getMessageDTO().buildIdMessageToMap())){
                 //actualizar mensaje data
                 return;
             }
@@ -405,7 +405,7 @@ public class ObserverMessage implements SingletonReset {
        // if ( todosLosMensajesPorId.get(mensaje.getIdMessage() ) != null) {
             todosLosMensajesPorGrupo.get(mensaje.getIdGrupo()).add(mensaje);
             sortById(todosLosMensajesPorGrupo.get(mensaje.getIdGrupo()));
-            todosLosMensajesPorId.put(mensaje.getIdMessageToMap(), mensaje);
+            todosLosMensajesPorId.put(mensaje.buildIdMessageToMap(), mensaje);
 
             for (int j = 0; j < mensaje.getMessagesDetailDTO().length; j++) {
                 MessageDetailDTO nuevo = mensaje.getMessagesDetailDTO()[j];
@@ -438,12 +438,12 @@ public class ObserverMessage implements SingletonReset {
         CopyOnWriteArrayList<MessageDetailDTO> details = mensajesDetailsPorGrupo.get(detail.getIdGrupo());
         for ( int i = details.size()-1 ; i >=0 ; i--){
 
-            if (details.get(i).getIdMessageDetailToMap().equals(detail.getIdMessageDetailToMap())){
+            if (details.get(i).buildIdMessageDetailToMap().equals(detail.buildIdMessageDetailToMap())){
                 details.remove(i);
             }
         }
 
-        todosLosMensajesPorId.remove(detail.getIdMessageToMap());
+        todosLosMensajesPorId.remove(detail.buildIdMessageToMap());
         removeMessage(e)
 
     }*/
@@ -472,8 +472,8 @@ public void cambiarEstadoUso(MessageDetailDTO miMensaje, boolean forzar,Activity
                 }
             }
 
-            if ((!this.getMensajesPorId(miMensaje.getIdMessageToMap()).isBlackMessage() &&
-                    !this.getMensajesPorId(miMensaje.getIdMessageToMap()).isTimeMessage() &&
+            if ((!this.getMensajesPorId(miMensaje.buildIdMessageToMap()).isBlackMessage() &&
+                    !this.getMensajesPorId(miMensaje.buildIdMessageToMap()).isTimeMessage() &&
                     !reciboBlack
 
             ) || forzar) {
@@ -483,7 +483,7 @@ public void cambiarEstadoUso(MessageDetailDTO miMensaje, boolean forzar,Activity
                         estadoMensajeRestarElement(miMensaje.getIdGrupo());
                         List<MessageDetailDTO> lista = mensajesDetailsPorGrupo.get(miMensaje.getIdGrupo());
                         for (int i = 0; i < lista.size(); i++) {
-                            if (miMensaje.getIdMessageDetailToMap().equals(lista.get(i).getIdMessageDetailToMap())) {
+                            if (miMensaje.buildIdMessageDetailToMap().equals(lista.get(i).buildIdMessageDetailToMap())) {
                                 lista.get(i).setEstado(MessageState.DESTINY_READED);
 
                             }
@@ -528,7 +528,7 @@ public void cambiarEstadoUso(MessageDetailDTO miMensaje, boolean forzar,Activity
             //estadoMensajeAddElement(miMensaje.getIdGrupo());
             List<MessageDetailDTO> lista = mensajesDetailsPorGrupo.get(miMensaje.getIdGrupo());
             for ( int i = 0 ; i < lista.size() ; i++){
-                if (miMensaje.getIdMessageDetailToMap().equals(lista.get(i).getIdMessageDetailToMap())){
+                if (miMensaje.buildIdMessageDetailToMap().equals(lista.get(i).buildIdMessageDetailToMap())){
                     lista.get(i).setEstado(MessageState.DESTINY_DELIVERED);
 
                 }
@@ -568,8 +568,8 @@ public void cambiarEstadoUso(MessageDetailDTO miMensaje, boolean forzar,Activity
     public void mensajeChangeState(MessageDetailDTO md, Activity context) {
 
         ProtocoloDTO p = new ProtocoloDTO();
-        p.setComponent(ProtocoloComponentsEnum.PROTOCOLO_COMPONENT_MESSAGE);
-        p.setAction(ProtocoloActionsEnum.PROTOCOLO_ACTION_MESSAGE_CHANGE_STATE);
+        p.setComponent(ProtocoloComponentsEnum.MESSAGE);
+        p.setAction(ProtocoloActionsEnum.MESSAGE_CHANGE_STATE);
         p.setObjectDTO(GsonFormated.get().toJson(md));
         RestExecute.doit(context,
                 p, new CallbackRest(){
@@ -601,13 +601,13 @@ public void cambiarEstadoUso(MessageDetailDTO miMensaje, boolean forzar,Activity
 
     public void mensajeDetailChangeState(ProtocoloDTO protocoloDTO) {
         MessageDetailDTO messageDetailDTO = GsonFormated.get().fromJson(protocoloDTO.getObjectDTO(), MessageDetailDTO.class);
-        MessageDTO m = this.getMensajesPorId(messageDetailDTO.getIdMessageToMap());
+        MessageDTO m = this.getMensajesPorId(messageDetailDTO.buildIdMessageToMap());
 
         if (m != null) {
             if (m.getMessagesDetailDTO() != null) {
                 for (int i = 0; i < m.getMessagesDetailDTO().length; i++) {
 
-                    if (messageDetailDTO.getUsuarioDestino() != null  && m.getMessagesDetailDTO()[i].getIdMessageDetailToMap().equals(messageDetailDTO.getIdMessageDetailToMap())) {
+                    if (messageDetailDTO.getUsuarioDestino() != null  && m.getMessagesDetailDTO()[i].buildIdMessageDetailToMap().equals(messageDetailDTO.buildIdMessageDetailToMap())) {
                         m.getMessagesDetailDTO()[i].setEstado(messageDetailDTO.getEstado());
                         avisarCambioEstado(messageDetailDTO);
                     }
@@ -623,18 +623,18 @@ public void cambiarEstadoUso(MessageDetailDTO miMensaje, boolean forzar,Activity
     }
 
     public void borrarMensaje2(MessageDetailDTO detail,boolean avisarSoloGrupos) {
-        todosLosMensajesPorId.remove(detail.getIdMessageToMap());
+        todosLosMensajesPorId.remove(detail.buildIdMessageToMap());
 
         List<MessageDetailDTO> list = mensajesDetailsPorGrupo.get(detail.getIdGrupo());
         for (MessageDetailDTO md : list){
-            if (md.getIdMessageDetailToMap().equals(detail.getIdMessageDetailToMap())){
+            if (md.buildIdMessageDetailToMap().equals(detail.buildIdMessageDetailToMap())){
                 list.remove(md);
             }
         }
 
         List<MessageDTO> listM = todosLosMensajesPorGrupo.get(detail.getIdGrupo());
         for (MessageDTO m : listM){
-            if (m.getIdMessageToMap().equals(detail.getIdMessageToMap())){
+            if (m.buildIdMessageToMap().equals(detail.buildIdMessageToMap())){
                 list.remove(m);
             }
         }
@@ -653,7 +653,7 @@ public void cambiarEstadoUso(MessageDetailDTO miMensaje, boolean forzar,Activity
             if (this.todosLosMensajesPorGrupo.get(idGrupo) != null) {
                 for (MessageDTO m : this.todosLosMensajesPorGrupo.get(idGrupo)) {
                     if (!m.isAnonimo() && m.getUsuarioCreacion().getIdUsuario().equals(idUsuario)) {
-                        todosLosMensajesPorId.remove(m.getIdMessageToMap());
+                        todosLosMensajesPorId.remove(m.buildIdMessageToMap());
                         this.todosLosMensajesPorGrupo.get(idGrupo).remove(m);
                     }
                 }
@@ -668,7 +668,7 @@ public void cambiarEstadoUso(MessageDetailDTO miMensaje, boolean forzar,Activity
                 for (int i = this.mensajesDetailsPorGrupo.get(idGrupo).size() - 1; i >= 0; i--) {
                     MessageDetailDTO md = this.mensajesDetailsPorGrupo.get(idGrupo).get(i);
 
-                    if (todosLosMensajesPorId.get(md.getIdMessageToMap()) == null) {
+                    if (todosLosMensajesPorId.get(md.buildIdMessageToMap()) == null) {
 
                         this.mensajesDetailsPorGrupo.get(idGrupo).remove(i);
                         avisarBorrado(md, false);
@@ -693,7 +693,7 @@ public void cambiarEstadoUso(MessageDetailDTO miMensaje, boolean forzar,Activity
             todosLosMensajesPorId.remove(idMessageToMap);
 
             for ( MessageDTO m : this.todosLosMensajesPorGrupo.get(idGrupo) ){
-                if (m.getIdMessageToMap().equals(idMessageToMap)){
+                if (m.buildIdMessageToMap().equals(idMessageToMap)){
                     this.todosLosMensajesPorGrupo.get(idGrupo).remove(m);
                 }
             }
@@ -701,7 +701,7 @@ public void cambiarEstadoUso(MessageDetailDTO miMensaje, boolean forzar,Activity
             for (int i = this.mensajesDetailsPorGrupo.get(idGrupo).size() - 1; i >= 0; i--) {
                 MessageDetailDTO md = this.mensajesDetailsPorGrupo.get(idGrupo).get(i);
 
-                if ( md.getIdMessageToMap().equals(idMessageToMap)){
+                if ( md.buildIdMessageToMap().equals(idMessageToMap)){
 
                     this.mensajesDetailsPorGrupo.get(idGrupo).remove(i);
                     avisarBorrado(md, false);
@@ -710,7 +710,7 @@ public void cambiarEstadoUso(MessageDetailDTO miMensaje, boolean forzar,Activity
 
         }
         if (idMessageToMap.equals(SingletonValues.getInstance().getMessageDetailSeleccionado() != null)) {
-            if (idMessageToMap.equals(SingletonValues.getInstance().getMessageDetailSeleccionado().getMessage().getIdMessageToMap())) {
+            if (idMessageToMap.equals(SingletonValues.getInstance().getMessageDetailSeleccionado().getMessage().buildIdMessageToMap())) {
                 SingletonValues.getInstance().setMessageDetailSeleccionado(null);
             }
         }
@@ -718,7 +718,7 @@ public void cambiarEstadoUso(MessageDetailDTO miMensaje, boolean forzar,Activity
 
     public void removeMessage(ProtocoloDTO protocoloDTO) {
         MessageDTO m = protocoloDTO.getMessageDTO();
-        removeMessage(m.getIdGrupo(), m.getIdMessageToMap());
+        removeMessage(m.getIdGrupo(), m.buildIdMessageToMap());
     }
 
     public void mensajePropio(ProtocoloDTO body) {

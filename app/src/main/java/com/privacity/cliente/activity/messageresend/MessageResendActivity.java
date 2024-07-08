@@ -149,7 +149,7 @@ public class MessageResendActivity extends CustomAppCompatActivity implements Re
 /*    private MessageDTO getMensaje(Message mensajeBase) throws Exception {
 
         //MessageDetailDTO detail = SingletonValues.getInstance().getMessageDetailSeleccionado().getMessageDetailDTO();
-        //MessageDTO mensajeBase = Observers.message().getMensajesPorId(detail.getIdMessageToMap());
+        //MessageDTO mensajeBase = Observers.message().getMensajesPorId(detail.buildIdMessageToMap());
         MessageDTO mensajeNuevo = new MessageDTO();
 
 

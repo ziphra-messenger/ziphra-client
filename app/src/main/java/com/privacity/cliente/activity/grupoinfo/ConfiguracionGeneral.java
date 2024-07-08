@@ -98,8 +98,8 @@ public class ConfiguracionGeneral {
 
 
         ProtocoloDTO p = new ProtocoloDTO();
-        p.setComponent(ProtocoloComponentsEnum.PROTOCOLO_COMPONENT_GRUPO);
-        p.setAction(ProtocoloActionsEnum.PROTOCOLO_ACTION_GRUPO_SAVE_GENERAL_CONFIGURATION);
+        p.setComponent(ProtocoloComponentsEnum.GRUPO);
+        p.setAction(ProtocoloActionsEnum.GRUPO_SAVE_GENERAL_CONFIGURATION);
         p.setObjectDTO(new Gson().toJson(dto));
 
         RestExecute.doit(activity, p,

@@ -197,8 +197,8 @@ public class AddMembersToGrupoActivity extends CustomAppCompatActivity implement
 
     public void getPublicKeyByInvitationCodeRest(String idGrupo, String invitationCode) {
         ProtocoloDTO p = new ProtocoloDTO();
-        p.setComponent(ProtocoloComponentsEnum.PROTOCOLO_COMPONENT_ENCRYPT_KEYS);
-        p.setAction(ProtocoloActionsEnum.PROTOCOLO_ACTION_ENCRYPT_KEYS_GET);
+        p.setComponent(ProtocoloComponentsEnum.ENCRYPT_KEYS);
+        p.setAction(ProtocoloActionsEnum.ENCRYPT_KEYS_GET);
 
         PublicKeyByInvitationCodeRequestDTO o = new PublicKeyByInvitationCodeRequestDTO(idGrupo, invitationCode);
         p.setObjectDTO(GsonFormated.get().toJson(o));
@@ -239,7 +239,7 @@ public class AddMembersToGrupoActivity extends CustomAppCompatActivity implement
         AESDTO aesGrupoDTO = RestCalls.encriptarAES(g, encryptKeysDTO);
 
         ProtocoloDTO p = new ProtocoloDTO();
-        p.setComponent(ProtocoloComponentsEnum.PROTOCOLO_COMPONENT_GRUPO);
+        p.setComponent(ProtocoloComponentsEnum.GRUPO);
         p.setAction(ProtocoloActionsEnum.GRUPO_SENT_INVITATION);
 
         GrupoAddUserRequestDTO o = new GrupoAddUserRequestDTO();

@@ -23,7 +23,7 @@ public class GetMessageHistorialById {
 //        tvLoadingGetNewMessagesCount.setVisibility(View.VISIBLE);
 
         ProtocoloDTO p = new ProtocoloDTO();
-        p.setComponent(ProtocoloComponentsEnum.PROTOCOLO_COMPONENT_MESSAGE);
+        p.setComponent(ProtocoloComponentsEnum.MESSAGE);
         p.setAction(ProtocoloActionsEnum.MESSAGE_GET_ID_HISTORIAL
         );
 
@@ -74,8 +74,8 @@ public class GetMessageHistorialById {
 
         for ( int i = 0 ; i < list.length ; i++){
             ProtocoloDTO p = new ProtocoloDTO();
-            p.setComponent(ProtocoloComponentsEnum.PROTOCOLO_COMPONENT_MESSAGE);
-            p.setAction(ProtocoloActionsEnum.PROTOCOLO_ACTION_MESSAGE_GET_MESSAGE);
+            p.setComponent(ProtocoloComponentsEnum.MESSAGE);
+            p.setAction(ProtocoloActionsEnum.MESSAGE_GET_MESSAGE);
             final int num = i+1;
             MessageDTO o = new MessageDTO();
             o.setIdGrupo(list[i].getIdGrupo());

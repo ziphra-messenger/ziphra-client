@@ -171,7 +171,7 @@ public class HeartBeatTask {
      */
     private void scheduleClientHeartBeat() {
         if (clientHeartbeat > 0 && scheduler != null) {
-            Log.d(TAG, "Scheduling client heart-beat to be sent in " + clientHeartbeat + " ms");
+         //   Log.d(TAG, "Scheduling client heart-beat to be sent in " + clientHeartbeat + " ms");
             clientSendHeartBeatTask = scheduler.scheduleDirect(() ->
                     sendClientHeartBeat(), clientHeartbeat, TimeUnit.MILLISECONDS);
         }
@@ -182,7 +182,7 @@ public class HeartBeatTask {
      */
     private void sendClientHeartBeat() {
         sendCallback.sendClientHeartBeat("\r\n");
-        Log.d(TAG, "PING >>>");
+        //Log.d(TAG, "PING >>>");
         //schedule next client heart beat
         this.scheduleClientHeartBeat();
     }

@@ -70,7 +70,7 @@ public class MessageDetailActivity extends CustomAppCompatActivity
         initValues();
 
         MessageDTO m = Observers.message().getMensajesPorId(
-                SingletonValues.getInstance().getMessageDetailSeleccionado().getMessage().getIdMessageToMap());
+                SingletonValues.getInstance().getMessageDetailSeleccionado().getMessage().buildIdMessageToMap());
 
         GrupoUserConfDTO conf = Observers.grupo().getGrupoById(m.getIdGrupo()).getUserConfDTO();
 
@@ -121,7 +121,7 @@ public class MessageDetailActivity extends CustomAppCompatActivity
 
         MessageDetailDTO selected = SingletonValues.getInstance().getMessageDetailSeleccionado().getMessageDetailDTO();
 
-        MessageDetailDTO[] list = Observers.message().getMensajesPorId(selected.getIdMessageToMap()).getMessagesDetailDTO();
+        MessageDetailDTO[] list = Observers.message().getMensajesPorId(selected.buildIdMessageToMap()).getMessagesDetailDTO();
 
         ArrayList<ItemListMessageDetail> r = new ArrayList<ItemListMessageDetail>();
 
@@ -181,7 +181,7 @@ public class MessageDetailActivity extends CustomAppCompatActivity
         adapter.notifyDataSetChanged();
 /*
         for (ItemListMessageDetail item : items){
-            if (item.getMessageDetailDTO().getIdMessageDetailToMap().equals(m.getIdMessageDetailToMap())){
+            if (item.getMessageDetailDTO().buildIdMessageDetailToMap().equals(m.buildIdMessageDetailToMap())){
                 item.getMessageDetailDTO().setEstado(m.getEstado());
                 adapter.notifyDataSetChanged();
             }

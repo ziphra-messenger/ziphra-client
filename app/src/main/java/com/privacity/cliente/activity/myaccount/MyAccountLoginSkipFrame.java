@@ -109,8 +109,8 @@ public class MyAccountLoginSkipFrame {
         boolean dto =  enabled.isChecked();
 
         ProtocoloDTO p = new ProtocoloDTO();
-        p.setComponent(ProtocoloComponentsEnum.PROTOCOLO_COMPONENT_MY_ACCOUNT);
-        p.setAction(ProtocoloActionsEnum.PROTOCOLO_ACTION_MY_ACCOUNT_SAVE_LOGIN_SKIP);
+        p.setComponent(ProtocoloComponentsEnum.MY_ACCOUNT);
+        p.setAction(ProtocoloActionsEnum.MY_ACCOUNT_SAVE_LOGIN_SKIP);
 
         p.setObjectDTO(GsonFormated.get().toJson(dto));
 

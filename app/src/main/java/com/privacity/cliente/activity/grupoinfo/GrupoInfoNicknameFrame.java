@@ -122,8 +122,8 @@ public class GrupoInfoNicknameFrame {
 
 
         ProtocoloDTO p = new ProtocoloDTO();
-       p.setComponent(ProtocoloComponentsEnum.PROTOCOLO_COMPONENT_GRUPO);
-        p.setAction(ProtocoloActionsEnum.PROTOCOLO_ACTION_GRUPO_SAVE_NICKNAME);
+       p.setComponent(ProtocoloComponentsEnum.GRUPO);
+        p.setAction(ProtocoloActionsEnum.GRUPO_SAVE_NICKNAME);
 
         GrupoInfoNicknameRequestDTO l = new GrupoInfoNicknameRequestDTO();
         l.setNickname(nickname.getText().toString());

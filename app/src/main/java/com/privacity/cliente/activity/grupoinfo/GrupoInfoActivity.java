@@ -253,7 +253,7 @@ public class GrupoInfoActivity extends CustomAppCompatActivity implements
             public void onClick(View v) {
 
                 ProtocoloDTO p = new ProtocoloDTO();
-                p.setComponent(ProtocoloComponentsEnum.PROTOCOLO_COMPONENT_GRUPO);
+                p.setComponent(ProtocoloComponentsEnum.GRUPO);
                 p.setAction(ProtocoloActionsEnum.GRUPO_REMOVE_ME);
 
                 IdDTO o = new IdDTO();
@@ -302,7 +302,7 @@ public class GrupoInfoActivity extends CustomAppCompatActivity implements
             public void onClick(View v) {
 
                 ProtocoloDTO p = new ProtocoloDTO();
-                p.setComponent(ProtocoloComponentsEnum.PROTOCOLO_COMPONENT_GRUPO);
+                p.setComponent(ProtocoloComponentsEnum.GRUPO);
                 p.setAction(ProtocoloActionsEnum.GRUPO_REMOVE_ME);
 
                 IdDTO o = new IdDTO();
@@ -570,10 +570,11 @@ getIdsMyGrupos();
 
 
         ProtocoloDTO p = new ProtocoloDTO();
-        p.setComponent(ProtocoloComponentsEnum.PROTOCOLO_COMPONENT_GRUPO);
+        p.setComponent(ProtocoloComponentsEnum.GRUPO);
         p.setAction(ProtocoloActionsEnum.GRUPO_LIST_MEMBERS
         );
-        GrupoDTO dto = new GrupoDTO().setIdGrupo(SingletonValues.getInstance().getGrupoSeleccionado().getIdGrupo());
+        GrupoDTO dto = new GrupoDTO();
+        dto.setIdGrupo(SingletonValues.getInstance().getGrupoSeleccionado().getIdGrupo());
         p.setObjectDTO(GsonFormated.get().toJson(dto));
         RestExecute.doit(GrupoInfoActivity.this, p,
                 new CallbackRest() {

@@ -138,8 +138,8 @@ public class MyAccountLockFrame {
         LockDTO dto =  buildDTO();
 
         ProtocoloDTO p = new ProtocoloDTO();
-        p.setComponent(ProtocoloComponentsEnum.PROTOCOLO_COMPONENT_MY_ACCOUNT);
-        p.setAction(ProtocoloActionsEnum.PROTOCOLO_ACTION_MY_ACCOUNT_SAVE_LOCK);
+        p.setComponent(ProtocoloComponentsEnum.MY_ACCOUNT);
+        p.setAction(ProtocoloActionsEnum.MY_ACCOUNT_SAVE_LOCK);
 
         p.setObjectDTO(GsonFormated.get().toJson(dto));
 

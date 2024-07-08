@@ -36,7 +36,7 @@ public class SingletonSessionFinish implements SingletonReset {
         instance.sessionTime = new CountDownTimer(216000000, 30000) {
             @Override
             public void onTick(long millisUntilFinished) {
-                Log.println(Log.INFO, "tick", "tock " + millisUntilFinished);
+                //Log.println(Log.INFO, "tick", "tock " + millisUntilFinished);
             }
 
             @Override

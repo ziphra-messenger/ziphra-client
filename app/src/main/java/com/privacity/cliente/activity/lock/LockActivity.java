@@ -106,7 +106,7 @@ public class LockActivity extends AppCompatActivity {
         });
 
         Bundle extras = getIntent().getExtras();
-        if (extras != null && extras.getBoolean(ProtocoloActionsEnum.PROTOCOLO_ACTION_GRUPO_BLOCK_REMOTO.toString())){
+        if (extras != null && extras.getBoolean(ProtocoloActionsEnum.GRUPO_BLOCK_REMOTO.toString())){
             this.findViewById(R.id.lock_bloqueo_remoto_mensaje).setVisibility(View.VISIBLE);
         }else{
             this.findViewById(R.id.lock_bloqueo_remoto_mensaje).setVisibility(View.INVISIBLE);
@@ -120,8 +120,8 @@ public class LockActivity extends AppCompatActivity {
         boolean dto =  false;
 
         ProtocoloDTO p = new ProtocoloDTO();
-        p.setComponent(ProtocoloComponentsEnum.PROTOCOLO_COMPONENT_MY_ACCOUNT);
-        p.setAction(ProtocoloActionsEnum.PROTOCOLO_ACTION_MY_ACCOUNT_SAVE_LOGIN_SKIP);
+        p.setComponent(ProtocoloComponentsEnum.MY_ACCOUNT);
+        p.setAction(ProtocoloActionsEnum.MY_ACCOUNT_SAVE_LOGIN_SKIP);
 
         p.setObjectDTO(GsonFormated.get().toJson(dto));
 

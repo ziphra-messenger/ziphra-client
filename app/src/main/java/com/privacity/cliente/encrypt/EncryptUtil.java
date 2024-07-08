@@ -85,8 +85,11 @@ public class EncryptUtil {
 
             System.out.println(s2.s);
         }
-
-        return new AESDTO(s2.s, s.s, 1000+"",SingletonValues.getInstance().getSystemGralConf().getMessagingAES().getBits()+"");
+        //TODO HACER LA FORMULA DE PERSONAL AES
+        //AESDTO ret = new AESDTO(s2.s, s.s, 1000+"",SingletonValues.getInstance().getSystemGralConf().getMessagingAES().getBits()+"");
+        AESDTO ret = new AESDTO("1", "1", 1,128);
+        System.out.println("Personal Aes DTO : " + ret.toStringComplete());
+        return ret;
 
     }
 

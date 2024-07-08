@@ -183,7 +183,7 @@ public class CodigoInvitacionActivity extends CustomAppCompatActivity implements
             @Override
             public void onClick(View v) {
                 ProtocoloDTO p = new ProtocoloDTO();
-                p.setComponent(ProtocoloComponentsEnum.PROTOCOLO_COMPONENT_MY_ACCOUNT);
+                p.setComponent(ProtocoloComponentsEnum.MY_ACCOUNT);
                 p.setAction(ProtocoloActionsEnum.MY_ACCOUNT_INVITATION_CODE_GENERATOR);
 
 
@@ -268,7 +268,7 @@ public class CodigoInvitacionActivity extends CustomAppCompatActivity implements
             return;
         }
         ProtocoloDTO p = new ProtocoloDTO();
-        p.setComponent(ProtocoloComponentsEnum.PROTOCOLO_COMPONENT_MY_ACCOUNT);
+        p.setComponent(ProtocoloComponentsEnum.MY_ACCOUNT);
         p.setAction(ProtocoloActionsEnum.MY_ACCOUNT_SAVE_CODE_AVAILABLE);
 
 
@@ -357,7 +357,7 @@ public class CodigoInvitacionActivity extends CustomAppCompatActivity implements
 
 
         ProtocoloDTO p = new ProtocoloDTO();
-        p.setComponent(ProtocoloComponentsEnum.PROTOCOLO_COMPONENT_MY_ACCOUNT);
+        p.setComponent(ProtocoloComponentsEnum.MY_ACCOUNT);
         p.setAction(ProtocoloActionsEnum.MY_ACCOUNT_IS_INVITATION_CODE_AVAILABLE);
 
 

@@ -119,8 +119,8 @@ public class MyAccountConfiguracionGeneralFrame {
         MyAccountConfDTO dto =  buildDTO();
 
         ProtocoloDTO p = new ProtocoloDTO();
-        p.setComponent(ProtocoloComponentsEnum.PROTOCOLO_COMPONENT_MY_ACCOUNT);
-        p.setAction(ProtocoloActionsEnum.PROTOCOLO_ACTION_MY_ACCOUNT_SAVE_GENERAL_CONFIGURATION);
+        p.setComponent(ProtocoloComponentsEnum.MY_ACCOUNT);
+        p.setAction(ProtocoloActionsEnum.MY_ACCOUNT_SAVE_GENERAL_CONFIGURATION);
         p.setObjectDTO(GsonFormated.get().toJson(dto));
 
         RestExecute.doit(activity, p,

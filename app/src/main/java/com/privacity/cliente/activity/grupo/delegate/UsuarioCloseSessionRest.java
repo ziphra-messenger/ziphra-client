@@ -16,8 +16,8 @@ public class UsuarioCloseSessionRest {
 
 
         ProtocoloDTO p = new ProtocoloDTO();
-        p.setComponent(ProtocoloComponentsEnum.PROTOCOLO_COMPONENT_MY_ACCOUNT);
-        p.setAction(ProtocoloActionsEnum.PROTOCOLO_ACTION_MY_ACCOUNT_CLOSE_SESSION
+        p.setComponent(ProtocoloComponentsEnum.MY_ACCOUNT);
+        p.setAction(ProtocoloActionsEnum.MY_ACCOUNT_CLOSE_SESSION
         );
         RestExecute.doit(activity, p,
                 new CallbackRest() {

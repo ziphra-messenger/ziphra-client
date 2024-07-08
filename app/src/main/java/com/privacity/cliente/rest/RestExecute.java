@@ -143,8 +143,8 @@ public class RestExecute {
         ProtocoloWrapperDTO wrapper = new ProtocoloWrapperDTO();
 
         ProtocoloDTO p = new ProtocoloDTO();
-        p.setComponent(ProtocoloComponentsEnum.PROTOCOLO_COMPONENT_REQUEST_ID);
-        p.setAction(ProtocoloActionsEnum.PROTOCOLO_ACTION_REQUEST_ID_PUBLIC_GET);
+        p.setComponent(ProtocoloComponentsEnum.REQUEST_ID);
+        p.setAction(ProtocoloActionsEnum.REQUEST_ID_PUBLIC_GET);
 
         RequestIdDTO requestIdClientSideDTO = new RequestIdDTO();
         requestIdClientSideDTO.setRequestIdClientSide(requestIdClientSide);
