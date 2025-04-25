@@ -2,14 +2,17 @@ package com.privacity.cliente.rest;
 
 import android.app.Activity;
 import android.os.AsyncTask;
+import android.util.Log;
 
 import com.privacity.cliente.activity.MultipartFileResource;
 import com.privacity.cliente.common.error.ErrorDialog;
 import com.privacity.cliente.rest.restcalls.reconnect.ReconnectionSyncSession;
 import com.privacity.cliente.singleton.SingletonValues;
+import com.privacity.cliente.singleton.Singletons;
+import com.privacity.cliente.singleton.UtilsStringSingleton;
+import com.privacity.cliente.singleton.activity.SingletonCurrentActivity;
 import com.privacity.cliente.singleton.impl.SingletonServer;
-import com.privacity.cliente.util.GsonFormated;
-import com.privacity.common.config.SystemGralConfURLs;
+import com.privacity.cliente.model.dto.Protocolo;
 import com.privacity.common.dto.ProtocoloDTO;
 import com.privacity.common.enumeration.ExceptionReturnCode;
 
@@ -19,9 +22,11 @@ import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.http.client.HttpComponentsClientHttpRequestFactory;
 import org.springframework.http.converter.FormHttpMessageConverter;
 import org.springframework.http.converter.HttpMessageConversionException;
 import org.springframework.http.converter.HttpMessageConverter;
+import org.springframework.http.converter.StringHttpMessageConverter;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
@@ -35,34 +40,42 @@ import java.util.Arrays;
 import java.util.List;
 
 
-public class RestTemplateProtocoloFile extends AsyncTask<Void, Void, ResponseEntity<ProtocoloDTO>> {
-
-    private CallbackRest callbackRest;
-    private ProtocoloDTO protocoloDTO;
-    private Activity context;
+public class RestTemplateProtocoloFile extends AsyncTask<Void, Void, ResponseEntity<Protocolo>> {
+    private static final String TAG = "RestTemplateProtocoloFile";
+    private final CallbackRest callbackRest;
+    private final Protocolo protocolo;
+    private final Activity context;
     private byte[] data;
 
-    public RestTemplateProtocoloFile(Activity context, ProtocoloDTO protocoloDTO, byte[] data, CallbackRest callbackRest) {
+    public RestTemplateProtocoloFile(Activity context, Protocolo protocolo, byte[] data, CallbackRest callbackRest) {
         this.callbackRest = callbackRest;
-        this.protocoloDTO = protocoloDTO;
+        this.protocolo = protocolo;
         this.data = data;
-        this.context = context;
+        this.context = SingletonCurrentActivity.getInstance().get();
     }
 
 
     @Override
-    protected ResponseEntity<ProtocoloDTO> doInBackground(Void... voids) {
+    protected ResponseEntity<Protocolo> doInBackground(Void... voids) {
         //System.gc();
             try {
-
-                if ( protocoloDTO.getMessageDTO().getMediaDTO() != null &&  protocoloDTO.getMessageDTO().getMediaDTO().getData() != null){
-                    protocoloDTO.getMessageDTO().getMediaDTO().setData(null);
+                Log.d(TAG, "protocoloDTO: " + protocolo);
+                if ( protocolo.getMessage().getMedia() != null &&  protocolo.getMessage().getMedia().getData() != null){
+                    Log.d(TAG, "protocoloDTO.getMessage(): " + protocolo.getMessage());
+                    protocolo.getMessage().getMedia().setData(null);
                 }
                 String toSend="";
-                toSend = SingletonValues.getInstance().getSessionAEStoUse().getAES(GsonFormated.get().toJson(protocoloDTO));
+                toSend = SingletonValues.getInstance().getSessionAEStoUse().getAES(UtilsStringSingleton.getInstance().gsonToSend(protocolo.convert()));
+                Log.d(TAG, "toSend: " + toSend);
+
+                if (protocolo.getMessage() != null) {
+                    ProtocoloDTO p2 = protocolo.convert();
+                    p2.getMessage().setMedia(null);
+                    System.out.println(Singletons.utilsString().gsonPretty().toJson(p2));
+                }
 
                 if ( data != null){
-                    data = SingletonValues.getInstance().getSessionAEStoUse().getAES(data);
+                    data = SingletonValues.getInstance().getSessionAEStoUse().getAES(data).getBytes();
                 }
                 final boolean  logOn;
 
@@ -72,13 +85,13 @@ public class RestTemplateProtocoloFile extends AsyncTask<Void, Void, ResponseEnt
                 RestTemplate template = getRestTemplate();
 
 
-                String url = SingletonServer.getInstance().getAppServer() + "/" + SystemGralConfURLs.CONSTANT_URL_PATH_PRIVATE_SEND;
+                String url = SingletonServer.getInstance().getAppServer() + "/entry/CONSTANT_URL_PATH_PRIVATE_SEND";
 
 
                 final HttpHeaders headers = new HttpHeaders();
                 headers.setContentType(MediaType.MULTIPART_FORM_DATA);
                 String authHeader = SingletonValues.getInstance().getToken();
-                headers.set( "Authorization", authHeader );
+                headers.set( org.apache.hc.core5.http.HttpHeaders.AUTHORIZATION, authHeader );
 
 
 
@@ -90,7 +103,7 @@ public class RestTemplateProtocoloFile extends AsyncTask<Void, Void, ResponseEnt
                 MultipartFileResource e=null;
                 if ( data != null){
 
-                    e = new MultipartFileResource(data, protocoloDTO.getAsyncId());
+                    e = new MultipartFileResource(data, protocolo.getAsyncId());
                     parameters.add("data", e);
                 }else{
                     parameters.add("data", "".getBytes());
@@ -98,13 +111,24 @@ public class RestTemplateProtocoloFile extends AsyncTask<Void, Void, ResponseEnt
                 final HttpEntity<MultiValueMap<String, Object>> httpEntity = new HttpEntity<MultiValueMap<String, Object>>(
                         parameters, headers);
 
+                Log.d(TAG, "url: " + url);
+                template.getMessageConverters().add(new MappingJackson2HttpMessageConverter());
+                template.getMessageConverters().add(new StringHttpMessageConverter());
+
                 final ResponseEntity<String> s = template.exchange(url,
                         HttpMethod.POST, httpEntity, String.class);
+                Log.d(TAG, "s.getBody(): " + s.getBody());
 
-                String sBodyDescr = SingletonValues.getInstance().getSessionAEStoUseServerEncrypt().getAESDecrypt(s.getBody());
-                 ProtocoloDTO pReturn = GsonFormated.get().fromJson(sBodyDescr, ProtocoloDTO.class);
+/*                String uncompressB64 = UtilsStringSingleton.getInstance().uncompressB64(s.getBody());
+                Log.d(TAG, "Body uncompressB64 :" + uncompressB64);
 
-                return new ResponseEntity<ProtocoloDTO>(pReturn, HttpStatus.OK);
+
+                String sBodyDescr = SingletonValues.getInstance().getSessionAEStoUseServerEncrypt().getAESDecrypt(uncompressB64);*/
+                 Protocolo pReturn = Protocolo.convert(UtilsStringSingleton.getInstance().protocoloToSendDecrypt(
+                         SingletonValues.getInstance().getSessionAEStoUseServerEncrypt(),
+                         s.getBody()));
+
+                return new ResponseEntity<Protocolo>(pReturn, HttpStatus.OK);
 
 
 
@@ -116,15 +140,20 @@ public class RestTemplateProtocoloFile extends AsyncTask<Void, Void, ResponseEnt
 
                 if ("403".equals(e.getMessage().trim())){
 
-                    ProtocoloDTO p = new ProtocoloDTO();
+                    Protocolo p = new Protocolo();
                     p.setCodigoRespuesta(ExceptionReturnCode.AUTH_SESSION_OUTOFSYNC.getCode());
 
-                    return new ResponseEntity<ProtocoloDTO>(p, HttpStatus.OK);
+                    return new ResponseEntity<Protocolo>(p, HttpStatus.OK);
 
 
+                }else if ("3333".equals(e.getMessage().trim())){
+                    Protocolo p = new Protocolo();
+                    p.setCodigoRespuesta("3333 - Server id message down");
+
+                    return new ResponseEntity<Protocolo>(p, HttpStatus.OK);
                 }
-                protocoloDTO.setCodigoRespuesta(e.getMessage());
-                return new ResponseEntity<ProtocoloDTO>(protocoloDTO, HttpStatus.OK);
+                protocolo.setCodigoRespuesta(e.getMessage());
+                return new ResponseEntity<Protocolo>(protocolo, HttpStatus.OK);
 
 
 
@@ -132,19 +161,19 @@ public class RestTemplateProtocoloFile extends AsyncTask<Void, Void, ResponseEnt
 
                 e.printStackTrace();
 
-                protocoloDTO.setCodigoRespuesta(e.getMessage());
-                return new ResponseEntity<ProtocoloDTO>(protocoloDTO, HttpStatus.OK);
+                protocolo.setCodigoRespuesta(e.getMessage());
+                return new ResponseEntity<Protocolo>(protocolo, HttpStatus.OK);
 
             } catch (RestClientException e) {
                 e.printStackTrace();
-                protocoloDTO.setCodigoRespuesta(e.getMessage());
-                return new ResponseEntity<ProtocoloDTO>(protocoloDTO, HttpStatus.OK);
+                protocolo.setCodigoRespuesta(e.getMessage());
+                return new ResponseEntity<Protocolo>(protocolo, HttpStatus.OK);
 
             } catch (Exception e) {
                 e.printStackTrace();
-                protocoloDTO.setCodigoRespuesta(e.getMessage());
+                protocolo.setCodigoRespuesta(e.getMessage());
 
-                return new ResponseEntity<ProtocoloDTO>(protocoloDTO, HttpStatus.OK);
+                return new ResponseEntity<Protocolo>(protocolo, HttpStatus.OK);
 
             }
 
@@ -152,7 +181,7 @@ public class RestTemplateProtocoloFile extends AsyncTask<Void, Void, ResponseEnt
         }
 
     @Override
-    protected void onPostExecute(ResponseEntity<ProtocoloDTO> response) {
+    protected void onPostExecute(ResponseEntity<Protocolo> response) {
         if (response.getBody() == null) return;
         if (response.getBody().getCodigoRespuesta() == null){
 
@@ -163,9 +192,9 @@ public class RestTemplateProtocoloFile extends AsyncTask<Void, Void, ResponseEnt
 
             if(response.getBody().getCodigoRespuesta().equals(ExceptionReturnCode.AUTH_SESSION_OUTOFSYNC.getCode())){
 
-                ErrorDialog.errorDialog(context,response, new CallbackRest(){
+                ErrorDialog.errorDialog(SingletonCurrentActivity.getInstance().get(),response, new CallbackRest(){
                     @Override
-                    public void onError(ResponseEntity<ProtocoloDTO> response) {
+                    public void onError(ResponseEntity<Protocolo> response) {
                         try {
                             ReconnectionSyncSession.sync(context, null);
                         } catch (Exception exception) {
@@ -175,21 +204,25 @@ public class RestTemplateProtocoloFile extends AsyncTask<Void, Void, ResponseEnt
                     }
 
                     @Override
-                    public void response(ResponseEntity<ProtocoloDTO> response) {}
+                    public void response(ResponseEntity<Protocolo> response) {}
                     @Override
                     public void beforeShowErrorMessage(String msg) {}
                 });
 
                 return;
             }
-            ErrorDialog.errorDialog(context,response,this.callbackRest );
+            ErrorDialog.errorDialog(SingletonCurrentActivity.getInstance().get(), response,this.callbackRest );
         }
 
     }
 
 
     public  RestTemplate getRestTemplate() {
-        final RestTemplate restTemplate = new RestTemplate();
+        HttpComponentsClientHttpRequestFactory httpRequestFactory = new HttpComponentsClientHttpRequestFactory();
+        httpRequestFactory.setConnectTimeout(5000);
+        httpRequestFactory.setReadTimeout(5000);
+        RestTemplate restTemplate = new RestTemplate();
+        restTemplate.setRequestFactory(httpRequestFactory);
         //restTemplate.setRequestFactory(httpRequestFactory()); // apache http library
         restTemplate.setMessageConverters(getMessageConverters());
         return restTemplate;

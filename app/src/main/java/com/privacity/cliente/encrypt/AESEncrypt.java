@@ -1,6 +1,6 @@
 package com.privacity.cliente.encrypt;
 
-import com.privacity.cliente.singleton.SingletonValues;
+import com.privacity.cliente.singleton.SingletonValues;import com.privacity.cliente.singleton.Singletons;
 import com.privacity.common.dto.AESDTO;
 
 import java.io.IOException;
@@ -36,7 +36,7 @@ public class AESEncrypt {
         return r;
     }
 
-    public static AESDTO desencrypt(AESDTO aesdto, PrivateKey privateKey) throws IOException, GeneralSecurityException {
+    public static AESDTO decrypt(AESDTO aesdto, PrivateKey privateKey) throws IOException, GeneralSecurityException {
         RSA t = new RSA();
         android.util.Base64.decode(aesdto.getSecretKeyAES(), android.util.Base64.DEFAULT);
 

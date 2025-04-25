@@ -5,29 +5,27 @@ import android.content.res.Resources;
 import android.util.Log;
 import android.widget.Spinner;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.privacity.cliente.R;
 import com.privacity.cliente.activity.message.ConfType;
-import com.privacity.cliente.activity.message.MasterGeneralConfiguration;
+import com.privacity.cliente.common.component.selectview.SelectView;
 import com.privacity.cliente.common.error.SimpleErrorDialog;
 import com.privacity.cliente.encrypt.AEStoUse;
-import com.privacity.cliente.model.Grupo;
 import com.privacity.cliente.model.Message;
 import com.privacity.cliente.rest.CallbackRest;
 import com.privacity.cliente.rest.RestExecute;
 import com.privacity.cliente.singleton.Observers;
-import com.privacity.cliente.singleton.SingletonValues;
+import com.privacity.cliente.singleton.SingletonValues;import com.privacity.cliente.singleton.Singletons;
+import com.privacity.cliente.singleton.activity.SingletonCurrentActivity;
 import com.privacity.cliente.singleton.observers.ObserverGrupo;
-import com.privacity.cliente.singleton.observers.ObserverMessage;
+import com.privacity.cliente.singleton.toast.SingletonToastManager;
 import com.privacity.common.dto.GrupoUserConfDTO;
 import com.privacity.common.dto.IdMessageDTO;
 import com.privacity.common.dto.MediaDTO;
-import com.privacity.common.dto.MessageDTO;
-import com.privacity.common.dto.MessageDetailDTO;
-import com.privacity.common.dto.ProtocoloDTO;
+import com.privacity.cliente.model.dto.MessageDetail;
+import com.privacity.cliente.model.dto.Protocolo;
 import com.privacity.common.dto.UsuarioDTO;
-import com.privacity.common.enumeration.GrupoUserConfEnum;
+import com.privacity.common.enumeration.RulesConfEnum;
 import com.privacity.common.enumeration.MediaTypeEnum;
 import com.privacity.common.enumeration.MessageState;
 import com.privacity.common.enumeration.ProtocoloActionsEnum;
@@ -38,26 +36,29 @@ import org.springframework.http.ResponseEntity;
 import java.util.List;
 
 public class MessageUtil {
+
+    private static final String CONSTANT__STRING_FORMAT__TIME = "%1$2s";
+
     public static GrupoUserConfDTO getDefaultGrupoUserConf(String idGrupo, String idUsuario) {
         GrupoUserConfDTO conf = new GrupoUserConfDTO();
 
         conf.setIdUsuario(idGrupo );
         conf.setIdUsuario( idUsuario);
 
-        conf.setExtraAesAlways(GrupoUserConfEnum.GRUPO_FALSE);
-        conf.setBlackMessageAlways(GrupoUserConfEnum.GRUPO_FALSE);
-        conf.setTimeMessageAlways(GrupoUserConfEnum.GRUPO_FALSE);
-        conf.setAnonimoAlways(GrupoUserConfEnum.GRUPO_FALSE);
-        conf.setPermitirReenvio(GrupoUserConfEnum.GRUPO_TRUE);
-        conf.setDownloadAllowImage(GrupoUserConfEnum.GRUPO_TRUE);
-        conf.setDownloadAllowAudio(GrupoUserConfEnum.GRUPO_TRUE);
-        conf.setDownloadAllowVideo(GrupoUserConfEnum.GRUPO_TRUE);
+        conf.setExtraAesAlways(RulesConfEnum.OFF);
+        conf.setBlackMessageAttachMandatory(RulesConfEnum.OFF);
+
+        conf.setTimeMessageAlways(RulesConfEnum.OFF);
+        conf.setAnonimoAlways(RulesConfEnum.OFF);
+        conf.setBlockResend(RulesConfEnum.OFF);
+        conf.setBlockMediaDownload(RulesConfEnum.OFF);
+
         conf.setTimeMessageSeconds(300);
 
-        conf.setBlackMessageRecived(GrupoUserConfEnum.GRUPO_FALSE);
-        conf.setAnonimoRecived(GrupoUserConfEnum.GRUPO_FALSE);
+        conf.setBlackMessageAttachMandatoryReceived(RulesConfEnum.OFF);
+        conf.setAnonimoRecived(false);
 
-        //conf.setChangeNicknameToNumber(GrupoUserConfEnum.GRUPO_TRUE);
+        //conf.setChangeNicknameToNumber(RulesConfEnum.ON);
 
         return conf;
     }
@@ -78,13 +79,16 @@ public class MessageUtil {
         return 0;
     }
 
+    public static String CalcularTiempoFormater(long tsegundos){
+        return CalcularTiempoFormater(Integer.parseInt(tsegundos+""));
+    }
     public static String CalcularTiempoFormater(int tsegundos)
     {
         int horas = (tsegundos / 3600);
         int minutos = ((tsegundos-horas*3600)/60);
         int segundos = tsegundos-(horas*3600+minutos*60);
-        String segundosStr=String.format("%1$2s", segundos+"").replace(' ', '0');
-        String minutosStr=String.format("%1$2s", minutos+"").replace(' ', '0');
+        String segundosStr=String.format(CONSTANT__STRING_FORMAT__TIME, segundos+"").replace(' ', '0');
+        String minutosStr=String.format(CONSTANT__STRING_FORMAT__TIME, minutos+"").replace(' ', '0');
 
         return  minutos + ":" + segundosStr;
     }
@@ -93,7 +97,7 @@ public class MessageUtil {
         long horas = (tsegundos / 3600);
         long minutos = ((tsegundos-horas*3600)/60);
         long segundos = tsegundos-(horas*3600+minutos*60);
-        String segundosStr=String.format("%1$2s", segundos+"").replace(' ', '0');
+        String segundosStr=String.format(CONSTANT__STRING_FORMAT__TIME, segundos+"").replace(' ', '0');
         long horasMin = horas*60;
         long horasMasMinutos = horasMin+minutos;
         String minutosStr=horasMasMinutos+"";
@@ -106,8 +110,8 @@ public class MessageUtil {
         int horas = (tsegundos / 3600);
         int minutos = ((tsegundos-horas*3600)/60);
         int segundos = tsegundos-(horas*3600+minutos*60);
-        String segundosStr=String.format("%1$2s", segundos+"").replace(' ', '0');
-        String minutosStr=String.format("%1$2s", minutos+"").replace(' ', '0');
+        String segundosStr=String.format(CONSTANT__STRING_FORMAT__TIME, segundos+"").replace(' ', '0');
+        String minutosStr=String.format(CONSTANT__STRING_FORMAT__TIME, minutos+"").replace(' ', '0');
 
         return  minutos;
     }
@@ -116,8 +120,8 @@ public class MessageUtil {
         int horas = (tsegundos / 3600);
         int minutos = ((tsegundos-horas*3600)/60);
         int segundos = tsegundos-(horas*3600+minutos*60);
-        String segundosStr=String.format("%1$2s", segundos+"").replace(' ', '0');
-        String minutosStr=String.format("%1$2s", minutos+"").replace(' ', '0');
+        String segundosStr=String.format(CONSTANT__STRING_FORMAT__TIME, segundos+"").replace(' ', '0');
+        String minutosStr=String.format(CONSTANT__STRING_FORMAT__TIME, minutos+"").replace(' ', '0');
 
         return  horas;
     }
@@ -127,8 +131,8 @@ public class MessageUtil {
         int horas = (tsegundos / 3600);
         int minutos = ((tsegundos-horas*3600)/60);
         int segundos = tsegundos-(horas*3600+minutos*60);
-        String segundosStr=String.format("%1$2s", segundos+"").replace(' ', '0');
-        String minutosStr=String.format("%1$2s", minutos+"").replace(' ', '0');
+        String segundosStr=String.format(CONSTANT__STRING_FORMAT__TIME, segundos+"").replace(' ', '0');
+        String minutosStr=String.format(CONSTANT__STRING_FORMAT__TIME, minutos+"").replace(' ', '0');
 
         return  segundos;
     }
@@ -148,14 +152,14 @@ public class MessageUtil {
         return -1;
     }
 
-    public static Integer getGrupoUserConfMessageTimeGetSeconds(Activity activity, Spinner spMessageAvanzadoTimeValues) {
-        Resources res = activity.getResources();
+    public static Integer getGrupoUserConfMessageTimeGetSeconds( Spinner spMessageAvanzadoTimeValues) {
+        Resources res = SingletonCurrentActivity.getInstance().get().getResources();
         String[] a = res.getStringArray(R.array.time_messages_values_in_seconds);
         int t = Integer.parseInt(a[spMessageAvanzadoTimeValues.getSelectedItemPosition()]);
         return t;
     }
-    public static Integer getGrupoUserConfMessageTimeGetSecondsIndex(Activity activity, Integer value) {
-        Resources res = activity.getResources();
+    public static Integer getGrupoUserConfMessageTimeGetSecondsIndex(Integer value) {
+        Resources res = SingletonCurrentActivity.getInstance().get().getResources();
         String[] a = res.getStringArray(R.array.time_messages_values_in_seconds);
 
         for (int i=0; i < a.length ; i++){
@@ -163,13 +167,39 @@ public class MessageUtil {
         }
         return -1;
     }
+
+
     public void sendMessage(Activity activity,
                             IdMessageDTO reply, AEStoUse secretKeyPersonal, String idGrupo,
                             String txt, MediaDTO mediaDTO,
                             boolean isBlack, boolean isTime, boolean isAnonimo, boolean isSecret,
-                            boolean isPermitirReenvio, boolean isRetry, Integer timeSeconds) throws Exception {
+                            boolean isBlockResend, boolean isRetry, Integer timeSeconds, Message resendParent) throws Exception {
 
-        if (ObserverGrupo.getInstance().getGrupoById(idGrupo).getGralConfDTO().isBlackMessageAttachMandatory()){
+        System.out.println("texto mensaje: " +txt);
+
+        if (ObserverGrupo.getInstance().getGrupoById(idGrupo).getGralConfDTO().getAnonimo().equals(RulesConfEnum.MANDATORY)){
+            isAnonimo=true;
+        }
+
+        if ( isAnonimo  && ObserverGrupo.getInstance().getGrupoById(idGrupo).getGralConfDTO().getAnonimo().equals(RulesConfEnum.BLOCK   )){
+            SingletonToastManager.getInstance().showToadShort(activity, "NO ANONIMIO");
+
+            return;
+        }
+
+        if ( !ObserverGrupo.getInstance().getGrupoById(idGrupo).getGralConfDTO().getAnonimo().equals(RulesConfEnum.BLOCK   )
+        && ObserverGrupo.getInstance().getGrupoById(idGrupo).getUserConfDTO().getAnonimoAlways().equals(RulesConfEnum.ON   )
+        ){
+            isAnonimo=true;
+
+        }
+
+        boolean mustBeBlack = SelectView.isFull(
+                SingletonValues.getInstance().getMyAccountConfDTO().isBlackMessageAttachMandatory(),
+                ObserverGrupo.getInstance().getGrupoById(idGrupo).getGralConfDTO().isBlackMessageAttachMandatory(),
+                ObserverGrupo.getInstance().getGrupoById(idGrupo).getUserConfDTO().getBlackMessageAttachMandatory()
+        );
+        if ( mustBeBlack){
             if (mediaDTO != null && ( mediaDTO.getMediaType().equals(MediaTypeEnum.IMAGE)
                     || mediaDTO.getMediaType().equals(MediaTypeEnum.VIDEO) )){
                 isBlack=true;
@@ -177,9 +207,19 @@ public class MessageUtil {
 
 
         }
-        if (mediaDTO != null && ( mediaDTO.getMediaType().equals(MediaTypeEnum.IMAGE))){
-            ConfType conf = MasterGeneralConfiguration.buildImageDownload(idGrupo);
-            mediaDTO.setDownloadable(conf.value);
+
+
+
+        boolean isBlockMediaDownload = SelectView.isFull(
+                SingletonValues.getInstance().getMyAccountConfDTO().isBlockMediaDownload(),
+                ObserverGrupo.getInstance().getGrupoById(idGrupo).getGralConfDTO().isBlockMediaDownload(),
+                ObserverGrupo.getInstance().getGrupoById(idGrupo).getUserConfDTO().getBlockMediaDownload()
+        );
+
+        if (mediaDTO != null && ( mediaDTO.getMediaType().equals(MediaTypeEnum.IMAGE)
+                || mediaDTO.getMediaType().equals(MediaTypeEnum.VIDEO) )){
+
+            mediaDTO.setDownloadable(!isBlockMediaDownload);
         }
 
         if ((txt == null || txt.equals("")) && mediaDTO == null) return;
@@ -187,7 +227,7 @@ public class MessageUtil {
         //if (isTime) isBlack=false;
         String asyncId = SingletonValues.getInstance().getCounterNextValue();
 
-        String txtStr=new String(txt);
+        String txtStr= txt;
 
         if (timeSeconds == null) timeSeconds=0;
         if (isSecret && !isRetry){
@@ -206,7 +246,7 @@ public class MessageUtil {
 
         UsuarioDTO usuario = new UsuarioDTO();
 
-        usuario.setIdUsuario(SingletonValues.getInstance().getUsuario().getIdUsuario());
+        usuario.setIdUsuario(Singletons.usuario().getUsuario().getIdUsuario());
 
 //        if (MasterGeneralConfiguration.buildHideNicknameConfigurationByGrupo(idGrupo).isValue()){
 //            usuario.setNickname(Observers.grupo().getGrupoById(idGrupo).getAlias());
@@ -215,7 +255,7 @@ public class MessageUtil {
 //        }
 //
 //        if ( usuario.getNickname() == null){
-//            usuario.setNickname(SingletonValues.getInstance().getUsuario().getNickname());
+//            usuario.setNickname(Singletons.usuario().getUsuario().getNickname());
 //        }
 
         Message miMensaje = new Message();
@@ -224,20 +264,28 @@ public class MessageUtil {
         miMensaje.setText(txtStr);
         miMensaje.setBlackMessage(isBlack);
         miMensaje.setTimeMessage(timeSeconds);
+
         miMensaje.setAnonimo(isAnonimo);
         miMensaje.setSecretKeyPersonal(isSecret);
-        miMensaje.setPermitirReenvio(isPermitirReenvio);
-        miMensaje.setMessagesDetailDTO(new MessageDetailDTO[1]);
+        miMensaje.setBlockResend(isBlockResend);
+        miMensaje.setMessagesDetail(new MessageDetail[1]);
+        miMensaje.setHideMessageReadState(ObserverGrupo.getInstance().getGrupoById(idGrupo).getGralConfDTO().isHideMessageReadState());
 
-        miMensaje.getMessagesDetailDTO()[0] = new MessageDetailDTO();
-        miMensaje.getMessagesDetailDTO()[0].setEstado(MessageState.MY_MESSAGE_SENDING);
-        miMensaje.getMessagesDetailDTO()[0].setUsuarioDestino(miMensaje.getUsuarioCreacion());
-        miMensaje.getMessagesDetailDTO()[0].setIdGrupo(miMensaje.getIdGrupo());
+        miMensaje.getMessagesDetail()[0] = new MessageDetail();
+        miMensaje.getMessagesDetail()[0].setEstado(MessageState.MY_MESSAGE_SENDING);
+        miMensaje.getMessagesDetail()[0].setUsuarioDestino(miMensaje.getUsuarioCreacion());
+        miMensaje.getMessagesDetail()[0].setIdGrupo(miMensaje.getIdGrupo());
 
         if (reply != null){
             miMensaje.setParentReply(new IdMessageDTO());
             miMensaje.getParentReply().setIdGrupo(reply.getIdGrupo());
             miMensaje.getParentReply().setIdMessage(reply.getIdMessage());
+        }
+        if (resendParent != null){
+            miMensaje.setParentResend(new IdMessageDTO());
+            miMensaje.getParentResend().setIdGrupo(resendParent.getIdGrupo());
+            miMensaje.getParentResend().setIdMessage(resendParent.getIdMessage());
+
         }
         MediaDTO media = null;
 
@@ -252,7 +300,7 @@ public class MessageUtil {
                     byte[] encoded = mediaDTO.getData();
 
                     if (isSecret) {
-                        encoded = secretKeyPersonal.getAES(encoded);
+                        encoded = secretKeyPersonal.getAESData(encoded);
                     }
                     media.setData(encoded);
                 }
@@ -261,7 +309,7 @@ public class MessageUtil {
                     byte[] encoded = mediaDTO.getMiniatura();
 
                     if (isSecret) {
-                        encoded = secretKeyPersonal.getAES(encoded);
+                        encoded = secretKeyPersonal.getAESData(encoded);
                     }
                     media.setMiniatura(encoded);
                 }
@@ -271,37 +319,39 @@ public class MessageUtil {
                 //encoded = ZipUtil.compress(encoded);
 
 
-                miMensaje.setMediaDTO(media);
+                miMensaje.setMedia(media);
             }else{
-                miMensaje.setMediaDTO(mediaDTO);
+                miMensaje.setMedia(mediaDTO);
             }
         }
 
 
 
-        MessageDTO mensaje = new MessageDTO();
+        Message mensaje = new Message();
         mensaje.setIdGrupo(idGrupo);
         mensaje.setBlackMessage(isBlack);
         mensaje.setTimeMessage(timeSeconds);
         mensaje.setAnonimo(isAnonimo);
         mensaje.setSecretKeyPersonal(isSecret);
-        mensaje.setPermitirReenvio(isPermitirReenvio);
+        mensaje.setBlockResend(isBlockResend);
+        mensaje.setHideMessageReadState(ObserverGrupo.getInstance().getGrupoById(idGrupo).getGralConfDTO().isHideMessageReadState());
 
-        //mensaje.setMediaDTO(miMensaje.getMediaDTO());
+
+        //mensaje.setMedia(miMensaje.getMedia());
 
         String txtStrEncr = Observers.grupo().getGrupoById(idGrupo).getAESToUse().getAES(txtStr);
         mensaje.setText(txtStrEncr);
 
         byte[] data = null;
         if (mediaDTO != null){
-            mensaje.setMediaDTO(new MediaDTO());
-            mensaje.getMediaDTO().setMediaType(miMensaje.getMediaDTO().getMediaType());
-            mensaje.getMediaDTO().setDownloadable(miMensaje.getMediaDTO().isDownloadable());
-            mensaje.getMediaDTO().setIdGrupo(miMensaje.getIdGrupo());
-            data = Observers.grupo().getGrupoById(idGrupo).getAESToUse().getAES(miMensaje.getMediaDTO().getData());
+            mensaje.setMedia(new MediaDTO());
+            mensaje.getMedia().setMediaType(miMensaje.getMedia().getMediaType());
+            mensaje.getMedia().setDownloadable(miMensaje.getMedia().isDownloadable());
+            mensaje.getMedia().setIdGrupo(miMensaje.getIdGrupo());
+            data = Observers.grupo().getGrupoById(idGrupo).getAESToUse().getAES(miMensaje.getMedia().getData()).getBytes();
 
-            if (miMensaje.getMediaDTO().getMiniatura() != null){
-                mensaje.getMediaDTO().setMiniatura(Observers.grupo().getGrupoById(idGrupo).getAESToUse().getAES(miMensaje.getMediaDTO().getMiniatura()));
+            if (miMensaje.getMedia().getMiniatura() != null){
+                mensaje.getMedia().setMiniatura(Observers.grupo().getGrupoById(idGrupo).getAESToUse().getAESData(miMensaje.getMedia().getMiniatura()));
             }
 
         }
@@ -311,15 +361,20 @@ public class MessageUtil {
             mensaje.getParentReply().setIdMessage(reply.getIdMessage());
         }
 
+        if (resendParent != null){
+            mensaje.setParentResend(new IdMessageDTO());
+            mensaje.getParentResend().setIdGrupo(resendParent.getIdGrupo());
+            mensaje.getParentResend().setIdMessage(resendParent.getIdMessage());
 
-        ProtocoloDTO p = new ProtocoloDTO();
+        }
+        Protocolo p = new Protocolo();
         p.setComponent(ProtocoloComponentsEnum.MESSAGE);
         p.setAction(ProtocoloActionsEnum.MESSAGE_SEND);
         p.setAsyncId(asyncId);
-        p.setMessageDTO(mensaje);
+        p.setMessage(mensaje);
 
         Log.i( "************************",">> Mensaje Enviado >>");
-        //Log.i( "<< << ",GsonFormated.get().toJson(p));
+        //Log.i( "<< << ",UtilsStringSingleton.getInstance().gsonToSend(p));
 
         Observers.message().mensajeAddItem(p, miMensaje, asyncId);
 
@@ -327,11 +382,11 @@ public class MessageUtil {
                 new CallbackRest(){
 
                     @Override
-                    public void response(ResponseEntity<ProtocoloDTO> response) {
+                    public void response(ResponseEntity<Protocolo> response) {
                         boolean a=true;
 
                         Log.i( "*** ","<< Mensaje Enviado Respuesta Servidor <<");
-                        //Log.i( "*** << << ",GsonFormated.get().toJson(response.getBody()));
+                        //Log.i( "*** << << ",UtilsStringSingleton.getInstance().gsonToSend(response.getBody()));
                         Observers.message().mensajePropio(response.getBody());
 
                         Observers.message().mensaje(response.getBody(),true, activity);
@@ -339,11 +394,12 @@ public class MessageUtil {
                     }
 
                     @Override
-                    public void onError(ResponseEntity<ProtocoloDTO> response) {
-                        miMensaje.getMessagesDetailDTO()[0].setIdMessage(response.getBody().getAsyncId());
-                        miMensaje.getMessagesDetailDTO()[0].setEstado(MessageState.MY_MESSAGE_ERROR_NOT_SEND);
-                        response.getBody().setMessageDTO(miMensaje);
-                        response.getBody().getMessageDTO().setIdMessage(response.getBody().getAsyncId());
+                    public void onError(ResponseEntity<Protocolo> response) {
+                        miMensaje.getMessagesDetail()[0].setIdMessage(response.getBody().getAsyncId());
+                        miMensaje.getMessagesDetail()[0].setEstado(MessageState.MY_MESSAGE_ERROR_NOT_SEND);
+                        miMensaje.getMessagesDetail()[0].setError(response.getBody().getCodigoRespuesta());
+                        response.getBody().setMessage(miMensaje);
+                        response.getBody().getMessage().setIdMessage(response.getBody().getAsyncId());
                         Observers.message().mensaje(response.getBody(),true,activity);
                         Log.i( "*** " , "Fin Envio OnError");
                     }
@@ -355,18 +411,20 @@ public class MessageUtil {
                 });
 
     }
-    public static GrupoUserConfEnum getGrupoUserConfEnum(Spinner spinner, boolean configurable) {
+    public static RulesConfEnum getRulesConfEnum(Spinner spinner, boolean configurable) {
 
         int conf = -1;
         if (configurable) {
             conf = 0;
         }
         if ( spinner.getSelectedItemPosition() == 1+conf) {
-            return GrupoUserConfEnum.GRUPO_TRUE;
+            return RulesConfEnum.ON;
         } else if ( spinner.getSelectedItemPosition() == 2+conf){
-            return GrupoUserConfEnum.GRUPO_FALSE;
+            return RulesConfEnum.OFF;
         }else {
-            return GrupoUserConfEnum.GENERAL_VALUE;
+            return RulesConfEnum.NULL;
         }
     }
+
+
 }

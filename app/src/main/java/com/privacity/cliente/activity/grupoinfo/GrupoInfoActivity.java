@@ -8,17 +8,14 @@ import android.content.res.Resources;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
-import android.widget.CheckBox;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
-import android.widget.RadioButton;
-import android.widget.RadioGroup;
 import android.widget.SearchView;
-import android.widget.Spinner;
 import android.widget.TableLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -31,24 +28,29 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.privacity.cliente.R;
 import com.privacity.cliente.activity.addmember.AddMembersToGrupoActivity;
 import com.privacity.cliente.activity.common.CustomAppCompatActivity;
+import com.privacity.cliente.activity.common.GetButtonReady;
+import com.privacity.cliente.activity.grupoinfo.lock.GrupoInfoLock;
+import com.privacity.cliente.activity.grupoinfo.nameframe.NameFrameView;
 import com.privacity.cliente.activity.message.delegate.BloqueoRemotoDelegate;
 import com.privacity.cliente.common.error.SimpleErrorDialog;
 import com.privacity.cliente.model.Grupo;
 import com.privacity.cliente.rest.CallbackRest;
 import com.privacity.cliente.rest.RestExecute;
 import com.privacity.cliente.singleton.Observers;
-import com.privacity.cliente.singleton.SingletonValues;
+import com.privacity.cliente.singleton.SingletonValues;import com.privacity.cliente.singleton.Singletons;
+import com.privacity.cliente.singleton.UtilsStringSingleton;
 import com.privacity.cliente.singleton.interfaces.ObservadoresPasswordGrupo;
+import com.privacity.cliente.singleton.interfaces.ViewCallbackActionInterface;
 import com.privacity.cliente.singleton.observers.ObserverGrupo;
 import com.privacity.cliente.util.DialogsToShow;
-import com.privacity.cliente.util.GsonFormated;
 import com.privacity.cliente.util.MenuAcordeonUtil;
-import com.privacity.common.enumeration.ProtocoloComponentsEnum;import com.privacity.common.enumeration.ProtocoloActionsEnum;
-
+import com.privacity.common.BroadcastConstant;
 import com.privacity.common.dto.GrupoDTO;
-import com.privacity.common.dto.IdDTO;
-import com.privacity.common.dto.ProtocoloDTO;
+import com.privacity.cliente.model.dto.Protocolo;
 import com.privacity.common.dto.UserForGrupoDTO;
+import com.privacity.common.dto.request.GrupoRemoveUserDTO;
+import com.privacity.common.enumeration.ProtocoloActionsEnum;
+import com.privacity.common.enumeration.ProtocoloComponentsEnum;
 
 import org.jetbrains.annotations.NotNull;
 import org.springframework.http.ResponseEntity;
@@ -61,15 +63,15 @@ import lombok.Data;
 
 public class GrupoInfoActivity extends CustomAppCompatActivity implements
         ObservadoresPasswordGrupo, RecyclerGrupoInfoAdapter.RecyclerItemClick, SearchView.OnQueryTextListener {
-
+    private static final String TAG = "GrupoInfoActivity";
+    private static final String CONSTANT__BT_GRUPO_INFO_BLOQUEO_REMOTO = "bt_grupo_info_bloqueo_remoto_";
+    private static final String CONSTANT__FIND_BY__ID = "id";
+    public ProgressBar progressBar;
     private GrupoInfoNicknameFrame nickname;
     private Button btGrupoInfoSalir;
     private RecyclerView rvLista;
     private List<ItemListGrupoInfo> items;
     private RecyclerGrupoInfoAdapter adapter;
-
-    public ProgressBar progressBar;
-
     private Button btGrupoInfoMenuAcciones;
     private LinearLayout tlGrupoInfoMenuAccionesContent;
 
@@ -77,10 +79,10 @@ public class GrupoInfoActivity extends CustomAppCompatActivity implements
     private TableLayout tlGrupoInfoMenuNameContent;
 
     private Button btGrupoInfoMenuMessage;
-    private TableLayout tlGrupoInfoMenuMessageContent;
+    private LinearLayout tlGrupoInfoMenuMessageContent;
 
     private Button btGrupoInfoMenuLista;
-    private TableLayout tlGrupoInfoMenuListaContent;
+    private LinearLayout tlGrupoInfoMenuListaContent;
     private Button btGrupoInfoAddMember;
 
 
@@ -91,6 +93,8 @@ public class GrupoInfoActivity extends CustomAppCompatActivity implements
     private ConfiguracionGeneral configuracionGeneral;
 
     private GrupoInfoLock lock;
+    private NameFrameView name;
+    private TextView hideMemberAdminMessage;
 
     @Override
     protected boolean isOnlyAdmin() {
@@ -110,28 +114,29 @@ public class GrupoInfoActivity extends CustomAppCompatActivity implements
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_grupo_info);
-        grupoSeleccionado= SingletonValues.getInstance().getGrupoSeleccionado();
-        ActionBar actionBar = getSupportActionBar();
-        actionBar.setTitle("Informacion Grupo");
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        grupoSeleccionado = SingletonValues.getInstance().getGrupoSeleccionado();
+
+        initActionBar();
+
         Observers.passwordGrupo().suscribirse(this);
-        progressBar = (ProgressBar) findViewById(R.id.gral_progress_bar);
+        progressBar = (ProgressBar) findViewById(R.id.common__progress_bar);
         progressBar.setVisibility(View.GONE);
-        try{
-             rvLista = findViewById(R.id.rv_grupoinfo_menu_lista);
+        try {
+            rvLista = findViewById(R.id.rv_grupoinfo_menu_lista);
+            iniciarName();
             iniciarNickname();
-             iniciarLock();
+            iniciarLock();
             initValues();
             iniciarNombreGrupo();
             iniciarAcciones();
             iniciarConfiguracion();
 
-            DialogsToShow.noAdminDialog(this,grupoSeleccionado.getIdGrupo());
+            DialogsToShow.noAdminDialog(this, grupoSeleccionado.getIdGrupo());
         } catch (Exception e) {
             e.printStackTrace();
             SimpleErrorDialog.errorDialog(
                     this,
-                    "ERROR A CARGAR GRUPO INFO",
+                    getString(R.string.general__error_message_ph1, TAG),
                     e.getMessage(),
                     () -> GrupoInfoActivity.this.finish()
             );
@@ -143,18 +148,32 @@ public class GrupoInfoActivity extends CustomAppCompatActivity implements
             @Override
             public void onReceive(Context arg0, Intent intent) {
                 String action = intent.getAction();
-                if (action.equals("finish_activity")) {
+                if (action.equals(BroadcastConstant.BROADCAST__FINISH_ACTIVITY)
+                ||action.equals(BroadcastConstant.BROADCAST__FINISH_MESSAGE_ACTIVITY)
+                || action.equals(BroadcastConstant.BROADCAST__FINISH_GRUPO_INFO_ACTIVITY)) {
                     myFinish();
                 }
             }
         };
-        registerReceiver(broadcastReceiver, new IntentFilter("finish_activity"));
+
+        registerReceiver(broadcastReceiver, new IntentFilter(BroadcastConstant.BROADCAST__FINISH_MESSAGE_ACTIVITY));
+        registerReceiver(broadcastReceiver, new IntentFilter(BroadcastConstant.BROADCAST__FINISH_GRUPO_INFO_ACTIVITY));
+        registerReceiver(broadcastReceiver, new IntentFilter(BroadcastConstant.BROADCAST__FINISH_ACTIVITY));
+        registerReceiver(broadcastReceiver, new IntentFilter(BroadcastConstant.BROADCAST__FINISH_ALL_ACTIVITIES));
+    }
+
+    private void initActionBar() {
+        ActionBar actionBar = getSupportActionBar();
+        if (actionBar == null) return;
+        actionBar.setTitle(getString(R.string.grupo_info_activity__title, getGrupoSeleccionado().getName()));
+        actionBar.setDisplayHomeAsUpEnabled(true);
     }
 
     @Override
     protected void onResume() {
         super.onResume();
         iniciarAcciones();
+
     }
 
     public void myFinish() {
@@ -165,82 +184,28 @@ public class GrupoInfoActivity extends CustomAppCompatActivity implements
 
     private void iniciarNickname() {
         nickname = new GrupoInfoNicknameFrame(this, progressBar);
-        nickname.setListener();
-        nickname.loadValues();
+
     }
 
+    private void iniciarName() {
+        name = new NameFrameView(this);
+        name.setListener();
+
+    }
 
     private void iniciarLock() {
         lock = new GrupoInfoLock(this, progressBar);
-        lock.setListener();
-        lock.loadValues();
+
     }
 
     private void iniciarConfiguracion() {
 
         configuracionGeneral = new ConfiguracionGeneral(this);
-        configuracionGeneral.setReenviar((CheckBox) findViewById(R.id.grupo_info_conf_resend));
 
-        configuracionGeneral.setAnonimo(new MultipleOption(
-                (TextView) findViewById(R.id.grupo_info_conf_anonimo_titulo),
-                (RadioGroup) findViewById(R.id.grupo_info_conf_anonimo_grupo),
-                (RadioButton)findViewById(R.id.grupo_info_conf_anonimo_permitir),
-                (RadioButton)findViewById(R.id.grupo_info_conf_anonimo_bloquear),
-                (RadioButton)findViewById(R.id.grupo_info_conf_anonimo_obligatorio))
-        );
-        configuracionGeneral.setTemporal(new ConfiguracionGeneralTemporal(
-                (CheckBox) findViewById(R.id.grupo_info_conf_temporal_obligatorio),
-                (Spinner) findViewById(R.id.grupo_info_conf_temporal_maximo_tiempo_permitido)
-        ));
-        configuracionGeneral.setConfBlackObligatorioAdjunto((CheckBox) findViewById(R.id.grupo_info_conf_black_obligatorio_adjunto));
-
-        configuracionGeneral.setAudioChat(new ConfiguracionGeneralAudioChat(
-                (Spinner) findViewById(R.id.grupo_info_conf_audiochat_maximo_tiempo),
-                        new MultipleOption(
-                                (TextView) findViewById(R.id.grupo_info_conf_audiochat_titulo),
-                                (RadioGroup) findViewById(R.id.grupo_info_conf_audiochat_grupo),
-                                (RadioButton)findViewById(R.id.grupo_info_conf_audiochat_permitir),
-                                (RadioButton)findViewById(R.id.grupo_info_conf_audiochat_bloquear), null)
-                )
-        );
-
-
-
-        configuracionGeneral.setDescargaImagen(new MultipleOption(
-                (TextView) findViewById(R.id.grupo_info_conf_imagen_descarga_titulo),
-                (RadioGroup) findViewById(R.id.grupo_info_conf_imagen_descarga_grupo),
-                (RadioButton)findViewById(R.id.grupo_info_conf_imagen_descarga_permitir),
-                (RadioButton)findViewById(R.id.grupo_info_conf_imagen_descarga_bloquear),
-               null)
-        );
-
-        configuracionGeneral.setOtras(new ConfiguracionGeneralOtras(
-                (CheckBox) findViewById(R.id.grupo_info_conf_gen_cambiar_nickname),
-                (CheckBox) findViewById(R.id.grupo_info_conf_gen_ocultar_detalles),
-                (CheckBox) findViewById(R.id.grupo_info_conf_gen_ocultar_estado),
-                (CheckBox) findViewById(R.id.grupo_info_conf_gen_ocultar_lista_integrantes)
-                ));
-
-
-        configuracionGeneral.setExtraEncript(new MultipleOption(
-                (TextView) findViewById(R.id.grupo_info_conf_extra_encrip_titulo),
-                (RadioGroup) findViewById(R.id.grupo_info_conf_extra_encrip_grupo),
-                (RadioButton)findViewById(R.id.grupo_info_conf_extra_encrip_permitir),
-                (RadioButton)findViewById(R.id.grupo_info_conf_extra_encrip_bloquear),
-                (RadioButton)findViewById(R.id.grupo_info_conf_extra_encrip_obligatorio))
-        );
-
-
-        configuracionGeneral.setReset((Button) findViewById(R.id.grupo_info_conf_reset));
-        configuracionGeneral.setSave((Button) findViewById(R.id.grupo_info_conf_save));
-
-        configuracionGeneral.setListener();
-
-        configuracionGeneral.loadValues(grupoSeleccionado);
     }
 
     private void iniciarNombreGrupo() {
-        nameGrupoName = (TextView)findViewById(R.id.grupoinfo_name_grupo_name);
+        nameGrupoName = (TextView) findViewById(R.id.grupoinfo_name_grupo_name);
         nameGrupoName.setText(grupoSeleccionado.getName());
 
     }
@@ -248,33 +213,34 @@ public class GrupoInfoActivity extends CustomAppCompatActivity implements
 
     @NotNull
     private View.OnClickListener getListenerGrupoInfoDeleteGrupo() {
+        Log.e(TAG, "falta probar el delete gurpo");
         return new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
-                ProtocoloDTO p = new ProtocoloDTO();
+                Protocolo p = new Protocolo();
                 p.setComponent(ProtocoloComponentsEnum.GRUPO);
                 p.setAction(ProtocoloActionsEnum.GRUPO_REMOVE_ME);
 
-                IdDTO o = new IdDTO();
-                o.setId(SingletonValues.getInstance().getGrupoSeleccionado().getIdGrupo());
-                p.setObjectDTO(GsonFormated.get().toJson(o));
+                GrupoDTO o = new GrupoDTO();
+                o.setIdGrupo(SingletonValues.getInstance().getGrupoSeleccionado().getIdGrupo());
+                p.setObjectDTO(UtilsStringSingleton.getInstance().gsonToSend(o));
 
                 RestExecute.doit(GrupoInfoActivity.this, p,
                         new CallbackRest() {
 
                             @Override
-                            public void response(ResponseEntity<ProtocoloDTO> response) {
+                            public void response(ResponseEntity<Protocolo> response) {
 
                                 if (response.getBody().getCodigoRespuesta() != null) {
                                     Toast.makeText(GrupoInfoActivity.this, response.getBody().getCodigoRespuesta(), Toast.LENGTH_SHORT).show();
                                 } else {
 
-                                    Observers.grupo().GrupoRemove(o.getId());
-                                    Observers.message().removeAllMessageFromUser(o.getId(), SingletonValues.getInstance().getUsuario().getIdUsuario());
-                                    Intent intent = new Intent("finish_message_activity");
+                                    Observers.grupo().GrupoRemove(o.getIdGrupo());
+                                    Observers.message().removeAllMessageFromUser(o.getIdGrupo(), Singletons.usuario().getUsuario().getIdUsuario());
+                                    Intent intent = new Intent(BroadcastConstant.BROADCAST__FINISH_MESSAGE_ACTIVITY);
                                     GrupoInfoActivity.this.sendBroadcast(intent);
-                                    Toast.makeText(GrupoInfoActivity.this, "Ha dejado el grupo", Toast.LENGTH_SHORT).show();
+                                    Toast.makeText(GrupoInfoActivity.this, getString(R.string.grupo_info_activity__delete_grupo__success), Toast.LENGTH_SHORT).show();
                                     GrupoInfoActivity.this.finish();
                                 }
 
@@ -282,7 +248,7 @@ public class GrupoInfoActivity extends CustomAppCompatActivity implements
                             }
 
                             @Override
-                            public void onError(ResponseEntity<ProtocoloDTO> response) {
+                            public void onError(ResponseEntity<Protocolo> response) {
 
                             }
 
@@ -295,35 +261,37 @@ public class GrupoInfoActivity extends CustomAppCompatActivity implements
             }
         };
     }
+
     @NotNull
     private View.OnClickListener getListenerGrupoInfoSalir() {
         return new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
-                ProtocoloDTO p = new ProtocoloDTO();
+                Protocolo p = new Protocolo();
                 p.setComponent(ProtocoloComponentsEnum.GRUPO);
                 p.setAction(ProtocoloActionsEnum.GRUPO_REMOVE_ME);
 
-                IdDTO o = new IdDTO();
-                o.setId(SingletonValues.getInstance().getGrupoSeleccionado().getIdGrupo());
-                p.setObjectDTO(GsonFormated.get().toJson(o));
+                GrupoRemoveUserDTO o = new GrupoRemoveUserDTO();
+                o.setIdGrupo(SingletonValues.getInstance().getGrupoSeleccionado().getIdGrupo());
+                o.setIdUsuario(Singletons.usuario().getUsuario().getIdUsuario());
+                p.setObjectDTO(UtilsStringSingleton.getInstance().gsonToSend(o));
 
                 RestExecute.doit(GrupoInfoActivity.this, p,
                         new CallbackRest() {
 
                             @Override
-                            public void response(ResponseEntity<ProtocoloDTO> response) {
+                            public void response(ResponseEntity<Protocolo> response) {
 
                                 if (response.getBody().getCodigoRespuesta() != null) {
                                     Toast.makeText(GrupoInfoActivity.this, response.getBody().getCodigoRespuesta(), Toast.LENGTH_SHORT).show();
                                 } else {
 
-                                    Observers.grupo().GrupoRemove(o.getId());
-                                    Observers.message().removeAllMessageFromUser(o.getId(), SingletonValues.getInstance().getUsuario().getIdUsuario());
-                                    Intent intent = new Intent("finish_message_activity");
+                                    Observers.grupo().GrupoRemove(o.getIdGrupo());
+                                    Observers.message().removeAllMessageFromUser(o.getIdGrupo(), Singletons.usuario().getUsuario().getIdUsuario());
+                                    Intent intent = new Intent(BroadcastConstant.BROADCAST__FINISH_MESSAGE_ACTIVITY);
                                     GrupoInfoActivity.this.sendBroadcast(intent);
-                                    Toast.makeText(GrupoInfoActivity.this, "Ha dejado el grupo", Toast.LENGTH_SHORT).show();
+                                    Toast.makeText(GrupoInfoActivity.this, getString(R.string.grupo_info_activity__remove_me__success), Toast.LENGTH_SHORT).show();
                                     GrupoInfoActivity.this.finish();
                                 }
 
@@ -331,30 +299,49 @@ public class GrupoInfoActivity extends CustomAppCompatActivity implements
                             }
 
                             @Override
-                    public void onError(ResponseEntity<ProtocoloDTO> response) {
+                            public void onError(ResponseEntity<Protocolo> response) {
 
-                    }
+                            }
 
-                    @Override
-                    public void beforeShowErrorMessage(String msg) {
+                            @Override
+                            public void beforeShowErrorMessage(String msg) {
 
-                    }
+                            }
                         });
 
             }
         };
     }
 
+    private void initView() {
+        btGrupoInfoSalir = GetButtonReady.get(this, R.id.bt_grupoinfo_salir, new ViewCallbackActionInterface() {
+            @Override
+            public void action(View v) {
+                getListenerGrupoInfoSalir();
+            }
+        });
+        btGrupoInfoAddMember = GetButtonReady.get(this,R.id.bt_grupoinfo_add_member);
+        hideMemberAdminMessage = (TextView) findViewById(R.id.frame_grupo_info__hide_member__admin_message);
+        if (SingletonValues.getInstance().getGrupoSeleccionado().getGralConfDTO().isHideMemberList()){
+            hideMemberAdminMessage.setVisibility(View.VISIBLE);
+        }else{
+            hideMemberAdminMessage.setVisibility(View.GONE);
+        }
+
+        btGrupoInfoDeleteGrupo = GetButtonReady.get(this, R.id.bt_grupoinfo_delete_grupo, new ViewCallbackActionInterface() {
+            @Override
+            public void action(View v) {
+
+            }
+        });
+    }
+
+    private void iniciarAcciones() {
+        initView();
 
 
 
-    private void iniciarAcciones(){
-        btGrupoInfoSalir = (Button) findViewById(R.id.bt_grupoinfo_salir);
-        btGrupoInfoSalir.setOnClickListener(
-                getListenerGrupoInfoSalir()
-        );
 
-        btGrupoInfoAddMember = (Button) findViewById(R.id.bt_grupoinfo_add_member);
         btGrupoInfoAddMember.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -362,32 +349,42 @@ public class GrupoInfoActivity extends CustomAppCompatActivity implements
                 startActivity(intent);
             }
         });
-        btGrupoInfoDeleteGrupo = (Button) findViewById(R.id.bt_grupoinfo_delete_grupo);
+
 
 
         Resources res = this.getResources();
 
 
-        final Counter count= new Counter();
+        final Counter count = new Counter();
 
         ArrayList<Button> mylistBotones = new ArrayList<Button>();
 
 
         ArrayList<String> mylist = new ArrayList<String>();
-        for(int i = 1 ; i <=4 ; i++){
-            mylist.add(i+"");
-            mylistBotones.add(findViewById(res.getIdentifier("bt_grupo_info_bloqueo_remoto_" + i, "id", this.getPackageName())));
-            mylistBotones.get(i-1).setOnClickListener(check(count,mylistBotones));
+        for (int i = 1; i <= 4; i++) {
+            mylist.add(i + "");
+            mylistBotones.add(
+                    GetButtonReady.get(this, res.getIdentifier(CONSTANT__BT_GRUPO_INFO_BLOQUEO_REMOTO + i, CONSTANT__FIND_BY__ID, this.getPackageName())
+                            , v -> check(count, mylistBotones)));
+
         }
         resetBotonos(mylistBotones);
 
-        System.out.println("Original List : \n" + mylist);
+        //System.out.println("Original List : \n" + mylist);
 
         Collections.shuffle(mylist);
 
-        for(int i = 1 ; i <=4 ; i++){
-            mylistBotones.get(i-1).setText(mylist.get(i-1));
+        for (int i = 1; i <= 4; i++) {
+            mylistBotones.get(i - 1).setText(mylist.get(i - 1));
         }
+
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+
+        //nickname.getView().setMarquee(true);
 
     }
 
@@ -400,25 +397,25 @@ public class GrupoInfoActivity extends CustomAppCompatActivity implements
                     view.setBackgroundColor(Color.parseColor("#57AE74"));
 
                     count.add();
-                    if (count.getCount() > mylistBotones.size()){
+                    if (count.getCount() > mylistBotones.size()) {
                         new BloqueoRemotoDelegate().ejecutarGrupoBloqueoRemoto(GrupoInfoActivity.this);
-                       new Thread(new Runnable() {
-                           @Override
-                           public void run() {
-                               try {
-                                   Thread.sleep(2000);
-                                   count.reset();
-                                   resetBotonos(mylistBotones);
-                               } catch (InterruptedException e) {
-                                   count.reset();
-                                   resetBotonos(mylistBotones);
-                               }
-                           }
-                       }).start();
+                        new Thread(new Runnable() {
+                            @Override
+                            public void run() {
+                                try {
+                                    Thread.sleep(2000);
+                                    count.reset();
+                                    resetBotonos(mylistBotones);
+                                } catch (InterruptedException e) {
+                                    count.reset();
+                                    resetBotonos(mylistBotones);
+                                }
+                            }
+                        }).start();
 
 
                     }
-                }else{
+                } else {
                     count.reset();
                     resetBotonos(mylistBotones);
                 }
@@ -428,58 +425,43 @@ public class GrupoInfoActivity extends CustomAppCompatActivity implements
 
     private void resetBotonos(ArrayList<Button> mylistBotones) {
 
-        for(Button b : mylistBotones){
+        for (Button b : mylistBotones) {
             b.setBackgroundColor(Color.RED);
         }
     }
 
-
-
-    @Data
-    private class Counter {
-        private int count=1;
-
-        public void add(){
-            count++;
-        }
-        public void reset(){
-            count=1;
-        }
-    }
-    private void ocultarViewToNotAdmin(View v){
+    private void ocultarViewToNotAdmin(View v) {
         v.setBackgroundColor(Color.LTGRAY);
         v.setEnabled(false);
         v.setClickable(false);
     }
-    private void iniciarMenu(Button button, final TableLayout tableLayout){
+
+    private void iniciarMenu(Button button, final TableLayout tableLayout) {
         PorterDuff.Mode t = button.getCompoundDrawableTintMode();
-        if (tableLayout.getVisibility() != View.VISIBLE){
-            button.setCompoundDrawablesWithIntrinsicBounds( 0, 0, R.drawable.ic_arrow_down,0);
+        if (tableLayout.getVisibility() != View.VISIBLE) {
+            button.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.ic_arrow_down, 0);
             button.setCompoundDrawableTintMode(t);
-        }else{
-            button.setCompoundDrawablesWithIntrinsicBounds( 0, 0,R.drawable.ic_arrow_up, 0);
+        } else {
+            button.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.ic_arrow_up, 0);
             button.setCompoundDrawableTintMode(t);
         }
     }
 
-
     private void initValues() {
 
 
-        btGrupoInfoMenuAcciones = (Button)findViewById(R.id.bt_grupoinfo_menu_acciones);
-        tlGrupoInfoMenuAccionesContent = (LinearLayout)findViewById(R.id.tl_grupoinfo_menu_acciones_content);
+        btGrupoInfoMenuAcciones = GetButtonReady.get(this,R.id.bt_grupoinfo_menu_acciones);
+        tlGrupoInfoMenuAccionesContent = (LinearLayout) findViewById(R.id.tl_grupoinfo_menu_acciones_content);
 
-        btGrupoInfoMenuName = (Button)findViewById(R.id.bt_grupoinfo_menu_name);
-        tlGrupoInfoMenuNameContent = (TableLayout)findViewById(R.id.tl_grupoinfo_menu_name_content);
+        btGrupoInfoMenuName = GetButtonReady.get(this,R.id.bt_grupoinfo_menu_name);
+        tlGrupoInfoMenuNameContent = (TableLayout) findViewById(R.id.tl_grupoinfo_menu_name_content);
 
-        btGrupoInfoMenuMessage = (Button)findViewById(R.id.bt_grupoinfo_menu_message);
-        tlGrupoInfoMenuMessageContent = (TableLayout)findViewById(R.id.tl_grupoinfo_menu_message_content);
-
-
+        btGrupoInfoMenuMessage = GetButtonReady.get(this,R.id.bt_grupo_info_conf_gen__title);
+        tlGrupoInfoMenuMessageContent = (LinearLayout) findViewById(R.id.tl_grupoinfo_menu_message_content);
 
 
-        btGrupoInfoMenuLista = (Button)findViewById(R.id.bt_grupoinfo_menu_lista);
-        tlGrupoInfoMenuListaContent = (TableLayout)findViewById(R.id.tl_grupoinfo_menu_lista_content);
+        btGrupoInfoMenuLista = GetButtonReady.get(this,R.id.bt_grupoinfo_menu_lista);
+        tlGrupoInfoMenuListaContent = (LinearLayout) findViewById(R.id.tl_grupoinfo_menu_lista_content);
 
         MenuAcordeonUtil.setActionMenu(btGrupoInfoMenuMessage, tlGrupoInfoMenuMessageContent);
         MenuAcordeonUtil.setActionMenu(btGrupoInfoMenuLista, tlGrupoInfoMenuListaContent);
@@ -491,37 +473,40 @@ public class GrupoInfoActivity extends CustomAppCompatActivity implements
         LinearLayoutManager manager = new LinearLayoutManager(this);
         rvLista.setLayoutManager(manager);
 
-        if (items != null)  items.clear();
-getIdsMyGrupos();
+        if (items != null) items.clear();
+        getIdsMyGrupos();
     }
+
     @Override
     public void finish() {
         super.finish();
         Observers.passwordGrupo().remove(this);
     }
+
     private List<ItemListGrupoInfo> getItems() {
         ArrayList<ItemListGrupoInfo> r = new ArrayList<ItemListGrupoInfo>();
-        if (ObserverGrupo.getInstance().getGrupoById(SingletonValues.getInstance().getGrupoSeleccionado().getIdGrupo()) != null){
+        if (ObserverGrupo.getInstance().getGrupoById(SingletonValues.getInstance().getGrupoSeleccionado().getIdGrupo()) != null) {
 
 
-        UserForGrupoDTO[] list = ObserverGrupo.getInstance().getGrupoById(SingletonValues.getInstance().getGrupoSeleccionado().getIdGrupo()).getUsersForGrupoDTO();
+            UserForGrupoDTO[] list = ObserverGrupo.getInstance().getGrupoById(SingletonValues.getInstance().getGrupoSeleccionado().getIdGrupo()).getUsersForGrupoDTO();
 
 
-        for (int k = 0; k < list.length ; k++){
-            ItemListGrupoInfo i = new ItemListGrupoInfo();
-            UserForGrupoDTO e = list[k];
-            i.setUsersForGrupoDTO(e);
-            r.add(i);
+            for (UserForGrupoDTO userForGrupoDTO : list) {
+                ItemListGrupoInfo i = new ItemListGrupoInfo();
+                UserForGrupoDTO e = userForGrupoDTO;
+                i.setUsersForGrupoDTO(e);
+                r.add(i);
+            }
         }
-        }
 
 
-        return new ArrayList<ItemListGrupoInfo>();
+        return r;
     }
+
     public boolean onOptionsItemSelected(@NonNull MenuItem itemMenu) {
         int id = itemMenu.getItemId();
 
-            finish();
+        finish();
 
 
         return true;
@@ -537,8 +522,6 @@ getIdsMyGrupos();
         return false;
     }
 
-
-
     @Override
     public void itemClick(ItemListGrupoInfo item) {
 
@@ -546,7 +529,7 @@ getIdsMyGrupos();
 
     @Override
     public void passwordExpired(Grupo g) {
-        if (SingletonValues.getInstance().getGrupoSeleccionado().getIdGrupo().equals(g.getIdGrupo())){
+        if (SingletonValues.getInstance().getGrupoSeleccionado().getIdGrupo().equals(g.getIdGrupo())) {
             this.finish();
         }
     }
@@ -569,36 +552,34 @@ getIdsMyGrupos();
     void getIdsMyGrupos() {
 
 
-        ProtocoloDTO p = new ProtocoloDTO();
+        Protocolo p = new Protocolo();
         p.setComponent(ProtocoloComponentsEnum.GRUPO);
         p.setAction(ProtocoloActionsEnum.GRUPO_LIST_MEMBERS
         );
         GrupoDTO dto = new GrupoDTO();
         dto.setIdGrupo(SingletonValues.getInstance().getGrupoSeleccionado().getIdGrupo());
-        p.setObjectDTO(GsonFormated.get().toJson(dto));
+        p.setObjectDTO(UtilsStringSingleton.getInstance().gsonToSend(dto));
         RestExecute.doit(GrupoInfoActivity.this, p,
                 new CallbackRest() {
 
                     @Override
-                    public void response(ResponseEntity<ProtocoloDTO> response) {
+                    public void response(ResponseEntity<Protocolo> response) {
 
                         try {
-                            UserForGrupoDTO[] list = GsonFormated.get().fromJson(response.getBody().getObjectDTO(), UserForGrupoDTO[].class);
+                            UserForGrupoDTO[] list = UtilsStringSingleton.getInstance().gson().fromJson(response.getBody().getObjectDTO(), UserForGrupoDTO[].class);
                             ArrayList<ItemListGrupoInfo> r = new ArrayList<ItemListGrupoInfo>();
 
-                            for (int k = 0; k < list.length ; k++){
+                            for (UserForGrupoDTO userForGrupoDTO : list) {
                                 ItemListGrupoInfo i = new ItemListGrupoInfo();
-                                UserForGrupoDTO e = list[k];
+                                UserForGrupoDTO e = userForGrupoDTO;
                                 i.setUsersForGrupoDTO(e);
                                 r.add(i);
                             }
 
-                            items=r;
+                            items = r;
                             adapter = new RecyclerGrupoInfoAdapter(items, GrupoInfoActivity.this, GrupoInfoActivity.this);
                             rvLista.setAdapter(adapter);
                             adapter.notifyDataSetChanged();
-
-
 
 
                         } catch (Exception e) {
@@ -610,7 +591,7 @@ getIdsMyGrupos();
                     }
 
                     @Override
-                    public void onError(ResponseEntity<ProtocoloDTO> response) {
+                    public void onError(ResponseEntity<Protocolo> response) {
                     }
 
                     @Override
@@ -619,5 +600,18 @@ getIdsMyGrupos();
                 });
 
 
+    }
+
+    @Data
+    private static class Counter {
+        private int count = 1;
+
+        public void add() {
+            count++;
+        }
+
+        public void reset() {
+            count = 1;
+        }
     }
 }

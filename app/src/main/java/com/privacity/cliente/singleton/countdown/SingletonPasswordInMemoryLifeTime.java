@@ -2,7 +2,7 @@ package com.privacity.cliente.singleton.countdown;
 
 import android.os.CountDownTimer;
 
-import com.privacity.cliente.singleton.interfaces.SingletonReset;
+import com.privacity.common.SingletonReset;
 
 import lombok.Getter;
 

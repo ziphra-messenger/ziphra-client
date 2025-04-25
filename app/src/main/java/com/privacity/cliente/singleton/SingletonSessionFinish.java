@@ -2,11 +2,12 @@ package com.privacity.cliente.singleton;
 
 import android.content.Intent;
 import android.os.CountDownTimer;
-import android.util.Log;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.privacity.cliente.singleton.interfaces.SingletonReset;
+import com.privacity.cliente.util.ToolsUtil;
+import com.privacity.common.BroadcastConstant;
+import com.privacity.common.SingletonReset;
 
 import lombok.Getter;
 
@@ -43,7 +44,7 @@ public class SingletonSessionFinish implements SingletonReset {
             public void onFinish() {
 
 
-                Intent intent = new Intent("finish_all_activities");
+                Intent intent = new Intent(BroadcastConstant.BROADCAST__FINISH_ALL_ACTIVITIES);
                 context.sendBroadcast(intent);
 
 //                Intent i = new Intent(context, MainActivity.class);
@@ -67,6 +68,6 @@ public class SingletonSessionFinish implements SingletonReset {
     @Override
     public void reset() {
         if (instance.sessionTime != null ) instance.sessionTime.cancel();
-        instance=null;
+        ToolsUtil.forceGarbageCollector(instance);
     }
 }

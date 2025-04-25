@@ -1,40 +1,27 @@
 package com.privacity.cliente.activity.lock;
 
-import android.content.BroadcastReceiver;
-import android.content.Context;
-import android.content.Intent;
-import android.content.IntentFilter;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
-import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.privacity.cliente.R;
-import com.privacity.cliente.includes.ProgressBarUtil;
-import com.privacity.cliente.rest.CallbackRest;
-import com.privacity.cliente.rest.RestExecute;
-import com.privacity.cliente.singleton.SingletonValues;
 import com.privacity.cliente.common.component.SecureFieldAndEye;
 import com.privacity.cliente.includes.SecureFieldAndEyeUtil;
+import com.privacity.cliente.singleton.SingletonValues;import com.privacity.cliente.singleton.Singletons;
 import com.privacity.cliente.singleton.countdown.SingletonMyAccountConfLockDownTimer;
 import com.privacity.cliente.singleton.countdown.SingletonPasswordInMemoryLifeTime;
-import com.privacity.cliente.singleton.sharedpreferences.SharedPreferencesUtil;
-import com.privacity.cliente.util.GsonFormated;
-import com.privacity.common.enumeration.ProtocoloComponentsEnum;import com.privacity.common.enumeration.ProtocoloActionsEnum;
-
-import com.privacity.common.dto.ProtocoloDTO;
-
-import org.springframework.http.ResponseEntity;
+import com.privacity.common.enumeration.ProtocoloActionsEnum;
 
 public class LockActivity extends AppCompatActivity {
 
+
     private SecureFieldAndEye currentPassword;
     private Button lockIngresar;
-    int reintentos;
+
 
 
     @Override
@@ -50,12 +37,12 @@ public class LockActivity extends AppCompatActivity {
             @Override
             public void onReceive(Context arg0, Intent intent) {
                 String action = intent.getAction();
-                if (action.equals("finish_all_activities")) {
+                if (action.equals(BroadcastConstant.BROADCAST__FINISH_ALL_ACTIVITIES)) {
                     finish();
                 }
             }
         };
-        registerReceiver(broadcastReceiver, new IntentFilter("finish_all_activities"));
+        registerReceiver(broadcastReceiver, new IntentFilter(BroadcastConstant.BROADCAST__FINISH_ALL_ACTIVITIES));
 */
         SingletonValues.getInstance().setShowingLock(true);
 
@@ -67,9 +54,9 @@ public class LockActivity extends AppCompatActivity {
                 (ImageButton) this.findViewById(R.id.password_eye_show),
                 (ImageButton) this.findViewById(R.id.password_eye_hide)
         );
-        SecureFieldAndEyeUtil.setPasswordMaxLenght(currentPassword);
+        //SecureFieldAndEyeUtil.setPasswordMaxLenght(currentPassword);
         SecureFieldAndEyeUtil.listener(currentPassword);
-        reintentos=0;
+
         lockIngresar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -78,29 +65,10 @@ public class LockActivity extends AppCompatActivity {
                     SingletonMyAccountConfLockDownTimer.getInstance().setLocked(false);
                     SingletonPasswordInMemoryLifeTime.getInstance().restart();
                     SingletonMyAccountConfLockDownTimer.getInstance().restart();
-
+                    SingletonValues.getInstance().getPasswordReintentosReset();
                     finish();
                 }else{
-                    reintentos++;
-                    //currentPassword.getField().setError("Password Incorrecto");
-                    Toast.makeText(LockActivity.this,"Password Incorrecto\nIntento " + reintentos + " de 3",Toast. LENGTH_SHORT).show();
-
-                    if (reintentos >= 3 ){
-                        lockIngresar.setEnabled(false);
-                        try {
-                            if (SingletonValues.getInstance().getMyAccountConfDTO().isLoginSkip()){
-                                save();
-                            }else{
-                                Intent intent = new Intent("finish_all_activities");
-                                LockActivity.this.sendBroadcast(intent);
-                                finish();
-                            }
-
-                        } catch (Exception e) {
-                            e.printStackTrace();
-                        }
-
-                    }
+                    SingletonValues.getInstance().getPasswordReintentosAdd(LockActivity.this);
                 }
             }
         });
@@ -114,47 +82,7 @@ public class LockActivity extends AppCompatActivity {
 
 
     }
-    private void save() throws Exception {
 
-
-        boolean dto =  false;
-
-        ProtocoloDTO p = new ProtocoloDTO();
-        p.setComponent(ProtocoloComponentsEnum.MY_ACCOUNT);
-        p.setAction(ProtocoloActionsEnum.MY_ACCOUNT_SAVE_LOGIN_SKIP);
-
-        p.setObjectDTO(GsonFormated.get().toJson(dto));
-
-
-        RestExecute.doit(this, p,
-                new CallbackRest() {
-
-                    @Override
-                    public void response(ResponseEntity<ProtocoloDTO> response) {
-
-                        SingletonValues.getInstance().getMyAccountConfDTO().setLoginSkip(dto);
-                        SharedPreferencesUtil.deleteSharedPreferencesUserPass(LockActivity.this);
-                        LockActivity.this.finish();
-                    }
-
-                    @Override
-                    public void onError(ResponseEntity<ProtocoloDTO> response) {
-                        Intent intent = new Intent("finish_all_activities");
-                        LockActivity.this.sendBroadcast(intent);
-                        LockActivity.this.finish();
-                    }
-
-                    @Override
-                    public void beforeShowErrorMessage(String msg) {
-                        Intent intent = new Intent("finish_all_activities");
-                        LockActivity.this.sendBroadcast(intent);
-                        LockActivity.this.finish();
-                    }
-
-                });
-
-
-    }
 
     @Override
     public void onBackPressed() {

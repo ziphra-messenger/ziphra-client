@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.widget.ProgressBar;
 
+import com.privacity.cliente.R;
 import com.privacity.cliente.activity.message.MessageActivity;
 import com.privacity.cliente.common.error.SimpleErrorDialog;
 import com.privacity.cliente.includes.ProgressBarUtil;
@@ -12,10 +13,10 @@ import com.privacity.cliente.rest.CallbackRest;
 import com.privacity.cliente.rest.RestExecute;
 import com.privacity.cliente.singleton.Observers;
 import com.privacity.cliente.singleton.SingletonValues;
+import com.privacity.cliente.singleton.UtilsStringSingleton;
 import com.privacity.cliente.singleton.observers.ObserverGrupo;
-import com.privacity.cliente.util.GsonFormated;
 import com.privacity.common.dto.GrupoDTO;
-import com.privacity.common.dto.ProtocoloDTO;
+import com.privacity.cliente.model.dto.Protocolo;
 import com.privacity.common.enumeration.ProtocoloActionsEnum;
 import com.privacity.common.enumeration.ProtocoloComponentsEnum;
 
@@ -26,11 +27,11 @@ public class PasswordGrupoValidationCallRest {
 
     public static void call(Activity activity, ProgressBar progressBar, Grupo grupo, GrupoDTO dto) throws Exception {
 
-        ProtocoloDTO p = new ProtocoloDTO();
+        Protocolo p = new Protocolo();
         p.setComponent(ProtocoloComponentsEnum.GRUPO);
         p.setAction(ProtocoloActionsEnum.GRUPO_LOGIN);
 
-        p.setObjectDTO(GsonFormated.get().toJson(dto));
+        p.setObjectDTO(UtilsStringSingleton.getInstance().gsonToSend(dto));
 
         ProgressBarUtil.show(activity, progressBar);
 
@@ -38,9 +39,9 @@ public class PasswordGrupoValidationCallRest {
                 new CallbackRest() {
 
                     @Override
-                    public void response(ResponseEntity<ProtocoloDTO> response) {
+                    public void response(ResponseEntity<Protocolo> response) {
 
-                        boolean l = GsonFormated.get().fromJson(response.getBody().getObjectDTO(), boolean.class);
+                        boolean l = UtilsStringSingleton.getInstance().gson().fromJson(response.getBody().getObjectDTO(), boolean.class);
 
                         ProgressBarUtil.hide(activity, progressBar);
                         if (l){
@@ -59,14 +60,14 @@ public class PasswordGrupoValidationCallRest {
                             activity.startActivity(intent);
                         }else{
                             grupo.reintentosPasswordSumar();
-                            SimpleErrorDialog.errorDialog(activity,"Error", "Password Incorrecto");
+                            SimpleErrorDialog.errorDialog(activity,activity.getString(R.string.general__error_message), activity.getString(R.string.general__alert__validation__password_incorrect));
                         }
 
 
                     }
 
                     @Override
-                    public void onError(ResponseEntity<ProtocoloDTO> response) {
+                    public void onError(ResponseEntity<Protocolo> response) {
 
                         ProgressBarUtil.hide(activity, progressBar);
                     }

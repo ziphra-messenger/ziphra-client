@@ -115,4 +115,23 @@
             app:srcCompat="@drawable/ic_baseline_close_24" />
     </LinearLayout>
 
+    <LinearLayout
+        android:id="@+id/message_custom_actionbar_buscar_content"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:orientation="horizontal"
+        android:visibility="gone"
+        tools:visibility="visible">
+
+        <EditText
+            android:id="@+id/message_custom_actionbar_buscar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:ems="10"
+            android:hint="Buscar"
+            android:inputType="textPersonName" />
+
+    </LinearLayout>
 </LinearLayout>

@@ -35,18 +35,21 @@
                 android:backgroundTint="#EB3A3A"
                 android:clickable="false"
                 android:gravity="center_horizontal|center_vertical"
-                android:text="Algun grupo ha enviado un\n bloqueo remoto"
+                android:maxWidth="280dp"
+                android:text="@string/lock_activity__bloqueo_remoto_mensaje"
+
+                android:textAllCaps="true"
                 app:cornerRadius="20dp" />
         </TableRow>
 
         <TableRow
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:gravity="center_horizontal">
 
             <TableLayout
                 android:id="@+id/tableLayout3"
-                android:layout_width="0dp"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="30dp"
 
@@ -93,7 +96,7 @@
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
                         android:layout_margin="10dp"
-                        android:text="Ingresar"
+                        android:text="@string/main_login__ingresar"
                         app:cornerRadius="20dp"
                         app:icon="@drawable/ic_baseline_login_24" />
 
@@ -103,5 +106,14 @@
         </TableRow>
 
     </TableLayout>
+    <include
 
+        layout="@layout/incllude__common__all"
+
+        android:visibility="visible"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:visibility="gone" />
 </androidx.constraintlayout.widget.ConstraintLayout>

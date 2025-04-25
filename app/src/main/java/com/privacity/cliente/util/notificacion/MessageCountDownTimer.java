@@ -2,26 +2,45 @@ package com.privacity.cliente.util.notificacion;
 
 import android.os.CountDownTimer;
 
-import com.privacity.cliente.singleton.Observers;
 import com.privacity.cliente.model.Message;
+import com.privacity.cliente.singleton.Observers;
 
 import lombok.Data;
 
 @Data
 public class MessageCountDownTimer {
 
+    private final int messeconds;
     private CountDownTimer timeMessageCountDownTimer;
     private boolean timeMessageCountDownTimerRunning =false;
-    private Message message;
+
+    @Override
+    public String toString() {
+        return "MessageCountDownTimer{" +
+                "timeMessageCountDownTimer=" + timeMessageCountDownTimer +
+                ", timeMessageCountDownTimerRunning=" + timeMessageCountDownTimerRunning +
+                ", seconds=" + seconds +
+                ", deleted=" + deleted +
+                '}';
+    }
+
+
     private long seconds;
     private boolean deleted=false;
+
+    private boolean isTime;
+    private String idGrupo;
+    private String buildIdMessageToMap;
     public MessageCountDownTimer(Message m){
-        message=m;
-        seconds = m.getTimeMessage();
+        isTime=m.amITimeMessage();
+        idGrupo=m.getIdGrupo();
+        buildIdMessageToMap=m.buildIdMessageToMap();
+        seconds=m.getTimeMessage();
+        messeconds = m.getTimeMessage();
     }
     public void restart(){
         //mirar la memoria
-        if (! message.isTimeMessage()){
+        if (! isTime){
             return;
         }
 
@@ -30,7 +49,7 @@ public class MessageCountDownTimer {
         }
 
         timeMessageCountDownTimer = new CountDownTimer(
-                message.getTimeMessage()*1000
+                messeconds*1000
                 , 1000) {
 
             public void onTick(long millisUntilFinished) {
@@ -40,7 +59,7 @@ public class MessageCountDownTimer {
 
             public void onFinish() {
                 deleted=true;
-                Observers.message().removeMessage(message.getIdGrupo(), message.buildIdMessageToMap());
+                Observers.message().removeMessage(idGrupo, buildIdMessageToMap);
             }
         };
         timeMessageCountDownTimerRunning =true;

@@ -1,8 +1,7 @@
 package com.privacity.cliente.activity.message;
 
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
+import android.content.res.ColorStateList;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.media.AudioAttributes;
@@ -12,33 +11,43 @@ import android.media.AudioRecord;
 import android.media.AudioTrack;
 import android.os.Build;
 import android.os.CountDownTimer;
+import android.text.method.HideReturnsTransformationMethod;
+import android.text.method.PasswordTransformationMethod;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.SeekBar;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.content.res.AppCompatResources;
+import androidx.core.widget.ImageViewCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.privacity.cliente.R;
-import com.privacity.cliente.activity.imagefull.ImageFullActivity;
+import com.privacity.cliente.activity.message.validations.Audio;
+import com.privacity.cliente.activity.message.validations.BuildState;
+import com.privacity.cliente.activity.message.validations.MessageAnonimo;
+import com.privacity.cliente.activity.message.validations.MessageImage;
+import com.privacity.cliente.activity.message.validations.TimeMessage;
 import com.privacity.cliente.activity.messageresend.MessageUtil;
+import com.privacity.cliente.activity.web.WebActivity;
+import com.privacity.cliente.common.constants.IntentConstant;
 import com.privacity.cliente.model.Message;
 import com.privacity.cliente.rest.RestExecute;
 import com.privacity.cliente.rest.restcalls.CallbackRestDownload;
 import com.privacity.cliente.rest.restcalls.message.GetMessageById;
 import com.privacity.cliente.singleton.Observers;
 import com.privacity.cliente.singleton.SingletonValues;
-import com.privacity.cliente.singleton.impl.SingletonServer;
-import com.privacity.common.enumeration.ProtocoloComponentsEnum;import com.privacity.common.enumeration.ProtocoloActionsEnum;
-
+import com.privacity.cliente.singleton.localconfiguration.SingletonTextSizeMessage;
+import com.privacity.common.BroadcastConstant;
 import com.privacity.common.dto.IdMessageDTO;
-import com.privacity.common.dto.MessageDTO;
-import com.privacity.common.dto.ProtocoloDTO;
+import com.privacity.cliente.model.dto.Protocolo;
 import com.privacity.common.dto.UsuarioDTO;
 import com.privacity.common.enumeration.MessageState;
+import com.privacity.common.enumeration.ProtocoloActionsEnum;
+import com.privacity.common.enumeration.ProtocoloComponentsEnum;
 
-import org.jetbrains.annotations.NotNull;
 import org.springframework.http.ResponseEntity;
 
 import java.io.File;
@@ -47,12 +56,12 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 public class RecyclerMessageAdapter extends RecyclerView.Adapter<RecyclerHolder> implements StopMedia {
-
+    private static final String TAG = "RecyclerMessageAdapter";
     public static final String SECRET_KEY_INVALIDA = "Secret Key Invalida";
-    private List<ItemListMessage> items;
-    private List<ItemListMessage> originalItems;
-    private RecyclerItemClick itemClick;
-    private MessageActivity messageActivity;
+    private final List<ItemListMessage> items;
+    private final List<ItemListMessage> originalItems;
+    private final RecyclerItemClick itemClick;
+    private final MessageActivity messageActivity;
 
     public RecyclerMessageAdapter(MessageActivity messageActivity, List<ItemListMessage> items, RecyclerItemClick itemClick) {
         this.items = items;
@@ -66,19 +75,10 @@ public class RecyclerMessageAdapter extends RecyclerView.Adapter<RecyclerHolder>
     @Override
     public RecyclerHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_list_view_message, parent, false);
+        SingletonTextSizeMessage.getInstance().refreshTextSize(messageActivity,view);
         return new RecyclerHolder(view);
     }
 
-    public static Bitmap convert(byte[] base64Str) throws IllegalArgumentException {
-//        byte[] decodedBytes = Base64.decode(
-//                base64Str.substring(base64Str.indexOf(",")  + 1),
-//                Base64.DEFAULT
-//        );
-
-        //byte[] decodedBytes = GsonFormated.get().fromJson(base64Str, byte[].class);
-
-        return BitmapFactory.decodeByteArray(base64Str, 0, base64Str.length);
-    }
 
     @Override
     public void onBindViewHolder(@NonNull final RecyclerHolder holder, final int position) {
@@ -86,7 +86,7 @@ public class RecyclerMessageAdapter extends RecyclerView.Adapter<RecyclerHolder>
         try {
             final ItemListMessage item = items.get(position);
 
-
+            item.setHolder(holder);
 
             holder.setItemListMessage(item);
 
@@ -112,18 +112,68 @@ public class RecyclerMessageAdapter extends RecyclerView.Adapter<RecyclerHolder>
                         item.getRch().getLayoutSelected().setVisibility(View.VISIBLE);
                     }else {
 
+                        if (item.url!= null && (item.url.size() > 0) && item.url.get(0) != null && !item.url.get(0).equals("")){
 
-                        itemClick.itemClick(item);
+                                    Intent i = new Intent(messageActivity, WebActivity.class);
+
+                                    i.putExtra(IntentConstant.URL, item.url.get(0));
+
+
+                                    messageActivity.startActivity(i);
+
+                        }else{
+                            itemClick.itemClick(item);
+                        }
+
                     }
 
                 }
             });
 
             holder.itemView.setLongClickable(true);
+            holder.itemView.setOnTouchListener(new View.OnTouchListener() {
+                @Override
+                public boolean onTouch(View view, MotionEvent motionEvent) {
+                    if (SingletonValues.getInstance().getGrupoSeleccionado().isSecureFieldActivated()) {
+                        if (motionEvent.getAction() == MotionEvent.ACTION_UP) {
+                            if (item.rch.getTvMessageListText().getTransformationMethod().equals((HideReturnsTransformationMethod.getInstance())))
+                            {
+                                try {
+                                    ColorStateList csl = AppCompatResources.getColorStateList(messageActivity, R.color.black);
+                                    ImageViewCompat.setImageTintList(item.rch.getIvItemListImageMedia(), csl);
+                                } catch (Exception e) {
+
+                                }
+
+                                item.rch.getTvMessageListText().setLetterSpacing((float) 0.177);
+                                item.rch.getTvMessageListText().setTransformationMethod(PasswordTransformationMethod.getInstance());
+
+                                ColorStateList csl = AppCompatResources.getColorStateList(messageActivity, R.color.black);
+                                ImageViewCompat.setImageTintList(item.rch.getIvItemListImageMedia(), csl);
+
+                                return true;
+                            }
+                        }
+                    }
+                    return false;
+                }
+            });
             holder.itemView.setOnLongClickListener(new View.OnLongClickListener() {
                 @Override
                 public boolean onLongClick(View v) {
+                    if (SingletonValues.getInstance().getGrupoSeleccionado().isSecureFieldActivated()){
 
+                        try {
+                            ImageViewCompat.setImageTintList(item.rch.getIvItemListImageMedia(), null);
+                        } catch (Exception e) {
+
+                        }
+
+                        item.rch.getTvMessageListText().setLetterSpacing(0);
+                        item.rch.getTvMessageListText().setTransformationMethod(HideReturnsTransformationMethod.getInstance());
+                        return true;
+
+                    }
                     if ( Observers.message().getMessageSelected().contains(item)) {
                         return false;
                     }
@@ -144,9 +194,9 @@ public class RecyclerMessageAdapter extends RecyclerView.Adapter<RecyclerHolder>
 
                 buildSystemMessage(item, holder, holder.getRCH(MessageSenderEnum.SYSTEM_MESSAGE),false);
 
-            } else if (!item.getMessage().isAnonimo()
-                    && !MasterGeneralConfiguration.buildSiempreAnonimoReceptionConfigurationByGrupo(item.getMessage().getIdGrupo()).isValue()
-                    && getIdUsuario(item.getMessage().getUsuarioCreacion()).equals(item.getMessageDetailDTO().getUsuarioDestino().getIdUsuario())) {
+            } else if (!item.getMessage().getShowingAnonimo()
+//                    && !MasterGeneralConfiguration.buildSiempreAnonimoReceptionConfigurationByGrupo(item.getMessage().getIdGrupo()).isValue()
+                    && item.getMessageDetail().isOwnMessageCreatorAndIsMyMessageDetail()) {
 
                 buildMensaje(item, holder, holder.getRCH(MessageSenderEnum.MY_MESSAGE),false);
 
@@ -175,10 +225,23 @@ public class RecyclerMessageAdapter extends RecyclerView.Adapter<RecyclerHolder>
         holder.getLayoutAllMessageRec().setVisibility(View.GONE);
         holder.getLayoutSystem().setVisibility(View.VISIBLE);
         holder.getTvMessageListTextSystem().setVisibility(View.VISIBLE);
-        holder.getTvMessageListTextSystem().setText(item.getMessage().getText());
-    }
+        String txt="";
+        try {
+            txt = getStringResourceByName(item.getMessage().getText());
+        }catch (Exception e){}
 
-    private void buildMensaje(ItemListMessage item, RecyclerHolder holder, RecyclerHolderGeneric rch,boolean isReply) {
+        if (txt == null || "".equals(txt)){
+            txt=item.getMessage().getText();
+        }
+
+        holder.getTvMessageListTextSystem().setText(txt);
+    }
+    private String getStringResourceByName(String aString) {
+        String packageName =messageActivity.getPackageName();
+        int resId = messageActivity.getResources().getIdentifier(aString, "string", packageName);
+        return messageActivity.getString(resId);
+    }
+    private void buildMensaje(ItemListMessage item, RecyclerHolder holder, RecyclerHolderGeneric rch, boolean isReply) {
         holder.initViewShow(rch, item,isReply, messageActivity);
 
         if (rch.getReply() != null && rch.getReply().getLayoutAllMessage() != null){
@@ -205,9 +268,9 @@ public class RecyclerMessageAdapter extends RecyclerView.Adapter<RecyclerHolder>
             }else{
                 buildMensaje(
 
-                        new ItemListMessage(messageReply, messageReply.getMessagesDetailDTO()[0]),
+                        new ItemListMessage(messageReply, messageReply.getMessagesDetail()[0]),
                         holder,
-                        holder.getRch().getReply(),true);
+                        holder.getRch().getReply(), true);
                 rch.getReply().getLayoutAllMessage().setVisibility(View.VISIBLE);
                 holder.getRch().getReply().getLayoutEmptyMessage().setVisibility(View.GONE);
             }
@@ -217,14 +280,17 @@ public class RecyclerMessageAdapter extends RecyclerView.Adapter<RecyclerHolder>
 
 
         item.setRch(rch);
+
+
+
         boolean grupoDeDos = false;
 //        if (ObservatorGrupos.getInstance().getGrupoById((item.getMessage().getIdGrupo())).getUsersForGrupoDTO().length < 3){
 //            grupoDeDos=true;
 //        }
 
-        if (grupoDeDos || item.getMessageDetailDTO().getEstado().equals(MessageState.MY_MESSAGE_SENT)
-                || item.getMessageDetailDTO().getEstado().equals(MessageState.MY_MESSAGE_SENDING)
-                || item.getMessageDetailDTO().getEstado().equals(MessageState.MY_MESSAGE_ERROR_NOT_SEND)
+        if (grupoDeDos || item.getMessageDetail().getEstado().equals(MessageState.MY_MESSAGE_SENT)
+                || item.getMessageDetail().getEstado().equals(MessageState.MY_MESSAGE_SENDING)
+                || item.getMessageDetail().getEstado().equals(MessageState.MY_MESSAGE_ERROR_NOT_SEND)
         ) {
 
             //rch.getTvRemitente().setVisibility(View.GONE);
@@ -256,7 +322,7 @@ public class RecyclerMessageAdapter extends RecyclerView.Adapter<RecyclerHolder>
                         rch.getSbMessageItemlistMediaAudioProgress().setProgress(0);
                     } else if (!item.isPlaying) {
                         if (!item.getMessage().isSecretKeyPersonal()) {
-                            rch.setSecondsMediaValue(new Double(Math.floor(item.getMessage().getMediaDTO().getData().length * progress) / 100.00).intValue());
+                            rch.setSecondsMediaValue(new Double(Math.floor(item.getMessage().getMedia().getData().length * progress) / 100.00).intValue());
                         }
 
                     }
@@ -275,7 +341,7 @@ public class RecyclerMessageAdapter extends RecyclerView.Adapter<RecyclerHolder>
             });
 
             if (!item.getMessage().isSecretKeyPersonal()) {
-                rch.setSecondsMediaValue(item.getMessage().getMediaDTO().getData());
+                rch.setSecondsMediaValue(item.getMessage().getMedia().getData());
             }
 
 
@@ -286,7 +352,7 @@ public class RecyclerMessageAdapter extends RecyclerView.Adapter<RecyclerHolder>
                     rch.getIbMessageItemlistMediaAudioStop().setVisibility(View.VISIBLE);
                     rch.getIbMessageItemlistMediaAudioPlay().setVisibility(View.GONE);
 
-                    byte[] audioEncr = item.getMessage().getMediaDTO().getData();
+                    byte[] audioEncr = item.getMessage().getMedia().getData();
                     byte[] audio = audioEncr;
                     try {
                         //audio = ObservatorGrupos.getInstance().getGrupoAESToUseById().get(SingletonValues.getInstance().getGrupoSeleccionado().getIdGrupo()).getAESDecrypt(audioEncr);
@@ -297,7 +363,7 @@ public class RecyclerMessageAdapter extends RecyclerView.Adapter<RecyclerHolder>
                     if (item.getMessage().isSecretKeyPersonal()) {
                         try {
                             messageActivity.extraAesToUse.getAESDecrypt(audio);
-                            audio = messageActivity.extraAesToUse.getAESDecrypt(audio);
+                            audio = messageActivity.extraAesToUse.getAESDecrypt(audio).getBytes();
 
                             rch.setPersonalEncryptLockOpen(isReply);
                             rch.setSecondsMediaValue(audio);
@@ -318,7 +384,7 @@ public class RecyclerMessageAdapter extends RecyclerView.Adapter<RecyclerHolder>
                 }
             });
 
-            if (item.getMessage().getMediaDTO().getData() == null){
+            if (item.getMessage().getMedia().getData() == null){
                 restDownloadAudio(rch, item.getMessage());
             }else{
                 rch.getIbMessageItemlistMediaAudioPlay().setVisibility(View.VISIBLE);
@@ -327,137 +393,20 @@ public class RecyclerMessageAdapter extends RecyclerView.Adapter<RecyclerHolder>
             }
         }
 
-        if (rch.isHasMediaImage()) {
-            Bitmap bit = null;
-            tieneImagen = true;
-            try {
+        MessageImage.processMessageImage(item, rch, isReply, messageActivity);
 
-                byte[] imagenEncr = item.getMessage().getMediaDTO().getMiniatura();
-
-                byte[] imagen = imagenEncr; //ObservatorGrupos.getInstance().getGrupoAESToUseById().get(SingletonValues.getInstance().getGrupoSeleccionado().getIdGrupo()).getAESDecrypt(imagenEncr);
-
-                if (item.getMessage().isSecretKeyPersonal()) {
-                    try {
-                        messageActivity.extraAesToUse.getAESDecrypt(imagen);
-                        imagen = messageActivity.extraAesToUse.getAESDecrypt(imagen);
-
-                        bit = convert(imagen);
-
-                        rch.getIvItemListImageMedia().setImageBitmap(bit);
-
-                        rch.setPersonalEncryptLockOpen(isReply);
-                    } catch (Exception e) {
-                        item.setOcularDetails(true);
-                        bit = showCandadoErrorMedia(rch, e);
-                        rch.setPersonalEncryptLockClose(isReply);
-                    }
-                } else {
-                    bit = convert(imagen);
-                    rch.getIvItemListImageMedia().setImageBitmap(bit);
-                }
-
-                if (item.getMessage().getMediaDTO().getData() == null) {
-                    rch.getIvItemListImageMedia().setVisibility(View.GONE);
-                    rch.getLayoutItemListImage().setBackground(rch.getIvItemListImageMedia().getDrawable());
-
-                    if (item.getMessage().isDownloadingMedia()) {
-                        rch.getIbMessageItemlistMediaDownload().setVisibility(View.GONE);
-                        rch.getProgressBarMessageItemlistMediaDownload().setVisibility(View.VISIBLE);
-                    } else {
-                        rch.getIbMessageItemlistMediaDownload().setVisibility(View.VISIBLE);
-                        rch.getProgressBarMessageItemlistMediaDownload().setVisibility(View.GONE);
-
-                        rch.getIbMessageItemlistMediaDownload().setOnClickListener(new View.OnClickListener() {
-                            @Override
-                            public void onClick(View v) {
-                                rch.getIbMessageItemlistMediaDownload().setVisibility(View.GONE);
-                                rch.getProgressBarMessageItemlistMediaDownload().setVisibility(View.VISIBLE);
-
-                                restDownloadImage(rch, item.getMessage());
-                            }
-                        });
-                        //restDownloadImage(rch, item.getMessage());
-                    }
-                } else {
-                    rch.getIvItemListImageMedia().setVisibility(View.VISIBLE);
-                    rch.getProgressBarMessageItemlistMediaDownload().setVisibility(View.GONE);
-                    rch.getIbMessageItemlistMediaDownload().setVisibility(View.GONE);
-                }
-
-            } catch (Exception e) {
-                bit = showCandadoErrorMedia(rch, e);
-            }
-            final Bitmap bit2 = bit;
-            //((ImageView)findViewById(R.id.imagen)).setImageBitmap(bitmap);
-            rch.getIvItemListImageMedia().setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-
-                    //Bundle b = new Bundle();
-                    //b.putParcelable("bitmap", bit);
-
-                    if (!item.isOcularDetails()) {
-                        SingletonValues.getInstance().setImagenFull(bit2);
-                        Intent intent = new Intent(v.getContext(), ImageFullActivity.class);
-                        intent.putExtra("idMessageToMap", item.getMessage().buildIdMessageToMap());
-                        v.getContext().startActivity(intent);
-                    }
-
-                }
-            });
-        }
-
-        if (!item.getMessage().isSystemMessage()
-            && !isReply
-        ) {
-            if (!item.messageDetailDTO.getEstado().equals(MessageState.MY_MESSAGE_SENDING) &&
-                    !item.messageDetailDTO.getEstado().equals(MessageState.MY_MESSAGE_ERROR_NOT_SEND)) {
-
-                String estado = getEstadoString(item, grupoDeDos);
-                if (estado.equals("✓✓✓")) {
-                    rch.getTvState().setTextColor(Color.BLUE);
-                } else {
-                    rch.getTvState().setTextColor(Color.BLACK);
-                }
-                rch.getTvState().setText(estado);
-            } else {
-                rch.getTvState().setTextColor(Color.BLACK);
-                rch.getTvState().setText(item.messageDetailDTO.getEstado().name());
-            }
-        }else{
-            rch.getTvState().setText("");
-        }
-
-
-        if (item.getMessage().isAnonimo()
-               /* || MasterGeneralConfiguration.buildSiempreAnonimoReceptionConfigurationByGrupo(item.getMessage().getIdGrupo()).isValue()
-
-                */
-        ) {
-
-            String nicknameCreador = "";
-            if (item.getMessage().getUsuarioCreacion() != null) {
-                if (item.getMessage().getUsuarioCreacion().getNickname() != null) {
-                    nicknameCreador = item.getMessage().getUsuarioCreacion().getNickname() + " ";
-                }
-
-            }
-            rch.getTvRemitente().setVisibility(View.VISIBLE);
-            rch.getTvRemitente().setText("[Anonimo]");
-
-        } else {
-            // if (!messageActivity.tvMessageShowOther.getText().toString().equals("")){
-
-            //    rch.getTvRemitente().setText(messageActivity.tvMessageShowOther.getText().toString());
-            //}else{
-
-                rch.getTvRemitente().setText(item.getMessage().getUsuarioCreacion().getNickname());
+        BuildState.buildStatus(messageActivity, item, rch, isReply, grupoDeDos);
 
 
 
+
+
+        BuildState.buildStatus(messageActivity, item, rch, isReply, grupoDeDos);
+
+        MessageAnonimo.processAnonimo(item, rch, grupoDeDos, messageActivity);
             //}
 
-        }
+
 
 
 
@@ -502,15 +451,15 @@ public class RecyclerMessageAdapter extends RecyclerView.Adapter<RecyclerHolder>
 
         }
 
-        if (SingletonServer.getInstance().isDeveloper()) {
+/*        if (SingletonServer.getInstance().isDeveloper()) {
             txt = "Texto: " + txt
                     + "\n Nick Creador: " + ((item.getMessage().getUsuarioCreacion() == null) ? "null" : item.getMessage().getUsuarioCreacion().getNickname())
                     + "\n Id Creador: " + ((item.getMessage().getUsuarioCreacion() == null) ? "null" : item.getMessage().getUsuarioCreacion().getIdUsuario())
                     + "\n IdMessage: " + item.getMessage().getIdMessage()
                     + "\n IdGrupo: " + item.getMessage().getIdGrupo()
-                    + "\n Cantidad de Usuarios Enviados: " + item.getMessage().getMessagesDetailDTO().length;
+                    + "\n Cantidad de Usuarios Enviados: " + item.getMessage().getMessagesDetail().length;
 
-        }
+        }*/
 
         txt = ListListener.setListenerReadMoreLess(item.getMessage(), rch, txt,isReply);
         rch.getTvMessageListText().setText(txt);
@@ -520,79 +469,21 @@ public class RecyclerMessageAdapter extends RecyclerView.Adapter<RecyclerHolder>
 
 
         //final boolean secretKeyValidaFinal = secretKeyValida;
-        if (rch.isMessageTimeActive()) {
-            Message ms = (Message) item.getMessage();
-            if (!item.isRunning() || ms.getCountDownTimer().isTimeMessageCountDownTimerRunning()) {
-
-
-                rch.getBtActivateMessageTime().setText(MessageUtil.CalcularTiempoFormaterSinHora(ms.getCountDownTimer().getSeconds()));
-                item.setCounter(new CountDownTimer(
-                        ms.getCountDownTimer().getSeconds() * 1000, 1000) {
-
-                    public void onTick(long millisUntilFinished) {
-
-                        rch.getLayoutMessageContentData().setVisibility(View.VISIBLE);
-
-                        rch.getBtActivateMessageTime().setText((MessageUtil.CalcularTiempoFormaterSinHora(ms.getCountDownTimer().getSeconds())) + "");
-
-                        if (!rch.isHasMediaAudioChat() &&
-                                (!item.getMessageDetailDTO().getEstado().equals(MessageState.MY_MESSAGE_SENT) &&
-                                        !item.getMessageDetailDTO().getEstado().equals(MessageState.DESTINY_READED)
-                                )
-                        ) {
-                            Observers.message().cambiarEstadoUso(item.getMessageDetailDTO(), true, messageActivity);
-                        }
-
-
-                    }
-
-                    public void onFinish() {
-                        item.isPlaying = false;
-                        rch.getBtActivateMessageTime().setText("End");
-
-                        if (!rch.isOwnMessage()) {
-                            rch.getLayoutMessageContentData().setVisibility(View.GONE);
-                            items.remove(item);
-
-                        } else {
-                            rch.getLayoutAllMessage().setVisibility(View.GONE);
-                        }
-
-
-                        RecyclerMessageAdapter.this.notifyDataSetChanged();
-                        Intent intent = new Intent("finish_activity");
-                        messageActivity.sendBroadcast(intent);
-
-                    }
-                });
-                if (ms.getCountDownTimer().isTimeMessageCountDownTimerRunning()) {
-                    item.startTimer();
-                } else {
-                    rch.getBtActivateMessageTime().setOnClickListener(
-                            new View.OnClickListener() {
-                                @Override
-                                public void onClick(View v) {
-                                    if (!rch.isHasMediaAudioChat()) {
-                                        item.startTimer();
-                                        ms.getCountDownTimer().restart();
-                                    } else {
-                                        rch.getLayoutMessageContentData().setVisibility(View.VISIBLE);
-                                    }
-
-                                }
-                            });
-                }
-            }
-
-
-        }
+      //  if (rch.isMessageTimeActive()) {
+        Audio.processAudio(this, item, rch, messageActivity, items);
+        TimeMessage.processTimeMessage(this, item, rch, messageActivity, items);
 
         if (!isReply) {
             ListListener.setListenerLockClose(this.messageActivity, rch);
             ListListener.setListenerLockOpen(this.messageActivity, rch);
         }
         holder.endViewShow(rch, item,messageActivity,isReply);
+
+
+
     }
+
+
 
     private void restDownloadAudio(RecyclerHolderGeneric rch, Message message) {
 
@@ -602,27 +493,27 @@ public class RecyclerMessageAdapter extends RecyclerView.Adapter<RecyclerHolder>
 
         message.setDownloadingMedia(true);
 
-        ProtocoloDTO p = new ProtocoloDTO();
+        Protocolo p = new Protocolo();
         p.setComponent(ProtocoloComponentsEnum.MESSAGE);
         p.setAction(ProtocoloActionsEnum.MESSAGE_GET_MEDIA_1);
 
-        MessageDTO o = new MessageDTO();
+        Message o = new Message();
         o.setIdGrupo(message.getIdGrupo());
         o.setIdMessage(message.getIdMessage());
 
-        p.setMessageDTO(o);
+        p.setMessage(o);
 
         RestExecute.doitDownload(this.messageActivity, p,
                 new CallbackRestDownload() {
 
                     @Override
                     public void response(ResponseEntity<byte[]> response) {
-                        //MessageDTO m = GsonFormated.get().fromJson(response.getBody().getObjectDTO(), MessageDTO.class);
+                        //MessageDTO m = UtilsStringSingleton.getInstance().gson().fromJson(response.getBody().getObjectDTO(), MessageDTO.class);
 
                         byte[] completo;
                         try {
                             completo = response.getBody(); //Observers.grupo().getGrupoById(message.getIdGrupo()).getAESToUse().getAESDecrypt(response.getBody());
-                            message.getMediaDTO().setData(completo);
+                            message.getMedia().setData(completo);
                             message.setDownloadingMedia(false);
 
                             rch.getIbMessageItemlistMediaAudioPlay().setVisibility(View.VISIBLE);
@@ -639,7 +530,7 @@ public class RecyclerMessageAdapter extends RecyclerView.Adapter<RecyclerHolder>
                         } catch (Exception e) {
                             rch.addError("* GetData Audio 4 : " + e.getMessage());
                             message.setDownloadingMedia(false);
-                            message.getMediaDTO().setData(null);
+                            message.getMedia().setData(null);
                             rch.getPbMessageItemlistMediaAudioProgressBar().setVisibility(View.GONE);
                             e.printStackTrace();
                         }
@@ -667,136 +558,9 @@ public class RecyclerMessageAdapter extends RecyclerView.Adapter<RecyclerHolder>
 
     }
 
-    private void restDownloadImage(RecyclerHolderGeneric rch, Message message) {
-        message.setDownloadingMedia(true);
-        ProtocoloDTO p = new ProtocoloDTO();
-        p.setComponent(ProtocoloComponentsEnum.MESSAGE);
-        p.setAction(ProtocoloActionsEnum.MESSAGE_GET_MEDIA_2);
-
-        MessageDTO o = new MessageDTO();
-        o.setIdGrupo(message.getIdGrupo());
-        o.setIdMessage(message.getIdMessage());
-
-        p.setMessageDTO(o);
-
-        RestExecute.doitDownload(this.messageActivity, p,
-                new CallbackRestDownload() {
-
-                    @Override
-                    public void response(ResponseEntity<byte[]> response) {
-                        //MessageDTO m = GsonFormated.get().fromJson(response.getBody().getObjectDTO(), MessageDTO.class);
-
-                        byte[] completo;
-                        try {
-                            completo = response.getBody(); //Observers.grupo().getGrupoById(message.getIdGrupo()).getAESToUse().getAESDecrypt(response.getBody());
-                            message.getMediaDTO().setData(completo);
-                            message.setDownloadingMedia(false);
-                            rch.getProgressBarMessageItemlistMediaDownload().setVisibility(View.GONE);
-                            rch.getIvItemListImageMedia().setVisibility(View.VISIBLE);
-                            rch.getLayoutItemListImage().setBackground(null);
-//                            try {
-//                                Thread.sleep(1000);
-//                            } catch (InterruptedException e) {
-//                                e.printStackTrace();
-//                            }
-                        //loadingConsole.setText(loadingConsole.getText().toString().replaceAll( "Getting Message: " + (num-1) +"/" +  list.length+"\n",""));
-                        } catch (Exception e) {
-                            rch.addError("* GetData Imagen 7 : " + e.getMessage());
-                            e.printStackTrace();
-                        }
-                    }
-
-                    @Override
-                    public void onError(ResponseEntity<byte[]> response) {
-                        rch.addError("* GetData Imagen 8 : " + response.getStatusCode());
-                        message.setDownloadingMedia(false);
-
-                        //System.out.println("Get Message Error: " + response.getBody().getCodigoRespuesta());
-
-                    }
-
-                    @Override
-                    public void beforeShowErrorMessage(String msg) {
-                        message.setDownloadingMedia(false);
-                        rch.addError("* GetData Imagen 9 : " + msg);
-                        System.out.println("MessagE: " + msg);
-                        rch.getProgressBarMessageItemlistMediaDownload().setVisibility(View.GONE);
-
-                    }
-
-                });
-
-    }
 
 
-    @NotNull
-    private String getEstadoString(ItemListMessage item, boolean grupoDeDos) {
-        int enviado = 0;
-        int enviando = 0;
-        int esperando = 0;
-        int recibido = 0;
-        int leido = 0;
 
-        for (int i = 0; i < item.getMessage().getMessagesDetailDTO().length; i++) {
-            if (item.getMessage().getMessagesDetailDTO()[i].getEstado().equals(MessageState.MY_MESSAGE_SENT)) {
-                enviado++;
-            } else if (item.getMessage().getMessagesDetailDTO()[i].getEstado().equals(MessageState.MY_MESSAGE_SENDING)) {
-                enviando++;
-            } else if (item.getMessage().getMessagesDetailDTO()[i].getEstado().equals(MessageState.DESTINY_SERVER)) {
-                esperando++;
-            } else if (item.getMessage().getMessagesDetailDTO()[i].getEstado().equals(MessageState.DESTINY_DELIVERED)) {
-                recibido++;
-            } else if (item.getMessage().getMessagesDetailDTO()[i].getEstado().equals(MessageState.DESTINY_READED)) {
-                leido++;
-            }
-        }
-
-        String estado;
-        if ( esperando == 0 && recibido == 0 ){
-            //estado = EstadoName.getNameToShow(item.getMessageDetailDTO().getEstado()) + " ✓✓✓";
-            estado = "✓✓✓";
-
-        }else{
-
-
-            if ( esperando == 0 && recibido == 0 && leido==0 ){
-                estado = EstadoName.getNameToShow(item.getMessageDetailDTO().getEstado().name());
-            }else{
-                if (grupoDeDos){
-                    String esperandoString = (esperando>0) ?"✓":"";
-                    String recibidoString = (recibido>0) ?"✓✓":"";
-                    String leidoString = (leido>0) ?"✓✓✓":"";
-                    //estado = EstadoName.getNameToShow(item.getMessageDetailDTO().getEstado()) + " Estado:"+ esperandoString + recibidoString + leidoString;
-                    estado = esperandoString + recibidoString + leidoString;
-
-                }else{
-                    String esperandoString = (esperando>0) ?" (" + esperando + " ✓)":"";
-                    String recibidoString = (recibido>0) ?" (" + recibido + " ✓✓)":"";
-                    String leidoString = (leido>0) ?" (" + leido + " ✓✓✓)":"";
-                    //estado = EstadoName.getNameToShow(item.getMessageDetailDTO().getEstado()) + " Estado:"+ esperandoString + recibidoString + leidoString;
-                    estado = esperandoString + recibidoString + leidoString;
-
-                }
-            }
-
-        }
-        if (estado== null) estado = " ";
-        return estado;
-    }
-
-    private Bitmap showCandadoErrorMedia(RecyclerHolderGeneric rch, Exception e) {
-        Bitmap bit;
-        
-        rch.getTvMessageListText().setText("Secret Key Invalida " + e.getMessage());
-        //rch.getTvMessageListText().setError("Secret Key Invalida");
-        e.printStackTrace();
-
-        bit = BitmapFactory.decodeResource(messageActivity.getResources(), R.drawable.candadocerrado);
-        //bit.setWidth(50);
-
-        rch.getIvItemListImageMedia().setImageBitmap(bit);
-        return bit;
-    }
 
     @Override
     public int getItemCount() {
@@ -853,11 +617,11 @@ public class RecyclerMessageAdapter extends RecyclerView.Adapter<RecyclerHolder>
     private Thread recordingThread;
     String fileNameAudio;
 
-    String TAG="DD";
+
 
 
     private static void play(byte[] audiolist, ItemListMessage item, RecyclerHolderGeneric rch, MessageActivity messageActivity){
-        Observers.message().cambiarEstadoUso(item.getMessageDetailDTO(), true,messageActivity);
+        Observers.message().cambiarEstadoUso(item.getMessageDetail(), true,messageActivity);
 
         if (rch.isMessageTimeActive()){
             item.startTimer();

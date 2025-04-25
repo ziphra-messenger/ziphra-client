@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <ImageButton
+        android:id="@+id/help_button"
+        android:layout_width="33dp"
+        android:layout_height="33dp"
+        android:layout_gravity="right"
+        android:backgroundTint="#E4DFB4"
+        android:onClick="goToHelp"
+        app:srcCompat="@drawable/ic_baseline_help_outline_24" />
+
+
+</FrameLayout>

@@ -6,122 +6,249 @@
     android:layout_height="match_parent"
     tools:context=".activity.addgrupo.AddGrupoActivity">
 
-    <LinearLayout
-        android:id="@+id/linearLayout10"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="30dp"
-        android:layout_marginTop="20dp"
-        android:layout_marginEnd="30dp"
-        android:layout_marginBottom="25dp"
-        android:background="@drawable/login_stylo"
-        android:gravity="center"
-        android:orientation="vertical"
-        android:paddingStart="10dp"
-        android:paddingTop="20dp"
-        android:paddingEnd="10dp"
-        android:paddingBottom="20dp"
-        android:tag="@string/help_tag_add_grupo"
-        app:layout_constraintBottom_toTopOf="@+id/layout_grupo_creado"
+    <ScrollView
+        android:id="@+id/scrollView4"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintTop_toTopOf="parent"
+        android:fillViewport="true"
+        app:layout_constraintVertical_bias="1.0">
 
-        <EditText
-            android:id="@+id/pt_add_grupo_name"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:ems="10"
-            android:hint="Nombre del Nuevo Grupo"
-            android:inputType="textPersonName"
-            android:textAlignment="center" />
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content">
 
-        <Button
-            android:id="@+id/btn_add_grupo_ok"
-            android:layout_width="198dp"
-            android:layout_height="52dp"
-            android:layout_marginTop="50dp"
-            android:text="Crear"
-            android:textAlignment="center"
-            app:cornerRadius="20dp"
-            app:icon="@drawable/ic_baseline_add_24" />
+            <ImageView
+                android:id="@+id/imageView3"
+                android:layout_width="28dp"
+                android:layout_height="28dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.95"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/linearLayout10"
+                app:layout_constraintVertical_bias="0.95"
+                app:srcCompat="@drawable/ic_action_help_floting_1" />
 
-        <TextView
-            android:id="@+id/add_grupo_mensaje_grupo_creado"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:gravity="center"
-            android:text="GRUPO CREADO"
-            android:textSize="24sp"
-            android:textStyle="bold"
-            android:visibility="gone" />
+            <LinearLayout
+                android:id="@+id/linearLayout10"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:background="@drawable/login_stylo"
+                android:gravity="center"
+                android:orientation="vertical"
+                android:paddingStart="10dp"
+                android:paddingTop="20dp"
+                android:paddingEnd="10dp"
+                android:paddingBottom="20dp"
+                android:tag="@string/help_tag_add_grupo"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="0.060000002">
 
-        <include
-            layout="@layout/frame_help"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="right" />
+                <EditText
+                    android:id="@+id/pt_add_grupo_name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center|center_horizontal|center_vertical"
+                    android:drawableEnd="@drawable/ic_baseline_clear_24"
+                    android:ems="10"
+                    android:gravity="center|center_horizontal|center_vertical"
+                    android:hint="@string/addgrupo_activity__name_grupo__hint"
+                    android:inputType="textPersonName"
+                    android:maxLines="1"
+                    android:minWidth="260dp"
+                    android:textAlignment="center" />
 
-    </LinearLayout>
+                <Button
+                    android:id="@+id/btn_add_grupo_ok"
 
-    <LinearLayout
-        android:id="@+id/layout_grupo_creado"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="10dp"
-        android:gravity="center"
-        android:orientation="vertical"
-        android:visibility="invisible"
+                    android:layout_width="wrap_content"
+
+                    android:layout_height="wrap_content"
+
+                    android:layout_gravity="center"
+                    android:layout_margin="3dp"
+                    android:layout_weight="0"
+                    android:backgroundTint="#438BE3"
+                    android:ellipsize="marquee"
+                    android:singleLine="true"
+                    android:foregroundGravity="center_vertical"
+                    android:gravity="center"
+                    android:maxWidth="250dp"
+                    android:maxLines="2"
+                    android:minWidth="50dp"
+                    android:paddingLeft="10dp"
+                    android:paddingRight="10dp"
+                    android:scrollHorizontally="true"
+
+                    android:text="@string/addgrupo_activity__submit"
+                    android:textSize="12dp"
+                    android:visibility="visible"
+                    app:cornerRadius="20dp"
+                    app:icon="@drawable/ic_baseline_add_24"
+                    app:iconPadding="4dp"
+                    tools:visibility="visible" />
+
+                <TextView
+                    android:id="@+id/add_grupo_mensaje_grupo_creado"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:gravity="center"
+                    android:text="@string/addgrupo_activity__grupo_created"
+                    android:textSize="24sp"
+                    android:textStyle="bold"
+                    android:visibility="gone" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/layout_grupo_creado"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:orientation="vertical"
+                android:visibility="invisible"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/linearLayout10"
+                app:layout_constraintVertical_bias="0.25"
+                tools:visibility="visible">
+
+                <Button
+                    android:id="@+id/btn_add_grupo_add_member"
+
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+
+                    android:layout_gravity="center"
+                    android:layout_margin="3dp"
+                    android:layout_weight="0"
+                    android:backgroundTint="#438BE3"
+                    android:ellipsize="marquee"
+                    android:foregroundGravity="center_vertical"
+                    android:gravity="center"
+                    android:maxWidth="250dp"
+                    android:maxLines="2"
+                    android:minWidth="50dp"
+                    android:paddingLeft="10dp"
+                    android:paddingRight="10dp"
+                    android:scrollHorizontally="true"
+                    android:singleLine="false"
+                    android:text="@string/addgrupo_activity__add_new_member"
+                    android:textSize="14sp"
+                    android:visibility="visible"
+                    app:cornerRadius="20dp"
+                    app:icon="@drawable/ic_baseline_group_add_24"
+                    app:iconPadding="4dp"
+                    tools:visibility="visible" />
+
+                <Button
+                    android:id="@+id/btn_add_grupo_grupo_info"
+
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+
+                    android:layout_gravity="center"
+                    android:layout_margin="3dp"
+                    android:layout_weight="0"
+                    android:backgroundTint="#438BE3"
+                    android:ellipsize="marquee"
+                    android:foregroundGravity="center_vertical"
+                    android:gravity="center"
+                    android:maxWidth="250dp"
+                    android:maxLines="2"
+                    android:minWidth="50dp"
+                    android:paddingLeft="10dp"
+                    android:paddingRight="10dp"
+                    android:scrollHorizontally="true"
+                    android:singleLine="false"
+                    android:text="@string/addgrupo_activity__goto_grupoinfo"
+                    android:textSize="14sp"
+                    android:visibility="visible"
+                    app:cornerRadius="20dp"
+                    app:icon="@drawable/ic_baseline_miscellaneous_services_24"
+                    app:iconPadding="4dp"
+                    tools:visibility="visible" />
+
+                <Button
+                    android:id="@+id/btn_add_grupo_add_grupo"
+
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+
+                    android:layout_gravity="center"
+                    android:layout_margin="3dp"
+                    android:layout_weight="0"
+                    android:backgroundTint="#438BE3"
+                    android:ellipsize="marquee"
+                    android:foregroundGravity="center_vertical"
+                    android:gravity="center"
+                    android:maxWidth="250dp"
+                    android:maxLines="2"
+                    android:minWidth="50dp"
+                    android:paddingLeft="10dp"
+                    android:paddingRight="10dp"
+                    android:scrollHorizontally="true"
+                    android:singleLine="false"
+                    android:text="@string/addgrupo_activity__create_another_grupo"
+                    android:textSize="14sp"
+                    android:visibility="visible"
+                    app:cornerRadius="20dp"
+                    app:icon="@drawable/ic_baseline_add_24"
+                    app:iconPadding="4dp"
+                    tools:visibility="visible" />
+
+                <Button
+                    android:id="@+id/btn_add_grupo_back"
+
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+
+                    android:layout_gravity="center"
+                    android:layout_margin="3dp"
+                    android:layout_weight="0"
+                    android:backgroundTint="#438BE3"
+                    android:ellipsize="marquee"
+                    android:foregroundGravity="center_vertical"
+                    android:gravity="center"
+                    android:maxWidth="250dp"
+                    android:maxLines="2"
+                    android:minWidth="50dp"
+                    android:paddingLeft="10dp"
+                    android:paddingRight="10dp"
+                    android:scrollHorizontally="true"
+                    android:singleLine="false"
+                    android:text="@string/addgrupo_activity__go_back"
+                    android:textSize="14sp"
+                    android:visibility="visible"
+                    app:cornerRadius="20dp"
+                    app:icon="@drawable/ic_baseline_arrow_back_24"
+                    app:iconPadding="4dp"
+                    tools:visibility="visible" />
+
+            </LinearLayout>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </ScrollView>
+    <include
+
+        layout="@layout/incllude__common__all"
+
+        android:visibility="visible"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/linearLayout10"
-        tools:visibility="visible">
-
-        <Button
-            android:id="@+id/btn_add_grupo_add_member"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_margin="5dp"
-            android:layout_weight="1"
-            android:tag="@string/rol_admin"
-            android:text="agregar un integrante"
-            app:cornerRadius="20dp"
-            app:icon="@drawable/ic_baseline_group_add_24" />
-
-        <Button
-            android:id="@+id/btn_add_grupo_grupo_info"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_margin="5dp"
-            android:layout_weight="1"
-            android:tag="@string/rol_admin"
-            android:text="Informacion del Grupo"
-            app:cornerRadius="20dp"
-            app:icon="@drawable/ic_baseline_miscellaneous_services_24" />
-
-        <Button
-            android:id="@+id/btn_add_grupo_add_grupo"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="5dp"
-            android:layout_weight="1"
-            android:tag="@string/rol_admin"
-            android:text="crear nuevo grupo"
-            app:cornerRadius="20dp"
-            app:icon="@drawable/ic_baseline_add_24" />
-
-        <Button
-            android:id="@+id/btn_add_grupo_back"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_margin="5dp"
-            android:layout_weight="1"
-            android:tag="@string/rol_admin"
-            android:text="Volver"
-            app:cornerRadius="20dp"
-            app:icon="@drawable/ic_baseline_arrow_back_24" />
-    </LinearLayout>
-
+        app:layout_constraintTop_toTopOf="parent"
+        tools:visibility="gone" />
 </androidx.constraintlayout.widget.ConstraintLayout>

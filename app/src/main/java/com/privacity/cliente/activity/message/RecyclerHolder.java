@@ -2,8 +2,12 @@ package com.privacity.cliente.activity.message;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.content.res.ColorStateList;
+import android.graphics.Color;
 import android.graphics.Paint;
 import android.os.Bundle;
+import android.text.method.HideReturnsTransformationMethod;
+import android.text.method.PasswordTransformationMethod;
 import android.view.ContextMenu;
 import android.view.SubMenu;
 import android.view.View;
@@ -18,17 +22,28 @@ import android.widget.SeekBar;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.content.res.AppCompatResources;
+import androidx.core.widget.ImageViewCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.privacity.cliente.R;
 import com.privacity.cliente.activity.errorconsole.ErrorConsoleActivity;
+import com.privacity.cliente.activity.main.TextHighlighter;
+import com.privacity.cliente.activity.message.validations.Black;
+import com.privacity.cliente.activity.message.validations.ExtraEncrypt;
+import com.privacity.cliente.activity.message.validations.RandomNickname;
+import com.privacity.cliente.activity.message.validations.Resend;
 import com.privacity.cliente.activity.userhelper.UserHelperPagesContant;
-import com.privacity.cliente.singleton.SingletonValues;
+import com.privacity.cliente.common.constants.DeveloperConstant;
+import com.privacity.cliente.singleton.SingletonValues;import com.privacity.cliente.singleton.Singletons;
 import com.privacity.common.dto.UsuarioDTO;
 import com.privacity.common.enumeration.MediaTypeEnum;
 import com.privacity.common.enumeration.MessageState;
 
 import java.util.ArrayList;
+import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -52,8 +67,8 @@ public class RecyclerHolder extends RecyclerView.ViewHolder /*implements View.On
     private final Button btPersonalEncryptLockOpenReply;
     private final LinearLayout layoutAllMessageSinPersonalEncryptReply;
     private final LinearLayout layoutBlackmessageLocksReply;
-    private final ImageButton btMessageBlackEyeShowReply;
-    private final ImageButton btMessageBlackEyeHideReply;
+    private final Button btMessageBlackEyeShowReply;
+    private final Button btMessageBlackEyeHideReply;
     private final LinearLayout layoutMessageFrameReply;
     private final LinearLayout layoutMessageFrameContentUsuarioReply;
     private final TextView tvRemitenteReply;
@@ -79,7 +94,7 @@ public class RecyclerHolder extends RecyclerView.ViewHolder /*implements View.On
     private final ImageButton ibMessageItemlistMediaDownloadReply;
     private final ProgressBar progressBarMessageItemlistMediaDownloadReply;
 
-    private final TextView tvStateReply;
+    private final Button tvStateReply;
 
     //my_message
     private final LinearLayout layoutPersonalEncrypt;
@@ -108,13 +123,18 @@ public class RecyclerHolder extends RecyclerView.ViewHolder /*implements View.On
     private final ImageView ivItemListImageMedia;
     private final ImageButton ibMessageItemlistErrorRec;
     private final ImageButton ibMessageItemlistError;
+    private final StateIcons stateIcons;
+
     private LinearLayout layoutItemListImage;
     private ImageButton ibMessageItemlistMediaDownload;
     private ProgressBar progressBarMessageItemlistMediaDownload;
 
 
     private final TextView tvState;
+    private Button btIsAnonimo;
+    private Button btIsHideReadState;
 
+    private Button btIsBlockResend;
     // recibido empty message
     private final LinearLayout layoutEmptyMessageRec;
     private final ImageButton emptyMessageDownloadRec;
@@ -125,8 +145,8 @@ public class RecyclerHolder extends RecyclerView.ViewHolder /*implements View.On
     private final Button btPersonalEncryptLockOpenReplyRec;
     private final LinearLayout layoutAllMessageSinPersonalEncryptReplyRec;
     private final LinearLayout layoutBlackmessageLocksReplyRec;
-    private final ImageButton btMessageBlackEyeShowReplyRec;
-    private final ImageButton btMessageBlackEyeHideReplyRec;
+    private final Button btMessageBlackEyeShowReplyRec;
+    private final Button btMessageBlackEyeHideReplyRec;
     private final LinearLayout layoutMessageFrameReplyRec;
     private final LinearLayout layoutMessageFrameContentUsuarioReplyRec;
     private final TextView tvRemitenteReplyRec;
@@ -151,7 +171,7 @@ public class RecyclerHolder extends RecyclerView.ViewHolder /*implements View.On
     private final LinearLayout layoutItemListImageReplyRec;
     private final ImageButton ibMessageItemlistMediaDownloadReplyRec;
     private final ProgressBar progressBarMessageItemlistMediaDownloadReplyRec;
-    private final TextView tvStateReplyRec;
+    private final Button tvStateReplyRec;
     //recibido
 
     private final LinearLayout layoutAllMessageRec;
@@ -185,9 +205,11 @@ public class RecyclerHolder extends RecyclerView.ViewHolder /*implements View.On
     private LinearLayout layoutItemListImageRec;
     private ImageButton ibMessageItemlistMediaDownloadRec;
     private ProgressBar progressBarMessageItemlistMediaDownloadRec;
-
-    private final TextView tvStateRec;
-
+    private final StateIcons stateIconsRec;
+    private final Button tvStateRec;
+    private Button btIsAnonimoRec;
+    private Button btIsHideReadStateRec;
+    private Button btIsBlockResendRec;
     // SYSTEM
     private final TextView tvMessageListTextSystem;
     private final LinearLayout layoutSystem;
@@ -208,7 +230,7 @@ public class RecyclerHolder extends RecyclerView.ViewHolder /*implements View.On
         rch = new RecyclerHolderGeneric();
 
         rch.setLayoutSelected( layoutSelected);
-
+       // rch.setLayoutEveryMessages(layoutEveryMessages);
         if (messageSender.equals(MessageSenderEnum.MY_MESSAGE)) {
 
 
@@ -298,7 +320,7 @@ public class RecyclerHolder extends RecyclerView.ViewHolder /*implements View.On
             rch.setLayoutItemListImage(layoutItemListImage);
             rch.setIbMessageItemlistMediaDownload(ibMessageItemlistMediaDownload);
             rch.setProgressBarMessageItemlistMediaDownload(progressBarMessageItemlistMediaDownload);
-
+            rch.setStateIcons(stateIcons);
             rch.setTvState(tvState );
             rch.getReply().setLayoutRemitenteContent(layoutRemitenteContent);
 
@@ -384,7 +406,7 @@ public class RecyclerHolder extends RecyclerView.ViewHolder /*implements View.On
             rch.setIbMessageItemlistMediaDownload(ibMessageItemlistMediaDownloadRec);
             rch.setProgressBarMessageItemlistMediaDownload(progressBarMessageItemlistMediaDownloadRec);
 
-
+            rch.setStateIcons(stateIconsRec);
             rch.setTvState(tvStateRec );
             rch.getReply().setLayoutRemitenteContent(layoutRemitenteContentRec);
         } else if (messageSender.equals(MessageSenderEnum.SYSTEM_MESSAGE)) {
@@ -400,15 +422,36 @@ public class RecyclerHolder extends RecyclerView.ViewHolder /*implements View.On
 
         return u.getIdUsuario();
     }
+    MessageActivity messageActivity;
     public void initViewShow(RecyclerHolderGeneric rch, ItemListMessage item, boolean isReply, MessageActivity messageActivity) {
-
+        this.messageActivity=messageActivity;
         rch.getLayoutAudiochat().setClickable(false);
         rch.getLayoutAudiochat().setOnClickListener(v1 -> {});
         rch.getLayoutAudiochat().setEnabled(false);
+        //rch.getLayoutAllMessageSinPersonalEncrypt().setVisibility(View.VISIBLE);
+        rch.getLayoutMessageFrame().setVisibility(View.GONE);
+
 
 //        rch.getTvMessageItemlistMediaAudioSeconds().setClickable(false);
 //        rch.getTvMessageItemlistMediaAudioSeconds().setOnClickListener(v1 -> {});
 //        rch.getTvMessageItemlistMediaAudioSeconds().setEnabled(false);
+
+        if (item.getMessage().isBlockResend()&& !isReply){
+            rch.getStateIcons().isBlockResend().setVisibility(View.VISIBLE);
+        }else{
+            rch.getStateIcons().isBlockResend().setVisibility(View.GONE);
+        }
+        if (item.getMessage().isAnonimo()&& !isReply){
+            rch.getStateIcons().isAnonimo().setVisibility(View.VISIBLE);
+        }else{
+            rch.getStateIcons().isAnonimo().setVisibility(View.GONE);
+        }
+
+        if (item.getMessage().isHideMessageReadState()&& !isReply){
+            rch.getStateIcons().isHideReadState().setVisibility(View.VISIBLE);
+        }else{
+            rch.getStateIcons().isHideReadState().setVisibility(View.GONE);
+        }
 
         if (item.getMessage().isSecretKeyPersonal() && !isReply){
             rch.getLayoutPersonalEncrypt().setVisibility(View.VISIBLE);
@@ -425,15 +468,12 @@ public class RecyclerHolder extends RecyclerView.ViewHolder /*implements View.On
             rch.setSecretPersonal(false);
         }
 
-        rch.getLayoutMessageFrame().setVisibility(View.VISIBLE);
+
         rch.getTvRemitente().setVisibility(View.VISIBLE);
         rch.getLayoutMessageContentData().setVisibility(View.VISIBLE);
-        if (item.getMessageDetailDTO().getUsuarioDestino().getIdUsuario().equals(getIdUsuario(item.getMessage().getUsuarioCreacion()))){
-            rch.setOwnMessage(true);
-        }
 
 
-        if (item.getMessage().isTimeMessage()){
+        if (item.getMessage().amITimeMessage()){
             rch.setMessageTimeActive(true);
             rch.getBtActivateMessageTime().setVisibility(View.VISIBLE);
             rch.getLayoutMessageFrame().setVisibility(View.VISIBLE);
@@ -446,43 +486,17 @@ public class RecyclerHolder extends RecyclerView.ViewHolder /*implements View.On
 
         }
 
-        if (!rch.isMessageBlackActive() &&  !rch.isMessageTimeActive()){
+    /*    if (!rch.isMessageBlackActive() &&  !rch.isMessageTimeActive()){
             rch.getLayoutAllMessageSinPersonalEncrypt().setVisibility(View.VISIBLE);
-        }
+        }*/
         if (item.getMessage().getText() != null && !item.getMessage().getText().equals("")){
             rch.getTvMessageListText().setVisibility(View.VISIBLE);
         }else{
             rch.getTvMessageListText().setVisibility(View.GONE);
         }
-        if (!isReply && (item.getMessage().isBlackMessage() ||
-                MasterGeneralConfiguration.buildSiempreBlackReceptionConfigurationByGrupo(item.getMessage().getIdGrupo()).isValue())
-        ){
-            //MessageUtil.getSpinnerValue(messageActivity.spMessageAvanzadoBlackRecepcion, SingletonValues.getInstance().getMessageConfDTO().isBlackMessageRecived())
-            // rch.getLayoutBlackmessageLocks().setVisibility(View.VISIBLE);
-            rch.getLayoutBlackmessageLocks().setVisibility(View.VISIBLE);
-            rch.getBtMessageBlackEyeShow().setVisibility(View.VISIBLE);
-            rch.getBtMessageBlackEyeHide().setVisibility(View.GONE);
-            ListListener.setListenerMessageBlack(item, rch,messageActivity);
 
-            rch.getLayoutMessageFrame().setVisibility(View.GONE);
 
-            rch.setMessageBlackActive(true);
-
-        }else{
-            rch.getLayoutBlackmessageLocks().setVisibility(View.VISIBLE);
-            rch.getBtMessageBlackEyeShow().setVisibility(View.GONE);
-            rch.getBtMessageBlackEyeHide().setVisibility(View.GONE);
-            rch.setMessageBlackActive(false);
-        }
-
-        if (item.isMessageBlackEyeShowOn() && item.getMessage().isBlackMessage()){
-            rch.getLayoutBlackmessageLocks().setVisibility(View.VISIBLE);
-            rch.getBtMessageBlackEyeShow().setVisibility(View.GONE);
-            rch.getBtMessageBlackEyeHide().setVisibility(View.VISIBLE);
-            rch.getLayoutMessageFrame().setVisibility(View.VISIBLE);
-
-        }
-        if (item.getMessage().getMediaDTO() != null && item.getMessage().getMediaDTO().getMediaType().equals(MediaTypeEnum.AUDIO_MESSAGE)){
+        if (item.getMessage().getMedia() != null && item.getMessage().getMedia().getMediaType().equals(MediaTypeEnum.AUDIO_MESSAGE)){
 
             rch.getLayoutAudiochat().setVisibility(View.VISIBLE);
 
@@ -504,10 +518,10 @@ public class RecyclerHolder extends RecyclerView.ViewHolder /*implements View.On
             rch.getLayoutAudiochat().setVisibility(View.GONE);
             rch.setHasMediaAudioChat(false);
         }
-        if (item.getMessage().getMediaDTO() != null && item.getMessage().getMediaDTO().getMediaType().equals(MediaTypeEnum.IMAGE)){
+        if (item.getMessage().getMedia() != null && item.getMessage().getMedia().getMediaType().equals(MediaTypeEnum.IMAGE)){
             rch.getLayoutItemListImage().setVisibility(View.VISIBLE);
 
-            if (item.getMessage().getMediaDTO().getData() != null){
+            if (item.getMessage().getMedia().getData() != null){
                 rch.getIvItemListImageMedia().setVisibility(View.VISIBLE);
                 rch.getIbMessageItemlistMediaDownload().setVisibility(View.GONE);
                 rch.getProgressBarMessageItemlistMediaDownload().setVisibility(View.GONE);
@@ -517,7 +531,7 @@ public class RecyclerHolder extends RecyclerView.ViewHolder /*implements View.On
 
                 rch.getIvItemListImageMedia().setVisibility(View.GONE);
 
-                if ( item.getMessage().isDownloadingMedia()){
+                if ( item.getMessage().canDownloadMyMedia()){
                     rch.getIbMessageItemlistMediaDownload().setVisibility(View.GONE);
                     rch.getProgressBarMessageItemlistMediaDownload().setVisibility(View.VISIBLE);
                 }else{
@@ -566,6 +580,17 @@ public class RecyclerHolder extends RecyclerView.ViewHolder /*implements View.On
 
         }
 
+        try {
+
+
+            if (SingletonValues.getInstance().getGrupoSeleccionado().getMembersQuantityDTO().getTotalQuantity() < 3) {
+                rch.getTvRemitente().setVisibility(View.GONE);
+                rch.getLayoutRemitenteContent().setVisibility(View.GONE);
+            }
+        }catch (Exception e){
+
+        }
+
         rch.getIbMessageItemlistError().setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -576,8 +601,96 @@ public class RecyclerHolder extends RecyclerView.ViewHolder /*implements View.On
                 activity.startActivity(i);
             }
         });
-    }
+        if (DeveloperConstant.showRemitenteMessage && !item.getMessage().isAnonimo()){
+            rch.getTvRemitente().setText("(Dev)"+ rch.getTvRemitente().getText());
+            rch.getTvRemitente().setVisibility(View.VISIBLE);
+        }
+        if ( SingletonValues.getInstance().getGrupoSeleccionado().getGralConfDTO().isHideMessageDetails()){
+            rch.getTvState().setVisibility(View.GONE);
+        }
+        Black blackManager = new Black(rch, item,messageActivity);
+        ExtraEncrypt extraEncrypt = new ExtraEncrypt(rch, item,messageActivity);
 
+        Resend.processResend(item,rch,isReply,messageActivity);
+        RandomNickname.processRandomNickname(item,rch,isReply,messageActivity);
+        if(!item.getMessage().isBlackMessage() &&
+                !item.getMessage().amITimeMessage() &&
+                !item.getMessage().isSecretKeyPersonal() &&
+                !item.getMessage().amIReplyMessage()     ){
+
+            rch.getLayoutMessageFrame().setVisibility(View.VISIBLE);
+
+        }
+        if (messageActivity.findViewById(R.id.show_eye_txt).getVisibility() == View.VISIBLE){
+         try {
+/*                  if (rch.getTvMessageListText().getLineCount() != 0 ) {
+                    rch.getTvMessageListText().setMaxLines(rch.getTvMessageListText().getLineCount());*/
+                    rch.getTvMessageListText().setLetterSpacing((float)0.177);
+
+                    rch.getTvMessageListText().setTransformationMethod(PasswordTransformationMethod.getInstance());
+    //            }
+            } catch (Exception e) {
+
+            }
+            try {
+            ColorStateList csl = AppCompatResources.getColorStateList(messageActivity, R.color.black);
+            ImageViewCompat.setImageTintList(rch.getIvItemListImageMedia(), csl);
+            } catch (Exception e) {
+
+            }
+        }else{
+
+            try {
+
+                rch.getTvMessageListText().setTransformationMethod(HideReturnsTransformationMethod.getInstance());
+                ;
+                rch.getTvMessageListText().setLetterSpacing(0);
+                rch.getTvMessageListText().setMaxLines(Integer.MAX_VALUE);
+
+            } catch (Exception e) {
+
+            }
+            try {
+                ImageViewCompat.setImageTintList(rch.getIvItemListImageMedia(), null);
+            } catch (Exception e) {
+
+            }
+        }
+        item.url=null;
+        if (rch.getTvMessageListText() != null && rch.getTvMessageListText().getText() != null) {
+            List<String> url = extractUrls(item.getRch().getTvMessageListText().getText().toString());
+            item.url=url;
+            for (String u : url) {
+
+                new TextHighlighter()
+                        .setBackgroundColor(Color.parseColor("#FFFF00"))
+                        .setForegroundColor(Color.GREEN)
+                        .addTarget(rch.getTvMessageListText())
+
+                        .highlight(u, TextHighlighter.BASE_MATCHER);
+
+
+            }
+
+        }
+
+    }
+    public static List<String> extractUrls(String text)
+    {
+        List<String> containedUrls = new ArrayList<String>();
+        String urlRegex = "\\b((?:https?|ftp|file)://[-a-zA-Z0-9+&@#/%?=~_|!:, .;]*[-a-zA-Z0-9+&@#/%=~_|])";
+
+        Pattern pattern = Pattern.compile(urlRegex, Pattern.CASE_INSENSITIVE);
+        Matcher urlMatcher = pattern.matcher(text);
+
+        while (urlMatcher.find())
+        {
+            containedUrls.add(text.substring(urlMatcher.start(0),
+                    urlMatcher.end(0)));
+        }
+
+        return containedUrls;
+    }
 
     private ArrayList<View> getAllChildren(View v) {
         try{
@@ -643,8 +756,8 @@ public class RecyclerHolder extends RecyclerView.ViewHolder /*implements View.On
         btPersonalEncryptLockOpenReply = (Button) itemView.findViewById(R.id.reply_msg_list_bt_personal_encrypt_lock_open);
         layoutAllMessageSinPersonalEncryptReply = (LinearLayout) itemView.findViewById(R.id.reply_msg_list_layout_all_message_sin_personal_encrypt);
         layoutBlackmessageLocksReply = (LinearLayout) itemView.findViewById(R.id.reply_msg_list_layout_blackmessage_locks);
-        btMessageBlackEyeShowReply = (ImageButton) itemView.findViewById(R.id.reply_msg_list_bt_message_black_eye_show);
-        btMessageBlackEyeHideReply = (ImageButton) itemView.findViewById(R.id.reply_msg_list_bt_message_black_eye_hide);
+        btMessageBlackEyeShowReply = (Button) itemView.findViewById(R.id.reply_msg_list_bt_message_black_eye_show);
+        btMessageBlackEyeHideReply = (Button) itemView.findViewById(R.id.reply_msg_list_bt_message_black_eye_hide);
         layoutMessageFrameReply = (LinearLayout) itemView.findViewById(R.id.reply_msg_list_layout_message_frame);
         layoutMessageFrameContentUsuarioReply = (LinearLayout) itemView.findViewById(R.id.reply_msg_list_layout_message_frame_content_usuario);
         tvRemitenteReply = (TextView) itemView.findViewById(R.id.reply_msg_list_tv_remitente);
@@ -675,7 +788,7 @@ public class RecyclerHolder extends RecyclerView.ViewHolder /*implements View.On
         ibMessageItemlistMediaDownloadReply = (ImageButton) itemView.findViewById(R.id.reply_msg_list_layout_image_download);
         progressBarMessageItemlistMediaDownloadReply = (ProgressBar) itemView.findViewById(R.id.reply_msg_list_layout_progressbar_download);
 
-        tvStateReply = (TextView) itemView.findViewById(R.id.reply_msg_list_tv_state);
+        tvStateReply = (Button) itemView.findViewById(R.id.reply_msg_list_tv_state);
         //my_message
         layoutAllMessage = (LinearLayout) itemView.findViewById(R.id.msg_list_layout_all_message);
         layoutPersonalEncrypt = (LinearLayout) itemView.findViewById(R.id.msg_list_layout_personal_encrypt);
@@ -714,6 +827,43 @@ public class RecyclerHolder extends RecyclerView.ViewHolder /*implements View.On
 
         tvState = (TextView) itemView.findViewById(R.id.msg_list_tv_state);
 
+        this.stateIcons = new StateIcons()
+                .isHideReadState((Button) itemView.findViewById(R.id.msg_list_hide_read_state_icon))
+                .isExtraEncrypt((Button) itemView.findViewById(R.id.msg_list_extraencrypt_icon))
+                .isBlack((Button) itemView.findViewById(R.id.msg_list_black_icon))
+                .isRandomNickname((Button) itemView.findViewById(R.id.msg_list_random_nickname_icon))
+                .isAnonimo((Button) itemView.findViewById(R.id.msg_list_anonimo_icon))
+                .isResend((Button) itemView.findViewById(R.id.msg_list_is_resend_icon))
+                .isBlockDownload((Button) itemView.findViewById(R.id.msg_list_block_download_icon))
+                .isTime((Button) itemView.findViewById(R.id.msg_list_is_time_icon))
+                .isAudioMessage((Button) itemView.findViewById(R.id.msg_list_is_audio_message_icon))
+                .isBlockResend((Button) itemView.findViewById(R.id.msg_list_block_resend_icon));
+
+
+
+
+
+
+
+
+
+
+        /*
+
+
+
+
+
+
+
+
+
+
+
+
+
+          */
+
         tvLeermas.setPaintFlags(tvLeermas.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
         tvLeermenos.setPaintFlags(tvLeermenos.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
         this.layoutRemitenteContent = (LinearLayout) itemView.findViewById(R.id.msg_list_layout_message_frame_remitente_content);
@@ -729,8 +879,8 @@ public class RecyclerHolder extends RecyclerView.ViewHolder /*implements View.On
         btPersonalEncryptLockOpenReplyRec = (Button) itemView.findViewById(R.id.reply_msg_list_bt_personal_encrypt_lock_open_rec);
         layoutAllMessageSinPersonalEncryptReplyRec = (LinearLayout) itemView.findViewById(R.id.reply_msg_list_layout_all_message_sin_personal_encrypt_rec);
         layoutBlackmessageLocksReplyRec = (LinearLayout) itemView.findViewById(R.id.reply_msg_list_layout_blackmessage_locks_rec);
-        btMessageBlackEyeShowReplyRec = (ImageButton) itemView.findViewById(R.id.reply_msg_list_bt_message_black_eye_show_rec);
-        btMessageBlackEyeHideReplyRec = (ImageButton) itemView.findViewById(R.id.reply_msg_list_bt_message_black_eye_hide_rec);
+        btMessageBlackEyeShowReplyRec = (Button) itemView.findViewById(R.id.reply_msg_list_bt_message_black_eye_show_rec);
+        btMessageBlackEyeHideReplyRec = (Button) itemView.findViewById(R.id.reply_msg_list_bt_message_black_eye_hide_rec);
         layoutMessageFrameReplyRec = (LinearLayout) itemView.findViewById(R.id.reply_msg_list_layout_message_frame_rec);
         layoutMessageFrameContentUsuarioReplyRec = (LinearLayout) itemView.findViewById(R.id.reply_msg_list_layout_message_frame_content_usuario_rec);
         tvRemitenteReplyRec = (TextView) itemView.findViewById(R.id.reply_msg_list_tv_remitente_rec);
@@ -761,7 +911,7 @@ public class RecyclerHolder extends RecyclerView.ViewHolder /*implements View.On
         ibMessageItemlistMediaDownloadReplyRec = (ImageButton) itemView.findViewById(R.id.reply_msg_list_layout_image_download_rec);
         progressBarMessageItemlistMediaDownloadReplyRec = (ProgressBar) itemView.findViewById(R.id.reply_msg_list_layout_progressbar_download_rec);
 
-        tvStateReplyRec = (TextView) itemView.findViewById(R.id.reply_msg_list_tv_state_rec);
+        tvStateReplyRec = (Button) itemView.findViewById(R.id.reply_msg_list_tv_state_rec);
 
 
         /// recibido
@@ -802,7 +952,20 @@ public class RecyclerHolder extends RecyclerView.ViewHolder /*implements View.On
         ibMessageItemlistMediaDownloadRec = (ImageButton) itemView.findViewById(R.id.msg_list_layout_image_download_rec);
         progressBarMessageItemlistMediaDownloadRec = (ProgressBar) itemView.findViewById(R.id.msg_list_layout_progressbar_download_rec);
 
-        tvStateRec = (TextView) itemView.findViewById(R.id.msg_list_tv_state_rec);
+        this.stateIconsRec = new StateIcons()
+                .isHideReadState((Button) itemView.findViewById(R.id.msg_list_hide_read_state_icon_rec))
+                .isExtraEncrypt((Button) itemView.findViewById(R.id.msg_list_extraencrypt_icon_rec))
+                .isBlack((Button) itemView.findViewById(R.id.msg_list_black_icon_rec))
+                .isRandomNickname((Button) itemView.findViewById(R.id.msg_list_random_nickname_icon_rec))
+                .isAnonimo((Button) itemView.findViewById(R.id.msg_list_anonimo_icon_rec))
+                .isResend((Button) itemView.findViewById(R.id.msg_list_is_resend_icon_rec))
+                .isBlockDownload((Button) itemView.findViewById(R.id.msg_list_block_download_icon_rec))
+                .isTime((Button) itemView.findViewById(R.id.msg_list_is_time_icon_rec))
+                .isAudioMessage((Button) itemView.findViewById(R.id.msg_list_is_audio_message_icon_rec))
+                .isBlockResend((Button) itemView.findViewById(R.id.msg_list_block_resend_icon_rec));
+
+        tvStateRec = (Button) itemView.findViewById(R.id.msg_list_tv_state_rec);
+
 
         tvLeermasRec.setPaintFlags(tvLeermasRec.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
         tvLeermenosRec.setPaintFlags(tvLeermenosRec.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
@@ -821,28 +984,28 @@ public class RecyclerHolder extends RecyclerView.ViewHolder /*implements View.On
         SingletonValues.getInstance().setMessageDetailSeleccionado(this.itemListMessage);
         menu.clear();
 
-        menu.add(1, v.getId(), 0, "Responder");//groupId, itemId, order, title
-        if (!this.itemListMessage.getMessage().isTimeMessage() && !this.itemListMessage.getMessage().isSystemMessage()
-                && !this.itemListMessage.getMessageDetailDTO().getEstado().equals(MessageState.MY_MESSAGE_SENDING)
-                && !this.itemListMessage.getMessageDetailDTO().getEstado().equals(MessageState.MY_MESSAGE_ERROR_NOT_SEND)
-                && this.itemListMessage.getMessage().isPermitirReenvio() )
+        menu.add(1, v.getId(), 0, messageActivity.getString(R.string.message_activity_message_actions__response));//groupId, itemId, order, title
+        if (!this.itemListMessage.getMessage().amITimeMessage() && !this.itemListMessage.getMessage().isSystemMessage()
+                && !this.itemListMessage.getMessageDetail().getEstado().equals(MessageState.MY_MESSAGE_SENDING)
+                && !this.itemListMessage.getMessageDetail().getEstado().equals(MessageState.MY_MESSAGE_ERROR_NOT_SEND)
+                && this.itemListMessage.getMessage().isBlockResend() )
         {
-            menu.add(1, v.getId(), 0, "Reenviar");//groupId, itemId, order, title
+            menu.add(1, v.getId(), 0, messageActivity.getString(R.string.message_activity_message_actions__forward));//groupId, itemId, order, title
         }
 
 
-        if (this.itemListMessage.getMessageDetailDTO().getEstado().equals(MessageState.MY_MESSAGE_ERROR_NOT_SEND)){
-            menu.add(1, v.getId(), 0, "Reintentar");//groupId, itemId, order, title
+        if (this.itemListMessage.getMessageDetail().getEstado().equals(MessageState.MY_MESSAGE_ERROR_NOT_SEND)){
+            menu.add(1, v.getId(), 0, messageActivity.getString(R.string.message_activity_message_actions__reintentar));//groupId, itemId, order, title
         }
-        SubMenu subMenuEliminar = menu.addSubMenu("Eliminar");
+        SubMenu subMenuEliminar = menu.addSubMenu(messageActivity.getString(R.string.message_activity_message_actions__delete));
 
-        subMenuEliminar.add(0, v.getId(), 1, "Eliminar para Mi");//groupId, itemId, order, title
+        subMenuEliminar.add(0, v.getId(), 1,messageActivity.getString(R.string.message_activity__delete_message__for_me) );//groupId, itemId, order, title
 
         if (this.itemListMessage.getMessage().getUsuarioCreacion() != null
                 && this.itemListMessage.getMessage().getUsuarioCreacion().getIdUsuario() != null
-                && this.itemListMessage.getMessage().getUsuarioCreacion().getIdUsuario().equals(SingletonValues.getInstance().getUsuario().getIdUsuario())){
-            subMenuEliminar.add(0, v.getId(), 2, "Eliminar para todos");
-            subMenuEliminar.add(0, v.getId(), 3, "Eliminar para todos y todos los reenvios");
+                && this.itemListMessage.getMessage().getUsuarioCreacion().getIdUsuario().equals(Singletons.usuario().getUsuario().getIdUsuario())){
+            subMenuEliminar.add(0, v.getId(), 2, messageActivity.getString(R.string.message_activity__delete_message__for_everyone));
+            subMenuEliminar.add(0, v.getId(), 3, messageActivity.getString(R.string.message_activity__delete_message__for_everyone_and_resend));
         }
 
 

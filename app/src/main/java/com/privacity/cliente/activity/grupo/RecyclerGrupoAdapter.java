@@ -15,20 +15,31 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.privacity.cliente.R;
 import com.privacity.cliente.common.error.SimpleErrorDialog;
+import com.privacity.cliente.encrypt.RSA;
 import com.privacity.cliente.includes.ProgressBarUtil;
 import com.privacity.cliente.model.Grupo;
 import com.privacity.cliente.rest.restcalls.invitation.AcceptInvitationCallRest;
 import com.privacity.cliente.singleton.Observers;
+import com.privacity.cliente.singleton.SingletonValues;import com.privacity.cliente.singleton.Singletons;
+import com.privacity.cliente.singleton.UtilsStringSingleton;
+import com.privacity.cliente.singleton.interfaces.ObservadoresUnread;
+import com.privacity.common.exceptions.PrivacityException;
 
+import java.io.IOException;
+import java.security.GeneralSecurityException;
 import java.util.ArrayList;
+import java.util.Base64;
 import java.util.List;
 import java.util.stream.Collectors;
 
 public class RecyclerGrupoAdapter extends RecyclerView.Adapter<RecyclerGrupoAdapter.RecyclerHolder> {
-    private List<ItemListGrupo> items;
+
+    private static final String TAG = "RecyclerGrupoAdapter";
+
+    private final List<ItemListGrupo> items;
     public List<ItemListGrupo> originalItems;
-    private RecyclerItemClick itemClick;
-    private GrupoActivity grupoActivity;
+    private final RecyclerItemClick itemClick;
+    private final GrupoActivity grupoActivity;
     private View viewInvitation;
 
 
@@ -52,13 +63,26 @@ public class RecyclerGrupoAdapter extends RecyclerView.Adapter<RecyclerGrupoAdap
     public void onBindViewHolder(@NonNull final RecyclerHolder holder, final int position) {
         final ItemListGrupo item = items.get(position);
         holder.tvTitulo.setText(item.getGrupo().getName());
+        Singletons.unread().suscribe(holder, item.getGrupo().getIdGrupo());
+        holder.avisar(item.getGrupo().getIdGrupo(), Singletons.unread().get(item.getGrupo().getIdGrupo()));
 
-        if ( item.getGrupo().getMembersOnLine() > 1 ){
-            holder.grupoListItemOnline.setText((item.getGrupo().getMembersOnLine()-1)+"");
+
+
+        if (  item.getGrupo().getMembersQuantityDTO() != null && item.getGrupo().getMembersQuantityDTO().getQuantityOnline() > 1 ){
+            holder.grupoListItemOnline.setText((item.getGrupo().getMembersQuantityDTO().getQuantityOnline()-1)+"");
             holder.grupoListItemOnline.setVisibility(View.VISIBLE);
         }else{
             holder.grupoListItemOnline.setVisibility(View.GONE);
         }
+
+        holder.grupoListItemOnline.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                SimpleErrorDialog.errorDialog(grupoActivity, grupoActivity.getString(R.string.grupo_activity__members__online__title),
+                        grupoActivity.getString(R.string.grupo_activity__members__online__detail,item.getGrupo().getMembersQuantityDTO().getQuantityOnline()+""
+                        ,item.getGrupo().getMembersQuantityDTO().getTotalQuantity()+"" ));
+            }
+        });
 
 
         if (item.getGrupo().isOtherAreWritting()){
@@ -74,21 +98,37 @@ public class RecyclerGrupoAdapter extends RecyclerView.Adapter<RecyclerGrupoAdap
                 @Override
                 public void onClick(View v) {
                     AlertDialog.Builder builder = new AlertDialog.Builder(grupoActivity);
-                    builder.setTitle("Responder a la solicitud");
+                    builder.setTitle(grupoActivity.getString(R.string.grupo_activity__invitation__response));
 
                     viewInvitation = LayoutInflater.from(grupoActivity).inflate(R.layout.custom_comp_grupo_invitation_message, null);
 
                     builder.setView(viewInvitation);
                     builder.setIcon(R.drawable.ic_launcher_background);
+                    String invitacionMensaje="";
+                    if (item.getGrupo().getGrupoInvitationDTO().getInvitationMessage() != null){
 
+
+                    RSA t = new RSA();
+
+                        byte[] mensajeEncr = Base64.getDecoder().decode(item.getGrupo().getGrupoInvitationDTO().getInvitationMessage());
+                        try {
+                            invitacionMensaje = UtilsStringSingleton.getInstance().convertBytesToString(t.decryptFilePrivate(mensajeEncr, SingletonValues.getInstance().getEncryptKeysToUse().getPrivateKey()));
+
+                        } catch (IOException | PrivacityException | GeneralSecurityException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                    TextView invitationRole = (TextView) viewInvitation.findViewById(R.id.tv_grupo_invitation_role);
                     TextView invitationMessage = (TextView) viewInvitation.findViewById(R.id.tv_grupo_invitation_message);
-                    invitationMessage.setText("Ha sido invitado por " + item.getGrupo().getGrupoInvitationDTO().getUsuarioInvitante().getNickname()
-                            + " Con el rol de " + item.getGrupo().getGrupoInvitationDTO().getRole());
+                    TextView invitationMessageDetail = (TextView) viewInvitation.findViewById(R.id.tv_grupo_invitation_message_detail);
+                    invitationMessage.setText(grupoActivity.getString(R.string.grupo_activity__invitation__response_details1, item.getGrupo().getGrupoInvitationDTO().getUsuarioInvitante().getNickname()));
+                    invitationRole.setText((grupoActivity.getString(R.string.grupo_activity__invitation__response_details1, GrupoUtil.transformGrupoRoleEnumToCompleteString(grupoActivity, item.getGrupo().getGrupoInvitationDTO().getRole())) ));
 
+                    invitationMessageDetail.setText(invitacionMensaje);
 //        ((LinearLayout)findViewById(R.id.linear_layout_add_grupo)).getChildAt(0)
 
                     //builder.itsetView(invitationCode);
-                    builder.setPositiveButton("Aceptar", new DialogInterface.OnClickListener() {
+                    builder.setPositiveButton(grupoActivity.getString(R.string.general__accept), new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
 
@@ -98,18 +138,20 @@ public class RecyclerGrupoAdapter extends RecyclerView.Adapter<RecyclerGrupoAdap
                             } catch (Exception e) {
                                 e.printStackTrace();
                                 ProgressBarUtil.hide(grupoActivity, grupoActivity.progressBar);
-                                SimpleErrorDialog.errorDialog(grupoActivity, "ERROR ACEPTANDO INVITACION", e.getMessage()                                );
+                                SimpleErrorDialog.errorDialog(grupoActivity,
+                                        grupoActivity.getString(R.string.general__error_message_ph1,TAG)
+                                        , e.getMessage()                                );
                                 return;
                             }
 
 
                         }
-                    }).setNegativeButton("Cancelar", new DialogInterface.OnClickListener() {
+                    }).setNegativeButton(grupoActivity.getString(R.string.general__cancel), new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
                             dialog.dismiss();
                         }
-                    }).setNeutralButton("Ignorar", new DialogInterface.OnClickListener() {
+                    }).setNeutralButton(grupoActivity.getString(R.string.general__ignore), new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
 
@@ -121,21 +163,14 @@ public class RecyclerGrupoAdapter extends RecyclerView.Adapter<RecyclerGrupoAdap
             });
         }else{
             holder.btGrupoInvitacion.setVisibility(View.GONE);
-            holder.tvGruposUnreadCount.setVisibility(View.VISIBLE);
         }
 
 
         //holder.tvGruposUnreadCount.setText();
-        String unread = item.getUnread()+"";
-        if (unread.equals("0")){
-            unread ="";
-            holder.tvGruposUnreadCount.setVisibility(View.INVISIBLE);
-        }else {
 
-            holder.tvGruposUnreadCount.setVisibility(View.VISIBLE);
-        }
 
-        holder.tvGruposUnreadCount.setText(unread);
+
+        //holder.tvGruposUnreadCount.setText(unread);
         if (!item.getGrupo().isGrupoInvitation()){
 
             Grupo grupo = Observers.grupo().getGrupoById(item.getGrupo().getIdGrupo());
@@ -167,9 +202,9 @@ public class RecyclerGrupoAdapter extends RecyclerView.Adapter<RecyclerGrupoAdap
                 holder.tvGruposUnreadCount.setOnClickListener(v -> grupoActivity.itemClick(item));
             }else{
 
-                if ( (grupo.getCountDownTimer() == null ||
+                if ( (grupo.getCountDownTimer() == null || (grupo.getPassword() != null &&
                         !grupo.getCountDownTimer().isPasswordCountDownTimerRunning()) &&
-                        grupo.getPassword().isEnabled()
+                        grupo.getPassword().isEnabled())
                 ) {
                     holder.candadoAbierto.setVisibility(View.GONE);
                     holder.candadoCerrado.setVisibility(View.VISIBLE);
@@ -245,14 +280,16 @@ public class RecyclerGrupoAdapter extends RecyclerView.Adapter<RecyclerGrupoAdap
     }
 
 
-    public class RecyclerHolder extends RecyclerView.ViewHolder {
-        private TextView grupoListItemOnline;
-        private ImageButton btGrupoInvitacion;
-        private TextView tvTitulo;
-        private ImageButton tvGrupoListWritting;
-        private TextView tvGruposUnreadCount;
-        private ImageView candadoCerrado;
-        private ImageView candadoAbierto;
+    public static class RecyclerHolder extends RecyclerView.ViewHolder implements ObservadoresUnread {
+        private final TextView grupoListItemOnline;
+        private final ImageButton btGrupoInvitacion;
+        private final TextView tvTitulo;
+        private final ImageButton tvGrupoListWritting;
+        private final TextView tvGruposUnreadCount;
+        private final ImageView candadoCerrado;
+        private final ImageView candadoAbierto;
+
+
         public RecyclerHolder(@NonNull View itemView_1) {
             super(itemView_1);
             tvGruposUnreadCount = itemView.findViewById(R.id.bt_message_detail_item_state);
@@ -263,6 +300,24 @@ public class RecyclerGrupoAdapter extends RecyclerView.Adapter<RecyclerGrupoAdap
             candadoAbierto = itemView.findViewById(R.id.grupo_candado_abierto);
             tvGrupoListWritting = itemView.findViewById(R.id.tv_message_list_writting);
 
+
+        }
+
+        @Override
+        public void avisar(String idGrupo, int unread) {
+            if (unread==0){
+                tvGruposUnreadCount.setVisibility(View.INVISIBLE);
+            }else {
+
+                tvGruposUnreadCount.setVisibility(View.VISIBLE);
+                tvGruposUnreadCount.setText(unread+"");
+
+            }
+
+        }
+
+        @Override
+        public void suscribeByGrupo(String idGrupo) {
 
         }
     }

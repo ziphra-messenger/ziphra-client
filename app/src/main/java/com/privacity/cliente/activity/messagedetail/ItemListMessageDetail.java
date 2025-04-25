@@ -1,24 +1,24 @@
 package com.privacity.cliente.activity.messagedetail;
 
-import com.privacity.common.dto.MessageDetailDTO;
+import com.privacity.cliente.model.dto.MessageDetail;
 
 import java.io.Serializable;
 
 
 public class ItemListMessageDetail implements Serializable {
 
-    MessageDetailDTO messageDetailDTO;
-
-    public ItemListMessageDetail(MessageDetailDTO messageDetailDTO) {
-        this.messageDetailDTO = messageDetailDTO;
+    MessageDetail messageDetail;
+    TestRecyclerMessageDetailAdapter.RecyclerHolder holder;
+    public ItemListMessageDetail(MessageDetail messageDetail) {
+        this.messageDetail = messageDetail;
     }
 
-    public MessageDetailDTO getMessageDetailDTO() {
-        return messageDetailDTO;
+    public MessageDetail getMessageDetail() {
+        return messageDetail;
     }
 
-    public void setMessageDetailDTO(MessageDetailDTO messageDetailDTO) {
-        this.messageDetailDTO = messageDetailDTO;
+    public void setMessageDetail(MessageDetail messageDetail) {
+        this.messageDetail = messageDetail;
     }
 
 

@@ -2,7 +2,6 @@ package com.privacity.cliente.rest.restcalls.serverconf;
 
 import android.app.Activity;
 
-import com.privacity.cliente.singleton.SingletonLoginValues;
 import com.privacity.cliente.encrypt.AESEncrypt;
 import com.privacity.cliente.encrypt.AESFactory;
 import com.privacity.cliente.encrypt.AEStoUse;
@@ -11,11 +10,12 @@ import com.privacity.cliente.encrypt.PGPKeyBuilder;
 import com.privacity.cliente.rest.CallbackRest;
 import com.privacity.cliente.rest.InnerCallbackRest;
 import com.privacity.cliente.rest.RestExecute;
-import com.privacity.cliente.util.GsonFormated;
-import com.privacity.common.enumeration.ProtocoloComponentsEnum;import com.privacity.common.enumeration.ProtocoloActionsEnum;
-
+import com.privacity.cliente.singleton.SingletonLoginValues;
+import com.privacity.cliente.singleton.UtilsStringSingleton;
 import com.privacity.common.dto.AESDTO;
-import com.privacity.common.dto.ProtocoloDTO;
+import com.privacity.cliente.model.dto.Protocolo;
+import com.privacity.common.enumeration.ProtocoloActionsEnum;
+import com.privacity.common.enumeration.ProtocoloComponentsEnum;
 
 import org.springframework.http.ResponseEntity;
 
@@ -27,17 +27,17 @@ public class GetServerPublicKey {
 
 
 
-        ProtocoloDTO p = new ProtocoloDTO();
+        Protocolo p = new Protocolo();
         p.setComponent(ProtocoloComponentsEnum.PRIVACITY_RSA);
         p.setAction(ProtocoloActionsEnum.PRIVACITY_RSA_GET_PUBLIC_KEY);
 
         RestExecute.doit(context, p, new CallbackRest() {
             @Override
-            public void response(ResponseEntity<ProtocoloDTO> response) {
+            public void response(ResponseEntity<Protocolo> response) {
 
                 try {
 
-                    byte[] publicKeyByte = GsonFormated.get().fromJson(response.getBody().getObjectDTO().replaceAll("\"",""), byte[].class);
+                    byte[] publicKeyByte = UtilsStringSingleton.getInstance().gson().fromJson(response.getBody().getObjectDTO().replaceAll("\"",""), byte[].class);
 
                     PublicKey publicKey = PGPKeyBuilder.publicKey(publicKeyByte);
 
@@ -57,7 +57,7 @@ public class GetServerPublicKey {
             }
 
             @Override
-            public void onError(ResponseEntity<ProtocoloDTO> response) {
+            public void onError(ResponseEntity<Protocolo> response) {
                 if (callbackRest!= null) callbackRest.onError(response);
             }
 

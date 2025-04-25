@@ -2,11 +2,12 @@
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/g"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
     <LinearLayout
-        android:id="@+id/grupoinfo_name_all"
+        android:id="@+id/my_account_nickname_all"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="3dp"
@@ -27,117 +28,154 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:backgroundTint="#57AE74"
-            android:text="Nickname Por defecto"
+            android:insetTop="4dp"
+            style="@style/menuAcordeonTituloStyle"
+            android:insetBottom="4dp"
+            android:minHeight="38dp"
+            android:text="@string/frame_my_account_nickname__title"
             app:iconGravity="end" />
 
-        <TableLayout
+        <LinearLayout
             android:id="@+id/my_account_nickname_content"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="3dp"
-            android:layout_marginEnd="3dp"
-            android:background="#E4DFB4"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
             android:visibility="gone"
             tools:visibility="visible">
 
-            <TableRow
+            <EditText
+                android:id="@+id/my_account_nickname_new"
+                android:layout_width="280dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:drawableEnd="@drawable/ic_baseline_clear_24"
+                android:ems="10"
+                android:foregroundGravity="center"
+                android:gravity="center"
+                android:inputType="textPersonName" />
+
+            <TextView
+                android:id="@+id/my_account_nickname_new__validate"
+                android:layout_width="280dp"
+                android:layout_height="match_parent"
+                android:layout_gravity="center"
+                android:gravity="right"
+                android:maxWidth="280dp"
+                android:maxLines="20"
+                android:textStyle="bold"
+                android:visibility="gone" />
+
+            <Button
+                android:id="@+id/my_account_nickname_generate"
+
+
+                style="@style/botonMarquee"
+                android:maxWidth="300dp"
+                android:minWidth="10dp"
+                android:paddingLeft="10dp"
+
+                android:paddingRight="10dp"
+                android:text="@string/frame_my_account_nickname__generator"
+                android:visibility="visible"
+                app:cornerRadius="20dp"
+                app:icon="@drawable/ic_baseline_miscellaneous_services_24"
+                app:iconPadding="4dp"
+                tools:visibility="visible" />
+
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:gravity="center">
+                android:gravity="center"
+                android:orientation="horizontal">
 
-                <EditText
-                    android:id="@+id/my_account_nickname_new"
-                    android:layout_width="287dp"
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="13dp"
                     android:layout_height="wrap_content"
-                    android:ems="10"
-                    android:gravity="center"
-                    android:inputType="textPersonName" />
-            </TableRow>
+                    android:layout_gravity="right"
+                    android:layout_weight="2"
+                    android:foregroundGravity="right">
 
-            <TableRow
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:gravity="center">
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:orientation="horizontal">
-
-                    <Button
-                        android:id="@+id/my_account_nickname_generate"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Generar un Nickname Aleatorio"
-                        app:cornerRadius="20dp" />
-                </LinearLayout>
-
-            </TableRow>
-            <TableRow
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:gravity="center">
-
-            </TableRow>
-            <TableRow
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:gravity="center">
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_gravity="center|center_horizontal|center_vertical"
-                    android:layout_span="3"
-                    android:gravity="center"
-                    android:orientation="horizontal"
-                    android:textAlignment="center">
-
-                    <Button
-                        android:id="@+id/my_account_nickname_reset"
-                        android:layout_width="110dp"
-                        android:layout_height="wrap_content"
-                        android:layout_marginEnd="15dp"
-                        android:backgroundTint="#438BE3"
+                    <LinearLayout
+                        android:id="@+id/linearLayout4"
+                        android:layout_width="match_parent"
+                        android:layout_height="32dp"
                         android:gravity="center"
-                        android:text="Reset"
-                        app:cornerRadius="20dp" />
+                        android:orientation="horizontal"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toStartOf="@+id/my_account_nickname_help_include"
+                        app:layout_constraintHorizontal_bias="0.52"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintVertical_bias="0.0">
 
-                    <Button
-                        android:id="@+id/my_account_nickname_save"
-                        android:layout_width="110dp"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="15dp"
-                        android:layout_span="3"
-                        android:gravity="center"
-                        android:text="Guardar"
-                        app:cornerRadius="20dp" />
-                </LinearLayout>
+                        <Button
+                            android:id="@+id/my_account_nickname_reset"
+                            android:layout_width="wrap_content"
+                            android:layout_height="40dp"
 
-            </TableRow>
+                            android:layout_gravity="center"
+                            android:layout_margin="3dp"
+                            android:layout_weight="0"
+                            android:minWidth="10dp"
+                            android:ellipsize="marquee"
+                            android:enabled="false"
+                            android:foregroundGravity="center_vertical"
+                            android:gravity="center"
+                            android:maxWidth="170dp"
 
-            <TableRow
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:gravity="right">
+                            android:paddingLeft="10dp"
+                            android:paddingRight="10dp"
+                            android:scrollHorizontally="true"
+                            android:singleLine="true"
+                            android:text="@string/general__default"
+                            android:textSize="12dp"
+                            android:visibility="visible"
+                            app:cornerRadius="20dp"
+                            app:icon="@drawable/ic_action_undo"
+                            app:iconPadding="4dp"
+                            tools:visibility="visible" />
 
-                <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:gravity="right"
-                    android:tag="@string/help_tag_myaccount_nickname">
+                        <Button
+
+                            android:id="@+id/my_account_nickname_save"
+                            android:layout_width="wrap_content"
+                            android:layout_height="40dp"
+
+                            android:layout_weight="0"
+                            android:ellipsize="marquee"
+                            android:enabled="false"
+                            android:gravity="center"
+                            android:maxWidth="140dp"
+                            android:minWidth="10dp"
+                            android:paddingLeft="10dp"
+                            android:paddingRight="10dp"
+                            android:scrollHorizontally="true"
+                            android:singleLine="true"
+                            android:text="@string/general__save"
+                            android:textSize="12dp"
+                            app:cornerRadius="20dp"
+                            app:icon="@drawable/ic_action_confirm_tilde"
+                            app:iconPadding="4dp"
+                            app:iconSize="20dp" />
+                    </LinearLayout>
 
                     <include
                         android:id="@+id/my_account_nickname_help_include"
-                        layout="@layout/frame_help"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content" />
+                        layout="@layout/frame_help__open"
+                        android:layout_width="47dp"
+                        android:layout_height="37dp"
+                        android:foregroundGravity="left|right"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintHorizontal_bias="1.0"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintVertical_bias="0.0" />
+                </androidx.constraintlayout.widget.ConstraintLayout>
 
-                </LinearLayout>
+            </LinearLayout>
+        </LinearLayout>
 
-
-            </TableRow>
-
-        </TableLayout>
     </LinearLayout>
 
 

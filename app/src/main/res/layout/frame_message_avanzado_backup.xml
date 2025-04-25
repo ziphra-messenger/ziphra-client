@@ -54,7 +54,7 @@
 
                 <Spinner
 
-                    android:id="@+id/sp_message_avanzado_black_always"
+                    android:id="@+id/message_avanzado__black_message_attach_mandatory__my_account"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:backgroundTint="#4C4949"
@@ -195,7 +195,7 @@
 
                     <Spinner
 
-                        android:id="@+id/sp_message_avanzado_reenvio"
+                        android:id="@+id/sp_message_avanzado__block_resend"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
 
@@ -454,14 +454,14 @@
                         app:iconGravity="end" />
 
                     <Button
-                        android:id="@+id/bt_message_avanzado_save"
+                        android:id="@+id/bt_message_avanzado_save_close"
                         android:layout_width="wrap_content"
                         android:layout_height="35dp"
                         android:layout_gravity="center_vertical"
                         android:layout_marginEnd="3dp"
                         android:layout_span="3"
                         android:gravity="center_horizontal"
-                        android:text="Guardar"
+                        android:text="@string/general__save"
                         android:textAlignment="gravity"
                         android:textSize="12sp"
                         app:cornerRadius="20dp"

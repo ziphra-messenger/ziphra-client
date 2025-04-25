@@ -2,6 +2,7 @@
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/g"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
@@ -24,151 +25,164 @@
 
         <Button
             android:id="@+id/grupo_info_nickname_title"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:backgroundTint="#57AE74"
-            android:text="Nickname del Grupo"
+            style="@style/menuAcordeonTituloStyle"
+            android:text="@string/frame_grupo_info_nickname__title"
             app:iconGravity="end" />
 
-        <TableLayout
+        <LinearLayout
             android:id="@+id/grupo_info_nickname_content"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginStart="3dp"
-            android:layout_marginEnd="3dp"
-            android:background="#E4DFB4"
+            android:orientation="vertical"
             android:visibility="gone"
             tools:visibility="visible">
-            <TableRow
+
+            <EditText
+                android:id="@+id/grupo_info_nickname_new"
+                android:layout_width="287dp"
+                android:layout_height="40dp"
+                android:layout_gravity="center"
+                android:drawableEnd="@drawable/ic_baseline_clear_24"
+                android:ems="10"
+                android:foregroundGravity="center"
+                android:gravity="center"
+                android:inputType="textPersonName"
+                android:visibility="visible" />
+
+            <TextView
+                android:id="@+id/grupo_info_nickname__mensaje__info"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginStart="40dp"
+                android:layout_marginEnd="40dp"
+                android:breakStrategy="balanced"
+                android:gravity="center"
+                android:text="@string/frame_grupo_info_nickname__message_info"
+                android:visibility="visible" />
+
+            <Button
+                android:id="@+id/grupo_info_nickname_generate"
+
+
+                style="@style/botonMarquee"
+                android:layout_height="40dp"
+                android:maxWidth="300dp"
+                android:minWidth="10dp"
+
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp"
+                android:text="@string/frame_grupo_info_nickname__generator"
+                android:visibility="visible"
+                app:cornerRadius="20dp"
+                app:icon="@drawable/ic_baseline_miscellaneous_services_24"
+                app:iconPadding="4dp"
+                tools:visibility="visible" />
+
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:gravity="center"/>
+                android:gravity="center"
+                android:orientation="horizontal"
+                android:visibility="visible">
 
-            <TableRow
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:gravity="center">
-
-                <EditText
-                    android:id="@+id/grupo_info_nickname_new"
-                    android:layout_width="287dp"
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="13dp"
                     android:layout_height="wrap_content"
-                    android:drawableEnd="@drawable/ic_baseline_clear_24"
-                    android:ems="10"
-                    android:gravity="center"
-                    android:inputType="textPersonName" />
-            </TableRow>
+                    android:layout_gravity="right"
+                    android:layout_weight="2"
+                    android:foregroundGravity="right"
+                    android:visibility="visible">
 
-            <TableRow
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:layout_gravity="center"
-                android:gravity="center">
-
-                <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:layout_gravity="center"
-                    android:gravity="center"
-                    android:orientation="horizontal">
-
-                    <TextView
-                        android:id="@+id/grupo_info_nickname_help"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center"
-                        android:layout_marginStart="40dp"
-                        android:layout_marginTop="10dp"
-                        android:layout_marginEnd="40dp"
-                        android:layout_marginBottom="10dp"
-                        android:breakStrategy="balanced"
+                    <LinearLayout
+                        android:id="@+id/linearLayout4"
+                        android:layout_width="match_parent"
+                        android:layout_height="32dp"
                         android:gravity="center"
-                        android:text="Si se deja en blanco se usará el Nickname General que actualmente es:" />
-                </LinearLayout>
-            </TableRow>
+                        android:orientation="horizontal"
+                        android:visibility="visible"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toStartOf="@+id/grupo_info_nickname_help_include"
+                        app:layout_constraintHorizontal_bias="0.52"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintVertical_bias="0.0">
 
-            <TableRow
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:layout_gravity="center"
-                android:gravity="center">
+                        <Button
+                            android:id="@+id/grupo_info_nickname_reset"
 
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_gravity="center"
-                    android:gravity="center"
-                    android:orientation="horizontal">
+                            style="@style/botonMarquee"
+                            android:layout_width="wrap_content"
+                            android:layout_height="40dp"
+                            android:layout_gravity="center"
 
-                    <Button
-                        android:id="@+id/grupo_info_nickname_generate"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Generar un Nickname Aleatorio"
-                        app:cornerRadius="20dp" />
-                </LinearLayout>
 
-            </TableRow>
+                            android:layout_margin="3dp"
+                            android:layout_weight="0"
+                            android:backgroundTint="#438BE3"
+                            android:ellipsize="marquee"
+                            android:foregroundGravity="center_vertical"
+                            android:gravity="center"
+                            android:maxWidth="170dp"
+                            android:minWidth="10dp"
 
-            <TableRow
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:gravity="center">
+                            android:paddingLeft="10dp"
 
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_gravity="center|center_horizontal|center_vertical"
-                    android:layout_span="3"
-                    android:gravity="center"
-                    android:orientation="horizontal"
-                    android:textAlignment="center">
+                            android:paddingRight="10dp"
+                            android:scrollHorizontally="true"
+                            android:singleLine="true"
+                            android:text="@string/general__default"
 
-                    <Button
-                        android:id="@+id/grupo_info_nickname_reset"
-                        android:layout_width="110dp"
-                        android:layout_height="wrap_content"
-                        android:layout_marginEnd="15dp"
-                        android:backgroundTint="#438BE3"
-                        android:gravity="center"
-                        android:text="Reset"
-                        app:cornerRadius="20dp" />
+                            android:textSize="12dp"
+                            android:visibility="visible"
+                            app:cornerRadius="20dp"
+                            app:icon="@drawable/ic_action_undo"
+                            app:iconPadding="4dp"
+                            tools:visibility="visible" />
 
-                    <Button
-                        android:id="@+id/grupo_info_nickname_save"
-                        android:layout_width="110dp"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="15dp"
-                        android:layout_span="3"
-                        android:gravity="center"
-                        android:text="Guardar"
-                        app:cornerRadius="20dp" />
-                </LinearLayout>
+                        <Button
 
-            </TableRow>
+                            android:id="@+id/grupo_info_nickname_save"
+                            style="@style/botonMarquee"
+                            android:layout_width="wrap_content"
 
-            <TableRow
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:gravity="right">
+                            android:layout_height="40dp"
+                            android:layout_weight="0"
+                            android:ellipsize="marquee"
+                            android:gravity="center"
+                            android:maxWidth="140dp"
 
-                <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:gravity="right"
-                    android:tag="@string/help_tag_myaccount_nickname">
+                            android:minWidth="10dp"
+                            android:paddingLeft="10dp"
+                            android:paddingRight="10dp"
+                            android:scrollHorizontally="true"
+                            android:singleLine="true"
+                            android:text="@string/general__save"
+                            android:textSize="12dp"
+                            app:cornerRadius="20dp"
+                            app:icon="@drawable/ic_action_confirm_tilde"
+                            app:iconPadding="4dp"
+                            app:iconSize="20dp" />
+                    </LinearLayout>
 
                     <include
                         android:id="@+id/grupo_info_nickname_help_include"
-                        layout="@layout/frame_help"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content" />
+                        layout="@layout/frame_help__open"
+                        android:layout_width="47dp"
+                        android:layout_height="37dp"
+                        android:foregroundGravity="left|right"
+                        android:visibility="visible"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintHorizontal_bias="1.0"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintVertical_bias="0.0" />
+                </androidx.constraintlayout.widget.ConstraintLayout>
 
-                </LinearLayout>
+            </LinearLayout>
+        </LinearLayout>
 
-
-            </TableRow>
-
-        </TableLayout>
     </LinearLayout>
 
 

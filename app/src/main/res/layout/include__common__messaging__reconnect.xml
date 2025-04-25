@@ -1,0 +1,452 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_gravity="center_horizontal"
+    android:backgroundTint="#00FFFFFF"
+    android:foregroundGravity="center_horizontal"
+    android:foregroundTint="#00FFFFFF"
+    android:visibility="visible">
+
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/common__messaging__reconnect__content__all"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        tools:visibility="visible">
+
+        <LinearLayout
+            android:id="@+id/linearLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="#51000000"
+            android:clickable="true"
+            android:contextClickable="true"
+            android:orientation="vertical"
+            android:paddingBottom="1px"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <LinearLayout
+                android:id="@+id/common__messaging__reconnect__content__to_show_and_hide"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                tools:visibility="gone">
+
+                <LinearLayout
+                    android:id="@+id/common__messaging__reconnect__content__info"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginTop="1dp"
+                    android:layout_marginBottom="2dp"
+                    android:background="#F8CDCD"
+                    android:foregroundGravity="center_horizontal"
+                    android:gravity="center"
+                    android:orientation="vertical"
+                    android:padding="3dp"
+                    android:tag="@string/frame_help__common__messaging__reconnect"
+                    android:visibility="visible"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    tools:visibility="visible">
+
+                    <TextView
+                        android:id="@+id/common__messaging__reconnect__offline"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_horizontal"
+                        android:layout_margin="3dp"
+                        android:foregroundGravity="center_horizontal"
+                        android:text="El dispositivo no tiene acceso a internet"
+                        android:textColor="#1B1313"
+                        android:textStyle="bold"
+                        android:visibility="visible"
+                        tools:visibility="visible" />
+
+                    <TextView
+                        android:id="@+id/common__messaging__reconnect__tittle"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_horizontal"
+                        android:layout_margin="3dp"
+                        android:foregroundGravity="center_horizontal"
+                        android:text="@string/frame_reconnect__server_disconnectad"
+                        android:textColor="#1B1313"
+                        android:textStyle="bold"
+                        android:visibility="visible"
+                        tools:visibility="visible" />
+
+
+                    <LinearLayout
+                        android:id="@+id/common__messaging__reconnect__content__waiting"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:layout_gravity="center_horizontal"
+                        android:foregroundGravity="center_horizontal"
+                        android:gravity="center"
+                        android:orientation="horizontal"
+                        android:visibility="visible">
+
+                        <TextView
+                            android:id="@+id/common__messaging__reconnect__waiting_1"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_horizontal"
+                            android:layout_margin="3dp"
+                            android:foregroundGravity="center_horizontal"
+                            android:text="@string/frame_reconnect__intentar_reconecta_en"
+                            android:textColor="#1B1313"
+                            android:textStyle="bold" />
+
+                        <TextView
+                            android:id="@+id/common__messaging__reconnect__seconds"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_horizontal"
+                            android:layout_margin="3dp"
+                            android:layout_weight="1"
+                            android:foregroundGravity="center_horizontal"
+                            android:text="30"
+                            android:textColor="#FF0000"
+                            android:textStyle="bold" />
+
+                        <TextView
+                            android:id="@+id/common__messaging__reconnect__waiting_2"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_horizontal"
+                            android:layout_margin="3dp"
+                            android:foregroundGravity="center_horizontal"
+                            android:text="@string/general__segundos"
+                            android:textColor="#1B1313"
+                            android:textStyle="bold" />
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/common__messaging__reconnect__content__trying"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_horizontal"
+                        android:foregroundGravity="center_horizontal"
+                        android:gravity="center"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:id="@+id/common__messaging__reconnect__trying"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:layout_margin="3dp"
+                            android:foregroundGravity="center_horizontal"
+                            android:gravity="center"
+                            android:text="@string/frame_reconnect__reconnet_trying"
+                            android:textColor="#1B1313"
+                            android:textStyle="bold" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:layout_margin="3dp"
+                            android:layout_weight="1"
+                            android:gravity="center"
+                            android:text="(" />
+
+                        <TextView
+                            android:id="@+id/reconnect_count_trying"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:layout_marginTop="3dp"
+                            android:layout_marginBottom="3dp"
+                            android:layout_weight="1"
+                            android:gravity="center"
+                            android:text="10" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:layout_margin="3dp"
+                            android:layout_weight="1"
+                            android:gravity="center"
+                            android:text=")" />
+
+                        <ProgressBar
+                            android:id="@+id/common__messaging__reconnect__progressbar"
+                            style="?android:attr/progressBarStyle"
+                            android:layout_width="20dp"
+                            android:layout_height="16dp"
+                            android:layout_gravity="center|center_horizontal"
+                            android:layout_margin="3dp"
+                            android:backgroundTintMode="src_over"
+                            android:foregroundGravity="center|center_horizontal" />
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/common__messaging__reconnect__content__log"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:gravity="center"
+                        android:orientation="vertical"
+                        android:visibility="gone"
+                        tools:visibility="visible">
+
+                        <LinearLayout
+                            android:id="@+id/common__messaging__reconnect__content__details"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_gravity="center"
+                            android:layout_margin="3dp"
+                            android:gravity="center"
+                            android:orientation="horizontal"
+                            android:visibility="visible"
+                            tools:visibility="visible">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center"
+                                android:layout_margin="3dp"
+                                android:gravity="center"
+                                android:text="@string/frame_reconnect__desconexiones" />
+
+                            <TextView
+                                android:id="@+id/common__messaging__reconnect__counter_disconnect"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center"
+                                android:layout_margin="3dp"
+                                android:gravity="center"
+                                android:text="10" />
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center"
+                                android:layout_margin="3dp"
+                                android:gravity="center"
+                                android:text="@string/frame_reconnect__reintentos_total" />
+
+                            <TextView
+                                android:id="@+id/common__messaging__reconnect__counter_retry_total"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center"
+                                android:layout_margin="3dp"
+                                android:gravity="center"
+                                android:text="10" />
+
+                        </LinearLayout>
+
+                        <TextView
+                            android:id="@+id/common__messaging__reconnect__log"
+                            android:layout_width="match_parent"
+
+                            android:layout_height="150dp"
+                            android:layout_marginLeft="5dp"
+                            android:layout_marginRight="4dp"
+
+                            android:background="@drawable/roundtextview"
+
+                            android:enabled="true"
+                            android:freezesText="true"
+
+                            android:gravity="start|top"
+                            android:inputType="textMultiLine"
+
+                            android:isScrollContainer="true"
+                            android:maxHeight="150dp"
+
+                            android:minHeight="150dp"
+
+                            android:padding="5dp"
+                            android:paddingBottom="7dp"
+                            android:scrollbarAlwaysDrawHorizontalTrack="true"
+                            android:scrollbarAlwaysDrawVerticalTrack="true"
+                            android:scrollbars="horizontal|vertical"
+                            android:scrollHorizontally="true"
+                            android:textColor="#000000"
+                            android:textIsSelectable="false"
+                            android:textSize="12sp"
+                            android:visibility="visible"
+                            tools:visibility="visible" />
+
+                    </LinearLayout>
+
+                    <TextView
+                        android:id="@+id/textView2"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="2dp"
+                        android:text="@string/general__inform__problem"
+                        android:textAlignment="center" />
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_gravity="center"
+                        android:gravity="center"
+                        android:orientation="horizontal">
+
+                        <Space
+                            android:layout_width="28dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="0" />
+
+                        <Space
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1" />
+
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:layout_weight="0"
+                            android:orientation="horizontal">
+
+                            <Button
+                                android:id="@+id/common__messaging__reconnect__log__button"
+                                style="@style/botonMarquee"
+                                android:layout_width="wrap_content"
+                                android:layout_height="35dp"
+                                android:layout_gravity="center"
+                                android:layout_weight="0"
+                                android:backgroundTint="#FF8A80"
+                                android:foregroundGravity="center"
+                                android:gravity="center"
+                                android:maxWidth="200dp"
+                                android:text="@string/general__log"
+                                android:textAlignment="center"
+                                android:textSize="10sp"
+                                app:icon="@drawable/details_icon_1397_windows"
+                                app:iconPadding="0dp"
+                                app:iconSize="16dp" />
+
+                            <Button
+                                android:id="@+id/common__messaging__reconnect__copy"
+                                style="@style/botonMarquee"
+                                android:layout_width="wrap_content"
+                                android:layout_height="35dp"
+                                android:layout_gravity="center"
+                                android:layout_weight="0"
+                                android:backgroundTint="#FF8A80"
+                                android:foregroundGravity="center"
+                                android:gravity="center"
+                                android:maxWidth="200dp"
+                                android:text="@string/copy_paste_util__copy"
+                                android:textAlignment="center"
+                                android:textSize="10sp"
+                                app:icon="@drawable/ic_copyblanco"
+                                app:iconPadding="0dp"
+                                app:iconSize="16dp" />
+                        </LinearLayout>
+
+
+                        <Space
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1" />
+
+                        <ImageView
+                            android:id="@+id/imageView3"
+                            android:layout_width="28dp"
+                            android:layout_height="28dp"
+
+                            android:clickable="true"
+                            android:onClick="goToHelp"
+                            app:srcCompat="@drawable/ic_baseline_help_outline_12" />
+                    </LinearLayout>
+
+                </LinearLayout>
+            </LinearLayout>
+        </LinearLayout>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:foregroundGravity="top"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="parent"
+            app:layout_constraintHorizontal_bias="0.56"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.01999998">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="horizontal"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
+
+                <LinearLayout
+                    android:id="@+id/linearLayout6"
+                    android:layout_width="40dp"
+                    android:layout_height="35dp"
+                    android:layout_margin="4dp"
+                    android:background="@drawable/conect"
+                    android:foregroundGravity="left"
+                    android:gravity="left"
+                    android:orientation="horizontal">
+
+                    <ImageView
+
+                        android:id="@+id/common__messaging__reconnect__show__more_image"
+                        android:layout_width="40dp"
+                        android:layout_height="35dp"
+
+                        android:layout_gravity="center"
+                        android:clickable="true"
+                        android:foregroundGravity="center"
+                        android:padding="4dp"
+                        android:visibility="gone"
+                        app:srcCompat="@drawable/_2"
+                        tools:visibility="gone" />
+
+                    <ImageView
+
+                        android:id="@+id/common__messaging__reconnect__show__less"
+                        android:layout_width="40dp"
+                        android:layout_height="35dp"
+
+                        android:layout_gravity="center"
+                        android:clickable="true"
+                        android:foregroundGravity="center"
+                        android:padding="4dp"
+
+                        android:visibility="visible"
+                        app:srcCompat="@drawable/ic_showlessblanco2"
+                        tools:visibility="visible" />
+
+
+                </LinearLayout>
+
+                <Space
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1" />
+
+
+            </LinearLayout>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+</FrameLayout>

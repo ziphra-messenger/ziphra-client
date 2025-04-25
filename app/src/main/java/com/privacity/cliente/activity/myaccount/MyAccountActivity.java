@@ -8,8 +8,9 @@ import android.widget.ProgressBar;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
 
-import com.privacity.cliente.activity.common.CustomAppCompatActivity;
 import com.privacity.cliente.R;
+import com.privacity.cliente.activity.common.CustomAppCompatActivity;
+import com.privacity.cliente.activity.message.envioespecial.MessageEnvioEspecial;
 
 public class MyAccountActivity extends CustomAppCompatActivity {
 
@@ -19,7 +20,7 @@ public class MyAccountActivity extends CustomAppCompatActivity {
     private MyAccountPasswordFrame password;
     private MyAccountNicknameFrame nickname;
     private MyAccountLockFrame lock;
-
+    private MyAccountLangFrame lang;
     private MyAccountLoginSkipFrame loginSkip;
 
     @Override
@@ -33,12 +34,13 @@ public class MyAccountActivity extends CustomAppCompatActivity {
         setContentView(R.layout.activity_my_account);
 
         ActionBar actionBar = getSupportActionBar();
-        actionBar.setTitle("Mi Cuenta");
+        actionBar.setTitle(getString(R.string.my_account_activity__title));
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        progressBar = (ProgressBar) findViewById(R.id.gral_progress_bar);
+        progressBar = (ProgressBar) findViewById(R.id.common__progress_bar);
         progressBar.setVisibility(View.GONE);
         iniciarLock();
+        iniciarLang();
         iniciarConfiguracion();
         iniciarPassword();
         iniciarNickname();
@@ -47,7 +49,7 @@ public class MyAccountActivity extends CustomAppCompatActivity {
 
 
 //        etMyAccountNickname = (EditText)findViewById(R.id.grupoinfo_name_grupo_name);
-//        etMyAccountNickname.setText(SingletonValues.getInstance().getUsuario().getNickname());
+//        etMyAccountNickname.setText(Singletons.usuario().getUsuario().getNickname());
 //
 //        spinnerTime = (Spinner) findViewById(R.id.sp_message_avanzado_time_values);
 //
@@ -67,14 +69,14 @@ public class MyAccountActivity extends CustomAppCompatActivity {
 //
 //                        UsuarioDTO c = new UsuarioDTO();
 //                        c.setNickname(etMyAccountNickname.getText().toString());
-//                        p.setObjectDTO(GsonFormated.get().toJson(c));
+//                        p.setObjectDTO(UtilsStringSingleton.getInstance().gsonToSend(c));
 //
 //                        RestExecute.doit(MyAccount.this, p,
 //                                new CallbackRest(){
 //
 //                                    @Override
 //                                    public void response(ResponseEntity<ProtocoloDTO> response) {
-//                                        SingletonValues.getInstance().getUsuario().setNickname(c.getNickname());
+//                                        Singletons.usuario().getUsuario().setNickname(c.getNickname());
 //                                        Toast.makeText(getApplicationContext(),"Guardada",Toast. LENGTH_SHORT).show();
 //
 //                                    }
@@ -101,7 +103,7 @@ public class MyAccountActivity extends CustomAppCompatActivity {
 //        btMyAccountNicknameReset.setOnClickListener(new View.OnClickListener() {
 //            @Override
 //            public void onClick(View v) {
-//                etMyAccountNickname.setText(SingletonValues.getInstance().getUsuario().getNickname());
+//                etMyAccountNickname.setText(Singletons.usuario().getUsuario().getNickname());
 //            }
 //        });
 //
@@ -158,6 +160,9 @@ public class MyAccountActivity extends CustomAppCompatActivity {
         lock = new MyAccountLockFrame(this, progressBar);
         lock.setListener();
         lock.loadValues();
+    }
+    private void iniciarLang() {
+        lang = new MyAccountLangFrame(this);
     }
     private void iniciarConfiguracion() {
         configuracionGeneral = new MyAccountConfiguracionGeneralFrame(this);

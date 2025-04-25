@@ -1,43 +1,48 @@
 package com.privacity.cliente.singleton;
 
+import android.app.Activity;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.CountDownTimer;
+import android.widget.Toast;
 
+import com.privacity.cliente.R;
+import com.privacity.cliente.activity.main.MainActivi2ty;
 import com.privacity.cliente.activity.message.ItemListMessage;
+import com.privacity.cliente.activity.myaccount.MyAccountLoginSkipFrame;
 import com.privacity.cliente.encrypt.AEStoUse;
 import com.privacity.cliente.encrypt.AEStoUseFactory;
 import com.privacity.cliente.encrypt.EncryptKeysToUse;
 import com.privacity.cliente.encrypt.RSA;
 import com.privacity.cliente.model.Grupo;
-import com.privacity.cliente.singleton.interfaces.SingletonReset;
+import com.privacity.cliente.singleton.countdown.SingletonMyAccountConfLockDownTimer;
+import com.privacity.cliente.singleton.countdown.SingletonPasswordInMemoryLifeTime;
 import com.privacity.cliente.singleton.observers.ObserverGrupo;
 import com.privacity.cliente.ws.WebSocket;
+import com.privacity.common.BroadcastConstant;
+import com.privacity.common.SingletonReset;
 import com.privacity.common.dto.AESDTO;
 import com.privacity.common.dto.MyAccountConfDTO;
-import com.privacity.common.dto.UsuarioDTO;
-import com.privacity.common.dto.servergralconf.SystemGralConf;
 
 import java.security.PrivateKey;
 import java.security.PublicKey;
-import java.time.Duration;
-import java.time.LocalDateTime;
-import java.time.temporal.ChronoUnit;
 
 import lombok.Getter;
 import lombok.Setter;
 
-public class SingletonValues implements SingletonReset {
+public class SingletonValues implements SingletonReset{
 
     private ItemListMessage messageDetailSeleccionado;
     private String token;
+
 
     private String usernameHash;
     private String passwordHash;
     private String usernameNoHash;
     private String passwordNoHash;
 
-    private String invitationCode;
-    private UsuarioDTO usuario;
+
+
     private int counter=0;
     private Bitmap imagenFull;
     private String idGrupoSeleccionado;
@@ -55,7 +60,7 @@ public class SingletonValues implements SingletonReset {
 
     private EncryptKeysToUse encryptKeysToUse;
     private RSA rsa;
-    private LocalDateTime serverTime;
+
 
     public PublicKey pkRegistro;
     public PrivateKey privateRegistro;
@@ -68,23 +73,17 @@ public class SingletonValues implements SingletonReset {
 
 
     public boolean showingLock;
-    private boolean passwordCountDownTimerRunning=false;
-    private SystemGralConf systemGralConf;
+    private final boolean passwordCountDownTimerRunning=false;
+
 
     private static SingletonValues instance = new SingletonValues();
 
     boolean logout = false;
 
     private MyAccountConfDTO myAccountConfDTO = new MyAccountConfDTO();
-    private long serverTimeDifference;
 
-    public String getInvitationCode() {
-        return invitationCode;
-    }
 
-    public void setInvitationCode(String invitationCode) {
-        this.invitationCode = invitationCode;
-    }
+
 
     public String getUsernameNoHash() {
         return usernameNoHash;
@@ -154,7 +153,7 @@ public class SingletonValues implements SingletonReset {
     public void setPersonalAESToUse(AESDTO param) {
         try {
             personalAEStoUse = AEStoUseFactory.getAEStoUsePersonal
-                    (param.getSecretKeyAES(), param.getSaltAES());
+                    (param);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -282,22 +281,6 @@ public class SingletonValues implements SingletonReset {
         return counter+"";
     }
 
-    public UsuarioDTO getUsuario() {
-        return usuario;
-    }
-
-    public SystemGralConf getSystemGralConf() {
-        return systemGralConf;
-    }
-
-    public void setSystemGralConf(SystemGralConf systemGralConf) {
-        this.systemGralConf = systemGralConf;
-    }
-
-
-    public void setUsuario(UsuarioDTO usuario) {
-        this.usuario = usuario;
-    }
 
 
         public static SingletonValues getInstance() {
@@ -364,30 +347,10 @@ public class SingletonValues implements SingletonReset {
     }
 
 
-    public LocalDateTime getServerTime() {
-        return serverTime;
-    }
 
 
-    public void setServerTime(LocalDateTime serverTime) {
-        this.serverTime = serverTime;
-
-        LocalDateTime my = LocalDateTime.now();
-
-        Duration dur = Duration.between(my, serverTime);
-        serverTimeDifference = dur.toMillis();
-    }
 
 
-    public LocalDateTime calculateServerTime() {
-        LocalDateTime my = LocalDateTime.now();
-
-        LocalDateTime r = my.plus(serverTimeDifference, ChronoUnit.MILLIS);
-//        Log.d(this.getClass().getSimpleName() + "." + getMethodName(3),"serverTimeDifference > " + serverTimeDifference);
-//        Log.d(this.getClass().getSimpleName() + "." + getMethodName(3),"localtime > " + my.toString());
-//        Log.d(this.getClass().getSimpleName() + "." + getMethodName(3),"calculateServerTime > " +r.toString());
-        return r;
-    }
 
     /**
      * Get the method name for a depth in call stack. <br />
@@ -408,4 +371,44 @@ public class SingletonValues implements SingletonReset {
     public void reset() {
         instance = null;
     }
+
+    public static final int CONSTANT__MAX__REINTENTOS = 3;
+    int reintentos=0;
+
+    public void getPasswordReintentosAdd(Activity activity) {
+        reintentos++;
+
+
+        //currentPassword.getField().setError("Password Incorrecto");
+        Toast.makeText(activity,
+                activity.getString(R.string.lock_activity__validation__password__fail,reintentos+"", SingletonValues.CONSTANT__MAX__REINTENTOS+"")
+                ,Toast. LENGTH_SHORT).show();
+
+        if (reintentos >= SingletonValues.CONSTANT__MAX__REINTENTOS){
+
+            try {
+                if (SingletonValues.getInstance().getMyAccountConfDTO().isLoginSkip()){
+                    MyAccountLoginSkipFrame.saveDisabled(activity);
+                }else{
+                    Intent intent = new Intent(BroadcastConstant.BROADCAST__FINISH_ALL_ACTIVITIES);
+                    activity.sendBroadcast(intent);
+                    activity.finish();
+                    Intent i = new Intent(activity, MainActivi2ty.class);
+                    activity.startActivity(i);
+                }
+
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+
+        }
+    }
+    public void getPasswordReintentosReset() {
+        SingletonPasswordInMemoryLifeTime.getInstance().restart();
+        SingletonMyAccountConfLockDownTimer.getInstance().restart();
+
+        reintentos=0;
+    }
+
+
 }

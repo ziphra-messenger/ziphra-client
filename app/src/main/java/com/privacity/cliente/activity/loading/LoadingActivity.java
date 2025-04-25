@@ -18,14 +18,15 @@ import com.privacity.cliente.R;
 import com.privacity.cliente.activity.grupo.GrupoActivity;
 import com.privacity.cliente.model.Grupo;
 import com.privacity.cliente.singleton.Observers;
-import com.privacity.cliente.singleton.SingletonValues;
+import com.privacity.cliente.singleton.SingletonValues;import com.privacity.cliente.singleton.Singletons;
 import com.privacity.cliente.singleton.countdown.SingletonMyAccountConfLockDownTimer;
+import com.privacity.cliente.singleton.countdown.SingletonPasswordInMemoryLifeTime;
 import com.privacity.cliente.singleton.impl.SingletonServer;
 import com.privacity.cliente.singleton.interfaces.ObservadoresGrupos;
 import com.privacity.cliente.singleton.sharedpreferences.SharedPreferencesUtil;
-import com.privacity.cliente.singleton.countdown.SingletonPasswordInMemoryLifeTime;
+import com.privacity.cliente.singleton.usuario.SingletonSessionClosing;
 import com.privacity.cliente.ws.WebSocket;
-import com.privacity.common.dto.GrupoDTO;
+import com.privacity.common.BroadcastConstant;
 import com.vanniktech.emoji.EmojiManager;
 import com.vanniktech.emoji.google.GoogleEmojiProvider;
 
@@ -74,25 +75,7 @@ public class LoadingActivity extends AppCompatActivity implements ObservadoresGr
 
         loadingConsole.setText("");
 
-        setListeners();
 
-        ActionBar actionBar = getSupportActionBar();
-        actionBar.setTitle("PrivaCity");
-
-        BroadcastReceiver broadcastReceiver = new BroadcastReceiver() {
-
-            @Override
-            public void onReceive(Context arg0, Intent intent) {
-                String action = intent.getAction();
-                if (action.equals("finish_activity_loading")) {
-                    finish();
-                } else if (action.equals("activity_loading_refresh_console_log")) {
-                    refeshTextConsole();
-                }
-            }
-        };
-        registerReceiver(broadcastReceiver, new IntentFilter("finish_activity_loading"));
-        registerReceiver(broadcastReceiver, new IntentFilter("activity_loading_refresh_console_log"));
 
     }
 
@@ -119,19 +102,56 @@ public class LoadingActivity extends AppCompatActivity implements ObservadoresGr
     @Override
     public void finish() {
         super.finish();
-        Observers.grupo().dessuscribirse(this);
+        int pid = android.os.Process.myPid();
+        android.os.Process.killProcess(pid);
+       // Observers.grupo().dessuscribirse(this);
     }
     @Override
-    protected void onResume() {
-        super.onResume();
+    protected void onStart() {
 
+        super.onStart();
+        if (SingletonSessionClosing.getInstance().isClosing()){finish();}
        // LoadingAsyncTask t = new LoadingAsyncTask(() -> comenzar());
        // t.execute();
         comenzar();
+
+        setListeners();
+
+        initActionBar();
+
+        BroadcastReceiver broadcastReceiver = new BroadcastReceiver() {
+
+            @Override
+            public void onReceive(Context arg0, Intent intent) {
+                String action = intent.getAction();
+                if (action.equals(BroadcastConstant.BROADCAST__FINISH_ACTIVITY_LOADING)) {
+                   // finish();
+                }else if (action.equals(BroadcastConstant.BROADCAST__FINISH_ALL_ACTIVITIES)) {
+                    //finish();
+                }else   if (action.equals(BroadcastConstant.BROADCAST__FINISH_APPLICATION)) {
+                           finish();
+                } else if (action.equals(BroadcastConstant.BROADCAST__ACTIVITY_LOADING__REFRESH_CONSOLE_LOG)) {
+                    refeshTextConsole();
+                }
+            }
+        };
+        registerReceiver(broadcastReceiver, new IntentFilter(BroadcastConstant.BROADCAST__FINISH_ACTIVITY_LOADING));
+        registerReceiver(broadcastReceiver, new IntentFilter(BroadcastConstant.BROADCAST__FINISH_ALL_ACTIVITIES));
+        registerReceiver(broadcastReceiver, new IntentFilter(BroadcastConstant.BROADCAST__FINISH_APPLICATION));
+
+
+
+        registerReceiver(broadcastReceiver, new IntentFilter(BroadcastConstant.BROADCAST__ACTIVITY_LOADING__REFRESH_CONSOLE_LOG));
+    }
+
+    private void initActionBar() {
+        ActionBar actionBar = getSupportActionBar();
+        if(actionBar==null)return;
+        actionBar.setTitle(getString(R.string.general__title));
     }
 
     protected void comenzar() {
-
+        findViewById(R.id.loading_console_error).setVisibility(View.VISIBLE);
         addTextConsole("Start");
         try {
 
@@ -193,8 +213,16 @@ public class LoadingActivity extends AppCompatActivity implements ObservadoresGr
             SharedPreferencesUtil.deleteSharedPreferencesUserPass(this);
         }
     }
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if (SingletonSessionClosing.getInstance().isClosing()){
 
-    public void endProcess(){
+            finish();
+        }
+
+    }
+    public synchronized void endProcess(){
 
         if (ingresandoGrupos) return;
         if (countGruposPROCESSED == countGruposTOTAL && !getGrupos.equals(StateProcess.NOT_INIT)) {
@@ -236,7 +264,7 @@ public class LoadingActivity extends AppCompatActivity implements ObservadoresGr
                 addTextConsole("showAppServer : " + showAppServer.name());
                 addTextConsole("crearKeys : " + crearKeys.name());
                 addTextConsole("connectWS : " + connectWS.name());
-                findViewById(R.id.loading_console_error).setVisibility(View.VISIBLE);
+
             }
         }
 
@@ -249,6 +277,7 @@ public class LoadingActivity extends AppCompatActivity implements ObservadoresGr
         Intent i = new Intent(LoadingActivity.this, GrupoActivity.class);
 
         startActivity(i);
+        //this.finish();
     }
 
     private void showAppServer(){
@@ -306,7 +335,7 @@ public class LoadingActivity extends AppCompatActivity implements ObservadoresGr
         Log.e(TAG, text);
         loadingConsoleString = loadingConsoleString+text + "\n";
 
-        Intent intent = new Intent("activity_loading_refresh_console_log");
+        Intent intent = new Intent(BroadcastConstant.BROADCAST__ACTIVITY_LOADING__REFRESH_CONSOLE_LOG);
         this.sendBroadcast(intent);
 
     }
@@ -340,7 +369,17 @@ public class LoadingActivity extends AppCompatActivity implements ObservadoresGr
     }
 
     @Override
-    public void avisarLock(GrupoDTO g) {
+    public void avisarLock(Grupo g) {
+
+    }
+
+    @Override
+    public void avisarRoleChange(Grupo g) {
+
+    }
+
+    @Override
+    public void avisarCambioGrupoGralConf(Grupo g) {
 
     }
 }

@@ -4,6 +4,9 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.util.Log;
 
+
+import com.privacity.common.SingletonReconnectionLog;
+
 import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.util.HashMap;
@@ -76,6 +79,7 @@ public class OkHttpConnectionProvider extends AbstractConnectionProvider {
 
                     @Override
                     public void onClosed(WebSocket webSocket, int code, String reason) {
+                        SingletonReconnectionLog.getInstance().addLog(code + " - " + reason + " " + LifecycleEvent.Type.CLOSED);
                         Log.e(TAG,"onClosed code: " + code);
                         Log.e(TAG,"onClosed: " + code);
                         System.out.println("onClosed code: " + reason);
@@ -89,7 +93,7 @@ public class OkHttpConnectionProvider extends AbstractConnectionProvider {
                         // in OkHttp, a Failure is equivalent to a JWS-Error *and* a JWS-Close
 
                         Log.e(TAG,"onFailure Throwable: " + t.getMessage());
-
+                        SingletonReconnectionLog.getInstance().addLog(t.getMessage());
                         if (response != null){
                             Log.e(TAG,"onFailure request: " + response.request());
                             Log.e(TAG,"onFailure message: " + response.message());
@@ -105,6 +109,8 @@ public class OkHttpConnectionProvider extends AbstractConnectionProvider {
 
                         emitLifecycleEvent(new LifecycleEvent(LifecycleEvent.Type.ERROR, new Exception(t)));
                         openSocket = null;
+                        SingletonReconnectionLog.getInstance().addLog(t.getMessage());
+
                         emitLifecycleEvent(new LifecycleEvent(LifecycleEvent.Type.CLOSED));
                     }
 
@@ -115,6 +121,7 @@ public class OkHttpConnectionProvider extends AbstractConnectionProvider {
 
                         Log.e(TAG,"onClosing code: " + code);
                         Log.e(TAG,"onClosing: " + code);
+                        SingletonReconnectionLog.getInstance().addLog(code + " - " + reason );
 
                         webSocket.close(code, reason);
                     }

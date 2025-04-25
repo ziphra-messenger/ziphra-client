@@ -22,71 +22,111 @@
 
         <Button
             android:id="@+id/bt_grupoinfo_menu_lista"
+            style="@style/menuAcordeonTituloStyle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:backgroundTint="#57AE74"
             android:text="Integrantes"
             app:iconGravity="end" />
 
-        <TableLayout
+        <LinearLayout
             android:id="@+id/tl_grupoinfo_menu_lista_content"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="3dp"
-            android:layout_marginEnd="3dp"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
             android:visibility="gone"
-            tools:visibility="visible">
+            tools:visibility="gone">
 
-            <TableRow
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:gravity="center">
-
-                <Button
-                    android:id="@+id/bt_grupoinfo_add_member"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="5dp"
-                    android:layout_marginStart="5dp"
-                    android:layout_marginTop="5dp"
-                    android:layout_marginEnd="5dp"
-                    android:layout_marginBottom="5dp"
-                    android:padding="5dp"
-                    android:paddingHorizontal="5dp"
-                    android:tag="@string/rol_admin"
-                    android:text="agregar nuevo integrante"
-                    app:cornerRadius="20dp"
-                    app:icon="@drawable/ic_baseline_group_add_24" />
-            </TableRow>
-
-            <TableRow
+            <TextView
+                android:id="@+id/frame_grupo_info__hide_member__admin_message"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:gravity="center">
+                android:layout_marginTop="1dp"
+                android:layout_weight="0"
+                android:gravity="center"
+                android:maxWidth="280dp"
+                android:padding="10dp"
+                android:text="@string/frame_grupo_info__hide_member__admin_message_txt"
+                android:textColor="#2033E6"
+                android:visibility="gone"
+                tools:visibility="visible" />
 
-                <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/rv_grupoinfo_menu_lista"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="5dp"
-                    android:background="#E4DFB4"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintLeft_toLeftOf="parent"
-                    app:layout_constraintRight_toRightOf="parent" />
-            </TableRow>
-
-
-            <TableRow
-                android:layout_width="match_parent"
+            <TableLayout
+                android:layout_width="fill_parent"
                 android:layout_height="match_parent"
-                android:gravity="right"
-                android:tag="@string/help_tag_grupo_info_members">
+                android:layout_marginStart="3dp"
+                android:layout_marginEnd="3dp"
+                android:visibility="visible"
+                tools:visibility="visible">
 
-                <include android:id="@+id/grupo_info_help_members_include" layout="@layout/frame_help" />
-            </TableRow>
+                <TableRow
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:gravity="center">
 
-        </TableLayout>
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_gravity="center"
+                        android:gravity="center"
+                        android:orientation="vertical">
+
+                        <Button
+                            android:id="@+id/bt_grupoinfo_add_member"
+                            style="@style/botonMarquee"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:layout_margin="5dp"
+                            android:layout_marginStart="5dp"
+                            android:layout_marginTop="5dp"
+                            android:layout_marginEnd="5dp"
+                            android:layout_marginBottom="5dp"
+                            android:gravity="center"
+                            android:maxWidth="280dp"
+                            android:padding="5dp"
+                            android:paddingHorizontal="5dp"
+                            android:tag="@string/tag_admin_gone"
+                            android:text="@string/frame_grupo_info__members__add_member"
+                            app:cornerRadius="20dp"
+                            app:icon="@drawable/ic_baseline_group_add_24"
+                            app:iconGravity="textStart" />
+                    </LinearLayout>
+
+                </TableRow>
+
+                <TableRow
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="center"
+                    android:gravity="center">
+
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/rv_grupoinfo_menu_lista"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:layout_marginBottom="5dp"
+                        android:background="#E4DFB4"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintLeft_toLeftOf="parent"
+                        app:layout_constraintRight_toRightOf="parent" />
+                </TableRow>
+
+
+                <TableRow
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:gravity="right"
+                    android:tag="@string/help_tag_grupo_info_members">
+
+                    <include
+                        android:id="@+id/grupo_info_help_members_include"
+                        layout="@layout/frame_help__open" />
+                </TableRow>
+
+            </TableLayout>
+        </LinearLayout>
 
     </LinearLayout>
 

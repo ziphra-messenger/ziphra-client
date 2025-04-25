@@ -4,7 +4,7 @@ import android.app.Activity;
 import android.os.AsyncTask;
 
 import com.privacity.cliente.rest.CallbackRest;
-import com.privacity.common.dto.ProtocoloDTO;
+import com.privacity.cliente.model.dto.Protocolo;
 import com.privacity.common.enumeration.ExceptionReturnCode;
 
 import org.springframework.http.HttpEntity;
@@ -13,6 +13,7 @@ import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.http.client.HttpComponentsClientHttpRequestFactory;
 import org.springframework.http.converter.FormHttpMessageConverter;
 import org.springframework.http.converter.HttpMessageConversionException;
 import org.springframework.http.converter.HttpMessageConverter;
@@ -34,11 +35,11 @@ import lombok.Data;
 public class RestTemplateTest extends AsyncTask<Void, Void, ResponseEntity<Object>> {
 
     private CallbackRest callbackRest;
-    private ProtocoloDTO protocoloDTO;
+    private Protocolo protocolo;
     private Activity context;
-    private boolean secure=true;
-    public RestTemplateTest(ProtocoloDTO ProtocoloDTO) {
-        this.protocoloDTO = protocoloDTO;
+    private final boolean secure=true;
+    public RestTemplateTest(Protocolo Protocolo) {
+        this.protocolo = protocolo;
     }
 
     public RestTemplateTest(Activity context) {
@@ -97,34 +98,34 @@ public class RestTemplateTest extends AsyncTask<Void, Void, ResponseEntity<Objec
 
             if ("403".equals(e.getMessage().trim())){
 
-                ProtocoloDTO p = new ProtocoloDTO();
+                Protocolo p = new Protocolo();
                 p.setCodigoRespuesta(ExceptionReturnCode.AUTH_SESSION_OUTOFSYNC.getCode());
 
                 return new ResponseEntity<Object>(p, HttpStatus.OK);
 
 
             }
-            protocoloDTO.setCodigoRespuesta(e.getMessage());
-            return new ResponseEntity<Object>(protocoloDTO, HttpStatus.OK);
+            protocolo.setCodigoRespuesta(e.getMessage());
+            return new ResponseEntity<Object>(protocolo, HttpStatus.OK);
 
 
         } catch (HttpMessageConversionException e) {
 
             e.printStackTrace();
 
-            protocoloDTO.setCodigoRespuesta(e.getMessage());
-            return new ResponseEntity<Object>(protocoloDTO, HttpStatus.OK);
+            protocolo.setCodigoRespuesta(e.getMessage());
+            return new ResponseEntity<Object>(protocolo, HttpStatus.OK);
 
         } catch (RestClientException e) {
             e.printStackTrace();
-            protocoloDTO.setCodigoRespuesta(e.getMessage());
-            return new ResponseEntity<Object>(protocoloDTO, HttpStatus.OK);
+            protocolo.setCodigoRespuesta(e.getMessage());
+            return new ResponseEntity<Object>(protocolo, HttpStatus.OK);
 
         } catch (Exception e) {
             e.printStackTrace();
-            protocoloDTO.setCodigoRespuesta(e.getMessage());
+            protocolo.setCodigoRespuesta(e.getMessage());
 
-            return new ResponseEntity<Object>(protocoloDTO, HttpStatus.OK);
+            return new ResponseEntity<Object>(protocolo, HttpStatus.OK);
 
         }
 
@@ -137,7 +138,7 @@ public class RestTemplateTest extends AsyncTask<Void, Void, ResponseEntity<Objec
     @Data
     public class FileUploadRequest {
         private String fileName="jorge";
-        private InputStream fileStream = new ByteArrayInputStream("jorge".getBytes());;
+        private InputStream fileStream = new ByteArrayInputStream("jorge".getBytes());
         private boolean enabled = true;
 
     }
@@ -155,7 +156,11 @@ public class RestTemplateTest extends AsyncTask<Void, Void, ResponseEntity<Objec
 
 
     public  RestTemplate getRestTemplate() {
-        final RestTemplate restTemplate = new RestTemplate();
+        HttpComponentsClientHttpRequestFactory httpRequestFactory = new HttpComponentsClientHttpRequestFactory();
+        httpRequestFactory.setConnectTimeout(5000);
+        httpRequestFactory.setReadTimeout(5000);
+        RestTemplate restTemplate = new RestTemplate();
+        restTemplate.setRequestFactory(httpRequestFactory);
         //restTemplate.setRequestFactory(httpRequestFactory()); // apache http library
         restTemplate.setMessageConverters(getMessageConverters());
         return restTemplate;

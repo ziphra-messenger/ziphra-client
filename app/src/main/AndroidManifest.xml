@@ -3,11 +3,12 @@
     xmlns:tools="http://schemas.android.com/tools"
     package="com.privacity.cliente">
 
+    <uses-permission android:name="android.permission.CHANGE_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
     <uses-permission android:name="com.android.alarm.permission.SET_ALARM" />
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission
         android:name="android.permission.WRITE_EXTERNAL_STORAGE"
-
         android:required="false" />
     <uses-permission
         android:name="android.permission.READ_EXTERNAL_STORAGE"
@@ -34,24 +35,30 @@
         android:required="true" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 
-
     <application
         android:allowBackup="false"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
+        android:largeHeap="true"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.Cliente"
-        android:largeHeap="true"
+        android:usesCleartextTraffic="true">
+        <activity android:name=".activity.web.WebActivity"></activity>
+        <!--
+                <activity android:name=".activity.about.ONLYTEST">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
 
-        android:usesCleartextTraffic="true" >
-
+                <category android:name="android.intent.category.LAUNCHER" />
+           </intent-filter>
+        </activity>
+        -->
         <meta-data
             android:name="privacity_environment"
-            android:value="${privacity_environment}"/>
+            android:value="${privacity_environment}" />
 
-        <activity android:name=".GrupoBloqueoRemoto" >
-        </activity>
+        <activity android:name=".GrupoBloqueoRemoto" />
         <activity android:name=".activity.errorconsole.ErrorConsoleActivity" />
         <activity android:name=".activity.TestActivity" />
         <activity android:name=".activity.lock.LockActivity" />
@@ -70,7 +77,7 @@
         <activity android:name=".activity.message.MessageActivity" />
         <activity android:name=".activity.grupo.GrupoActivity" />
         <activity android:name=".activity.registro.RegistroActivity" />
-        <activity android:name=".activity.main.MainActivity" >
+        <activity android:name=".activity.main.MainActivi2ty">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

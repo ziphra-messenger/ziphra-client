@@ -6,7 +6,7 @@
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
     android:background="@drawable/ciudad"
-    tools:context="com.privacity.cliente.activity.main.MainActivity">
+    tools:context="com.privacity.cliente.activity.main.MainActivi2ty">
 
     <TableLayout
         android:id="@+id/tableLayout3"
@@ -19,7 +19,7 @@
         android:background="@drawable/login_stylo"
         android:gravity="center"
         android:padding="20dp"
-        app:layout_constraintBottom_toTopOf="@+id/linearLayout6"
+
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
@@ -89,5 +89,14 @@
     </TableLayout>
 
 
+    <include
 
+        layout="@layout/incllude__common__all"
+
+        android:visibility="visible"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:visibility="gone" />
 </androidx.constraintlayout.widget.ConstraintLayout>

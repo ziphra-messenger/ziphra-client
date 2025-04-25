@@ -3,5 +3,17 @@
     xmlns:android="http://schemas.android.com/apk/res/android">
     <item
         android:id="@+id/main_menu_configuracion"
-        android:title="Configuracion" />
+        android:title="@string/main_login__menu__item__configuration"
+        android:visibility="visible" />
+
+    <item
+        android:id="@+id/main_login__lang_espanol"
+        android:title="Español"
+        android:visibility="visible" />
+    <item
+        android:id="@+id/main_login__lang_english"
+        android:title="English" />
+    <item
+        android:id="@+id/main_login__lang_portuguese"
+        android:title="🇧🇷  Português" />
 </menu>

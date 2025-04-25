@@ -1,9 +1,9 @@
 package com.privacity.cliente.common.error;
 
 import android.app.Activity;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.text.InputType;
+import android.view.View;
 import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.Toast;
@@ -14,6 +14,8 @@ import com.privacity.cliente.R;
 import com.privacity.cliente.activity.message.MessageActivity;
 import com.privacity.cliente.activity.message.RestCalls;
 import com.privacity.cliente.enumeration.DeleteForEnum;
+import com.privacity.cliente.frame.error.ErrorPojo;
+import com.privacity.cliente.frame.error.ErrorView;
 import com.privacity.cliente.model.Grupo;
 import com.privacity.cliente.rest.restcalls.grupo.PasswordGrupoValidationCallRest;
 import com.privacity.cliente.singleton.Observers;
@@ -25,42 +27,46 @@ import com.privacity.common.dto.GrupoGralConfPasswordDTO;
 
 public class SimpleErrorDialog {
 
-    public static void errorDialog(Context context, String title , String txt){
+    public static void errorDialog(Activity context, String title , String txt){
         errorDialog(context, title , txt, null);
     }
-    public static void errorDialog(Context context, String title , String txt, PasswordValidationI acction){
+    public static void errorDialog(Activity context, String title , String txt, PasswordValidationI acction){
 
-        AlertDialog.Builder builder = new AlertDialog.Builder(context);
+        ErrorPojo pojo = new ErrorPojo();
 
-        builder.setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
-            public void onClick(DialogInterface dialog, int id) {
+        pojo.setRecomendacion(txt);
+        pojo.setErrorDescription(title);
 
+        new ErrorView(context).setPasswordValidationI(new PasswordValidationI() {
+            @Override
+            public void action() {
                 if (acction != null) acction.action();
             }
-        });
-        builder.setTitle(title);
-        builder.setMessage(txt);
+        }).show(pojo);
 
-        AlertDialog dialog = builder.create();
-        dialog.show();
 
     }
 
     public interface PasswordValidationI{
         void action();
     }
-
+    public interface OkI{
+        void action();
+    }
+    public interface CancelI{
+        void action();
+    }
     public interface PasswordGrupoValidationI{
         void action(Grupo p);
         void onPasswordWrong();
     }
 
-    public static void passwordValidation(Context context, PasswordValidationI i){
-        passwordValidation(context,null,i);
+    public static void passwordValidation(Activity activity, PasswordValidationI i){
+        passwordValidation(activity,null,i);
     }
-    public static void passwordValidation(Context context, String mensaje , PasswordValidationI i){
-        AlertDialog.Builder builder = new AlertDialog.Builder(context);
-        EditText password = new EditText(context);
+    public static void passwordValidation(Activity activity, String mensaje , PasswordValidationI i){
+        AlertDialog.Builder builder = new AlertDialog.Builder(activity);
+        EditText password = new EditText(activity);
         password.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
         builder.setView(password);
 
@@ -71,11 +77,11 @@ public class SimpleErrorDialog {
                     SingletonPasswordInMemoryLifeTime.getInstance().restart();
                     i.action();
                 }else{
-                    Toast.makeText(context,"Password Incorrecto",Toast. LENGTH_SHORT).show();
+                    Toast.makeText(activity,activity.getString(R.string.general__alert__validation__password_incorrect),Toast. LENGTH_SHORT).show();
                 }
             }
         });
-        builder.setTitle("Ingrese su password para realizar esta accion");
+        builder.setTitle(activity.getString(R.string.general__enter_password__for_action));
 
         if (mensaje != null ) builder.setMessage(mensaje);
 
@@ -94,9 +100,9 @@ public class SimpleErrorDialog {
 
     }
 
-    public static void passwordValidationObligatorio(Context context, String mensaje , PasswordValidationI i){
-        AlertDialog.Builder builder = new AlertDialog.Builder(context);
-        EditText password = new EditText(context);
+    public static void passwordValidationObligatorio(Activity activity, String mensaje , PasswordValidationI i){
+        AlertDialog.Builder builder = new AlertDialog.Builder(activity);
+        EditText password = new EditText(activity);
         password.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
         builder.setView(password);
 
@@ -107,11 +113,12 @@ public class SimpleErrorDialog {
                     SingletonPasswordInMemoryLifeTime.getInstance().restart();
                     i.action();
                 }else{
-                    Toast.makeText(context,"Password Incorrecto",Toast. LENGTH_SHORT).show();
+                    Toast.makeText(activity,activity.getString(R.string.general__alert__validation__password_incorrect),Toast. LENGTH_SHORT).show();
                 }
             }
         });
-        builder.setTitle("Ingrese su password para realizar esta accion");
+        builder.setTitle(activity.getString(R.string.general__enter_password__for_action));
+
 
         if (mensaje != null ) builder.setMessage(mensaje);
 
@@ -129,7 +136,8 @@ public class SimpleErrorDialog {
         EditText password = new EditText(activity);
         password.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
         builder.setView(password);
-
+        final View customLayout = activity.getLayoutInflater().inflate(R.layout.alertcustom, null);
+        builder.setView(customLayout);
         builder.setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int id) {
 
@@ -147,7 +155,7 @@ public class SimpleErrorDialog {
                 }
             }
         });
-        builder.setTitle("Ingrese su password para realizar esta accion");
+        builder.setTitle(activity.getString(R.string.general__enter_password__for_action));
 
         AlertDialog dialog = builder.create();
         dialog.show();
@@ -160,7 +168,8 @@ public class SimpleErrorDialog {
 
     public static void messageDelete(MessageActivity activity){
         AlertDialog.Builder builder = new AlertDialog.Builder(activity);
-
+        final View customLayout = activity.getLayoutInflater().inflate(R.layout.alertcustom, null);
+        builder.setView(customLayout);
         builder.setPositiveButton("Todos y sus reenvios", new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int id) {
 
@@ -187,6 +196,34 @@ public class SimpleErrorDialog {
         String titulo="Eliminar mensaje";
         if (Observers.message().getMessageSelected().size()> 1) titulo=titulo+"s";
         builder.setTitle(titulo);
+
+        AlertDialog dialog = builder.create();
+
+        dialog.show();
+
+    }
+
+    public static void confirmAction(Activity activity, OkI ok, CancelI cancelI){
+        AlertDialog.Builder builder = new AlertDialog.Builder(activity);
+        final View customLayout = activity.getLayoutInflater().inflate(R.layout.alertcustom, null);
+        builder.setView(customLayout);
+        builder.setPositiveButton(activity.getString(R.string.general__confirm), new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int id) {
+                ok.action();
+
+
+            }
+        });
+
+        builder.setNegativeButton(activity.getString(R.string.general__cancel), new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int id) {
+                cancelI.action();
+
+            }
+        });
+
+
+        builder.setTitle(activity.getString(R.string.general__are_u_sure));
 
         AlertDialog dialog = builder.create();
 

@@ -1,7 +1,7 @@
 package com.privacity.cliente.rest;
 
 import android.app.Activity;
-import android.content.Context;
+import android.util.Log;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -10,17 +10,20 @@ import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonToken;
 import com.google.gson.stream.JsonWriter;
 import com.privacity.cliente.encrypt.AEStoUse;
+import com.privacity.cliente.model.dto.Protocolo;
 import com.privacity.cliente.rest.restcalls.CallbackRestDownload;
-import com.privacity.cliente.singleton.SingletonValues;
+import com.privacity.cliente.singleton.Singletons;
+import com.privacity.cliente.singleton.UtilsStringSingleton;
 import com.privacity.cliente.singleton.reconnect.SingletonReconnect;
-import com.privacity.cliente.util.GsonFormated;
-import com.privacity.common.enumeration.ProtocoloComponentsEnum;import com.privacity.common.enumeration.ProtocoloActionsEnum;
-
+import com.privacity.cliente.singleton.serverconfiguration.SingletonServerConfiguration;
+import com.privacity.cliente.singleton.usuario.SingletonSessionClosing;
 import com.privacity.common.dto.AESDTO;
-import com.privacity.common.dto.ProtocoloDTO;
+
 import com.privacity.common.dto.ProtocoloWrapperDTO;
 import com.privacity.common.dto.RequestIdDTO;
 import com.privacity.common.enumeration.ExceptionReturnCode;
+import com.privacity.common.enumeration.ProtocoloActionsEnum;
+import com.privacity.common.enumeration.ProtocoloComponentsEnum;
 
 import org.apache.commons.lang3.RandomStringUtils;
 import org.springframework.http.HttpStatus;
@@ -31,22 +34,22 @@ import java.time.LocalDateTime;
 import java.util.Random;
 
 public class RestExecute {
-
+    private static final String TAG = "RestExecute";
     private static boolean checkInternet(Activity activity, CallbackRestDownload c){
         if (!SingletonReconnect.isOnline(activity)){
-            ProtocoloDTO p = new ProtocoloDTO();
+            Protocolo p = new Protocolo();
             p.setCodigoRespuesta(ExceptionReturnCode.GENERAL_NO_INTERNET_ACCESS.getCode());
 
             RestTemplateProtocolo t = new RestTemplateProtocolo(activity,
                     p,
                     new CallbackRest() {
                         @Override
-                        public void response(ResponseEntity<ProtocoloDTO> response) {
+                        public void response(ResponseEntity<Protocolo> response) {
 
                         }
 
                         @Override
-                        public void onError(ResponseEntity<ProtocoloDTO> response) {
+                        public void onError(ResponseEntity<Protocolo> response) {
                             c.onError(null);
                         }
 
@@ -56,7 +59,7 @@ public class RestExecute {
                         }
                     }, true);
 
-            t.onPostExecutePublic(new ResponseEntity<ProtocoloDTO>(p,HttpStatus.OK));
+            t.onPostExecutePublic(new ResponseEntity<Protocolo>(p,HttpStatus.OK));
 
             return false;
         }
@@ -66,25 +69,25 @@ public class RestExecute {
 
     public static boolean checkInternet(Activity activity, CallbackRest c){
         if (!SingletonReconnect.isOnline(activity)){
-            ProtocoloDTO p = new ProtocoloDTO();
+            Protocolo p = new Protocolo();
             p.setCodigoRespuesta(ExceptionReturnCode.GENERAL_NO_INTERNET_ACCESS.getCode());
 
         RestTemplateProtocolo t = new RestTemplateProtocolo(activity,
                 p,
                 c, false);
 
-        t.onPostExecutePublic(new ResponseEntity<ProtocoloDTO>(p,HttpStatus.OK));
+        t.onPostExecutePublic(new ResponseEntity<Protocolo>(p,HttpStatus.OK));
 
-            return false;
+            return true;
         }
 
-        return true;
+        return false;
     }
-    private boolean secure = true;
+    private final boolean secure = true;
 
 
-    public static void doitSend(Activity context, ProtocoloDTO pOrigen, byte[] data,  CallbackRest callbackRestOrigen) {
-        if (!checkInternet(context,callbackRestOrigen))return;
+    public static void doitSend(Activity context, Protocolo pOrigen, byte[] data, CallbackRest callbackRestOrigen) {
+        if (checkInternet(context, callbackRestOrigen))return;
 
 
         String requestIdClientSide = requestIdClientSide();
@@ -101,7 +104,7 @@ public class RestExecute {
 
     }
 
-    public static void doitDownload(Activity context, ProtocoloDTO pOrigen, CallbackRestDownload callbackRestOrigen) {
+    public static void doitDownload(Activity context, Protocolo pOrigen, CallbackRestDownload callbackRestOrigen) {
         //if (!checkInternet(context,callbackRestOrigen))return;
 
 
@@ -120,7 +123,7 @@ public class RestExecute {
 
     public static void doit(
             Activity context
-            , ProtocoloDTO pOrigen
+            , Protocolo pOrigen
             , CallbackRest callbackRestOrigen
     ) {
 
@@ -131,8 +134,8 @@ public class RestExecute {
     }
 
     public static void doitPublic(
-            Context context
-            , ProtocoloDTO pOrigen
+            Activity context
+            , Protocolo pOrigen
             , CallbackRest callbackRestOrigen
             , AEStoUse aeStoUse
             , AESDTO aesdtoToSend
@@ -142,7 +145,7 @@ public class RestExecute {
         String requestIdClientSide = requestIdClientSide();
         ProtocoloWrapperDTO wrapper = new ProtocoloWrapperDTO();
 
-        ProtocoloDTO p = new ProtocoloDTO();
+        Protocolo p = new Protocolo();
         p.setComponent(ProtocoloComponentsEnum.REQUEST_ID);
         p.setAction(ProtocoloActionsEnum.REQUEST_ID_PUBLIC_GET);
 
@@ -150,14 +153,14 @@ public class RestExecute {
         requestIdClientSideDTO.setRequestIdClientSide(requestIdClientSide);
 
 
-        Gson gson = GsonFormated.get();
+        Gson gson = UtilsStringSingleton.getInstance().gson();
 
         // tiene que tomar la fecha del servidor
-        requestIdClientSideDTO.setDate(SingletonValues.getInstance().calculateServerTime());
+        requestIdClientSideDTO.setDate(Singletons.serverTime().calculateServerTime());
         p.setObjectDTO(gson.toJson(requestIdClientSideDTO));
         System.out.println("protocoloNoEncrypt: " + p.toString());
         String protocoloNoEncrypt = gson.toJson(p);
-        System.out.println("protocoloEncrypt: " + protocoloNoEncrypt.toString());
+        System.out.println("protocoloEncrypt: " + protocoloNoEncrypt);
         String protocoloEncrypt = aeStoUse.getAES(protocoloNoEncrypt);
 
         wrapper.setProtocoloDTO(protocoloEncrypt);
@@ -167,12 +170,23 @@ public class RestExecute {
                 new CallbackRest() {
 
                     @Override
-                    public void response(ResponseEntity<ProtocoloDTO> response) {
+                    public void response(ResponseEntity<Protocolo> response) {
 
                         Gson gson = new GsonBuilder()
                                 .setPrettyPrinting()
                                 .registerTypeAdapter(LocalDateTime.class, new LocalDateAdapter())
                                 .create();
+
+                        Log.d(TAG, "Body entrada :" + response.getBody().getObjectDTO());
+/*                        //String uncompressB64 = null;
+                        try {
+                            //uncompressB64 = UtilsString.uncompressB64(response.getBody().getObjectDTO());
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+                        Log.d(TAG, "Body uncompressB64 :" + uncompressB64);
+
+                        response.getBody().setObjectDTO(uncompressB64);*/
 
                         RequestIdDTO requestIdServerSide = gson.fromJson(response.getBody().getObjectDTO(), RequestIdDTO.class);
                         requestIdServerSide.setRequestIdClientSide(requestIdClientSide);
@@ -195,7 +209,7 @@ public class RestExecute {
                     }
 
                     @Override
-                    public void onError(ResponseEntity<ProtocoloDTO> response) {
+                    public void onError(ResponseEntity<Protocolo> response) {
                         callbackRestOrigen.onError(response);
                     }
 
@@ -212,11 +226,12 @@ public class RestExecute {
 
     public static void doit(
             Activity context
-            , ProtocoloDTO pOrigen
+            , Protocolo pOrigen
             , CallbackRest callbackRestOrigen
             , boolean secure
     ) {
-        if (!checkInternet(context,callbackRestOrigen))return;
+        if (SingletonSessionClosing.getInstance().isClosing() && !pOrigen.getAction().equals(ProtocoloActionsEnum.MY_ACCOUNT_CLOSE_SESSION))return;
+        if (checkInternet(context, callbackRestOrigen))return;
         if (!secure) {
             RestTemplateProtocolo taskinner = new RestTemplateProtocolo(context,
                     pOrigen,
@@ -241,12 +256,18 @@ public class RestExecute {
     }
 
     private static String requestIdClientSide() {
+        if (SingletonSessionClosing.getInstance().isClosing() )return "";
 
-        return alphMinMax(
-                SingletonValues.getInstance().getSystemGralConf().getRequestId().getMinLenght(),
-                SingletonValues.getInstance().getSystemGralConf().getRequestId().getMaxLenght()) + "-" +
-                SingletonValues.getInstance().getCounterNextValue();
+        try {
+            return alphMinMax(
+                    SingletonServerConfiguration.getInstance().getSystemGralConf().getRequestId().getMinLenght(),
+                    SingletonServerConfiguration.getInstance().getSystemGralConf().getRequestId().getMaxLenght());
+        } catch (Exception e) {
 
+        }
+        /*+ "-" +
+                SingletonValues.getInstance().getCounterNextValue();*/
+        return "";
     }
 
     private static String alphMinMax(int min, int max) {

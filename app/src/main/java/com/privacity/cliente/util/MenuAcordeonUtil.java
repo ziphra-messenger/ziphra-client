@@ -40,5 +40,16 @@ public class MenuAcordeonUtil {
         }
     }
 
-
+    public static void changeVisibily(MenuAcordeonObject menu){
+        PorterDuff.Mode t = menu.getTitle().getCompoundDrawableTintMode();
+        if (menu.getContent().getVisibility() != View.VISIBLE){
+            menu.getContent().setVisibility(View.VISIBLE);
+            menu.getTitle().setCompoundDrawablesWithIntrinsicBounds( 0, 0, R.drawable.ic_arrow_down,0);
+            menu.getTitle().setCompoundDrawableTintMode(t);
+        }else{
+            menu.getContent().setVisibility(View.GONE);
+            menu.getTitle().setCompoundDrawablesWithIntrinsicBounds( 0, 0,R.drawable.ic_arrow_up, 0);
+            menu.getTitle().setCompoundDrawableTintMode(t);
+        }
+    }
 }

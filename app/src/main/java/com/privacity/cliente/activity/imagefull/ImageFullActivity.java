@@ -24,11 +24,11 @@ import com.privacity.cliente.activity.common.CustomAppCompatActivity;
 import com.privacity.cliente.model.Grupo;
 import com.privacity.cliente.model.Message;
 import com.privacity.cliente.singleton.Observers;
-import com.privacity.cliente.singleton.SingletonValues;
-import com.privacity.cliente.singleton.interfaces.ObservadoresMensajes;
+import com.privacity.cliente.singleton.SingletonValues;import com.privacity.cliente.singleton.Singletons;
 import com.privacity.cliente.singleton.interfaces.ObservadoresPasswordGrupo;
 import com.privacity.cliente.singleton.observers.ObserverGrupo;
 import com.privacity.cliente.singleton.observers.ObserverMessage;
+import com.privacity.common.BroadcastConstant;
 
 public  class ImageFullActivity extends CustomAppCompatActivity implements ObservadoresPasswordGrupo, View.OnTouchListener {
 
@@ -63,11 +63,11 @@ public  class ImageFullActivity extends CustomAppCompatActivity implements Obser
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_image_full);
 
-        ActionBar actionBar = getSupportActionBar();
-        actionBar.setTitle("Visor de Imagen");
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        initActionBar();
+
         Observers.passwordGrupo().suscribirse(this);
         Bundle b = getIntent().getExtras();
+
         //Bitmap index = b.getParcelable("imagen");
 
         idMessageToMap = getIntent().getStringExtra("idMessageToMap");
@@ -83,13 +83,26 @@ public  class ImageFullActivity extends CustomAppCompatActivity implements Obser
             @Override
             public void onReceive(Context arg0, Intent intent) {
                 String action = intent.getAction();
-                if (action.equals("finish_activity")) {
+                if (action.equals(BroadcastConstant.BROADCAST__FINISH_MESSAGE_ACTIVITY)
+                        ||action.equals(BroadcastConstant.BROADCAST__FINISH_IMAGE_FULL_ACTIVITY)
+                        ||action.equals(BroadcastConstant.BROADCAST__FINISH_ACTIVITY)
+                        || action.equals(BroadcastConstant.BROADCAST__FINISH_ALL_ACTIVITIES)) {
                     myFinish();
                 }
             }
         };
-        registerReceiver(broadcastReceiver, new IntentFilter("finish_activity"));
+        registerReceiver(broadcastReceiver, new IntentFilter(BroadcastConstant.BROADCAST__FINISH_MESSAGE_ACTIVITY));
+        registerReceiver(broadcastReceiver, new IntentFilter(BroadcastConstant.BROADCAST__FINISH_IMAGE_FULL_ACTIVITY));
+        registerReceiver(broadcastReceiver, new IntentFilter(BroadcastConstant.BROADCAST__FINISH_ACTIVITY));
+        registerReceiver(broadcastReceiver, new IntentFilter(BroadcastConstant.BROADCAST__FINISH_ALL_ACTIVITIES));
 
+    }
+
+    private void initActionBar() {
+        ActionBar actionBar = getSupportActionBar();
+        if(actionBar==null) return;
+        actionBar.setTitle(getString(R.string.imagefull_activity__title));
+        actionBar.setDisplayHomeAsUpEnabled(true);
     }
 
     @Override
@@ -103,12 +116,12 @@ public  class ImageFullActivity extends CustomAppCompatActivity implements Obser
         if ( id ==R.id.menu_descargar){
 
             Message m = ObserverMessage.getInstance().getMensajesPorId(idMessageToMap);
-//            m.getMediaDTO().isDownloadable()
+//            m.getMedia().isDownloadable()
            Grupo g = ObserverGrupo.getInstance().getGrupoById(m.getIdGrupo());
-            if (!m.getMediaDTO().isDownloadable()
+            if (!m.getMedia().isDownloadable()
             ){
 
-                Toast tost = Toast.makeText(getBaseContext(), "El Mensaje no permite descargar su Imagen", Toast.LENGTH_SHORT);
+                Toast tost = Toast.makeText(getBaseContext(), getString(R.string.imagefull_activity__validation__download__not_allowed), Toast.LENGTH_SHORT);
                 tost.show();
 
                 return true;
@@ -121,7 +134,7 @@ public  class ImageFullActivity extends CustomAppCompatActivity implements Obser
             Save savefile = new Save();
             savefile.SaveImage(this, bmap);
 
-            Toast tost = Toast.makeText(getBaseContext(), "Archivo Descargado", Toast.LENGTH_SHORT);
+            Toast tost = Toast.makeText(getBaseContext(), getString(R.string.imagefull_activity__validation__download__success), Toast.LENGTH_SHORT);
             tost.show();
         }else {
             myFinish();
@@ -237,7 +250,7 @@ public  class ImageFullActivity extends CustomAppCompatActivity implements Obser
     /** Show an event in the LogCat view, for debugging */
     private void dumpEvent(MotionEvent event)
     {
-        String names[] = { "DOWN", "UP", "MOVE", "CANCEL", "OUTSIDE","POINTER_DOWN", "POINTER_UP", "7?", "8?", "9?" };
+        String[] names = { "DOWN", "UP", "MOVE", "CANCEL", "OUTSIDE","POINTER_DOWN", "POINTER_UP", "7?", "8?", "9?" };
         StringBuilder sb = new StringBuilder();
         int action = event.getAction();
         int actionCode = action & MotionEvent.ACTION_MASK;

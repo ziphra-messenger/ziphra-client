@@ -25,16 +25,10 @@ public class myDragEventListener implements View.OnDragListener {
             case DragEvent.ACTION_DRAG_STARTED:
 
                 // Determines if this View can accept the dragged data
-                if (event.getClipDescription().hasMimeType(ClipDescription.MIMETYPE_TEXT_PLAIN)) {
-
-
-                    return true;
-
-                }
+                return event.getClipDescription().hasMimeType(ClipDescription.MIMETYPE_TEXT_PLAIN);
 
                 // Returns false. During the current drag and drop operation, this View will
                 // not receive events again until ACTION_DRAG_ENDED is sent.
-                return false;
 
             case DragEvent.ACTION_DRAG_ENTERED:
 
@@ -84,4 +78,4 @@ public class myDragEventListener implements View.OnDragListener {
 
         return false;
     }
-};
+}

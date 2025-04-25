@@ -1,5 +1,6 @@
 package com.privacity.cliente.common.error;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -7,23 +8,41 @@ import android.content.res.Resources;
 
 import androidx.appcompat.app.AlertDialog;
 
-import com.privacity.cliente.activity.main.MainActivity;
 import com.privacity.cliente.R;
 import com.privacity.cliente.activity.loading.LoadingActivity;
-import com.privacity.cliente.activity.messageresend.MessageResendActivity;
+import com.privacity.cliente.activity.main.MainActivi2ty;
+import com.privacity.cliente.frame.error.ErrorPojo;
+import com.privacity.cliente.frame.error.ErrorView;
 import com.privacity.cliente.rest.CallbackRest;
-import com.privacity.common.dto.ProtocoloDTO;
-import com.privacity.common.enumeration.ExceptionReturnCode;
+import com.privacity.cliente.singleton.UtilsStringSingleton;
+import com.privacity.cliente.singleton.activity.SingletonCurrentActivity;
+import com.privacity.cliente.singleton.usuario.SingletonSessionClosing;
+import com.privacity.cliente.model.dto.Protocolo;
 
 import org.springframework.http.ResponseEntity;
 
 public class ErrorDialog {
 
-    public static void errorDialog(Context context, ResponseEntity<ProtocoloDTO> response, CallbackRest callbackRest){
+    public static void errorDialog(Activity context, ResponseEntity<Protocolo> response, CallbackRest callbackRest){
+        if (SingletonSessionClosing.getInstance().isClosing())return;
+        ErrorPojo pojo = new ErrorPojo();
+        if (response.getBody() != null  && response.getBody().getObjectDTO() != null){
+            pojo= UtilsStringSingleton.getInstance().gson().fromJson(response.getBody().getObjectDTO(), ErrorPojo.class);
 
-            if (context instanceof MessageResendActivity) return;
+        }            pojo.setErrorCode(response.getBody().getCodigoRespuesta())
+                .setErrorDescription(getErrorDescription(context,pojo.getErrorCode() )
 
-            AlertDialog.Builder builder = new AlertDialog.Builder(context);
+                ).setRecomendacion(getErrorRecomendacion(context,pojo.getErrorCode() ));
+
+
+        ErrorView g = new ErrorView(context);
+
+        g.setCallbackRest(callbackRest);
+        g.setResponse(response);
+
+        try {
+           // if (context instanceof MessageResendActivity) return;
+            AlertDialog.Builder builder = new AlertDialog.Builder(SingletonCurrentActivity.getInstance().get());
 
             builder.setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
                 public void onClick(DialogInterface dialog, int id) {
@@ -31,38 +50,42 @@ public class ErrorDialog {
 
                     if (response.getBody().getCodigoRespuesta().trim().equals("401")){
 
-                        Intent intent = new Intent(context, MainActivity.class);
+                        Intent intent = new Intent(SingletonCurrentActivity.getInstance().get(), MainActivi2ty.class);
                         context.startActivity(intent);
                     }
                 }
             });
-            builder.setTitle("Mensaje de Error");
-            ExceptionReturnCode erc = ExceptionReturnCode.getByCode(response.getBody().getCodigoRespuesta());
 
-            String msg = null;
-            if ( ExceptionReturnCode.getByCode(response.getBody().getCodigoRespuesta()) == null){
-                msg = "Error: " + response.getBody().getCodigoRespuesta();
+            //ExceptionReturnCode erc = ExceptionReturnCode.getByCode(response.getBody().getCodigoRespuesta());
 
-            }else{
-                msg=getDescription(context, response.getBody().getCodigoRespuesta());
-            }
-             builder.setMessage(msg);
-            callbackRest.beforeShowErrorMessage(msg);
 
-            AlertDialog dialog = builder.create();
-            try {
+
+        callbackRest.beforeShowErrorMessage(pojo.toString());
+
+
+
                 if (!(context instanceof LoadingActivity)){
-                    dialog.show();
+
+
+                        try {
+                            g.show(pojo);
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                           // errorDialog( context, response,  callbackRest);
+                        }
+                        //callbackRest.onError(response);
+
                 }
 
             }catch (Exception e){
                 e.printStackTrace();
+                //errorDialog( context, response,  callbackRest);
             }
 
 
     }
 
-    public static void errorDialog(Context context, String error, CallbackRest callbackRest){
+    public static void errorDialog(Activity context, String error, CallbackRest callbackRest){
 
         AlertDialog.Builder builder = new AlertDialog.Builder(context);
 
@@ -71,18 +94,37 @@ public class ErrorDialog {
                 callbackRest.onError(null);
             }
         });
-        builder.setTitle("Mensaje de Error");
+        builder.setTitle(context.getString(R.string.general__error_message));
 
-            builder.setMessage("Error: " + error);
+            builder.setMessage(context.getString(R.string.general__error_ph1, error));
 
 
         AlertDialog dialog = builder.create();
         dialog.show();
 
     }
-    public static String getDescription(Context context, String code){
+    public static String getErrorDescriptionWithCode(Context context, String code){
         Resources res = context.getResources();
-        return res.getString(res.getIdentifier("error_code__" + code, "string", context.getPackageName()));
-
+        try{
+            return code + " - " +res.getString(res.getIdentifier("error_code__" + code, "string", context.getPackageName()));
+        }catch (Exception e){
+            return context.getString(R.string.general__error__no_description, code);
+        }
+    }
+    public static String getErrorDescription(Context context, String code){
+        Resources res = context.getResources();
+        try{
+            return res.getString(res.getIdentifier("error_code__" + code, "string", context.getPackageName()));
+        }catch (Exception e){
+            return "Error " + code;
+        }
+    }
+    public static String getErrorRecomendacion(Context context, String code){
+        Resources res = context.getResources();
+        try{
+            return res.getString(res.getIdentifier("error_code__recomendacion__" + code, "string", context.getPackageName()));
+        }catch (Exception e){
+            return null;
+        }
     }
 }

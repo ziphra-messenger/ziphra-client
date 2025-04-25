@@ -1,6 +1,6 @@
 package com.privacity.cliente.encrypt;
 
-import com.privacity.cliente.singleton.SingletonValues;
+import com.privacity.cliente.singleton.serverconfiguration.SingletonServerConfiguration;
 
 import java.security.KeyFactory;
 import java.security.NoSuchAlgorithmException;
@@ -12,7 +12,7 @@ public class PGPKeyBuilder {
     
     public static PublicKey publicKey(byte[] publicKeyByte) throws NoSuchAlgorithmException, InvalidKeySpecException {
         KeyFactory kf = KeyFactory.getInstance(
-                SingletonValues.getInstance().getSystemGralConf().getAsymEncrypt().getType()
+                SingletonServerConfiguration.getInstance().getSystemGralConf().getAsymEncrypt().getType()
                 );
         X509EncodedKeySpec spec2 = new X509EncodedKeySpec(publicKeyByte);
         return kf.generatePublic(spec2);

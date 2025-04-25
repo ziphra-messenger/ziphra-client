@@ -10,6 +10,7 @@ import android.content.ContentResolver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.res.ColorStateList;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
@@ -24,7 +25,6 @@ import android.media.MediaPlayer;
 import android.media.MediaRecorder;
 import android.net.Uri;
 import android.os.Bundle;
-import android.os.Parcelable;
 import android.provider.MediaStore;
 import android.text.Editable;
 import android.text.InputFilter;
@@ -38,10 +38,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
@@ -53,65 +50,64 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.content.res.AppCompatResources;
 import androidx.appcompat.view.menu.MenuBuilder;
 import androidx.appcompat.widget.SearchView;
 import androidx.core.app.ActivityCompat;
+import androidx.core.widget.ImageViewCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.privacity.cliente.R;
 import com.privacity.cliente.activity.addmember.AddMembersToGrupoActivity;
+import com.privacity.cliente.activity.common.GetButtonReady;
 import com.privacity.cliente.activity.common.GrupoSelectedCustomAppCompatActivity;
 import com.privacity.cliente.activity.grupoinfo.GrupoInfoActivity;
-import com.privacity.cliente.activity.loading.LoadingActivity;
-import com.privacity.cliente.activity.main.MainActivity;
 import com.privacity.cliente.activity.message.attach.GetImage;
 import com.privacity.cliente.activity.message.attach.MessageAttach;
 import com.privacity.cliente.activity.message.avanzado.MessageAvanzado;
 import com.privacity.cliente.activity.message.customactionbar.MessageCustomActionBar;
 import com.privacity.cliente.activity.message.customactionbar.MessageReplyFrame;
-import com.privacity.cliente.activity.message.delegate.BloqueoRemotoDelegate;
+import com.privacity.cliente.activity.message.messageconfig.AnonimoConfig;
+import com.privacity.cliente.activity.message.textsizemessage.TextSizeMessageView;
+import com.privacity.cliente.activity.message.utils.BitMapTools;
+import com.privacity.cliente.activity.message.validations.MessageValidations;
 import com.privacity.cliente.activity.messagedetail.MessageDetailActivity;
 import com.privacity.cliente.activity.messageresend.MessageResendActivity;
 import com.privacity.cliente.activity.messageresend.MessageUtil;
 import com.privacity.cliente.common.component.SecureFieldAndEye;
+import com.privacity.cliente.activity.message.envioespecial.MessageEnvioEspecial;
 import com.privacity.cliente.common.error.SimpleErrorDialog;
 import com.privacity.cliente.encrypt.AEStoUse;
+import com.privacity.cliente.frame.error.ErrorPojo;
+import com.privacity.cliente.frame.error.ErrorView;
+import com.privacity.cliente.includes.CallBackSecureField;
 import com.privacity.cliente.includes.SecureFieldAndEyeUtil;
 import com.privacity.cliente.model.Grupo;
 import com.privacity.cliente.model.Message;
-import com.privacity.cliente.rest.CallbackRest;
-import com.privacity.cliente.rest.RestExecute;
 import com.privacity.cliente.rest.restcalls.grupo.WrittingCallRest;
 import com.privacity.cliente.rest.restcalls.message.GetMessageHistorialById;
 import com.privacity.cliente.singleton.Observers;
-import com.privacity.cliente.singleton.SingletonValues;
+import com.privacity.cliente.singleton.SingletonValues;import com.privacity.cliente.singleton.Singletons;
+import com.privacity.cliente.singleton.activity.SingletonCurrentActivity;
 import com.privacity.cliente.singleton.impl.SingletonServer;
 import com.privacity.cliente.singleton.interfaces.ObservadoresGrupos;
 import com.privacity.cliente.singleton.interfaces.ObservadoresMensajes;
-import com.privacity.cliente.singleton.observers.ObserverGrupo;
+import com.privacity.cliente.singleton.localconfiguration.SingletonTextSizeMessage;
 import com.privacity.cliente.singleton.observers.ObserverMessage;
-import com.privacity.cliente.util.ChangeVisibility;
-import com.privacity.cliente.util.GsonFormated;
-import com.privacity.common.dto.GrupoDTO;
-import com.privacity.common.dto.GrupoUserConfDTO;
+import com.privacity.cliente.singleton.reconnect.SingletonReconnect;
+import com.privacity.cliente.singleton.serverconfiguration.SingletonServerConfiguration;
+import com.privacity.common.BroadcastConstant;
 import com.privacity.common.dto.IdMessageDTO;
 import com.privacity.common.dto.MediaDTO;
-import com.privacity.common.dto.MessageDTO;
-import com.privacity.common.dto.MessageDetailDTO;
-import com.privacity.common.dto.ProtocoloDTO;
+import com.privacity.cliente.model.dto.MessageDetail;
+import com.privacity.cliente.model.dto.Protocolo;
 import com.privacity.common.dto.UsuarioDTO;
 import com.privacity.common.dto.WrittingDTO;
-
 import com.privacity.common.enumeration.ConfigurationStateEnum;
 import com.privacity.common.enumeration.MediaTypeEnum;
 import com.privacity.common.enumeration.MessageState;
-import com.privacity.common.enumeration.ProtocoloActionsEnum;
-import com.privacity.common.enumeration.ProtocoloComponentsEnum;
 import com.vanniktech.emoji.EmojiPopup;
-
-import org.jetbrains.annotations.NotNull;
-import org.springframework.http.ResponseEntity;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
@@ -125,6 +121,7 @@ import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
 
 import lombok.Getter;
+import lombok.SneakyThrows;
 
 public class MessageActivity extends GrupoSelectedCustomAppCompatActivity
         implements ObservadoresMensajes, ObservadoresGrupos,
@@ -132,6 +129,7 @@ public class MessageActivity extends GrupoSelectedCustomAppCompatActivity
         View.OnCreateContextMenuListener,
         MediaPlayer.OnPreparedListener, MediaPlayer.OnErrorListener {
 
+    public static final String CONSTANT_EXTRA_DATA = "data";
     @Getter
     MessageCustomActionBar messageCustomActionBar;
     @Getter
@@ -142,14 +140,17 @@ public class MessageActivity extends GrupoSelectedCustomAppCompatActivity
 
 
 
+    private ImageButton avanzada2;
 
 
     private RecyclerView rvLista;
 
+
+    @Getter
     private RecyclerMessageAdapter adapter;
 
     @Getter
-    private List<ItemListMessage> items = new CopyOnWriteArrayList<>();
+    private final List<ItemListMessage> items = new CopyOnWriteArrayList<>();
 
     private Button enviarMessageButton;
     EditText txt;
@@ -168,34 +169,14 @@ public class MessageActivity extends GrupoSelectedCustomAppCompatActivity
     //private Button btMessageImagenDelete;
 
     private Button enviarSecret;
-    public EditText tvMessageSecretKey;
+ 
     public AEStoUse extraAesToUse;
     //private Button btMessageSecretKeyAplicar;
     private View viewDialogAddUser;
     private ImageButton avanzada;
-    private View viewAvanzada;
+
     //private Spinner spinnerTime;
     final int[] actualValues={15,30,60,300,600,3000, 60000};
-    private ImageView ibMessageAvanzadoCopy;
-
-    private Button btMessageAvanzadaAutoGen;
-    private ImageButton ibMessageAvanzadoShowSecretKey;
-    private ImageButton ibMessageAvanzadoHideSecretKey;
-    private Spinner spMessageAvanzadoBlackAlways;
-    private Spinner spMessageAvanzadoAnonimoAlways;
-
-    private Spinner spMessageAvanzadoAllowDownloadImage;
-    private CheckBox cbMessageAvanzadoAllowDownloadAudio;
-    private CheckBox cbMessageAvanzadoAllowDownloadVideo;
-
-    private Spinner spMessageAvanzadoTimeAlways;
-    private Spinner spMessageAvanzadoReenvio;
-    private Spinner spMessageAvanzadoExtraAesAlways;
-    public Spinner spMessageAvanzadoBlackRecepcion;
-    public Spinner spMessageAvanzadoAnonimoRecepcion;
-    private Button btMessageAvanzadoSave;
-//    private EditText etMessageAvanzadoNicknameForGrupo;
-//    private TextView tvMessageAvanzadoNicknameForGrupoValidacion;
 
     private Button enviarFile;
     //    private RadioButton rbMessageSendImage;
@@ -203,7 +184,7 @@ public class MessageActivity extends GrupoSelectedCustomAppCompatActivity
     private Button refreshMensaje;
     private ImageButton btnEmojis;
     private ImageButton btnAttach;
-    private Button btMessageAvanzadoClose;
+
     private ImageButton removeAttach;
     private ImageButton hidetxt;
     private ImageButton showtxt;
@@ -219,8 +200,13 @@ public class MessageActivity extends GrupoSelectedCustomAppCompatActivity
     private TableRow messageSendRowComplete;
     private TableRow messageSendRowReadOnly;
 
-    private Spinner spMessageAvanzadoTimeValues;
-    private Spinner spMessageAvanzadoChageNicknameNumber;
+
+
+
+    private TextSizeMessageView textSizeMessageView;
+
+    private MessageAvanzado messageAvanzado;
+    private MessageEnvioEspecial envioEspecial;
 
     @Override
     protected boolean isOnlyAdmin() {
@@ -232,6 +218,9 @@ public class MessageActivity extends GrupoSelectedCustomAppCompatActivity
         Observers.message().setMessageOnTop(true);
         try {
             crearVista();
+            initListener();
+
+
         } catch (Exception e) {
             e.printStackTrace();
             SimpleErrorDialog.errorDialog(
@@ -252,6 +241,7 @@ public class MessageActivity extends GrupoSelectedCustomAppCompatActivity
         }
         Observers.message().getMessageSelected().clear();
         adapter.notifyDataSetChanged();
+        
     }
 
 
@@ -281,85 +271,24 @@ public class MessageActivity extends GrupoSelectedCustomAppCompatActivity
 
 
 
-        initListener();
+
         registerForContextMenu(rvLista);
 
 
 
         initListenersSend();
-        initViewsAvanzado();
-        MessageAvanzado.initListenerAvanzado(
-                MessageActivity.this,
-                ibMessageAvanzadoCopy,
 
-                btMessageAvanzadaAutoGen,
-                ibMessageAvanzadoShowSecretKey,
-                ibMessageAvanzadoHideSecretKey,
-                avanzada,
-                viewAvanzada,
-                null,
-                tvMessageSecretKey);
-        btMessageAvanzadoSave.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-                SimpleErrorDialog.passwordValidation(MessageActivity.this, new SimpleErrorDialog.PasswordValidationI() {
-                    @Override
-                    public void action() {
-                        ProtocoloDTO p = new ProtocoloDTO();
-                        p.setComponent(ProtocoloComponentsEnum.GRUPO);
-                        p.setAction(ProtocoloActionsEnum.GRUPO_SAVE_GRUPO_USER_CONF);
-
-                        GrupoUserConfDTO c = getGrupoUserConfDTO();
-
-                        p.setObjectDTO(GsonFormated.get().toJson(c));
-
-                        RestExecute.doit(MessageActivity.this, p,
-                                new CallbackRest(){
-
-                                    @Override
-                                    public void response(ResponseEntity<ProtocoloDTO> response) {
-
-//                                        if (etMessageAvanzadoNicknameForGrupo.getText().equals("")){
-//                                            ObservatorGrupos.getInstance().getGrupoById(c.getIdGrupo()).setNicknameForGrupo(null);
-//                                        }else{
-//                                            ObservatorGrupos.getInstance().getGrupoById(c.getIdGrupo()).setNicknameForGrupo(c.getNicknameForGrupo());
-//                                        }
-                                        Toast.makeText(getApplicationContext(),"Guardada",Toast. LENGTH_SHORT).show();
-                                        viewAvanzada.setVisibility(View.GONE);
-
-                                    }
-
-                                    @Override
-                                    public void onError(ResponseEntity<ProtocoloDTO> response) {
-
-                                    }
-
-                                    @Override
-                                    public void beforeShowErrorMessage(String msg) {
-
-                                    }
-                                });
-
-
-                    }
-
-
-                });
-
-            }
-        });
-
-        loadGrupoUserConf(getGrupoSeleccionado().getIdGrupo());
 
         initValues();
         adapter.notifyDataSetChanged();
 
         initMessageAttach();
 
-        rvLista.scrollToPosition(items.size() - 1);
-
+        if (items.size() != 0 ) {
+            rvLista.scrollToPosition(items.size() - 1);
+        }
         initSecureFieldAndEye();
+        
 
 //        enviarFile.setOnClickListener(new View.OnClickListener() {
 //            @Override
@@ -381,6 +310,8 @@ public class MessageActivity extends GrupoSelectedCustomAppCompatActivity
 //                }
 //            }
 //        });
+
+        textSizeMessageView = new TextSizeMessageView(this);
     }
 
     private void initSecureFieldAndEye() {
@@ -392,10 +323,68 @@ public class MessageActivity extends GrupoSelectedCustomAppCompatActivity
 
         );
 
-        SecureFieldAndEyeUtil.listener(messageEye,false);
 
-        messageEye.getEyeHide().setVisibility(View.VISIBLE);
-        messageEye.getEyeShow().setVisibility(View.GONE);
+        SecureFieldAndEyeUtil.listener(messageEye, false, new CallBackSecureField() {
+            @Override
+            public void showAction() {
+                for (ItemListMessage i : items){
+                    SingletonValues.getInstance().getGrupoSeleccionado().setSecureFieldActivated(false);
+                    try {
+                        i.rch.getTvMessageListText().setTransformationMethod(HideReturnsTransformationMethod.getInstance());
+                        i.rch.getTvMessageListText().setLetterSpacing(0);
+//                        i.rch.getTvMessageListText().setMaxLines(Integer.MAX_VALUE);
+                    } catch (Exception e) {
+
+                    }
+                    try {
+                        ImageViewCompat.setImageTintList(i.rch.getIvItemListImageMedia(), null);
+                    } catch (Exception e) {
+
+                    }
+
+                    //.   gemUsername.setTransformationMethod(PasswordTransformationMethod.getInstance());
+                }
+            }
+
+            @Override
+            public void hideAction() {
+                SingletonValues.getInstance().getGrupoSeleccionado().setSecureFieldActivated(true);
+                for (ItemListMessage i : items){
+                    try {
+/*
+                        if (i.rch.getTvMessageListText().getLineCount() != 0 ) {
+                            i.rch.getTvMessageListText().setMaxLines(i.rch.getTvMessageListText().getLineCount());
+*/
+                            i.rch.getTvMessageListText().setTransformationMethod(PasswordTransformationMethod.getInstance());
+
+                            i.rch.getTvMessageListText().setLetterSpacing((float) 0.177);
+                    //    }
+
+                    } catch (Exception e) {
+
+                    }
+
+                    try {
+                        ColorStateList csl = AppCompatResources.getColorStateList(MessageActivity.this, R.color.black);
+                        ImageViewCompat.setImageTintList(i.rch.getIvItemListImageMedia(), csl);
+                    } catch (Exception e) {
+
+                    }
+
+                    //.   gemUsername.setTransformationMethod(PasswordTransformationMethod.getInstance());
+                }
+
+            }
+        });
+        if (SingletonValues.getInstance().getGrupoSeleccionado().isSecureFieldActivated()){
+            messageEye.getEyeHide().setVisibility(View.GONE);
+            messageEye.getEyeShow().setVisibility(View.VISIBLE);
+        }else{
+            messageEye.getEyeHide().setVisibility(View.VISIBLE);
+            messageEye.getEyeShow().setVisibility(View.GONE);
+        }
+
+
 
 
     }
@@ -407,83 +396,11 @@ public class MessageActivity extends GrupoSelectedCustomAppCompatActivity
     }
 
     ArrayList<Byte> archivo;
-    @NotNull
-    private GrupoUserConfDTO getGrupoUserConfDTO() {
-        GrupoUserConfDTO c = new GrupoUserConfDTO();
-
-        c.setIdGrupo(getGrupoSeleccionado().getIdGrupo());
-        c.setAnonimoAlways(MessageUtil.getGrupoUserConfEnum(spMessageAvanzadoAnonimoAlways,true));
-        //c.setChangeNicknameToNumber(MessageUtil.getGrupoUserConfEnum(spMessageAvanzadoChageNicknameNumber,true));
-        c.setAnonimoRecived(MessageUtil.getGrupoUserConfEnum(spMessageAvanzadoAnonimoRecepcion,false));
-        c.setTimeMessageSeconds(MessageUtil.getGrupoUserConfMessageTimeGetSeconds(this, spMessageAvanzadoTimeValues));
-        c.setBlackMessageAlways(MessageUtil.getGrupoUserConfEnum(spMessageAvanzadoBlackAlways,false));
-        c.setBlackMessageRecived(MessageUtil.getGrupoUserConfEnum(spMessageAvanzadoBlackRecepcion, false));
-        c.setTimeMessageAlways(MessageUtil.getGrupoUserConfEnum(spMessageAvanzadoTimeAlways, true));
-        c.setPermitirReenvio(MessageUtil.getGrupoUserConfEnum(spMessageAvanzadoReenvio,true));
-        c.setExtraAesAlways(MessageUtil.getGrupoUserConfEnum(spMessageAvanzadoExtraAesAlways,true));
-        c.setDownloadAllowImage(MessageUtil.getGrupoUserConfEnum(spMessageAvanzadoAllowDownloadImage,true));
-        //c.setNicknameForGrupo(etMessageAvanzadoNicknameForGrupo.getText().toString());
-        return c;
-    }
-
-    private void loadGrupoUserConf(String idGrupo){
-        GrupoUserConfDTO conf = Observers.grupo().getGrupoById(idGrupo).getUserConfDTO();
-
-        //etMessageAvanzadoNicknameForGrupo.setText(ObservatorGrupos.getInstance().getGrupoById(idGrupo).getNicknameForGrupo());
 
 
-        spMessageAvanzadoBlackAlways.setSelection(MessageUtil.getSpinnerItem(MasterGeneralConfiguration.buildSiempreBlackConfigurationByGrupo(getGrupoSeleccionado().getIdGrupo()),false));
-//        setSpinnerListener(spMessageAvanzadoBlackAlways,0);
-//        spMessageAvanzadoAnonimoAlways.setSelection(MessageUtil.getSpinnerItem(MasterGeneralConfiguration.buildSiempreAnonimoConfigurationByGrupo(grupoSeleccionado),true));
-//        setSpinnerListener(spMessageAvanzadoAnonimoAlways,R.id.tv_message_avanzado_anonimo_always);
-        spMessageAvanzadoTimeAlways.setSelection(MessageUtil.getSpinnerItem(MasterGeneralConfiguration.buildSiempreTemporalConfigurationByGrupo(getGrupoSeleccionado().getIdGrupo()),true));
-        setSpinnerListener(spMessageAvanzadoTimeAlways,R.id.tv_message_avanzado_time_always);
-
-        spMessageAvanzadoChageNicknameNumber.setSelection(MessageUtil.getSpinnerItem(MasterGeneralConfiguration.buildHideNicknameConfigurationByGrupo(getGrupoSeleccionado().getIdGrupo()),true));
-        setSpinnerListener(spMessageAvanzadoChageNicknameNumber,R.id.tv_message_avanzado_change_nickname_number);
 
 
-        spMessageAvanzadoAllowDownloadImage.setSelection(MessageUtil.getSpinnerItem(MasterGeneralConfiguration.buildImageDownload(getGrupoSeleccionado().getIdGrupo()),false));
-        setSpinnerListener(spMessageAvanzadoAllowDownloadImage,R.id.tv_message_avanzado_allow_download_imagen);
 
-
-        /*
-        private CheckBox cbMessageAvanzadoAllowDownloadImage;
-        private CheckBox cbMessageAvanzadoAllowDownloadAudio;
-        private CheckBox cbMessageAvanzadoAllowDownloadVideo;
-
- */
-        /*
-                    Resources res = activity.getResources();
-            String[] a = res.getStringArray(R.array.time_messages_values_in_seconds);
-            int t = Integer.parseInt(a[this.temporal.getConfTemporalMaximoTiempoPermitido().getSelectedItemPosition()]);
-            dto.setTimeMessageMaxTimeAllow(t);
-         */
-//        spMessageAvanzadoReenvio.setSelection(MessageUtil.getSpinnerItem(MasterGeneralConfiguration.buildResendPermitidoConfigurationByGrupo(grupoSeleccionado),true));
-//        setSpinnerListener(spMessageAvanzadoReenvio,R.id.tv_message_avanzado_reenvio);
-//        spMessageAvanzadoExtraAesAlways.setSelection(MessageUtil.getSpinnerItem(MasterGeneralConfiguration.buildSiempreExtraEncryptConfigurationByGrupo(grupoSeleccionado),true));
-//        setSpinnerListener(spMessageAvanzadoExtraAesAlways,R.id.tv_message_avanzado_personal_encrypt_always);
-//        spMessageAvanzadoExtraAesAlways.setSelection(MessageUtil.getSpinnerItem(conf.getExtraAesAlways()));
-        spMessageAvanzadoBlackRecepcion.setSelection(MessageUtil.getSpinnerItem(MasterGeneralConfiguration.buildSiempreBlackReceptionConfigurationByGrupo(getGrupoSeleccionado().getIdGrupo()),false));
-        spMessageAvanzadoAnonimoRecepcion.setSelection(MessageUtil.getSpinnerItem(MasterGeneralConfiguration.buildSiempreAnonimoReceptionConfigurationByGrupo(getGrupoSeleccionado().getIdGrupo()),false));
-    }
-
-    private void setSpinnerListener(Spinner mySpinner, int text){
-        if (text == 0) return;
-
-        TextView v = (TextView)findViewById(text);
-
-//        v.setText(mySpinner.getSelectedItem().toString());
-        v.setClickable(true);
-
-        v.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                SimpleErrorDialog.errorDialog(MessageActivity.this, "Validación", "No se puede cambiar por las Reglas del Grupo");
-            }
-        });
-
-    }
 
     private void setBroadcast() {
         BroadcastReceiver broadcastReceiver = new BroadcastReceiver() {
@@ -491,172 +408,25 @@ public class MessageActivity extends GrupoSelectedCustomAppCompatActivity
             @Override
             public void onReceive(Context arg0, Intent intent) {
                 String action = intent.getAction();
-                if (action.equals("finish_message_activity")) {
+                if (action.equals(BroadcastConstant.BROADCAST__FINISH_MESSAGE_ACTIVITY)) {
                     finish();
                 }
-                if (action.equals("reload_configuracion_avanzada_message_activity")) {
-                    initViewsAvanzado();
-                    loadGrupoUserConf(getGrupoSeleccionado().getIdGrupo());
+                if (action.equals(BroadcastConstant.BROADCAST__RELOAD_CONFIGURACION_AVANZADA_MESSAGE_ACTIVITY)) {
+                    //messageAvanzado=null;
                 }
 
             }
         };
 
-        registerReceiver(broadcastReceiver, new IntentFilter("finish_message_activity"));
-        registerReceiver(broadcastReceiver, new IntentFilter("reload_configuracion_avanzada_message_activity"));
+        registerReceiver(broadcastReceiver, new IntentFilter(BroadcastConstant.BROADCAST__FINISH_MESSAGE_ACTIVITY));
+        registerReceiver(broadcastReceiver, new IntentFilter(BroadcastConstant.BROADCAST__RELOAD_CONFIGURACION_AVANZADA_MESSAGE_ACTIVITY));
+    }
+
+    public MessageAvanzado getMessageAvanzado() {
+        return messageAvanzado;
     }
 
 
-    private void initViewsAvanzado() {
-
-//        tvMessageAvanzadoNicknameForGrupoValidacion = (TextView) findViewById(R.id.tv_message_avanzado_nickname_for_grupo_validacion);
-//        etMessageAvanzadoNicknameForGrupo = (EditText) findViewById(R.id.et_message_avanzado_nickname_for_grupo);
-//        etMessageAvanzadoNicknameForGrupo.setFilters(new InputFilter[]{new InputFilter.LengthFilter(ConstantValidation.USER_NICKNAME_MAX_LENGTH)});
-//        etMessageAvanzadoNicknameForGrupo.addTextChangedListener(new TextWatcher() {
-//
-//            public void afterTextChanged(Editable s) {
-//
-//                validarNickname();
-//
-//            }
-//
-//            public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
-//
-//            public void onTextChanged(CharSequence s, int start, int before, int count) {}
-//        });
-
-        //etMessageAvanzadoNicknameForGrupo.setFilters(new InputFilter[]{new InputFilter.LengthFilter(ConstantValidation.USER_NICKNAME_MAX_LENGTH)});
-        btMessageAvanzadoSave = (Button) findViewById(R.id.bt_message_avanzado_save);
-        btMessageAvanzadoClose = (Button) findViewById(R.id.bt_message_avanzado_clse);
-
-        btMessageAvanzadoClose.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-                viewAvanzada.setVisibility(View.GONE);
-
-            }
-        });
-
-        ibMessageAvanzadoCopy = (ImageView) findViewById(R.id.ib_message_avanzado_copy);
-        btMessageAvanzadaAutoGen = (Button) findViewById(R.id.bt_message_avanzada_auto_gen);
-        ibMessageAvanzadoShowSecretKey = (ImageButton) findViewById(R.id.ib_message_avanzado_show_secret_key);
-        ibMessageAvanzadoHideSecretKey = (ImageButton) findViewById(R.id.ib_message_avanzado_hide_secret_key);
-        avanzada = (ImageButton) findViewById(R.id.boton_avanzado);
-        viewAvanzada = findViewById(R.id.vista_avanzada);
-        //spinnerTime = (Spinner) findViewById(R.id.sp_message_avanzado_time_values);
-        //spinnerTime.setSelection(1);
-
-        spMessageAvanzadoAllowDownloadImage = (Spinner) findViewById(R.id.sp_message_avanzado_allow_download_imagen);
-        cbMessageAvanzadoAllowDownloadAudio = (CheckBox) findViewById(R.id.ib_message_avanzado_allow_download_audio);
-        cbMessageAvanzadoAllowDownloadVideo = (CheckBox) findViewById(R.id.ib_message_avanzado_allow_download_video);
-
-
-
-        spMessageAvanzadoChageNicknameNumber = (Spinner) findViewById(R.id.sp_message_avanzado_change_nickname_number);
-        spMessageAvanzadoBlackAlways = (Spinner) findViewById(R.id.sp_message_avanzado_black_always);
-        spMessageAvanzadoAnonimoAlways = (Spinner) findViewById(R.id.sp_message_avanzado_anonimo_always);
-
-        spMessageAvanzadoTimeAlways = (Spinner) findViewById(R.id.sp_message_avanzado_time_always);
-        spMessageAvanzadoTimeValues = (Spinner) findViewById(R.id.sp_message_avanzado_time_values);
-
-        ArrayAdapter<CharSequence> spinnerArrayAdapter;
-        spinnerArrayAdapter = ArrayAdapter.createFromResource(MessageActivity.this, R.array.time_messages_values, R.layout.support_simple_spinner_dropdown_item);
-        spMessageAvanzadoTimeValues.setAdapter(spinnerArrayAdapter);
-
-        spMessageAvanzadoTimeValues.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                GrupoUserConfDTO configuracion = Observers.grupo().getGrupoById(getGrupoSeleccionado().getIdGrupo()).getUserConfDTO();;
-                configuracion.setTimeMessageSeconds(MessageUtil.getGrupoUserConfMessageTimeGetSeconds(MessageActivity.this, spMessageAvanzadoTimeValues));
-
-                TextView childAt = (TextView) parent.getChildAt(0);
-                childAt.setTextColor(Color.parseColor("#FF009688"));
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-
-            }
-        });
-        {
-
-
-            spMessageAvanzadoTimeValues.setSelection(
-                    MessageUtil.getGrupoUserConfMessageTimeGetSecondsIndex(
-                            MessageActivity.this,
-                            Observers.grupo().getGrupoById(getGrupoSeleccionado().getIdGrupo()).getUserConfDTO()
-                                    .getTimeMessageSeconds()
-                    )
-            );
-        }
-        //c.setTimeMessageSeconds(MessageUtil.getGrupoUserConfMessageTimeSecondsIndex(this, spMessageAvanzadoTimeValues));
-        spMessageAvanzadoReenvio = (Spinner) findViewById(R.id.sp_message_avanzado_reenvio);
-        spMessageAvanzadoExtraAesAlways = (Spinner) findViewById(R.id.sp_message_avanzado_extra_aes_always);
-
-        spMessageAvanzadoBlackRecepcion = (Spinner) findViewById(R.id.sp_message_avanzado_black_recepcion);
-        spMessageAvanzadoAnonimoRecepcion = (Spinner) findViewById(R.id.sp_message_avanzado_anonimo_recepcion);
-
-        renderSpinner(spMessageAvanzadoBlackAlways, MasterGeneralConfiguration.buildSiempreBlackConfigurationByGrupo(getGrupoSeleccionado().getIdGrupo()),false);
-        renderSpinner(spMessageAvanzadoChageNicknameNumber, MasterGeneralConfiguration.buildHideNicknameConfigurationByGrupo(getGrupoSeleccionado().getIdGrupo()),true);
-        renderSpinner(spMessageAvanzadoAnonimoAlways, MasterGeneralConfiguration.buildSiempreAnonimoConfigurationByGrupo(getGrupoSeleccionado().getIdGrupo()),true);
-
-        renderSpinner(spMessageAvanzadoTimeAlways, MasterGeneralConfiguration.buildSiempreTemporalConfigurationByGrupo(getGrupoSeleccionado().getIdGrupo()),true);
-        renderSpinner(spMessageAvanzadoReenvio, MasterGeneralConfiguration.buildResendPermitidoConfigurationByGrupo(getGrupoSeleccionado().getIdGrupo()),true);
-//        renderSpinner(spMessageAvanzadoReenvio, SingletonValues.getInstance().getMessageConfDTO().isPermitirReenvio());
-
-        renderSpinner(spMessageAvanzadoExtraAesAlways, MasterGeneralConfiguration.buildSiempreExtraEncryptConfigurationByGrupo(getGrupoSeleccionado().getIdGrupo()),true);
-//
-        renderSpinner(spMessageAvanzadoBlackRecepcion, MasterGeneralConfiguration.buildSiempreBlackReceptionConfigurationByGrupo(getGrupoSeleccionado().getIdGrupo()),false);
-        renderSpinner(spMessageAvanzadoAnonimoRecepcion, MasterGeneralConfiguration.buildSiempreAnonimoReceptionConfigurationByGrupo(getGrupoSeleccionado().getIdGrupo()),false);
-
-
-        renderSpinner(spMessageAvanzadoAllowDownloadImage, MasterGeneralConfiguration.buildImageDownload(getGrupoSeleccionado().getIdGrupo()),true);
-
-//        if (GrupoUtil.isGrupoDeDos(MessageActivity.this.grupoSeleccionado)){
-//            spMessageAvanzadoAnonimoAlways.setSelection(1);
-//            spMessageAvanzadoAnonimoRecepcion.setSelection(1);
-//
-//            spMessageAvanzadoAnonimoAlways.setEnabled(false);
-//            spMessageAvanzadoAnonimoRecepcion.setEnabled(false);
-//
-//        }
-
-        setAvanzadoSpinnerColor(spMessageAvanzadoBlackAlways,false,null,null);
-        setAvanzadoSpinnerColor(spMessageAvanzadoChageNicknameNumber,true,(TextView)findViewById(R.id.tv_message_avanzado_change_nickname_number),MasterGeneralConfiguration.buildHideNicknameConfigurationByGrupo(getGrupoSeleccionado().getIdGrupo()));
-        setAvanzadoSpinnerColor(spMessageAvanzadoAnonimoAlways,true,(TextView)findViewById(R.id.tv_message_avanzado_anonimo_always),MasterGeneralConfiguration.buildSiempreAnonimoConfigurationByGrupo(getGrupoSeleccionado().getIdGrupo()));
-        setAvanzadoSpinnerColor(spMessageAvanzadoAllowDownloadImage,true,(TextView)findViewById(R.id.tv_message_avanzado_allow_download_imagen),MasterGeneralConfiguration.buildImageDownload(getGrupoSeleccionado().getIdGrupo()));
-
-        setAvanzadoSpinnerColor(spMessageAvanzadoTimeAlways,true,(TextView)findViewById(R.id.tv_message_avanzado_time_always),MasterGeneralConfiguration.buildSiempreTemporalConfigurationByGrupo(getGrupoSeleccionado().getIdGrupo()));
-        setAvanzadoSpinnerColor(spMessageAvanzadoReenvio,true,(TextView)findViewById(R.id.tv_message_avanzado_reenvio),MasterGeneralConfiguration.buildResendPermitidoConfigurationByGrupo(getGrupoSeleccionado().getIdGrupo()));
-        setAvanzadoSpinnerColor(spMessageAvanzadoExtraAesAlways,true,(TextView)findViewById(R.id.tv_message_avanzado_extra_aes_always),MasterGeneralConfiguration.buildSiempreExtraEncryptConfigurationByGrupo(getGrupoSeleccionado().getIdGrupo()));
-//
-//
-        setAvanzadoSpinnerColor(spMessageAvanzadoBlackRecepcion, adapter,false,null,null);
-        setAvanzadoSpinnerColor(spMessageAvanzadoAnonimoRecepcion,adapter,false,null,null);
-
-        //setAvanzadoSpinnerColor(spMessageAvanzadoAllowDownloadImage,adapter,false,null,null);
-
-        tvMessageSecretKey.setText(getGrupoSeleccionado().getPassword().getPasswordExtraEncrypt());
-    }
-
-    public void renderSpinner(Spinner mySpinner, ConfType defecto, boolean configurable) {
-        List<String> myArraySpinner = new ArrayList<String>();
-        mySpinner.setVisibility(View.VISIBLE);
-
-        if (configurable) {
-
-            if (defecto.isSuperiorValue()) myArraySpinner.add("✔");
-            else myArraySpinner.add("✘");
-
-        }
-        myArraySpinner.add("✔");
-        myArraySpinner.add("✘");
-
-        ArrayAdapter<String> spinnerArrayAdapter;
-        spinnerArrayAdapter = new ArrayAdapter<String>(MessageActivity.this,R.layout.support_simple_spinner_dropdown_item, myArraySpinner);
-        mySpinner.setAdapter(spinnerArrayAdapter);
-    }
 //    private void validarNickname() {
 //        if (etMessageAvanzadoNicknameForGrupo.getText().toString().length() > ConstantValidation.USER_NICKNAME_MAX_LENGTH){
 //            tvMessageAvanzadoNicknameForGrupoValidacion.setTextColor(Color.RED);
@@ -668,19 +438,13 @@ public class MessageActivity extends GrupoSelectedCustomAppCompatActivity
 //
 //    }
 
-    public  void setAvanzadoSpinnerColor(Spinner spinner, boolean configurable, TextView textFijo, ConfType defecto){
-        setAvanzadoSpinnerColor(spinner, null,configurable, textFijo,defecto);
-    }
-    public  void setAvanzadoSpinnerColor(Spinner spinner, RecyclerMessageAdapter adapter, boolean configurable, TextView textFijo, ConfType defecto){
 
-        spinner.setOnItemSelectedListener(new Listener(spinner,adapter,configurable,textFijo,defecto));
-    }
 
     @Override
     public void actualizarLista() {
         messageCustomActionBar.setMainMembersOnLineCount();
         messageCustomActionBar.actualizarConfLockCandadoCerrado();
-
+        
 
     }
 
@@ -700,128 +464,68 @@ public class MessageActivity extends GrupoSelectedCustomAppCompatActivity
     }
 
     @Override
-    public void avisarLock(GrupoDTO g) {
-       messageCustomActionBar.actualizarConfLockCandadoCerrado();
+    public void avisarLock(Grupo g) {
+        messageCustomActionBar.actualizarConfLockCandadoCerrado();
 
     }
 
+    @Override
+    public void avisarRoleChange(Grupo g) {
 
-    class Listener implements AdapterView.OnItemSelectedListener {
-        final Spinner spinner;
-        final RecyclerMessageAdapter adapter;
-        final boolean configurable;
-        final TextView textFijo;
-        final int conf;
-        final ConfType defecto;
-        Listener(Spinner spinner, RecyclerMessageAdapter adapter2, boolean configurable, TextView textFijo,ConfType defecto) {
-            this.spinner = spinner;
-            adapter = adapter2;
-            this.configurable = configurable;
-            this.textFijo = textFijo;
-            this.defecto = defecto;
+        if (getGrupoSeleccionado().getIdGrupo().equals(g.getIdGrupo())) {
+            Intent intent = new Intent(BroadcastConstant.BROADCAST__FINISH_GRUPO_INFO_ACTIVITY);
+            this.sendBroadcast(intent);
 
-            if (!configurable){
-                conf=-1;
-            }else{
-                conf =0;
-            }
+            messageAvanzadoReset();
+            roleViewSetup();
         }
+        
+    }
 
-
-        @Override
-        public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-
-            //if (spinner.isEnabled()) {
-            final TextView childAt = (TextView) parent.getChildAt(0);
-            if (spinner.getSelectedItemPosition() == (1+conf)) {
-
-                childAt.setTextColor(Color.parseColor("#FF009688"));
-                //((TextView) parent.getChildAt(0)).setTextColor(Color.GREEN);
-                if (textFijo!=null)textFijo.setTextColor(Color.parseColor("#FF009688"));
-            } else if (spinner.getSelectedItemPosition() == (2+conf)) {
-                childAt.setTextColor(Color.RED);
-                if (textFijo!=null)textFijo.setTextColor(Color.RED);
-            } else {
-                childAt.setTextColor(Color.BLUE);
-                if (textFijo!=null)textFijo.setTextColor(Color.BLUE);
-            }
-            if (textFijo!=null)textFijo.setText(childAt.getText());
-
-
-
-            //}
-                /*else{
-                    ((TextView) parent.getChildAt(0)).setTextColor(Color.GRAY);
-                }*/
-
-
-            if (defecto != null) {
-                if (defecto.isGanaGrupo()) {
-                    spinner.setVisibility(View.GONE);
-                    textFijo.setVisibility(View.VISIBLE);
-                } else {
-                    spinner.setVisibility(View.VISIBLE);
-                    textFijo.setVisibility(View.GONE);
-                    spinner.setEnabled(true);
-                }
-            }//else{
-
-            Observers.grupo().getGrupoById(getGrupoSeleccionado().getIdGrupo()).setUserConfDTO(getGrupoUserConfDTO());
-//                if (spinner.getId() == spMessageAvanzadoBlackAlways.getId()){
-//                    GrupoUserConfDTO configuracion = ObservatorGrupos.getInstance().getGrupoById(grupoSeleccionado).getUserConfDTO();;
-//                    configuracion.setBlackMessageAlways(MessageUtil.getGrupoUserConfEnum(spMessageAvanzadoBlackAlways,false));
-//                }
-//
-//                if (spinner.getId() == spMessageAvanzadoBlackRecepcion.getId()){
-//                    GrupoUserConfDTO configuracion = ObservatorGrupos.getInstance().getGrupoById(grupoSeleccionado).getUserConfDTO();;
-//                    configuracion.setBlackMessageRecived(MessageUtil.getGrupoUserConfEnum(spMessageAvanzadoBlackRecepcion,false));
-//
-//                }
-//
-//                if (spinner.getId() == spMessageAvanzadoAnonimoRecepcion.getId()){
-//                    GrupoUserConfDTO configuracion = ObservatorGrupos.getInstance().getGrupoById(grupoSeleccionado).getUserConfDTO();;
-//                    configuracion.setAnonimoRecived(MessageUtil.getGrupoUserConfEnum(spMessageAvanzadoAnonimoRecepcion,false));
-//
-//                }
-
-            if (adapter != null) adapter.notifyDataSetChanged();
+    private void messageAvanzadoReset() {
+        if (getMessageAvanzado() != null){
+            getMessageAvanzado().reset();
         }
+    }
 
-        @Override
-        public void onNothingSelected(AdapterView<?> parent) {
+    @Override
+    public void avisarCambioGrupoGralConf(Grupo g) {
+        if (getGrupoSeleccionado().getIdGrupo().equals(g.getIdGrupo())) {
+
+            messageAvanzadoReset();
+
+
+            Intent intent = new Intent(BroadcastConstant.BROADCAST__FINISH_GRUPO_INFO_ACTIVITY);
+            this.sendBroadcast(intent);
+
+
 
         }
-            /*
-            if (spinner.getVisibility() == View.VISIBLE) {
-                GrupoUserConfDTO conf = getGrupoUserConfDTO();
-
-            }*/
-
-
 
     }
+
 
     @Override
     public void onCreateContextMenu (ContextMenu menu, View
             v, ContextMenu.ContextMenuInfo menuInfo){
 
-        if (v.getId() == enviarMessageButton.getId()){
-            menu.clear();
-            menu.setHeaderTitle("Envio Especial");
-            if (!getGrupoSeleccionado().getGralConfDTO().getAnonimo().equals(ConfigurationStateEnum.BLOCK)) {
-                menu.add(Menu.NONE, 1, Menu.NONE, "Anonimo");
-            }
-            menu.add(Menu.NONE, 2, Menu.NONE, "Temporal - " + spMessageAvanzadoTimeValues.getSelectedItem().toString());
-            menu.add(Menu.NONE, 3, Menu.NONE, "Black");
-            if (!getGrupoSeleccionado().getGralConfDTO().getExtraEncrypt().equals(ConfigurationStateEnum.BLOCK)) {
-                menu.add(Menu.NONE, 4, Menu.NONE, "Extra Encriptado");
-            }
 
-
-        }
     }
 
 
+    private boolean showErrorSinInternet(Activity activity) {
+        if (!SingletonReconnect.isOnline(activity)) {
+
+            ErrorPojo pojo = new ErrorPojo();
+            pojo.setUrl(SingletonServer.getInstance().getAppServer());
+            pojo.setRecomendacion(activity.getString(R.string.main_login__alert__sin_internet__detail));
+            pojo.setErrorDescription(activity.getString(R.string.main_login__alert__sin_internet__title));
+
+            new ErrorView(activity).show(pojo);
+            return false;
+        }
+        return true;
+    }
 
     private void initListenersSend() {
 //        enviarEspecial.setOnClickListener(new View.OnClickListener() {
@@ -832,88 +536,13 @@ public class MessageActivity extends GrupoSelectedCustomAppCompatActivity
 //            }
 //        });
 
-        tvMessageSecretKey.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
 
-            }
-
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-
-            }
-
-            @Override
-            public void afterTextChanged(Editable s) {
-
-                if (tvMessageSecretKey.getText().toString().equals("")){
-                    extraAesToUse =null;
-                }else{
-                    extraAesToUse = null;
-                    extraAesToUse = MessageAvanzado.aplicarExtraAES(
-                            SingletonValues.getInstance().getGrupoSeleccionado(),
-                            MessageActivity.this ,
-                            tvMessageSecretKey,
-                            extraAesToUse,false,null);
-                }
-                adapter.notifyDataSetChanged();
-            }
-        });
 
         enviarMessageButton.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View v) {
-                longClick=true;
-                if (txt.getText().toString().trim().equals("")){
-
-                    if (isViewSendMessageVisible()){
-                        chageSendingMode();
-                    }
-                    if (!isViewSendMessageVisible() &&  thereIsAudioChat() && isButtonSendText ){
-
-                    }else{
-                        grabarAudio();
-
-                        ClipData.Item item = new ClipData.Item((Intent) v.getTag());
-
-                        // Create a new ClipData using the tag as a label, the plain text MIME type, and
-                        // the already-created item. This will create a new ClipDescription object within the
-                        // ClipData, and set its MIME type entry to "text/plain"
-                        ClipData dragData = new ClipData(
-                                (CharSequence) v.getTag(),
-                                new String[] { ClipDescription.MIMETYPE_TEXT_PLAIN },
-                                item);
-
-                        // Instantiates the drag shadow builder.
-
-
-// Creates a new ImageView
-
-                        Drawable a2 = getResources().getDrawable(R.drawable.candadocerrado);
-
-                        //imageView.invalidate();
-                        BitmapDrawable drawable = (BitmapDrawable) a2;
-                        Bitmap bitmap = drawable.getBitmap();
-
-// Sets the bitmap for the ImageView from an icon bit map (defined elsewhere)
-
-
-                        View.DragShadowBuilder myShadow = new MyDragShadowBuilder(enviarMessageButton);
-
-                        // Starts the drag
-
-                        v.startDrag(dragData,  // the data to be dragged
-                                myShadow,  // the drag shadow builder
-                                null,      // no need to use local data
-                                0          // flags (not currently used, set to 0)
-                        );
-
-                        return true;
-                    }
-                }
-                registerForContextMenu(enviarMessageButton);
-                openContextMenu(enviarMessageButton);
-                return true;
+                messageAttach.getContenedor().setVisibility(View.GONE);
+                return setLongClickSendMessage(v);
             }
 
         });
@@ -984,7 +613,7 @@ public class MessageActivity extends GrupoSelectedCustomAppCompatActivity
             });
 
             findViewById(R.id.mensaje_de_prueba_boton2).setOnClickListener(v -> {
-                txt.setText("Mensaje de prueba");
+                txt.setText("www.google.com");
                 enviarMessageButtonOnClick();
             });
 
@@ -1009,19 +638,92 @@ public class MessageActivity extends GrupoSelectedCustomAppCompatActivity
             findViewById(R.id.mensaje_prueba_get_historial).setVisibility(View.GONE);
 
         }
-        if ( Observers.grupo().amIReadOnly(SingletonValues.getInstance().getGrupoSeleccionado().getIdGrupo())){
-            findViewById(R.id.mensaje_de_prueba).setVisibility(View.GONE);
 
-        }
 
-        enviarMessageButton.setOnClickListener(v -> enviarMessageButtonOnClick());
+
 
     }
 
+    private boolean setLongClickSendMessage(View v) {
+        messageAttach.getContenedor().setVisibility(View.GONE);
+        if (!showErrorSinInternet(MessageActivity.this)){return false;}
+        longClick=true;
+        if (txt.getText().toString().trim().equals("")){
+            if (MessageValidations.blockAudioMessageValidation()){
+                longClick=false;
+                return false;
+
+            }
+
+
+            if (isViewSendMessageVisible()){
+                chageSendingMode();
+            }
+            if (!isViewSendMessageVisible() &&  thereIsAudioChat() && isButtonSendText ){
+
+            }else{
+
+
+                grabarAudio();
+
+                ClipData.Item item = new ClipData.Item((Intent) v.getTag());
+
+                // Create a new ClipData using the tag as a label, the plain text MIME type, and
+                // the already-created item. This will create a new ClipDescription object within the
+                // ClipData, and set its MIME type entry to "text/plain"
+                ClipData dragData = new ClipData(
+                        (CharSequence) v.getTag(),
+                        new String[] { ClipDescription.MIMETYPE_TEXT_PLAIN },
+                        item);
+
+                // Instantiates the drag shadow builder.
+
+
+// Creates a new ImageView
+
+                Drawable a2 = getResources().getDrawable(R.drawable.candadocerrado);
+
+                //imageView.invalidate();
+                BitmapDrawable drawable = (BitmapDrawable) a2;
+                Bitmap bitmap = drawable.getBitmap();
+
+// Sets the bitmap for the ImageView from an icon bit map (defined elsewhere)
+
+
+                View.DragShadowBuilder myShadow = new MyDragShadowBuilder(enviarMessageButton);
+
+                // Starts the dragT
+
+                v.startDrag(dragData,  // the data to be dragged
+                        myShadow,  // the drag shadow builder
+                        null,      // no need to use local data
+                        0          // flags (not currently used, set to 0)
+                );
+
+                return true;
+            }
+        }
+        //registerForContextMenu(enviarMessageButton);
+        //openContextMenu(enviarMessageButton);
+
+        if (envioEspecial == null){
+            envioEspecial = new MessageEnvioEspecial(this);
+        }
+        envioEspecial.open();
+        return true;
+    }
+
+
     private void enviarMessageButtonOnClick() {
+        messageAttach.getContenedor().setVisibility(View.GONE);
+        if (!showErrorSinInternet(MessageActivity.this)){return;}
         longClick=false;
         if (txt.getText().toString().trim().equals("") && bitmapCompleto ==null){
+            if (MessageValidations.blockAudioMessageValidation()){
+                longClick=false;
+                return;
 
+            }
             if (!isViewSendMessageVisible() &&  thereIsAudioChat() && !isButtonSendText ) {
                 //changeButtonSendToSendText();
 
@@ -1042,35 +744,35 @@ public class MessageActivity extends GrupoSelectedCustomAppCompatActivity
         }
 
         adapter.notifyDataSetChanged();
-
+        
 
         final boolean black;
-        final boolean time = getSpinner(spMessageAvanzadoTimeAlways);
-        final boolean anonimo = getSpinner(spMessageAvanzadoAnonimoAlways);
-        final boolean extraKey = getSpinner(spMessageAvanzadoExtraAesAlways);
+        final boolean time = false;
+        final boolean anonimo = AnonimoConfig.alwaysSendAnonino(getGrupoSeleccionado().getIdGrupo());
+        final boolean extraKey = false;
 
         if (time){
             black=false;
         }else{
 
-            black = getSpinner(spMessageAvanzadoBlackAlways);
+            black = false;
 
         }
 
         if (extraKey){
 
             if (extraAesToUse ==null){
-                extraAesToUse =
+/*                extraAesToUse =
                         extraAesToUse = MessageAvanzado.aplicarExtraAES(
                                 SingletonValues.getInstance().getGrupoSeleccionado(),
                                 MessageActivity.this,
-                                tvMessageSecretKey,
+                if (getMessageAvanzado()!= null )getMessageAvanzado().getTvMessageSecretKey(),
                                 extraAesToUse, false, new ActionMessageEncryptKeyI() {
                                     @Override
                                     public void action() {
                                         callSendMethod(black, time, anonimo, extraKey);
                                     }
-                                });
+                                });*/
             }else {
                 callSendMethod(black, time, anonimo, extraKey);
 
@@ -1079,24 +781,25 @@ public class MessageActivity extends GrupoSelectedCustomAppCompatActivity
 
         }else {
             try {
-                sendMessageMethod(black, time, anonimo, extraKey,getPermitirReenvio());
+                sendMessageMethod(black, time,0, anonimo, extraKey,  MessageValidations.isBlockResend(getGrupoSeleccionado().getIdGrupo()));
             } catch (Exception e) {
                 e.printStackTrace();
                 SimpleErrorDialog.errorDialog(MessageActivity.this,
-                        "MENSAJE DE ERROR", e.getMessage());
+                        MessageActivity.this.getString(R.string.general__error_message), e.getMessage());
             }
         }
     }
 
     private void callSendMethod(boolean black, boolean time, boolean anonimo, boolean personalKey) {
         try {
-            sendMessageMethod(black, time, anonimo, personalKey, getPermitirReenvio());
+            sendMessageMethod(black, time, 0,anonimo, personalKey, MessageValidations.isBlockResend(getGrupoSeleccionado().getIdGrupo()));
         } catch (Exception e) {
             e.printStackTrace();
             SimpleErrorDialog.errorDialog(MessageActivity.this,
-                    "MENSAJE DE ERROR", e.getMessage());
+                    MessageActivity.this.getString(R.string.general__error_message), e.getMessage());
         }
         adapter.notifyDataSetChanged();
+        
     }
 
     boolean longClick=false;
@@ -1121,10 +824,16 @@ public class MessageActivity extends GrupoSelectedCustomAppCompatActivity
 
 
     private void chageSendingMode(){
+        messageAttach.getContenedor().setVisibility(View.GONE);
         MessageActivity.this.isRecordingAudio=false;
         MessageActivity.this.isPlayingAudio=false;
         audioList = null;
         MessageUtil.segundosCalculados(secondsAudio,audioList);
+        if (MessageValidations.blockAudioMessageValidation()){
+            longClick=false;
+            return;
+
+        }
 
         if ( isViewSendMessageVisible() && isButtonSendText) {
             MessageUtil.segundosCalculados(secondsAudio, audioList);
@@ -1162,10 +871,10 @@ public class MessageActivity extends GrupoSelectedCustomAppCompatActivity
                 ByteArrayOutputStream stream = new ByteArrayOutputStream();
 
                 byte[] byteArray = stream.toByteArray();
-                bitmapCompleto = getBitmapCamera(getContentResolver(), byteArray,IMAGE_MAX_SIZE_COMPLETO);
+                bitmapCompleto = BitMapTools.getBitmapCamera(getContentResolver(), byteArray,IMAGE_MAX_SIZE_COMPLETO);
             }
             if (bitmapCompleto == null){
-                bitmapCompleto = (Bitmap) data.getExtras().get("data");
+                bitmapCompleto = (Bitmap) data.getExtras().get(CONSTANT_EXTRA_DATA);
             }
             bitmapMiniatura = (Bitmap) data.getExtras().get("data");
 
@@ -1174,7 +883,7 @@ public class MessageActivity extends GrupoSelectedCustomAppCompatActivity
                 ByteArrayOutputStream stream = new ByteArrayOutputStream();
 
                 byte[] byteArray = stream.toByteArray();
-                bitmapMiniatura = getBitmapCamera(getContentResolver(), byteArray, IMAGE_MAX_SIZE_MINIATURA);
+                bitmapMiniatura = BitMapTools.getBitmapCamera(getContentResolver(), byteArray, IMAGE_MAX_SIZE_MINIATURA);
             }
 
             ((ImageView)findViewById(R.id.miniatura)).setImageBitmap(bitmapMiniatura);
@@ -1194,14 +903,14 @@ public class MessageActivity extends GrupoSelectedCustomAppCompatActivity
 
                 if ((bitmapCompleto.getWidth() * bitmapCompleto.getHeight()) * (1 / Math.pow(1, 2)) >
                         IMAGE_MAX_SIZE_COMPLETO/100) {
-                    bitmapCompleto = getBitmap(getContentResolver(), filePath, IMAGE_MAX_SIZE_COMPLETO);
+                    bitmapCompleto = BitMapTools.getBitmap(getContentResolver(), filePath, IMAGE_MAX_SIZE_COMPLETO);
                 }
 
                 bitmapMiniatura = MediaStore.Images.Media.getBitmap(getContentResolver(), filePath);
 
                 if ((bitmapCompleto.getWidth() * bitmapCompleto.getHeight()) * (1 / Math.pow(1, 2)) >
                         IMAGE_MAX_SIZE_MINIATURA/100) {
-                    bitmapMiniatura = getBitmap(getContentResolver(), filePath,IMAGE_MAX_SIZE_COMPLETO);
+                    bitmapMiniatura = BitMapTools.getBitmap(getContentResolver(), filePath,IMAGE_MAX_SIZE_COMPLETO);
                 }
 
 
@@ -1229,83 +938,68 @@ public class MessageActivity extends GrupoSelectedCustomAppCompatActivity
     private String selectedFilePath;
 
     private boolean getSpinner(Spinner s){
-        if ( s.getSelectedItem().toString().equals("✔")){
-            return true;
-        }
-
-        return false;
+        return s.getSelectedItem().toString().equals("✔");
     }
 
-    private boolean getPermitirReenvio(){
-        if ( this.spMessageAvanzadoReenvio.getSelectedItem().toString().equals("✔")){
-            return true;
-        }
 
-        return false;
-    }
-    private boolean getSiempreAnonimo(){
-        if ( this.spMessageAvanzadoAnonimoAlways.getSelectedItem().toString().equals("✔")){
-            return true;
-        }
-
-        return false;
-    }
 
     @Override
     public boolean onContextItemSelected(MenuItem item) {
 
         try {
-            if ( item.getTitle().equals("Eliminar para Mi")) {
+            if ( item.getTitle().equals(getString(R.string.message_activity__delete_message__for_me))) {
                 //RestCalls.deleteForMeRest(MessageActivity.this);
-            } else if ( item.getTitle().equals("Eliminar para todos")){
+            } else if ( item.getTitle().equals(getString(R.string.message_activity__delete_message__for_everyone))) {
                 //RestCalls.deleteForEveryone(MessageActivity.this);
-            }else if ( item.getTitle().equals("Reenviar")){
+            }else if ( item.getTitle().equals(getString(R.string.message_activity_message_actions__forward))){
                 Intent intent = new Intent(MessageActivity.this, MessageResendActivity.class);
 
                 //intent.pu("context", (Parcelable) this);
                 startActivity(intent);
-            }else if ( item.getTitle().equals("Responder")){
+            }else if ( item.getTitle().equals(getString(R.string.message_activity_message_actions__response))){
                 modoResponder();
-            }else if ( item.getTitle().equals("Reintentar")){
+            }else if ( item.getTitle().equals(getString(R.string.message_activity_message_actions__reintentar))){
                 RestCalls.retry(MessageActivity.this);
 
-            }else if ( item.getTitle().equals("Black")){
-                sendMessageMethod(true, false, getSiempreAnonimo(), false, getPermitirReenvio());
-            }else if ( item.getTitle().equals("Anonimo")){
-                sendMessageMethod(false, false, true, false,getPermitirReenvio());
-            }else if ( item.getTitle().equals("Temporal - " + spMessageAvanzadoTimeValues.getSelectedItem().toString())) {
-                sendMessageMethod(false, true, getSiempreAnonimo(), false,getPermitirReenvio());
-            }else if ( item.getTitle().equals("Extra Encriptado")) {
+            }else if ( item.getTitle().equals(this.getString(R.string.general__message_type__black))){
+                sendMessageMethod(true, false,0,false, false, MessageValidations.isBlockResend(getGrupoSeleccionado().getIdGrupo()));
+            }else if ( item.getTitle().equals(this.getString(R.string.general__message_type__anonimous))){
+                sendMessageMethod(false, false,0, true, false, MessageValidations.isBlockResend(getGrupoSeleccionado().getIdGrupo()));
+            }else if ( item.getTitle().equals( this.getString(R.string.general__message_type__temporal))) {
+                sendMessageMethod(false, true, 0,false, false, MessageValidations.isBlockResend(getGrupoSeleccionado().getIdGrupo()));
+            }else if ( item.getTitle().equals(this.getString(R.string.general__message_type__extra_encriptado))) {
 
                 if (extraAesToUse ==null) {
-                    extraAesToUse =MessageAvanzado.aplicarExtraAES(
+            /*        extraAesToUse =MessageAvanzado.aplicarExtraAES(
                             SingletonValues.getInstance().getGrupoSeleccionado(),
                             MessageActivity.this,
-                            tvMessageSecretKey,
+                    if (getMessageAvanzado()!= null )getMessageAvanzado().getTvMessageSecretKey(),
                             extraAesToUse, false, new ActionMessageEncryptKeyI() {
                                 @Override
                                 public void action() {
                                     adapter.notifyDataSetChanged();
+                                    
                                     try {
-                                        sendMessageMethod(false, false, getSiempreAnonimo(), true,getPermitirReenvio());
+                                        //sendMessageMethod(false, false, 0, getMessageAvanzado().getSiempreAnonimo(), true, MessageValidations.isBlockResend(getGrupoSeleccionado().getIdGrupo()));
                                     } catch (Exception e) {
                                         e.printStackTrace();
                                         SimpleErrorDialog.errorDialog(MessageActivity.this,
-                                                "MENSAJE DE ERROR", e.getMessage());
+                                                MessageActivity.this.getString(R.string.general__error_message), e.getMessage());
 
                                     }
                                 }
-                            });
+                            });*/
                 }else {
                     adapter.notifyDataSetChanged();
-                    sendMessageMethod(false, false, getSiempreAnonimo(), true,getPermitirReenvio());
+                    sendMessageMethod(false, false, 0, getMessageAvanzado().getSiempreAnonimo(), true, MessageValidations.isBlockResend(getGrupoSeleccionado().getIdGrupo()));
+                    
 
                 }
             }
         } catch (Exception e) {
             e.printStackTrace();
             SimpleErrorDialog.errorDialog(MessageActivity.this,
-                    "MENSAJE DE ERROR", e.getMessage());
+                    MessageActivity.this.getString(R.string.general__error_message), e.getMessage());
 
         }
 
@@ -1321,7 +1015,7 @@ public class MessageActivity extends GrupoSelectedCustomAppCompatActivity
     }
 
 
-    private void sendMessageMethod(boolean black, boolean time, boolean anonimo, boolean extraAES,boolean permitirReenvio) throws Exception {
+    public void sendMessageMethod(boolean black, boolean time,int seconds, boolean anonimo, boolean extraAES,boolean isBlockResend) throws Exception {
         Message replyParent=null;
         IdMessageDTO idMessageDTOreply=null;
         boolean reply = false;
@@ -1335,16 +1029,17 @@ public class MessageActivity extends GrupoSelectedCustomAppCompatActivity
         getGrupoSeleccionado().getWrittingCountDownTimer(this).stop();
         Integer timeSeconds=null;
         if(time){
-            timeSeconds = MessageUtil.getGrupoUserConfMessageTimeGetSeconds(MessageActivity.this, spMessageAvanzadoTimeValues);
+            timeSeconds =seconds; //MessageUtil.getGrupoUserConfMessageTimeGetSeconds();
         }
         MediaDTO mediaDTO = getMediaDTOToSend();
         removeAttach();
         // esto es solo desarrollo
-        if (SingletonServer.getInstance().isDeveloper()) {
-            txt.setText(txt.getText().toString()
-                    + "\n Nickname: " + SingletonValues.getInstance().getUsuario().getNickname()
-                    + "\n Counter nextvalue  " + SingletonValues.getInstance().getCounterNextValue());
-        }
+
+//        if (SingletonServer.getInstance().isDeveloper()) {
+//            txt.setText(txt.getText().toString()
+//                    + "\n Nickname: " + Singletons.usuario().getUsuario().getNickname()
+//                    + "\n Counter nextvalue  " + SingletonValues.getInstance().getCounterNextValue());
+//        }
 
         if (replyParent != null){
             if ( replyParent.isBlackMessage()){
@@ -1364,7 +1059,7 @@ public class MessageActivity extends GrupoSelectedCustomAppCompatActivity
                 getGrupoSeleccionado().getIdGrupo(),
                 txt.getText().toString(),
                 mediaDTO,
-                black, time, anonimo, extraAES,permitirReenvio,false,timeSeconds);
+                black, time, anonimo, extraAES,MessageValidations.isBlockResend(getGrupoSeleccionado().getIdGrupo()),false,timeSeconds, null);
         txt.setText("");
         changeButtonSendToSendText();
         messageSendAudioRow.setVisibility(View.GONE);
@@ -1384,12 +1079,30 @@ public class MessageActivity extends GrupoSelectedCustomAppCompatActivity
     }
     @Override
     public void onBackPressed() {
-        super.onBackPressed();
+        //super.onBackPressed();
 
-        this.finish();
+        if (getMessageAvanzado()!= null &&  getMessageAvanzado().getViewAvanzada().getVisibility() == View.VISIBLE){
+            messageAvanzadoClose();
+        }else{
+            this.finish();
+        }
+
+    }
+
+    public void messageAvanzadoClose(){
+        if (getMessageAvanzado()!= null) {
+            messageAvanzado.getViewAvanzada().setVisibility(View.GONE);
+
+        }
+      getSupportActionBar().setHomeButtonEnabled(true); // disable the button
+       getSupportActionBar().setDisplayHomeAsUpEnabled(true); // remove the left caret
+        getSupportActionBar().setDisplayShowHomeEnabled(true); // remove the icon
+
+
     }
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem itemMenu) {
+        messageAttach.getContenedor().setVisibility(View.GONE);
         int id = itemMenu.getItemId();
 
         if ( id ==R.id.message_empty_list){
@@ -1408,6 +1121,12 @@ public class MessageActivity extends GrupoSelectedCustomAppCompatActivity
         }else if ( id == R.id.menu_message_grupo_info){
             Intent intent = new Intent(this, GrupoInfoActivity.class);
             startActivity(intent);
+
+        }else if ( id == R.id.menu_message_buscar){
+           messageCustomActionBar.setOnActionBarBuscar();
+
+
+       //     message_custom_actionbar_buscar_content
 
         }else{
             if (getGrupoSeleccionado().getIdGrupo() != null){
@@ -1440,42 +1159,44 @@ public class MessageActivity extends GrupoSelectedCustomAppCompatActivity
     }
 
     @Override
-    public void nuevoMensaje(ProtocoloDTO protocoloDTO) {
+    public void nuevoMensaje(Protocolo protocolo) {
 
-        MessageDTO mP = protocoloDTO.getMessageDTO();
+        Message mP = protocolo.getMessage();
 
 
         Message m = Observers.message().getMensajesPorId(mP.buildIdMessageToMap());
 
-        if (m.isReply()){
+        if (m.amIReplyMessage()){
             adapter.notifyDataSetChanged();
+            
             return;
         }
-        if ( protocoloDTO.getAsyncId() != null){
+        if ( protocolo.getAsyncId() != null){
             for (int k = 0 ; k < items.size() ; k++){
                 ItemListMessage item = items.get(k);
 
 
-                //if ( protocoloDTO.getMessageDTO().buildIdMessageToMap().equals(item.getMessage().buildIdMessageToMap())){
+                //if ( protocoloDTO.getMessage().buildIdMessageToMap().equals(item.getMessage().buildIdMessageToMap())){
 
-                if ( (protocoloDTO.getMessageDTO().idGrupo + "{-}" + protocoloDTO.getAsyncId()).equals(item.getMessage().buildIdMessageToMap())){
+                if ( (protocolo.getMessage().getIdGrupo() + "{-}" + protocolo.getAsyncId()).equals(item.getMessage().buildIdMessageToMap())){
                     item.setMessage(m);
 
-                    item.setMessage((Message)protocoloDTO.getMessageDTO());
+                    item.setMessage(m);
 
-                    for (int i = 0; i < m.getMessagesDetailDTO().length; i++) {
-                        if (m.getMessagesDetailDTO()[i].getUsuarioDestino().getIdUsuario().equals(SingletonValues.getInstance().getUsuario().getIdUsuario())) {
-                            item.setMessageDetailDTO(m.getMessagesDetailDTO()[i]);
+                    for (int i = 0; i < m.getMessagesDetail().length; i++) {
+                        if (m.getMessagesDetail()[i].getUsuarioDestino().getIdUsuario().equals(Singletons.usuario().getUsuario().getIdUsuario())) {
+                            item.setMessageDetail(m.getMessagesDetail()[i]);
                             adapter.notifyDataSetChanged();
+                            
                         }
                     }
                 }
             }
         }else {
             if (!mP.getIdGrupo().equals(getGrupoSeleccionado().getIdGrupo())) return;
-            for (int i = 0; i < m.getMessagesDetailDTO().length; i++) {
-                if (m.getMessagesDetailDTO()[i].getUsuarioDestino().getIdUsuario().equals(SingletonValues.getInstance().getUsuario().getIdUsuario())) {
-                    ItemListMessage n = new ItemListMessage(m, m.getMessagesDetailDTO()[i]);
+            for (int i = 0; i < m.getMessagesDetail().length; i++) {
+                if (m.getMessagesDetail()[i].getUsuarioDestino().getIdUsuario().equals(Singletons.usuario().getUsuario().getIdUsuario())) {
+                    ItemListMessage n = new ItemListMessage(m, m.getMessagesDetail()[i]);
 
                     if (items != null) {
                         items.add(n);
@@ -1487,11 +1208,13 @@ public class MessageActivity extends GrupoSelectedCustomAppCompatActivity
                         rvLista.scrollToPosition(newIndex);
 
                         adapter.notifyDataSetChanged();
+                        
                         return;
                     }
                 }
             }
         }
+        
     }
     private  void sortById(List<ItemListMessage> items)
     {
@@ -1499,55 +1222,54 @@ public class MessageActivity extends GrupoSelectedCustomAppCompatActivity
         items.sort(new Comparator<ItemListMessage>() {
             @Override
             public int compare(ItemListMessage o1, ItemListMessage o2) {
-                try {
 
-                if ( o1.getMessage().getMessagesDetailDTO()[0].getEstado().equals(MessageState.MY_MESSAGE_SENDING) &&
-                        o2.getMessage().getMessagesDetailDTO()[0].getEstado().equals(MessageState.MY_MESSAGE_SENDING)){
 
-                    int value =  o1.getMessage().getIdMessage().compareTo(o2.getMessage().getIdMessage());
-                    return value;
+                    if ( o1.getMessage().isHistorial() && o2.getMessage().isHistorial() ) {
+                        int value = o1.getMessage().getIdMessage().compareTo(o2.getMessage().getIdMessage());
+                        return value;
+                    }
 
+                    if ( !o1.getMessage().isHistorial() && !o2.getMessage().isHistorial() ) {
+                        int value =  o1.getMessage().getOrden().compareTo(o2.getMessage().getOrden());
+                        return value;
+                    }
+
+                    if (o1.getMessage().isHistorial() && !o2.getMessage().isHistorial()) {
+                        return -1;
+                    }
+                    if (!o1.getMessage().isHistorial() && o2.getMessage().isHistorial()) {
+                        return 1;
+                    }
+                    return 0;
                 }
-                if (o1.getMessage().getMessagesDetailDTO()[0].getEstado().equals(MessageState.MY_MESSAGE_SENDING)){
-                    return 1;
-                };
-                if (o2.getMessage().getMessagesDetailDTO()[0].getEstado().equals(MessageState.MY_MESSAGE_SENDING)){
-                    return -1;
-                };
 
-                int value =  o1.getMessage().getIdMessage().compareTo(o2.getMessage().getIdMessage());
-                return value;
-                }catch (Exception e){
-                    e.printStackTrace();
-
-                }
-                return 1;
-            }
         });
     }
     @Override
-    public void cambioEstado(MessageDetailDTO m) {
+    public void cambioEstado(MessageDetail m) {
         if (adapter == null) return;
         adapter.notifyDataSetChanged();
-       for ( int i=0; i < adapter.getItemCount(); i++){
-           if (ObserverMessage.getInstance().getMensajesPorId(items.get(i).getMessage().buildIdMessageToMap()) == null) return;
 
-           MessageDetailDTO[] md = ObserverMessage.getInstance().getMensajesPorId(items.get(i).getMessage().buildIdMessageToMap()).getMessagesDetailDTO();
-           for ( int j=0; j <  md.length; j++) {
-               if (md[j].getUsuarioDestino().getIdUsuario().equals( SingletonValues.getInstance().getUsuario().getIdUsuario())){
-                   items.get(i).messageDetailDTO = (md[j]);
-                   adapter.notifyItemChanged(i);
-               }
-           }
+        for ( int i=0; i < adapter.getItemCount(); i++){
+            if (ObserverMessage.getInstance().getMensajesPorId(items.get(i).getMessage().buildIdMessageToMap()) == null) return;
+
+            MessageDetail[] md = ObserverMessage.getInstance().getMensajesPorId(items.get(i).getMessage().buildIdMessageToMap()).getMessagesDetail();
+            for (MessageDetail messageDetail : md) {
+                if (messageDetail.getUsuarioDestino().getIdUsuario().equals(Singletons.usuario().getUsuario().getIdUsuario())) {
+                    items.get(i).messageDetail = messageDetail;
+                    adapter.notifyItemChanged(i);
+                }
+            }
 
         }
 
 
         adapter.notifyDataSetChanged();
+        
     }
 
     @Override
-    public void emptyList() {
+    public void emptyList(String idGrupo) {
 
         items.clear();
 
@@ -1556,32 +1278,42 @@ public class MessageActivity extends GrupoSelectedCustomAppCompatActivity
         adapter.notifyDataSetChanged();
     }
 
+
     @Override
-    public void mensajeAddItem(MessageDTO miMensaje, String asyncId) {
+    public void mensajeAddItem(Message miMensaje, String asyncId) {
         if (miMensaje.getIdGrupo().equals(getGrupoSeleccionado().getIdGrupo())){
-            ItemListMessage n = new ItemListMessage(new Message(miMensaje), miMensaje.getMessagesDetailDTO()[0]);
+            ItemListMessage n = new ItemListMessage(miMensaje, miMensaje.getMessagesDetail()[0]);
             //n.setAsyncId(asyncId);
             items.add(n);
             sortById(items);
             rvLista.scrollToPosition(items.size()-1);
+            
         }
 
     }
 
     @Override
-    public void borrarMensaje(MessageDetailDTO detail) {
-        for ( int i = items.size()-1 ; i>=0 ; i--){
-            if (items.get(i).getMessageDetailDTO().buildIdMessageToMap().equals(detail.buildIdMessageToMap())){
-                items.remove(i);
-                adapter.notifyDataSetChanged();
-                return;
+    public void borrarMessageDetail(MessageDetail detail) {
+
+           borrarMessage(detail.buildIdMessageToMap());
+
+    }
+
+    @Override
+    public void borrarMessage(String idMessageToMap) {
+            for ( int i = items.size()-1 ; i>=0 ; i--){
+                if (items.get(i).getMessageDetail().buildIdMessageToMap().equals(idMessageToMap)){
+                    items.remove(i);
+                    adapter.notifyDataSetChanged();
+
+                    return;
+                }
             }
-        }
     }
 
     @Override
     public void writting(WrittingDTO w) {
-        if (!getGrupoSeleccionadoIsNull() && getGrupoSeleccionado().isOtherAreWritting()){
+        if (getGrupoSeleccionadoIsNull() && getGrupoSeleccionado().isOtherAreWritting()){
             messageCustomActionBar.setMainSubtitleWriting(true);
         }
     }
@@ -1590,7 +1322,7 @@ public class MessageActivity extends GrupoSelectedCustomAppCompatActivity
     @Override
     public void writtingStop(WrittingDTO w) {
 
-        if (!getGrupoSeleccionadoIsNull() && getGrupoSeleccionado().getIdGrupo().equals(w.getIdGrupo())){
+        if (getGrupoSeleccionadoIsNull() && getGrupoSeleccionado().getIdGrupo().equals(w.getIdGrupo())){
             messageCustomActionBar.setMainSubtitleWriting(false);
         }
     }
@@ -1609,22 +1341,20 @@ public class MessageActivity extends GrupoSelectedCustomAppCompatActivity
     String fileNameAudio;
 
 
+
     private void initViews(){
 
+      //  messageAvanzado = new MessageAvanzado();
+        //getMessageAvanzado().loadGrupoUserConf(getGrupoSeleccionado().getIdGrupo());
 
         messageSendRowComplete = (TableRow) findViewById(R.id.tr_message_send_complete);
         messageSendRowReadOnly = (TableRow) findViewById(R.id.tr_message_send_readonly);
 
         //View menuAddContact = findViewById(R.id.menu_message_add_contact);
 
-        if (Observers.grupo().amIReadOnly(getGrupoSeleccionado().getIdGrupo())){
-            messageSendRowReadOnly.setVisibility(View.VISIBLE);
-            messageSendRowComplete.setVisibility(View.GONE);
-            //menuAddContact.setVisibility(View.GONE);
-        }else{
-            messageSendRowReadOnly.setVisibility(View.GONE);
-            messageSendRowComplete.setVisibility(View.VISIBLE);
-        }
+        avanzada = (ImageButton) SingletonCurrentActivity.getInstance().getMessageActivity().findViewById(R.id.boton_avanzado);
+        avanzada2 = (ImageButton) SingletonCurrentActivity.getInstance().getMessageActivity().findViewById(R.id.boton_avanzado2);
+
 
         messageSendAudioRow = (LinearLayout) findViewById(R.id.tr_message_send_audio);
         messageSendTextRow = (LinearLayout) findViewById(R.id.tr_message_send_text);
@@ -1691,15 +1421,17 @@ public class MessageActivity extends GrupoSelectedCustomAppCompatActivity
         txt.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
+                messageAttach.getContenedor().setVisibility(View.GONE);
             }
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                if (!SingletonValues.getInstance().getSystemGralConf().isMessagingWritingMessage()) return;
-
                 SingletonValues.getInstance().getGrupoSeleccionado().getMessageInProcess().setTxt(txt.getText().toString());
-                if (!MessageActivity.this.getGrupoSeleccionado().isIamWritting()){
+
+                if (!SingletonServerConfiguration.getInstance().getSystemGralConf().isMessagingWritingMessage()) return;
+
+
+                if (!MessageActivity.this.getGrupoSeleccionado().isIAmWritting()){
 
                     try {
                         if (!txt.getText().toString().equals("")) {
@@ -1756,6 +1488,8 @@ public class MessageActivity extends GrupoSelectedCustomAppCompatActivity
         btnEmojis.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+
+                messageAttach.getContenedor().setVisibility(View.GONE);
                 popup.toggle();
             }
         });
@@ -1763,7 +1497,7 @@ public class MessageActivity extends GrupoSelectedCustomAppCompatActivity
         btnAttach.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                ChangeVisibility.changeState(messageAttach.getContenedor());
+                messageAttach.getContenedor().setVisibility(View.VISIBLE);
             }
         });
 
@@ -1773,26 +1507,47 @@ public class MessageActivity extends GrupoSelectedCustomAppCompatActivity
                 RestCalls.loadMessagesContador(MessageActivity.this);
             }
         });
-        enviarMessageButton = (Button) findViewById(R.id.enviar2);
+        enviarMessageButton = GetButtonReady.get(this,R.id.enviar2,v -> enviarMessageButtonOnClick());
         enviarMessageButton.setFilters(new InputFilter[]{new InputFilter.LengthFilter(4096)});
 
         enviarFile = (Button) findViewById(R.id.enviar_file);
         //enviarEspecial = (Button) findViewById(R.id.btn_message_send_especial);
 
 
-        tvMessageSecretKey = (EditText) findViewById(R.id.tv_message_secret_key);
+
 
         rvLista = findViewById(R.id.rv_message_detail_list);
 
         ActivityCompat.requestPermissions(MessageActivity.this,
                 new String[]{Manifest.permission.RECORD_AUDIO},
                 enviarMessageButton.getId());
+        roleViewSetup();
+    }
 
+    private void roleViewSetup() {
+
+        if ( Observers.grupo().amIReadOnly(SingletonValues.getInstance().getGrupoSeleccionado().getIdGrupo())){
+
+
+        }
+        if (Observers.grupo().amIReadOnly(getGrupoSeleccionado().getIdGrupo())){
+            messageSendRowReadOnly.setVisibility(View.VISIBLE);
+            messageSendRowComplete.setVisibility(View.GONE);
+            findViewById(R.id.mensaje_de_prueba).setVisibility(View.GONE);
+           if (getMessageAvanzado()!= null ) getMessageAvanzado().initViewForRole();
+            //menuAddContact.setVisibility(View.GONE);
+        }else{
+            if (SingletonServer.getInstance().isDeveloper()) {
+                findViewById(R.id.mensaje_de_prueba).setVisibility(View.VISIBLE);
+            }
+            messageSendRowReadOnly.setVisibility(View.GONE);
+            messageSendRowComplete.setVisibility(View.VISIBLE);
+        }
     }
 
     private void callRestWritting(Grupo grupo) throws Exception {
         WrittingDTO dto = new WrittingDTO();
-        dto.setNickname(SingletonValues.getInstance().getUsuario().getNickname());
+        dto.setNickname(Singletons.usuario().getUsuario().getNickname());
         dto.setIdGrupo(grupo.getIdGrupo());
         WrittingCallRest.call(this, dto);
 
@@ -1846,14 +1601,17 @@ public class MessageActivity extends GrupoSelectedCustomAppCompatActivity
 
     private void initValues() {
         LinearLayoutManager manager = new LinearLayoutManager(this);
+        rvLista = findViewById(R.id.rv_message_detail_list);
         rvLista.setLayoutManager(manager);
-        if (items != null) emptyList();
+        if (items != null) emptyList(SingletonValues.getInstance().getGrupoSeleccionado().getIdGrupo());
         buildItems();
 
     }
 
     private void initListener() {
 
+        avanzada.setOnClickListener(v -> messageAvanzadoOpen());
+        avanzada2.setOnClickListener(v -> messageAvanzadoOpen());
 
 
 
@@ -1881,8 +1639,29 @@ public class MessageActivity extends GrupoSelectedCustomAppCompatActivity
 
         });
 */
-
+        SingletonTextSizeMessage.getInstance().setIncreaseSizeListener(this,
+                textSizeMessageView.getIncrease(),
+                textSizeMessageView.getDecrease(),
+                findViewById(R.id.rv_message_detail_list),
+                findViewById(R.id.enviar_texto2));
+        SingletonTextSizeMessage.getInstance().setDecreaseSizeListener(this,
+                textSizeMessageView.getIncrease(),
+                textSizeMessageView.getDecrease(),
+                findViewById(R.id.rv_message_detail_list),
+                findViewById(R.id.enviar_texto2));
     }
+
+    private void messageAvanzadoOpen() {
+        if (getMessageAvanzado() == null){
+            messageAvanzado=new MessageAvanzado();
+        }
+        SingletonCurrentActivity.getInstance().getMessageActivity().getSupportActionBar().setHomeButtonEnabled(false); // disable the button
+        SingletonCurrentActivity.getInstance().getMessageActivity().getSupportActionBar().setDisplayHomeAsUpEnabled(false); // remove the left caret
+        SingletonCurrentActivity.getInstance().getMessageActivity().getSupportActionBar().setDisplayShowHomeEnabled(false); // remove the icon
+
+        getMessageAvanzado().openAvanzada();
+    }
+
 
     @Override
     protected void onResume() {
@@ -1898,52 +1677,72 @@ public class MessageActivity extends GrupoSelectedCustomAppCompatActivity
         messageCustomActionBar.setOnActionBarMain();
         adapter.notifyDataSetChanged();
         writting(null);
+        SingletonTextSizeMessage.getInstance().refreshTextSize(this,
+
+                findViewById(R.id.rv_message_detail_list),
+                findViewById(R.id.enviar_texto2));
+
+
+
+
+        if (getMessageAvanzado()!= null ){
+            if (getMessageAvanzado().getViewAvanzada().getVisibility() == View.VISIBLE){
+                getMessageAvanzado().reset();
+            }
+
+        }
+
     }
 
     protected void onStop() {
         super.onStop();
         Observers.message().setMessageOnTop(false);
+        //messageAvanzado=null;
         writting(null);
     }
 
     private void buildItems() {
 
 
-        List<MessageDetailDTO> lista = Observers.message().getMensajesDetailsPorGrupo(
+        List<MessageDetail> lista = Observers.message().getMensajesDetailsPorGrupo(
                 getGrupoSeleccionado().getIdGrupo()
         );
 
 
-        for ( MessageDetailDTO e : lista) {
-            if (e.getUsuarioDestino().getIdUsuario().equals(SingletonValues.getInstance().getUsuario().getIdUsuario())) {
+        for ( MessageDetail e : lista) {
+            if (!e.isDeleted()) {
+                if (e.getUsuarioDestino().getIdUsuario().equals(Singletons.usuario().getUsuario().getIdUsuario())) {
 
 
-                MessageDTO m = Observers.message().getMensajesPorId(e.buildIdMessageToMap());
+                    Message m = Observers.message().getMensajesPorId(e.buildIdMessageToMap());
+                    if (!m.isDeleted()) {
+                        boolean reciboBlack = (!Singletons.usuario().getUsuario().getIdUsuario().equals(getIdUsuario(m.getUsuarioCreacion()))
+                                &&
+                                MasterGeneralConfiguration.buildSiempreBlackReceptionConfigurationByGrupo(getGrupoSeleccionado().getIdGrupo()).isValue()
+                        );
 
-                boolean reciboBlack = (!SingletonValues.getInstance().getUsuario().getIdUsuario().equals(getIdUsuario(m.getUsuarioCreacion()))
-                        &&
-                        MasterGeneralConfiguration.buildSiempreBlackReceptionConfigurationByGrupo(getGrupoSeleccionado().getIdGrupo()).isValue()
-                );
+
+                        if (m != null) {
+                            if (!m.isBlackMessage() && !m.amITimeMessage() &&
+                                    !(reciboBlack)
+                            ) {
+
+                                Observers.message().cambiarEstadoUso(e, false, this);
+                            }
 
 
-                if (m != null) {
-                    if (!m.isBlackMessage() && !m.isTimeMessage() &&
-                            !(reciboBlack)
-                    ) {
-
-                        Observers.message().cambiarEstadoUso(e, false, this);
+                            items.add(
+                                    new ItemListMessage(Observers.message().getMensajesPorId(e.buildIdMessageToMap()),
+                                            e)
+                            );
+                        }
                     }
-
-
-                    items.add(
-                            new ItemListMessage(Observers.message().getMensajesPorId(e.buildIdMessageToMap()),
-                                    e)
-                    );
                 }
             }
 
         }
         sortById(items);
+        
     }
 
 
@@ -1983,7 +1782,7 @@ public class MessageActivity extends GrupoSelectedCustomAppCompatActivity
                     byte[] bytes = new byte[size];
 
 
-                        b.get(bytes, 0, bytes.length);
+                    b.get(bytes, 0, bytes.length);
                     mediaDTO.setData(bytes);
                 }else {
 
@@ -2045,128 +1844,8 @@ public class MessageActivity extends GrupoSelectedCustomAppCompatActivity
     final int IMAGE_MAX_SIZE_COMPLETO = 1200000;
     final int IMAGE_MAX_SIZE_MINIATURA = 50000;
 
-    private Bitmap getBitmapCamera(   ContentResolver mContentResolver , byte[] b, int imagenMaxSize) {
-
-        InputStream in = new ByteArrayInputStream(b);
-        try {
-            // 1.2MP
 
 
-            // Decode image size
-            BitmapFactory.Options options = new BitmapFactory.Options();
-            options.inJustDecodeBounds = true;
-            BitmapFactory.decodeStream(in, null, options);
-            in.close();
-
-
-
-            int scale = 1;
-            while ((options.outWidth * options.outHeight) * (1 / Math.pow(scale, 2)) >
-                    imagenMaxSize) {
-                scale++;
-            }
-            Log.d(TAG, "scale = " + scale + ", orig-width: " + options.outWidth + ",  orig-height: " + options.outHeight);
-
-            Bitmap resultBitmap = null;
-            in = new ByteArrayInputStream(b);
-            if (scale > 1) {
-                scale--;
-                // scale to max possible inSampleSize that still yields an image
-                // larger than target
-                options = new BitmapFactory.Options();
-                options.inSampleSize = scale;
-                resultBitmap = BitmapFactory.decodeStream(in, null, options);
-
-                // resize to desired dimensions
-                int height = resultBitmap.getHeight();
-                int width = resultBitmap.getWidth();
-                Log.d(TAG, "1th scale operation dimenions - width: " + width + ",   height: " + height);
-
-                double y = Math.sqrt(imagenMaxSize
-                        / (((double) width) / height));
-                double x = (y / height) * width;
-
-                Bitmap scaledBitmap = Bitmap.createScaledBitmap(resultBitmap, (int) x,
-                        (int) y, true);
-               // resultBitmap.recycle();
-                resultBitmap = scaledBitmap;
-
-                System.gc();
-            } else {
-                resultBitmap = BitmapFactory.decodeStream(in);
-            }
-            in.close();
-
-            //Log.d(TAG, "bitmap size - width: " +resultBitmap.getWidth() + ", height: " +
-            //        resultBitmap.getHeight());
-            return resultBitmap;
-        } catch (IOException e) {
-            Log.e(TAG, e.getMessage(),e);
-            return null;
-        }
-    }
-
-    private Bitmap getBitmap(   ContentResolver mContentResolver , Uri uri, int imageMaxSize) {
-
-
-        InputStream in = null;
-        try {
-
-            in = mContentResolver.openInputStream(uri);
-
-            // Decode image size
-            BitmapFactory.Options options = new BitmapFactory.Options();
-            options.inJustDecodeBounds = true;
-            BitmapFactory.decodeStream(in, null, options);
-            in.close();
-
-
-
-            int scale = 1;
-            while ((options.outWidth * options.outHeight) * (1 / Math.pow(scale, 2)) >
-                    imageMaxSize) {
-                scale++;
-            }
-            Log.d(TAG, "scale = " + scale + ", orig-width: " + options.outWidth + ",  orig-height: " + options.outHeight);
-
-            Bitmap resultBitmap = null;
-            in = mContentResolver.openInputStream(uri);
-            if (scale > 1) {
-                scale--;
-                // scale to max possible inSampleSize that still yields an image
-                // larger than target
-                options = new BitmapFactory.Options();
-                options.inSampleSize = scale;
-                resultBitmap = BitmapFactory.decodeStream(in, null, options);
-
-                // resize to desired dimensions
-                int height = resultBitmap.getHeight();
-                int width = resultBitmap.getWidth();
-                Log.d(TAG, "1th scale operation dimenions - width: " + width + ",   height: " + height);
-
-                double y = Math.sqrt(imageMaxSize
-                        / (((double) width) / height));
-                double x = (y / height) * width;
-
-                Bitmap scaledBitmap = Bitmap.createScaledBitmap(resultBitmap, (int) x,
-                        (int) y, true);
-              //  resultBitmap.recycle();
-                resultBitmap = scaledBitmap;
-
-                System.gc();
-            } else {
-                resultBitmap = BitmapFactory.decodeStream(in);
-            }
-            in.close();
-
-            Log.d(TAG, "bitmap size - width: " +resultBitmap.getWidth() + ", height: " +
-                    resultBitmap.getHeight());
-            return resultBitmap;
-        } catch (IOException e) {
-            Log.e(TAG, e.getMessage(),e);
-            return null;
-        }
-    }
     public String getIdUsuario(UsuarioDTO u){
         if (u == null) return null;
 
@@ -2280,7 +1959,7 @@ public class MessageActivity extends GrupoSelectedCustomAppCompatActivity
                     }
                     int seg = MessageUtil.segundosCalculados(secondsAudio,audioList);
 
-                    int maxSeconds = SingletonValues.getInstance().getSystemGralConf().getMyAccountConf().getAudioMaxTimeInSeconds();
+                    int maxSeconds = SingletonServerConfiguration.getInstance().getSystemGralConf().getMyAccountConf().getAudioMaxTimeInSeconds();
 
                     if (seg >= maxSeconds ){
                         isRecordingAudio=false;
@@ -2348,7 +2027,7 @@ public class MessageActivity extends GrupoSelectedCustomAppCompatActivity
                 );
 
                 if (audioTrack.getState() != AudioTrack.STATE_INITIALIZED) {
-                    Toast.makeText(this, "Couldn't initialize AudioTrack, check configuration", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(this, getString(R.string.message_activity_audio__error__init), Toast.LENGTH_SHORT).show();
                     Log.e(TAG, "error initializing AudioTrack");
                     return;
                 }
@@ -2415,16 +2094,11 @@ public class MessageActivity extends GrupoSelectedCustomAppCompatActivity
 
     }
 
-
-
     @Override
-    public void deleteExtraEncrypt(Grupo g){
-        if (getGrupoSeleccionado().getIdGrupo().equals(g.idGrupo)){
-            extraAesToUse = null;
-            tvMessageSecretKey.setText("");
+    public void deleteExtraEncrypt(Grupo g) {
 
-        }
     }
+
 
     @Override
     public void lock(Grupo g) {

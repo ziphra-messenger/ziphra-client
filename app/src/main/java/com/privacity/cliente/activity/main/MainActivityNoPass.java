@@ -11,7 +11,7 @@ import com.privacity.cliente.singleton.SingletonValues;
 
 public class MainActivityNoPass {
 
-    private final MainActivity activity;
+    private final MainActivi2ty activity;
 
     private final LinearLayout cEntry;
     private final LinearLayout cError;
@@ -21,7 +21,7 @@ public class MainActivityNoPass {
 
     private final ProgressBar progressBar;
 
-    public MainActivityNoPass(MainActivity activity) {
+    public MainActivityNoPass(MainActivi2ty activity) {
         this.activity=activity;
 
         progressBar = (ProgressBar) activity.findViewById(R.id.main_nopass_entry_progressbar);

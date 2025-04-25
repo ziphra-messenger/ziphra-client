@@ -5,7 +5,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.widget.ProgressBar;
 
-import com.google.gson.Gson;
 import com.privacity.cliente.activity.loading.LoadingActivity;
 import com.privacity.cliente.common.error.SimpleErrorDialog;
 import com.privacity.cliente.includes.ProgressBarUtil;
@@ -15,11 +14,11 @@ import com.privacity.cliente.rest.RestExecute;
 import com.privacity.cliente.rest.restcalls.ServerConfRest;
 import com.privacity.cliente.singleton.SingletonLoginValues;
 import com.privacity.cliente.singleton.SingletonValues;
-import com.privacity.cliente.util.GsonFormated;
-import com.privacity.common.enumeration.ProtocoloComponentsEnum;import com.privacity.common.enumeration.ProtocoloActionsEnum;
-
-import com.privacity.common.dto.ProtocoloDTO;
+import com.privacity.cliente.singleton.UtilsStringSingleton;
+import com.privacity.cliente.model.dto.Protocolo;
 import com.privacity.common.dto.request.LoginRequestDTO;
+import com.privacity.common.enumeration.ProtocoloActionsEnum;
+import com.privacity.common.enumeration.ProtocoloComponentsEnum;
 
 import org.springframework.http.ResponseEntity;
 
@@ -70,9 +69,9 @@ public class ReconnectionSyncSession {
     private static void callLoginRestInnerCallBack(Activity activity) throws Exception {
 
 
-        Gson gson = GsonFormated.get();
 
-        ProtocoloDTO p = new ProtocoloDTO();
+
+        Protocolo p = new Protocolo();
         p.setComponent(ProtocoloComponentsEnum.AUTH);
         p.setAction(ProtocoloActionsEnum.AUTH_LOGIN);
 
@@ -81,7 +80,7 @@ public class ReconnectionSyncSession {
         t.setPassword(SingletonValues.getInstance().getPasswordHash());
 
 
-        p.setObjectDTO(gson.toJson(t));
+        p.setObjectDTO(UtilsStringSingleton.getInstance().gsonToSend(t));
 
 
         RestExecute.doitPublic(activity, p, loginCallbackRest(activity)
@@ -94,7 +93,7 @@ public class ReconnectionSyncSession {
         CallbackRest r = new CallbackRest() {
 
             @Override
-            public void response(ResponseEntity<ProtocoloDTO> response) {
+            public void response(ResponseEntity<Protocolo> response) {
 
 
 
@@ -114,7 +113,7 @@ public class ReconnectionSyncSession {
             }
 
             @Override
-            public void onError(ResponseEntity<ProtocoloDTO> response) {
+            public void onError(ResponseEntity<Protocolo> response) {
 
                 //ProgressBarUtil.hide(activity, progressBar);
             }

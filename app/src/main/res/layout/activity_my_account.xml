@@ -14,7 +14,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical">
-
+            <include layout="@layout/frame_my_account_lang"></include>
             <include layout="@layout/frame_my_account_nickname"></include>
 
             <include layout="@layout/frame_my_account_password"></include>
@@ -28,9 +28,29 @@
     </ScrollView>
 
 
-    <include
-        android:id="@+id/user"
-        layout="@layout/custom_comp_general_progress_bar"
-        android:visibility="visible" />
 
+
+
+
+    <include
+
+        layout="@layout/incllude__common__all"
+
+        android:visibility="visible"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:visibility="gone" />
+
+    <include
+
+        layout="@layout/include__common__selecttime__view"
+
+        android:visibility="visible"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:visibility="gone" />
 </androidx.constraintlayout.widget.ConstraintLayout>

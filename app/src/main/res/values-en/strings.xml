@@ -1,0 +1,507 @@
+<resources>
+    <string name="general__inform__problem">If the problem persists, please report it</string>
+    <string name="frame_select_view__tooltip_text__on">On</string>
+    <string name="frame_select_view__tooltip_text__off">Off</string>
+    <string name="frame_select_view__tooltip_text__null">Not Configured</string>
+    <string name="frame_select_view__tooltip_text__allow">Allowed</string>
+    <string name="frame_select_view__tooltip_text__block">Blocked</string>
+    <string name="frame_select_view__tooltip_text__mandatory">Required</string>
+    <string name="frame_help__common__messaging__reconnect">frame_help__common__messaging__reconnect</string>
+    <string name="frame_help__frame_my_account__lock">frame_help__frame_my_account__lock</string>
+    <string name="frame_help__frame_my_account_login_skip_help_include">The Latin word paragraphus became paragraph, a term commonly used in grammar. It refers to the different fragments of a text, which can be recognized by the capital letter at the beginning and the period at the end. A paragraph can be made up of one or more sentences. Each sentence is separated from the next by a period. Sentences, in turn, are sets of words that make up a unit of meaning. If we continue to break down the elements, we can also say that words are created from the combination of letters.</string>
+    <string name="item_list_view_message_detail__state__my_message_error_not_send">item_list_view_message_detail__state__my_message_error_not_send</string>
+    <string name="item_list_view_message_detail__state__message_sent">item_list_view_message_detail__state__message_sent</string>
+    <string name="item_list_view_message_detail__state__message_sending">item_list_view_message_detail__state__message_sending</string>
+    <string name="item_list_view_message_detail__state__destiny_server">item_list_view_message_detail__state__destiny_server</string>
+    <string name="item_list_view_message_detail__state__destiny_delivered">item_list_view_message_detail__state__destiny_delivered</string>
+    <string name="item_list_view_message_detail__state__destiny_read_hidden">item_list_view_message_detail__state__destiny_read_hidden</string>
+    <string name="item_list_view_message_detail__state__destiny_read">item_list_view_message_detail__state__destiny_read</string>
+    <string name="message_detail__icon__anonimo">It is a message sent Anonymous</string>
+    <string name="message_detail__icon__block_download">Download Blocked</string>
+    <string name="message_detail__icon__random_nickname">message_detail__icon__random_nickname</string>
+    <string name="message_detail__icon__is_audio_message">It is an audio message</string>
+    <string name="message_detail__icon__is_hide_message_read_state">message_detail__icon__is_hide_message_read_state</string>
+    <string name="message_detail__icon__is_time">It\'s a message Temporary</string>
+    <string name="message_detail__icon__has_image">Contains an Image</string>
+    <string name="message_detail__icon__is_resend">Is a Forwarded Message</string>
+    <string name="message_detail__icon__is_reply">Is a Reply to Another Message</string>
+    <string name="message_detail__icon__is_extra_encrypt">Has Extra Encryption</string>
+    <string name="message_detail__icon__block_resend_true">Message with Forwarding Lock</string>
+    <string name="message_detail__icon__is_black">Is a Message in Black Mode</string>
+    <string name="message_detail__icon__block_resend_false">Message without Forwarding Lock</string>
+    <string name="grupo_info_conf_gen__allow_audio_txt">Block Audio Messages</string>
+    <string name="frame_text_resize__max_size">Maximum Size</string>
+    <string name="frame_text_resize__min_size">Minimum Size</string>
+    <string name="general__password">Password</string>
+    <string name="general__role">Role</string>
+    <string name="menu_message__empty_list">Clear Messages</string>
+    <string name="menu_message__get_historial">Load 10 Previous Messages</string>
+    <string name="menu_message__add_member">Add Contact to Group</string>
+    <string name="menu_message__grupo_info">Group Information</string>
+    <string name="general__actual_password">Current Password</string>
+    <string name="general__new_password">New Password</string>
+    <string name="general__password_confirmar">Confirmation</string>
+    <string name="general__save">Save</string>
+    <string name="general__save_close">Save &amp; Close</string>
+    <string name="general__confirm">Confirm</string>
+    <string name="general__are_u_sure">Are You Sure?</string>
+    <string name="general__cancel">Cancel</string>
+    <string name="general__accept">OK</string>
+    <string name="general__example">Example Example Example Example</string>
+    <string name="general__log">Details</string>
+    <string name="general__reset">Reset</string>
+    <string name="general__ignore">Ignore</string>
+    <string name="general__saved">Saved</string>
+    <string name="general__share">Share</string>
+    <string name="general__available">Available</string>
+    <string name="general__not_available">Not available</string>
+    <string name="general__recomendado">Recommended</string>
+    <string name="general__default">Reset</string>
+    <string name="general__error_ph1">Error: %1$s</string>
+    <string name="general__error__no_description">code: %1$s - no description</string>
+    <string name="general__error_message">Error Message</string>
+    <string name="general__error_message_ph1">Error Message: %1$s</string>
+    <string name="general__error__call_rest__title">Error calling Server: %1$s</string>
+    <string name="general__roles__admin">Administrator</string>
+    <string name="general__roles__moderator">Moderator</string>
+    <string name="general__save__not_changes">No changes to save</string>
+    <string name="frame_my_account_lang__title">Language &amp; Display</string>
+    <string name="general__roles__member">Member</string>
+    <string name="general__roles__readonly">Read Only</string>
+    <string name="general__message_type__anonimous">Anonymous</string>
+    <string name="general__message_type__temporal">Temporary</string>
+    <string name="general__message_type__black">Black</string>
+    <string name="general__message_type__extra_encriptado">Extra Encrypted</string>
+    <string name="general__alert__validation__password_incorrect">Incorrect Password</string>
+    <string name="general__alert__validation__role__only_admin">This screen is for Administrators only. Your role is %1$s</string>
+    <string name="general__message_status__my_message_error_not_send">Error</string>
+    <string name="general__message_status__my_message_sending">Sending</string>
+    <string name="general__message_status__my_message_sent">Sent</string>
+    <string name="general__message_status__destiny_server">Server</string>
+    <string name="general__message_status__destiny_delivered">Delivered</string>
+    <string name="general__message_status__destiny_readed">Read</string>
+    <string name="dialog_to_show__alert__validation_by_role">Action not allowed. Your role in the group is %1$s</string>
+    <string name="copy_paste_util__no_data_to_copy">No data to copy</string>
+    <string name="copy_paste_util__copied">Copied</string>
+    <string name="copy_paste_util__copy">Copy</string>
+    <string name="menu_grupo__item__create_grupo">Create Group</string>
+    <string name="menu_grupo__item__invitation_code">Invitation Code</string>
+    <string name="menu_grupo__item__my_account">My Account</string>
+    <string name="menu_grupo__item__about_this">About</string>
+    <string name="menu_grupo__item__exit">Leave</string>
+    <string name="accept_invitation_callrest__invitation_accepted">Invitation Accepted</string>
+    <string name="grupo_info_activity__title">Group Information: %1$s</string>
+    <string name="grupo_info_activity__remove_me__success">You have left the group</string>
+    <string name="grupo_info_activity__delete_grupo__success">Group deleted</string>
+    <string name="frame_grupo_info__bloqueo_remoto__title">Remote Block</string>
+    <string name="general__enter_password__for_action">Enter your password to perform this action</string>
+    <string name="frame_grupo_info__members__title">Members</string>
+    <string name="frame_grupo_info__members__add_member">Add New Member</string>
+    <string name="message_activity__envio_especial__title">Special Send</string>
+    <string name="message_activity__delete_message__for_me">Delete for Me</string>
+    <string name="message_activity__delete_message__for_everyone">Delete for Everyone</string>
+    <string name="message_activity__delete_message__for_everyone_and_resend">Delete for Everyone and Forwards</string>
+    <string name="message_activity_message_actions__delete">Delete</string>
+    <string name="message_activity_message_actions__forward">Forward</string>
+    <string name="message_activity_message_actions__response">Reply</string>
+    <string name="message_activity_message_actions__reintentar">Retry</string>
+    <string name="message_activity_audio__error__init">AudioTrack could not be initialized, please check your settings</string>
+    <string name="message_activity__extra_encrypt__delete__question">Do you want to delete the Extra Encrypt Key?</string>
+    <string name="message_activity__extra_encrypt__add_key">Enter Extra Encrypt Key</string>
+    <string name="message_resend_activity__title">Forward</string>
+    <string name="message_resend_activity__resend__sucess">Forwarded Message(s)</string>
+    <string name="message_resend_activity__resend__fail">Forwarding Error</string>
+    <string name="main_login__registrarse">Register</string>
+    <string name="main_login__ingresar">Login</string>
+    <string name="main_login__usuario">Username</string>
+    <string name="main_login__password">Password</string>
+    <string name="main_login__alert__sin_internet__title">No Internet</string>
+    <string name="main_login__alert__sin_internet__detail">Check your internet connection.</string>
+    <string name="main_login__validate_password__empty">Cannot be empty</string>
+    <string name="main_login__validate_usuario__empty">Cannot be empty</string>
+    <string name="main_login__title">Privacy</string>
+    <string name="main_login__alert__servidor_no_responde__title">The configured server is not responding</string>
+    <string name="main_login__alert__servidor_no_responde___detail">Check the configuration</string>
+    <string name="main_login__alert__alert__error_rest__title">ERROR</string>
+    <string name="main_login__alert__alert__error_rest__detail">Running Rest: %1$s</string>
+    <string name="main_login__menu__item__configuration">Configuration</string>
+    <string name="main_login__menu__item__espanol">Spanish</string>
+    <string name="main_login__menu__item__english">English</string>
+    <string name="main_login__version">Version %1$s</string>
+    <string name="lock_activity__bloqueo_remoto_mensaje">Some group has sent a remote lock</string>
+    <string name="register_activity__usuario">User</string>
+    <string name="register_activity__password">Password</string>
+    <string name="register_activity__password_confirmar">Confirm</string>
+    <string name="register_activity__requerido">* Required</string>
+    <string name="register_activity__submit">CREATE ACCOUNT</string>
+    <string name="register_activity__submit__procesando">Processing</string>
+    <string name="registro_title">Registration</string>
+    <string name="registro_validation_user_empty">User cannot be empty</string>
+    <string name="registro_validation_user_too_short">User must be at least %1$ characters</string>
+    <string name="registro_validation_user_too_long">User must be at most %1$ characters</string>
+    <string name="registro_validation_nickname_empty">Nickname cannot be empty</string>
+    <string name="registro_validation_nickname_too_long">Nickname must be at most %1$s characters</string>
+    <string name="registro_validation_user_exists">Username is already taken</string>
+    <string name="registro_validation_user_ok">Username is valid</string>
+    <string name="registro_validation_error">There are errors in validation</string>
+    <string name="registro_validation_password2_no_change">Must be different from the current one</string>
+    <string name="registro_validation_password2">Passwords are different</string>
+    <string name="registro_validation_password1_too_short">Must be at least %1$s characters</string>
+    <string name="registro_validation_sugerencia_password1_too_short">Could be at least %1$s characters</string>
+    <string name="registro_validation_password1_too_long">Must be at most %1$s characters</string>
+    <string name="registro_validation_password1_empty">Cannot be empty</string>
+    <string name="registro_validation_password1_contains_white_space">Cannot contain spaces</string>
+    <string name="registro_validation_sugerencia_password1_contains_white_space">May not contain spaces</string>
+    <string name="registro_validation_password1_must_contains_special">Must have at least %1$s special character</string>
+    <string name="registro_validation_password1_must_contains_specials">Must have at least %1$s special characters</string>
+    <string name="registro_validation_sugerencia_password1_must_contains_special">Must have at least %1$s special character</string>
+    <string name="registro_validation_sugerencia_password1_must_contains_specials">Must have at least %1$s special characters</string>
+    <string name="registro_validation_sugerencia">Hint:</string>
+    <string name="registro_validation_sugerencia_muy_seguro">Very Safe</string>
+    <string name="registro_validation_password1_must_contains_mayuscula">Must have at least %1$s uppercase</string>
+    <string name="registro_validation_password1_must_contains_mayusculas">Must have at least %1$s uppercase</string>
+    <string name="registro_validation_sugerencia_password1_must_contains_mayuscula">Must have at least %1$s uppercase</string>
+    <string name="registro_validation_sugerencia_password1_must_contains_mayusculas">Must have at least %1$s uppercase</string>
+    <string name="registro_validation_password1_must_contains_minuscula">Must have at least %1$s lowercase</string>
+    <string name="registro_validation_password1_must_contains_minusculas">Must have at least %1$s lowercase</string>
+    <string name="registro_validation_sugerencia_password1_must_contains_minuscula">Have at least %1$s lowercase</string>
+    <string name="registro_validation_sugerencia_password1_must_contains_minusculas">Have at least %1$s lowercase</string>
+    <string name="registro_validation_password1_must_contains_numero">Must have at least %1$s number</string>
+    <string name="registro_validation_password1_must_contains_numeros">Must have at least %1$s numbers</string>
+    <string name="registro_validation_sugerencia_password1_must_contains_numero">Have at least %1$s number</string>
+    <string name="registro_validation_sugerencia_password1_must_contains_numeros">Have at least %1$s numbers</string>
+    <string name="registro_validation_password1_must_contains_ilegal_match">Cannot have %1$s consecutive characters</string>
+    <string name="registro_validation_password1_must_contains_sugerencia_ilegal_match">Might not have %1$s consecutive characters</string>
+    <string name="registro_validation_password1_contains_usuario">The user cannot be present</string>
+    <string name="registro_validation_password1_contains_sugerencia_usuario">The user might not be present</string>
+    <string name="registro_validation_password1_contains_nickname">The nickname cannot be present</string>
+    <string name="registro_validation_password1_contains_sugerencia_nickname">The nickname might not be present</string>
+    <string name="registro_validation_password1_contains_password">The password cannot be present</string>
+    <string name="registro_validation_password1_contains_sugerencia_password">The password might not be present</string>
+    <string name="registro_validation_password1_ok">The password is valid</string>
+    <string name="registro_validation_password2_ok">The passwords are correct</string>
+    <string name="registro_nickname_notification">If left empty, a random one will be generated - It can then be changed.</string>
+    <string name="registro_user_created">The User was Created</string>
+    <string name="password_old_new_equals">The New Password must be different from the Current Password</string>
+    <string name="password_validation__TOO_SHORT">Must have at least %1$s characters</string>
+    <string name="password_validation__TOO_LONG">Must have at least %1$s characters</string>
+    <string name="addmember_activity__invitation_message__validate__caracteres_disponibles">Available characters %1$s.</string>
+    <string name="addmember_activity__invitation_code__validate__empty">The invitation code cannot be empty</string>
+    <string name="addmember_activity__send_invitation__success">The User has been invited</string>
+    <string name="grupo_activity__title">Privacy - Groups</string>
+    <string name="grupo_activity__query_hint">Search title</string>
+    <string name="grupo_activity__powerservice__title">PERMISSION REQUEST</string>
+    <string name="grupo_activity__powerservice__detail">On the next screen, you will be asked for permission to continue receiving messages when the phone goes into sleep mode. The app uses its own message reception; for security reasons, it excludes third-party solutions such as those provided by Google. We guarantee that it will not affect battery or data consumption more than strictly necessary. If you accept, you can change the settings at any time. If you do not accept, it will continue to function, but you will not receive any notifications in Sleep Mode.</string>
+    <string name="grupo_activity__exit__cerrar_app">Close App</string>
+    <string name="grupo_activity__exit__cerrar_session">Log Out</string>
+    <string name="grupo_activity__exit__minimizar">Minimize</string>
+    <string name="grupo_activity__members__online__title">Members</string>
+    <string name="grupo_activity__members__online__detail">Online: %1$s of %2$s</string>
+    <string name="grupo_activity__invitation__response">Respond to request</string>
+    <string name="grupo_activity__invitation__response_details1">You have been invited by %1$s</string>
+    <string name="grupo_activity__invitation__response_details2">With the role of %1$s</string>
+    <string name="imagefull_activity__title">Image Viewer</string>
+    <string name="imagefull_activity__validation__download__not_allowed">Message settings do not allow download</string>
+    <string name="imagefull_activity__validation__download__success">File Downloaded</string>
+    <string name="lock_activity__validation__password__fail">Incorrect Password\nAttempt %1$s of %2$s</string>
+    <string name="addgrupo_activity__title">Privacy - Create Group</string>
+    <string name="addgrupo_activity__grupo_created">GROUP CREATED</string>
+    <string name="addgrupo_activity__alert__error_encrypt_title">ENCRYPTATION ERROR</string>
+    <string name="addgrupo_activity__submit">Create</string>
+    <string name="addgrupo_activity__add_new_member">Add a Member</string>
+    <string name="addgrupo_activity__goto_grupoinfo">Group Information</string>
+    <string name="addgrupo_activity__create_another_grupo">Create new group</string>
+    <string name="addgrupo_activity__go_back">Back</string>
+    <string name="addgrupo_activity__name_grupo__hint">New Group Name</string>
+    <string name="codigoinvitacion_activity__generate_and_save">Generate New and Save</string>
+    <string name="codigoinvitacion_activity__title">Invitation Code</string>
+    <string name="codigoinvitacion_activity__reset">Reset</string>
+    <string name="codigoinvitacion_activity__save">Save</string>
+    <string name="codigoinvitacion_activity__codigo_sin_cambios">Code unchanged</string>
+    <string name="codigoinvitacion_activity__codigo_validate__empty">Cannot be empty</string>
+    <string name="codigoinvitacion_activity__codigo_validate__no_save">Must Save or Reset to share</string>
+    <string name="acodigoinvitacion_activity__alert__error_generated_title">Error generating Invitation Code</string>
+    <string name="codigoinvitacion_activity__save__ok">Saved</string>
+    <string name="codigoinvitacion_activity__share__message__body">My invitation code en: %1$s</string>
+    <string name="codigoinvitacion_activity__share__message__extra_subject">Join the world\'s most secure messaging app</string>
+    <string name="grupo_info__lock_title">Password &amp; Lock</string>
+    <string name="grupo_info_password_enabled">Password Enabled</string>
+    <string name="grupo_info_lock_enabled">Close conversation</string>
+    <string name="grupo_info_lock__detail_message">Password is enabled in the app only. If you want more security, include Extra Encrypt.</string>
+    <string name="mainconfiguracion_activity__validation__error__url">Invalid URL</string>
+    <string name="frame_reconnect__desconexiones">Disconnections:</string>
+    <string name="frame_reconnect__reintentos_total">Total Retries:</string>
+    <string name="frame_reconnect__intentar_reconecta_en">Attempt to reconnect in</string>
+    <string name="general__segundos">seconds</string>
+    <string name="frame_reconnect__reconnet_trying">Reconnection - retrying...</string>
+    <string name="my_account_conf_descarga_imagen_txt">Block Downloading Images and Videos from my posts</string>
+    <string name="my_account_conf_gen_ocultar_estado_txt">Hide Reading Received Messages</string>
+    <string name="my_account_conf__block_resend__txt">Block Forwarding My Messages</string>
+    <string name="my_account_conf_temporal_obligatorio_txt">Always Send Temporary Messages</string>
+    <string name="my_account_conf_temporal_maximo_tiempo_permitido_titulo">Time</string>
+    <string name="my_account_conf_black_obligatorio_adjunto_txt">Always Send Images and Videos in Black Mode</string>
+    <string name="my_account_conf_black_obligatorio_adjunto_recibido_txt">Always Receive Images and Videos in Black Mode</string>
+    <string name="my_account_activity__title">My Account</string>
+    <string name="frame_reconnect__server_disconnectad">Disconnected from server</string>
+    <string name="frame_my_account__password_title">Change Password</string>
+    <string name="frame_grupo_info_nickname__generator">Generate a Random Nickname</string>
+    <string name="frame_grupo_info_nickname__message_info">If left blank, the General Nickname will be used, which is currently: %1$s</string>
+    <string name="frame_grupo_info_nickname__title">NICKNAME FOR YOUR USERNAME</string>
+    <string name="message_activity__allow_audio__not_allow">The group settings do not allow sending audio messages</string>
+    <string name="grupo_info_conf_gen__audio_max_time">Maximum Time</string>
+    <string name="grupo_info_conf_gen__random_nickname_txt">Use Random Nickname for all members</string>
+    <string name="grupo_info_conf_gen__hide_member_list_txt">Hide Member List</string>
+    <string name="grupo_info_conf_gen__hide_message_read_state_txt">Hide Read Status of Messages</string>
+    <string name="grupo_info_conf_gen__hide_message_details_txt">Hide Message Details</string>
+    <string name="grupo_info_conf_gen__black_message_attach_mandatory_txt">Black Mode Required when containing Images and/or Videos</string>
+    <string name="grupo_info_conf_gen__block_resend_txt">Block Forwarding</string>
+    <string name="grupo_info_conf_gen__title">GENERAL SETTINGS</string>
+    <string name="frame_grupo_info__name_title">Personal Settings</string>
+    <string name="frame_grupo_info__name_personal__title">Personal Settings</string>
+    <string name="activity__add_members_to_grupo__accept_and_send">Accept and Invite someone else</string>
+    <string name="activity__add_members_to_grupo__accept_and_close">Accept and Close</string>
+    <string name="activity__add_members_to_grupo__add_message_invitation">Add a message for your guest</string>
+    <string name="activity__add_members_to_grupo__codigo_invitation__hint">Invitation Code</string>
+    <string name="activity__add_members_to_grupo__codigo_invitation__scan_qr">Scan QR</string>
+    <string name="frame_my_account_gral_conf_title">GENERAL SETTINGS</string>
+    <string name="frame_my_account_lock_activar">Lock Enabled</string>
+    <string name="frame_my_account_lock_validate_min_seconds">Must have at least %1$s seconds</string>
+    <string name="frame_my_account_lock_mensaje">If you enable this option within the set number of minutes, a lock screen will appear where you will have to enter your password again.</string>
+    <string name="frame_my_account_lock">App Lock</string>
+    <string name="frame_my_account_login_skip__activar">Skip Authentication Enabled</string>
+    <string name="frame_my_account_nickname__generator">Generate a Random Nickname</string>
+    <string name="frame_my_account_nickname__title">NICKNAME FOR YOUR USER</string>
+    <string name="frame_my_account_loguin_skip__title">Skip Login Screen</string>
+    <string name="message_detail_activity__hide_read_message">Hide from group members that you have read this message</string>
+    <string name="message_detail__hide_state_grupo_txt">The group is set to hide the status of all messages, only you can see your activity status</string>
+    <string name="message_detail_activity__title">Privacy - Message Details</string>
+    <string name="frame_grupo_info__member__title">Members</string>
+    <string name="frame_grupo_info__hide_member__admin_message_txt">The group is set so that only the Admin can see the full list of Members</string>
+    <string name="privacity_environment">General</string>
+    <string name="app_name">Privacy</string>
+    <string name="error_codigo">ERROR CODE</string>
+    <string name="ok">OK</string>
+    <string name="close">Close</string>
+    <string name="cancel">Cancel</string>
+    <string name="error_code__CL_V_1001">CUSTOMER VALIDATION FIELD IS NULL</string>
+    <string name="error_code__GI_000">GENERAL UNEXPECTED</string>
+    <string name="error_code__GRAL_1000">GENERAL INVALID ACCESS</string>
+    <string name="error_code__GRAL_1001">GENERAL DO NOT SAVE BECAUSE THERE ARE NO DATA CHANGES</string>
+    <string name="error_code__GRAL_1002">GENERAL NO INTERNET ACCESS</string>
+    <string name="error_code__GRAL_1003">GENERAL INVALID ACCESS PROTOCOL</string>
+    <string name="error_code__GRAL_1004">GENERAL INVALID DATA SENT</string>
+    <string name="error_code__G_1000">GROUP USER INVITATION CODE DOES NOT EXIST</string>
+    <string name="error_code__G_1001">GROUP USER IS IN GROUP</string>
+    <string name="error_code__G_1002">GROUP GROUP ID IN BAD FORMAT</string>
+    <string name="error_code__G_1003">GROUP DOES NOT EXIST</string>
+    <string name="error_code__G_1004">GROUP USER IS NOT IN THE GROUP</string>
+    <string name="error_code__G_1005">GROUP USER DOES NOT HAVE PERMISSION IN THIS GROUP TO ADD MEMBERS</string>
+    <string name="error_code__G_1006">GROUP ROLE DOES NOT EXIST</string>
+    <string name="error_code__G_1007">GROUP USER INVITATION CODE IS NULL</string>
+    <string name="error_code__G_1008">GROUP INVITATION EXISTS</string>
+    <string name="error_code__G_1009">GROUP USER INVITATION CANNOT BE THE SAME</string>
+    <string name="error_code__G_1010">GROUP USER CANNOT SEND MESSAGE</string>
+    <string name="error_code__G_1011">GROUP USER CANNOT SEND READ-ONLY MESSAGE</string>
+    <string name="error_code__G_1012">GENERAL GROUP CONF LOCK MIN SECONDS VALIDATION</string>
+    <string name="error_code__G_1013">GROUP ROLE DO NOT ALLOW THIS ACTION</string>
+    <string name="error_code__CPWV_1000">CHANGE PASSWORD VALIDATION PREVIOUS PASSWORD IS NULL</string>
+    <string name="error_code__CPWV_1001">CHANGE VALIDATION PASSWORD NEW PASSWORD IS NULL</string>
+    <string name="error_code__CPWV_1002">CHANGE VALIDATION PASSWORD CONFIRM NEW PASSWORD IS NULL</string>
+    <string name="error_code__CPWV_1003">CHANGE VALIDATION PASSWORD NEW PASSWORD IS DIFFERENT NEW CONFIRM PASSWORD</string>
+    <string name="error_code__CPWV_1004">CHANGE VALIDATION PASSWORD PREVIOUS PASSWORD IS INCORRECT</string>
+    <string name="error_code__CPWV_1005">CHANGE VALIDATION PASSWORD NEW PASSWORD IS THE SAME PREVIOUS PASSWORD</string>
+    <string name="error_code__CPWV_1008">CHANGE VALIDATION PASSWORD PREVIOUS PASSWORD IS DIFFERENT FROM THE REGISTERED PASSWORD</string>
+    <string name="error_code__CPWV_1006">CHANGE VALIDATION PASSWORD INCORRECT USERNAME</string>
+    <string name="error_code__CPWV_10007">CHANGE VALIDATION PASSWORD USERNAME IS NULL</string>
+    <string name="error_code__Z_1001">COMPRESS ZIP</string>
+    <string name="error_code__Z_1002">UNCOMPRESS ZIP</string>
+    <string name="error_code__DC_1001">CONVERT BYTES DATA TO STRING</string>
+    <string name="error_code__RI_1000">INCORRECT LENGTH REQUEST ID</string>
+    <string name="error_code__RI_1001">REQUEST ID DOES NOT EXIST</string>
+    <string name="error_code__RI_1002">REQUEST ID WILL EXPIRE</string>
+    <string name="error_code__RI_1003">REQUEST ID CANNOT BE NULL</string>
+    <string name="error_code__RI_1004">REQUEST ID CANNOT BE USED MULTIPLE TIMES</string>
+    <string name="error_code__U_1000">USER SYSTEM DOES NOT EXIST</string>
+    <string name="error_code__U_1001">USER DOES NOT HAVE A USER REGISTER</string>
+    <string name="error_code__U_1002">USER NICKNAME IS NULL</string>
+    <string name="error_code__U_1003">USER NAME IS TOO LONG</string>
+    <string name="error_code__U_1004">USER NAME IS TOO SHORT</string>
+    <string name="error_code__U_1005">USER DOES NOT EXIST</string>
+    <string name="error_code__A_1000">AUTHORIZED USER NAME EXISTS</string>
+    <string name="error_code__A_1001">AUTHORIZED USER NAME IS NULL</string>
+    <string name="error_code__A_1002">AUTHORIZED USER NAME IS TOO SHORT</string>
+    <string name="error_code__A_1003">The Username and/or Password are Invalid</string>
+    <string name="error_code__recomendacion__A_1003">Verify the data and try again</string>
+    <string name="error_code__RI_1005">The server is under maintenance</string>
+    <string name="error_code__recomendacion__RI_1005">Please try again in a few minutes</string>
+    <string name="error_code__A_1004">AUTH SESSION OUT OF SYNC</string>
+    <string name="error_code__A1005">AUTH TOKEN OBTAINING FAILED</string>
+    <string name="error_code__M_1000">MESSAGE MESSAGE ID MISSING FORMAT</string>
+    <string name="error_code__M_1001">MESSAGE DOES NOT EXIST</string>
+    <string name="error_code__M_1002">MESSAGE NO MESSAGE CREATOR</string>
+    <string name="error_code__MDD_1001">MEDIA DATA DOES NOT EXIST</string>
+    <string name="error_code__MD_1000">MESSAGE DETAIL MESSAGE ID MISSING FORMAT</string>
+    <string name="error_code__MD_1001">MESSAGE DETAIL DOES NOT EXIST</string>
+    <string name="error_code__MD_1002">MESSAGE DETAIL DELETED</string>
+    <string name="error_code__MD_1003">MESSAGE DETAIL DOES NOT EXIST MESSAGE TIME</string>
+    <string name="error_code__MY_1000">MY ACCOUNT INVITATION CODE NOT AVAILABLE</string>
+    <string name="error_code__MY_1001">MY ACCOUNT INVITATION CODE CANNOT BE EMPTY</string>
+    <string name="error_code__MY_1002">VALIDATION OF MY ACCOUNT LOCK SECONDS</string>
+    <string name="error_code__E_1000">ENCRYPT IS NULL</string>
+    <string name="error_code__E_1001">ENCRYPT PRIVATE KEY IS NULL</string>
+    <string name="error_code__E_1002">ENCRYPT PUBLIC KEY IS NULL</string>
+    <string name="error_code__E_1003">ENCRYPT PUBLIC KEY IS NOT NULL</string>
+    <string name="error_code__E_1006">ENCRYPT PUBLIC KEY INVITATION MUST BE NULL</string>
+    <string name="error_code__EA_1001">ENCRYPT PROCESS</string>
+    <string name="error_code__DP_1001">DECRYPT PROCESS</string>
+    <string name="error_code__EA_1003">ENCRYPT AES IS NULL</string>
+    <string name="error_code__EA_1004">ENCRYPT AES SECRET KEY IS NULL</string>
+    <string name="error_code__EA_1005">ENCRYPT AES SALT IS NULL</string>
+    <string name="error_code__EA_1007">ENCRYPT AES CREATION FAILED</string>
+    <string name="error_code__DID_1001">DESCRYPT ID PROCESS FAILED</string>
+    <string name="error_code__EID_1001">ENCRYPT ID PROCESS FAILED</string>
+    <string name="error_code__WE_1001">CONNECTIONLESS MESSAGING</string>
+    <string name="error_code__ME_1002">INVALID MESSAGING ACCESS PROTOCOL</string>
+    <string name="error_code__WE_1003">ERROR GETTING ONLINE MESSAGING MEMBERS</string>
+    <string name="error_code__SM_1001">SESSION MANAGER DISCONNECTED</string>
+    <string name="error_code__HC_1001">HEALTH CHECKER PING NO RESPONSE</string>
+    <string name="error_code__IP_1003">GENERAL IDS PROVIDER ERROR</string>
+    <string name="error_code__IP_1001">IDS PROVIDER DISCONNECTED</string>
+    <string name="error_code__IP_1002">IDS PROVIDER UPDATE SHOULD NOT BE INVOKED IN THIS CASE</string>
+    <string name="error_code__KL_1001">KEYLOCK ERROR</string>
+    <string name="error_code__KL_1002">KEYLOCK UPDATE ERROR</string>
+    <string name="error_code__M_1003">The original message is configured to block forwarding</string>
+    <string name="system__message__grupo__change__user_role__ADMIN">An Administrator assigned you the Admin Role</string>
+    <string name="system__message__grupo__change__user_role__READONLY">An Administrator assigned you the Read-Only Role</string>
+    <string name="system__message__grupo__change__user_role__MODERATOR">An Administrator assigned you the Moderator Role</string>
+    <string name="system__message__grupo__change__user_role__MEMBER">An Administrator assigned you the Member Role</string>
+    <string name="system__message__grupo__bloque_de_emergencia">Emergency Lock</string>
+    <string name="system__message__grupo__lock_config__modified">AN ADMINISTRATOR HAS MODIFIED THE GROUP LOCK SETTINGS</string>
+    <string name="system__message__grupo__general_config__modified">AN ADMINISTRATOR HAS MODIFIED THE GENERAL GROUP SETTINGS</string>
+
+    <string-array name="grupo_sort">
+        <item>Ordenar:</item>
+        <item>\t\t\tpor Nombre</item>
+        <item>\t\t\tpor Miembros Conectados</item>
+        <item>\t\t\tpor Mensajes sin leer</item>
+    </string-array>
+
+    <string-array name="main_configuration_app_servers">
+        <item>10.0.2.2</item>
+        <item>100.118.42.131</item>
+        <item>192.168.0.10</item>
+    </string-array>
+
+    <string name="configuration_server__default__ws_protocol">ws</string>
+    <string name="configuration_server__default__ws_url">10.0.2.2</string>
+    <string name="configuration_server__default__ws_port">8090</string>
+    <string name="configuration_server__default__app_protocol">http</string>
+    <string name="configuration_server__default__app_url">10.0.2.2</string>
+    <string name="configuration_server__default__app_port">8080</string>
+
+
+    <string-array name="servers_http">
+        <item>http/ws</item>
+        <item>https/wss</item>
+    </string-array>
+
+    <string-array name="servers_ports">
+        <item>80/80</item>
+        <item>80/90</item>
+        <item>8080/8080</item>
+        <item>8080/8090</item>
+    </string-array>
+
+    <string-array name="servers_ws">
+        <item>ws://</item>
+        <item>wss://</item>
+    </string-array>
+
+    <string-array name="servers_configuration">
+        <item>DESARROLLO</item>
+        <item>HEROKU</item>
+        <item>GOOGLE</item>
+    </string-array>
+
+
+    <string-array name="audio_message_time_configuration">
+        <item>1 m</item>
+        <item>2 m</item>
+        <item>3 m</item>
+        <item>4 m</item>
+        <item>5 m</item>
+        <item>6 m</item>
+        <item>7 m</item>
+        <item>8 m</item>
+        <item>9 m</item>
+        <item>10 m</item>
+    </string-array>
+
+
+    <string-array name="my_account_message_spinner_values">
+        <item></item>
+        <item>✔</item>
+        <item>✘</item>
+    </string-array>
+    <string name="cruz">✘</string>
+    <string-array name="roles">
+        <item>Lectura</item>
+        <item>Miembro</item>
+        <item>Moderador</item>
+        <item>Admin</item>
+    </string-array>
+
+
+    <string-array name="time_messages_values">
+        <item>15 s</item>
+        <item>30 s</item>
+        <item> 1 m</item>
+        <item> 5 m</item>
+        <item>10 m</item>
+        <item>30 m</item>
+        <item> 1 h</item>
+    </string-array>
+
+    <string-array name="time_messages_values_in_seconds">
+        <item>15</item>
+        <item>30</item>
+        <item>60</item>
+        <item>300</item>
+        <item>600</item>
+        <item>1800</item>
+        <item>3600</item>
+    </string-array>
+
+
+    <string name="help_tag_grupo_info_noadmin">/grupoinfo/noadmin.html</string>
+    <string name="help_tag_grupo_info_actions">/grupoinfo/actions.html</string>
+    <string name="help_tag_grupo_info_gruponame">/grupoinfo/gruponame.html</string>
+    <string name="help_tag_grupo_info_passandlock">/grupoinfo/passandlock.html</string>
+    <string name="help_tag_grupo_info_granconf">/grupoinfo/granconf.html</string>
+    <string name="help_tag_grupo_info_members">/grupoinfo/members.html</string>
+
+    <string name="help_tag_message_avanzado">/message/avanzado.html</string>
+
+    <string name="help_tag_add_member_to_grupo">/grupo/addmember.html</string>
+    <string name="help_tag_add_grupo">/grupo/addgrupo.html</string>
+
+    <string name="help_tag_invitationcode_save">/invitationcode/save.html</string>
+
+    <string name="help_tag_myaccount_nickname">/myaccount/nickname.html</string>
+    <string name="help_tag_myaccount_password">/myaccount/password.html</string>
+    <string name="help_tag_myaccount_lock">/myaccount/lock.html</string>
+    <string name="help_tag_myaccount_gralconf">/myaccount/gralconf.html</string>
+    <string name="help_tag_myaccount_login_skip">/myaccount/loginskip.html</string>
+
+    <!-- General -->
+    <string name="general__title">Privacity</string>
+    <string name="tag_admin_gone">[Admin][gone]</string>
+    <string name="tag_admin_disabled">[Admin][disabled]</string>
+    <string name="tag_admin_clickcontext">[Admin][clickcontext]</string>
+    <string name="tag_admin_enabledfalse">[Admin][enabledfalse]</string>
+
+    <string name="not_translate_general__roles__moderator">Moderador</string>
+    <string name="not_translate_general__roles__member">Miembro</string>
+    <string name="not_translate_general__roles__readonly">Solo Lectura</string>
+    <string name="rol_no_admin_message">NO_ADMIN_MESSAGE</string>
+</resources>

@@ -4,15 +4,21 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_margin="10dp"
+    android:layout_marginStart="10dp"
+    android:layout_marginLeft="10dp"
+    android:layout_marginTop="1dp"
+    android:layout_marginEnd="10dp"
+    android:layout_marginRight="10dp"
+    android:layout_marginBottom="1dp"
     android:background="#77C6FF95"
     android:orientation="vertical"
+    android:textAlignment="center"
     app:cardCornerRadius="5dp"
     app:cardElevation="10dp">
 
     <TableLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="32dp"
         android:layout_gravity="center_vertical">
 
         <TableRow android:background="#77C6FF95">
@@ -39,7 +45,7 @@
                         <TextView
                             android:id="@+id/tv_message_list_text"
                             android:layout_width="wrap_content"
-                            android:layout_height="40dp"
+                            android:layout_height="35dp"
                             android:layout_gravity="left|center_vertical"
                             android:layout_marginStart="5dp"
                             android:layout_weight="1"
@@ -90,7 +96,7 @@
                         <ImageButton
                             android:id="@+id/bt_grupo_invitation"
                             android:layout_width="50dp"
-                            android:layout_height="30dp"
+                            android:layout_height="22dp"
                             android:layout_gravity="center|clip_vertical|center_horizontal"
                             android:layout_marginEnd="5dp"
                             android:background="@drawable/roundcorner"
@@ -101,22 +107,24 @@
 
                         <Button
                             android:id="@+id/bt_grupo_list_item_online"
-                            android:layout_width="55dp"
-                            android:layout_height="40dp"
+                            android:layout_width="50dp"
+                            android:layout_height="32dp"
                             android:layout_gravity="center"
                             android:layout_marginEnd="5dp"
                             android:backgroundTint="#23B34C"
                             android:gravity="center"
                             android:maxWidth="70dp"
                             android:text="33"
+                            android:textAlignment="center"
+                            android:textSize="11sp"
                             android:visibility="visible"
                             app:cornerRadius="100dp"
                             tools:visibility="visible" />
 
                         <Button
                             android:id="@+id/bt_message_detail_item_state"
-                            android:layout_width="60dp"
-                            android:layout_height="40dp"
+                            android:layout_width="50dp"
+                            android:layout_height="32dp"
                             android:layout_gravity="center"
                             android:layout_marginEnd="5dp"
                             android:backgroundTint="#3DA1CF"
@@ -124,6 +132,8 @@
                             android:gravity="center"
                             android:maxWidth="70dp"
                             android:text="33"
+                            android:textAlignment="center"
+                            android:textSize="11sp"
                             android:visibility="gone"
                             app:cornerRadius="100dp"
                             app:iconPadding="0dp"

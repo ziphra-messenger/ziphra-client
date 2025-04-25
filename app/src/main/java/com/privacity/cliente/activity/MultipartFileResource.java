@@ -6,7 +6,7 @@ import java.io.IOException;
 
 public class MultipartFileResource extends ByteArrayResource {
 
-	private String filename;
+	private final String filename;
 
 	public MultipartFileResource(String multipartFile, String filename) throws IOException {
 		super(multipartFile.getBytes());

@@ -6,7 +6,9 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Bundle;
 import android.view.MenuItem;
-import android.widget.CheckBox;
+import android.view.View;
+import android.widget.Button;
+import android.widget.TextView;
 
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.widget.SearchView;
@@ -15,18 +17,19 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.privacity.cliente.R;
 import com.privacity.cliente.activity.common.CustomAppCompatActivity;
+import com.privacity.cliente.activity.common.GetButtonReady;
 import com.privacity.cliente.activity.grupo.ItemListGrupo;
 import com.privacity.cliente.model.Grupo;
+import com.privacity.cliente.model.Message;
 import com.privacity.cliente.singleton.Observers;
 import com.privacity.cliente.singleton.SingletonValues;
 import com.privacity.cliente.singleton.interfaces.ObservadoresMensajes;
 import com.privacity.cliente.singleton.interfaces.ObservadoresPasswordGrupo;
+import com.privacity.common.BroadcastConstant;
 import com.privacity.common.dto.GrupoUserConfDTO;
-import com.privacity.common.dto.MessageDTO;
-import com.privacity.common.dto.MessageDetailDTO;
-import com.privacity.common.dto.ProtocoloDTO;
+import com.privacity.cliente.model.dto.MessageDetail;
+import com.privacity.cliente.model.dto.Protocolo;
 import com.privacity.common.dto.WrittingDTO;
-import com.privacity.common.enumeration.GrupoUserConfEnum;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -36,7 +39,11 @@ public class MessageDetailActivity extends CustomAppCompatActivity
     private RecyclerView rvLista;
     private RecyclerMessageDetailAdapter adapter;
     private List<ItemListMessageDetail> items;
-
+    private TextView hideRead;
+    private TextView hideMessageDetails;
+    private Button grupoName;
+    private String messageId;
+    private Message message;
 
     @Override
     public void passwordExpired(Grupo g) {
@@ -61,7 +68,7 @@ public class MessageDetailActivity extends CustomAppCompatActivity
         setContentView(R.layout.activity_message_detail);
 
         ActionBar actionBar = getSupportActionBar();
-        actionBar.setTitle("PrivaCity - Mensaje Detalles");
+        actionBar.setTitle(getString(R.string.message_detail_activity__title));
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         Observers.message().suscribirse(this);
@@ -69,25 +76,46 @@ public class MessageDetailActivity extends CustomAppCompatActivity
         initViews();
         initValues();
 
-        MessageDTO m = Observers.message().getMensajesPorId(
-                SingletonValues.getInstance().getMessageDetailSeleccionado().getMessage().buildIdMessageToMap());
+        this.messageId= SingletonValues.getInstance().getMessageDetailSeleccionado().getMessage().buildIdMessageToMap();
+        message = Observers.message().getMensajesPorId(messageId);
 
-        GrupoUserConfDTO conf = Observers.grupo().getGrupoById(m.getIdGrupo()).getUserConfDTO();
+        hideRead = (TextView) findViewById(R.id.message_detail__hide_read);
+        if (SingletonValues.getInstance().getMessageDetailSeleccionado().getMessageDetail().isHideRead()){
+            hideRead.setVisibility(View.VISIBLE);
+        }else{
+            hideRead.setVisibility(View.GONE);
+        }
+        hideMessageDetails = (TextView) findViewById(R.id.message_detail__hide_message_details_txt);
+        if (SingletonValues.getInstance().getGrupoSeleccionado().getGralConfDTO().isHideMessageDetails()){
+            hideMessageDetails.setVisibility(View.VISIBLE);
+        }else{
+            hideMessageDetails.setVisibility(View.GONE);
+        }
+
+        grupoName = GetButtonReady.get(this, R.id.message_detail__grupo_name,SingletonValues.getInstance().getGrupoSeleccionado().getName());
+
+
+        GrupoUserConfDTO conf = Observers.grupo().getGrupoById(message.getIdGrupo()).getUserConfDTO();
 
         BroadcastReceiver broadcastReceiver = new BroadcastReceiver() {
 
             @Override
             public void onReceive(Context arg0, Intent intent) {
                 String action = intent.getAction();
-                if (action.equals("finish_activity")) {
-                    myFinish();
-                }else if (action.equals("finish_all_activities")) {
+                if (action.equals(BroadcastConstant.BROADCAST__FINISH_MESSAGE_ACTIVITY)
+                        ||action.equals(BroadcastConstant.BROADCAST__FINISH_MESSAGE_DETAIL_ACTIVITY)
+                        ||action.equals(BroadcastConstant.BROADCAST__FINISH_ACTIVITY)
+                        || action.equals(BroadcastConstant.BROADCAST__FINISH_ALL_ACTIVITIES)) {
                     myFinish();
                 }
             }
         };
-        registerReceiver(broadcastReceiver, new IntentFilter("finish_activity"));
+        registerReceiver(broadcastReceiver, new IntentFilter(BroadcastConstant.BROADCAST__FINISH_MESSAGE_ACTIVITY));
+        registerReceiver(broadcastReceiver, new IntentFilter(BroadcastConstant.BROADCAST__FINISH_MESSAGE_DETAIL_ACTIVITY));
+        registerReceiver(broadcastReceiver, new IntentFilter(BroadcastConstant.BROADCAST__FINISH_ACTIVITY));
+        registerReceiver(broadcastReceiver, new IntentFilter(BroadcastConstant.BROADCAST__FINISH_ALL_ACTIVITIES));
 
+        new IconView();
     }
 
     public void myFinish() {
@@ -114,28 +142,32 @@ public class MessageDetailActivity extends CustomAppCompatActivity
 
         if (items != null)  items.clear();
         items = getItems();
-        adapter = new RecyclerMessageDetailAdapter(items);
+        adapter = new RecyclerMessageDetailAdapter(this,items);
         rvLista.setAdapter(adapter);
     }
     private List<ItemListMessageDetail> getItems() {
 
-        MessageDetailDTO selected = SingletonValues.getInstance().getMessageDetailSeleccionado().getMessageDetailDTO();
+        if (SingletonValues.getInstance().getMessageDetailSeleccionado() == null){
+            return new ArrayList<>();
+        }
+        MessageDetail selected = SingletonValues.getInstance().getMessageDetailSeleccionado().getMessageDetail();
 
-        MessageDetailDTO[] list = Observers.message().getMensajesPorId(selected.buildIdMessageToMap()).getMessagesDetailDTO();
+        MessageDetail[] list = Observers.message().getMensajesPorId(selected.buildIdMessageToMap()).getMessagesDetail();
 
         ArrayList<ItemListMessageDetail> r = new ArrayList<ItemListMessageDetail>();
 
         GrupoUserConfDTO conf = Observers.grupo().getGrupoById(selected.getIdGrupo()).getUserConfDTO();
 /*
-        if ( conf.getAnonimoRecived() != null && GrupoUserConfEnum.GRUPO_TRUE.equals(conf.getAnonimoRecived())){
+        if ( conf.getAnonimoRecived() != null && RulesConfEnum.ON.equals(conf.getAnonimoRecived())){
             r.add(new ItemListMessageDetail(selected));
         }else{*/
-            for (int i = 0 ; i < list.length ; i++){
-                ItemListMessageDetail add = new ItemListMessageDetail(list[i]);
+        for (int i = 0, listLength = list.length; i < listLength; i++) {
+            MessageDetail messageDetail = list[i];
+            ItemListMessageDetail add = new ItemListMessageDetail(messageDetail);
 
 
-                r.add(add);
-            }
+            r.add(add);
+        }
 
   //      }
         return r;
@@ -171,18 +203,18 @@ public class MessageDetailActivity extends CustomAppCompatActivity
 
 
     @Override
-    public void nuevoMensaje(ProtocoloDTO protocoloDTO) {
+    public void nuevoMensaje(Protocolo protocolo) {
 
     }
 
     @Override
-    public void cambioEstado(MessageDetailDTO m) {
+    public void cambioEstado(MessageDetail m) {
         initValues();
         adapter.notifyDataSetChanged();
 /*
         for (ItemListMessageDetail item : items){
-            if (item.getMessageDetailDTO().buildIdMessageDetailToMap().equals(m.buildIdMessageDetailToMap())){
-                item.getMessageDetailDTO().setEstado(m.getEstado());
+            if (item.getMessageDetail().buildIdMessageDetailToMap().equals(m.buildIdMessageDetailToMap())){
+                item.getMessageDetail().setEstado(m.getEstado());
                 adapter.notifyDataSetChanged();
             }
         }*/
@@ -190,19 +222,31 @@ public class MessageDetailActivity extends CustomAppCompatActivity
     }
 
     @Override
-    public void emptyList() {
+    public void emptyList(String idGrupo) {
         items.clear();
         adapter.notifyDataSetChanged();
     }
 
+
     @Override
-    public void mensajeAddItem(MessageDTO miMensaje, String asyncId) {
+    public void mensajeAddItem(Message miMensaje, String asyncId) {
 
     }
 
     @Override
-    public void borrarMensaje(MessageDetailDTO detail) {
+    public void borrarMessageDetail(MessageDetail detail) {
+        if (this.message.isDeleted() || this.messageId.equals(detail.buildIdMessageToMap())){
+            myFinish();
+        };
 
+
+    }
+
+    @Override
+    public void borrarMessage(String idMessageToMap) {
+        if (this.message.isDeleted() || messageId.equals(idMessageToMap)){
+            myFinish();
+        }
     }
 
     @Override

@@ -1,0 +1,664 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/message__envio_especial__frame"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_gravity="center"
+    android:foregroundGravity="center"
+    android:visibility="gone"
+    tools:visibility="visible">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/message__envio_especial__content__all"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_gravity="center"
+        android:clickable="true"
+        android:contextClickable="false"
+        android:foregroundGravity="center"
+        android:longClickable="false"
+        android:visibility="gone"
+        tools:visibility="visible">
+
+        <LinearLayout
+            android:id="@+id/message__envio_especial__content__dialog_close"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+
+
+            android:layout_gravity="center"
+            android:layout_margin="0dp"
+            android:background="#80000000"
+            android:clickable="true"
+            android:contextClickable="true"
+            android:foregroundGravity="center"
+            android:foregroundTintMode="multiply"
+            android:gravity="center"
+            android:maxWidth="270dp"
+            android:minWidth="200dp"
+            android:minHeight="150dp"
+            android:orientation="vertical"
+            android:padding="15dp"
+            android:visibility="visible"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="1.0"
+            tools:visibility="visible">
+
+            <LinearLayout
+                android:id="@+id/message__envio_especial__content__dialog"
+                android:layout_width="match_parent"
+
+                android:layout_height="wrap_content"
+                android:background="@drawable/toolhint_smooth_selectview"
+                android:clickable="true"
+                android:foregroundTint="#FFFFFF"
+                android:orientation="vertical"
+                android:padding="15dp"
+                android:visibility="visible"
+                tools:visibility="visible">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="center"
+                    android:orientation="vertical">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="40dp"
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginTop="5dp"
+                        android:layout_marginBottom="5dp"
+                        android:layout_weight="0"
+                        android:foregroundGravity="center_vertical"
+                        android:gravity="center_vertical"
+                        android:orientation="horizontal">
+
+                        <Button
+                            style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                            android:layout_width="24dp"
+                            android:layout_height="26dp"
+                            android:layout_gravity="center"
+                            android:background="@drawable/rounf"
+                            android:clickable="false"
+                            android:ellipsize="end"
+
+                            android:foregroundGravity="center"
+                            android:gravity="center"
+                            android:insetTop="0dp"
+                            android:insetBottom="0dp"
+                            android:padding="0dp"
+                            android:paddingStart="0dp"
+                            android:paddingLeft="0dp"
+                            android:paddingTop="0dp"
+                            android:paddingEnd="0dp"
+                            android:paddingRight="0dp"
+                            android:paddingBottom="0dp"
+                            android:singleLine="true"
+                            android:textAllCaps="true"
+                            android:textColor="#0101ff"
+                            android:textColorLink="#0101ff"
+                            android:textSize="8sp"
+                            app:icon="@drawable/ic_baseline_lock_24_msg_item_list"
+
+
+                            app:iconPadding="0dp"
+                            app:iconSize="24dp"
+                            app:iconTint="#000000"
+                            app:strokeColor="#2655BB"
+                            app:strokeWidth="0dp" />
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="3dp"
+                            android:layout_weight="1"
+                            android:text="Extra Encrypt"
+                            android:textSize="14sp"
+                            android:textStyle="bold" />
+
+                        <Button
+
+                            android:id="@+id/message__envio_especial__extraencryp"
+                            android:layout_width="50dp"
+
+                            android:layout_height="30dp"
+                            android:layout_gravity="center"
+                            android:layout_weight="0"
+                            android:clickable="false"
+                            android:ellipsize="end"
+                            android:foregroundGravity="center"
+                            android:gravity="center"
+                            android:insetTop="0dp"
+                            android:insetBottom="0dp"
+                            android:maxWidth="50dp"
+                            android:minWidth="50dp"
+                            android:padding="0dp"
+                            android:paddingStart="0dp"
+                            android:paddingLeft="0dp"
+                            android:paddingTop="0dp"
+                            android:paddingEnd="0dp"
+                            android:paddingRight="0dp"
+                            android:paddingBottom="0dp"
+                            android:singleLine="true"
+                            android:textAllCaps="true"
+                            android:textColor="#0101ff"
+                            android:textColorLink="#0101ff"
+                            android:textSize="8sp"
+                            app:cornerRadius="20dp"
+                            app:icon="@drawable/ic_baseline_send_comun_24"
+                            app:iconGravity="textTop"
+                            app:iconPadding="0dp"
+                            app:iconSize="18dp"
+                            app:iconTint="#FFFFFF"
+                            app:strokeWidth="0dp" />
+                    </LinearLayout>
+
+                    <View
+                        android:id="@+id/divider5"
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:layout_weight="0"
+                        android:background="?android:attr/listDivider" />
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="50dp"
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginTop="5dp"
+                        android:layout_marginBottom="5dp"
+                        android:layout_weight="0"
+                        android:foregroundGravity="center_vertical"
+                        android:gravity="center_vertical"
+                        android:orientation="horizontal">
+
+                        <Button
+                            style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                            android:layout_width="24dp"
+                            android:layout_height="26dp"
+                            android:layout_gravity="center"
+                            android:background="@drawable/rounf"
+                            android:clickable="false"
+                            android:ellipsize="end"
+
+                            android:foregroundGravity="center"
+                            android:gravity="center"
+                            android:insetTop="0dp"
+                            android:insetBottom="0dp"
+                            android:padding="0dp"
+                            android:paddingStart="0dp"
+                            android:paddingLeft="0dp"
+                            android:paddingTop="0dp"
+                            android:paddingEnd="0dp"
+                            android:paddingRight="0dp"
+                            android:paddingBottom="0dp"
+                            android:singleLine="true"
+                            android:textAllCaps="true"
+                            android:textColor="#0101ff"
+                            android:textColorLink="#0101ff"
+                            android:textSize="8sp"
+                            app:icon="@drawable/ic_baseline_access_time_24"
+
+
+                            app:iconPadding="0dp"
+                            app:iconSize="24dp"
+                            app:iconTint="#000000"
+                            app:strokeColor="#2655BB"
+                            app:strokeWidth="0dp" />
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="3dp"
+                            android:layout_weight="1"
+                            android:singleLine="true"
+                            android:text="Temporal"
+                            android:textSize="14sp"
+                            android:textStyle="bold" />
+
+
+                        <LinearLayout
+                            android:id="@+id/selecttime__picker"
+                            android:layout_width="90dp"
+                            android:layout_height="75dp"
+                            android:layout_gravity="center|center_vertical"
+                            android:layout_margin="0dp"
+                            android:layout_weight="0"
+                            android:gravity="center|center_vertical"
+                            android:orientation="horizontal"
+                            android:padding="0dp"
+                            android:scaleX="1"
+                            android:scaleY="0.8"
+                            android:tag="@string/tag_admin_clickcontext">
+
+                            <NumberPicker
+                                android:id="@+id/selecttime__picker_minutos"
+                                android:layout_width="40dp"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center|center_vertical"
+                                android:background="#5EC8FAC4"
+                                android:gravity="center|center_vertical"
+                                android:tag="@string/tag_admin_enabledfalse"
+                                android:text="TextView" />
+
+                            <TextView
+                                android:id="@+id/textView27"
+                                android:layout_width="10dp"
+                                android:layout_height="30dp"
+                                android:layout_gravity="center"
+                                android:gravity="center"
+                                android:text=":"
+                                android:textSize="24sp" />
+
+                            <NumberPicker
+                                android:id="@+id/selecttime__picker_segundos"
+                                android:layout_width="40dp"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center|center_vertical"
+                                android:background="#5EC8FAC4"
+                                android:gravity="center|center_vertical"
+                                android:tag="@string/tag_admin_enabledfalse"
+                                android:text="TextView" />
+                        </LinearLayout>
+
+                        <Button
+
+                            android:id="@+id/message__envio_especial__temporal"
+                            android:layout_width="50dp"
+                            android:layout_height="30dp"
+                            android:layout_gravity="center"
+
+                            android:layout_marginStart="20dp"
+                            android:layout_weight="0"
+                            android:clickable="false"
+                            android:ellipsize="end"
+                            android:foregroundGravity="center"
+                            android:gravity="center"
+                            android:insetTop="0dp"
+                            android:insetBottom="0dp"
+                            android:padding="0dp"
+                            android:paddingStart="0dp"
+                            android:paddingLeft="0dp"
+                            android:paddingTop="0dp"
+                            android:paddingEnd="0dp"
+                            android:paddingRight="0dp"
+                            android:paddingBottom="0dp"
+                            android:singleLine="true"
+                            android:textAllCaps="true"
+                            android:textColor="#0101ff"
+                            android:textColorLink="#0101ff"
+                            android:textSize="8sp"
+                            app:cornerRadius="20dp"
+                            app:icon="@drawable/ic_baseline_send_comun_24"
+                            app:iconGravity="textTop"
+                            app:iconPadding="0dp"
+                            app:iconSize="18dp"
+                            app:iconTint="#FFFFFF"
+                            app:strokeWidth="0dp" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginTop="5dp"
+                        android:layout_marginBottom="5dp"
+                        android:layout_weight="0"
+                        android:foregroundGravity="center_vertical"
+                        android:gravity="center_vertical"
+                        android:minHeight="40dp"
+                        android:orientation="horizontal">
+
+
+                        <Button
+                            style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                            android:layout_width="24dp"
+                            android:layout_height="26dp"
+                            android:layout_gravity="center"
+                            android:layout_weight="0"
+                            android:background="@drawable/rounf"
+                            android:clickable="false"
+
+                            android:ellipsize="end"
+                            android:foregroundGravity="center"
+                            android:gravity="center"
+                            android:insetTop="0dp"
+                            android:insetBottom="0dp"
+                            android:padding="0dp"
+                            android:paddingStart="0dp"
+                            android:paddingLeft="0dp"
+                            android:paddingTop="0dp"
+                            android:paddingEnd="0dp"
+                            android:paddingRight="0dp"
+                            android:paddingBottom="0dp"
+                            android:singleLine="true"
+                            android:textAllCaps="true"
+                            android:textColor="#0101ff"
+                            android:textColorLink="#0101ff"
+                            android:textSize="8sp"
+
+
+                            app:icon="@drawable/ic_baseline_access_time_24"
+                            app:iconPadding="0dp"
+                            app:iconSize="24dp"
+                            app:iconTint="#000000"
+                            app:strokeColor="#2655BB"
+                            app:strokeWidth="0dp" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:layout_gravity="center_vertical"
+                            android:layout_marginStart="3dp"
+                            android:layout_weight="1"
+                            android:gravity="center_vertical"
+                            android:text="Temporal por Defecto"
+                            android:textSize="14sp"
+                            android:textStyle="bold" />
+
+                        <Button
+
+                            android:id="@+id/message__envio_especial__temporal__default"
+                            android:layout_width="100dp"
+                            android:layout_height="30dp"
+                            android:layout_gravity="center|right"
+
+                            android:layout_weight="0"
+                            android:clickable="false"
+                            android:ellipsize="end"
+                            android:foregroundGravity="center|right"
+                            android:gravity="center|center_vertical"
+                            android:insetTop="0dp"
+                            android:insetBottom="0dp"
+                            android:maxWidth="30dp"
+                            android:padding="0dp"
+                            android:paddingStart="0dp"
+                            android:paddingLeft="0dp"
+                            android:paddingTop="0dp"
+                            android:paddingEnd="0dp"
+                            android:paddingRight="0dp"
+                            android:paddingBottom="0dp"
+                            android:singleLine="true"
+                            android:text="10:12"
+                            android:textAllCaps="true"
+                            android:textColorLink="#0101ff"
+                            android:textSize="12sp"
+                            app:cornerRadius="20dp"
+                            app:icon="@drawable/ic_baseline_send_comun_24"
+                            app:iconGravity="textEnd"
+                            app:iconPadding="13dp"
+                            app:iconSize="18dp"
+                            app:iconTint="#FFFFFF"
+                            app:strokeWidth="0dp" />
+                    </LinearLayout>
+
+                    <View
+                        android:id="@+id/divider4"
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:layout_weight="0"
+                        android:background="?android:attr/listDivider" />
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="40dp"
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginTop="5dp"
+                        android:layout_marginBottom="5dp"
+                        android:layout_weight="0"
+                        android:foregroundGravity="center_vertical"
+                        android:gravity="center_vertical"
+                        android:orientation="horizontal">
+
+                        <Button
+                            style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                            android:layout_width="24dp"
+                            android:layout_height="26dp"
+                            android:layout_gravity="center"
+                            android:background="@drawable/rounf"
+                            android:clickable="false"
+                            android:ellipsize="end"
+
+                            android:foregroundGravity="center"
+                            android:gravity="center"
+                            android:insetTop="0dp"
+                            android:insetBottom="0dp"
+                            android:padding="0dp"
+                            android:paddingStart="0dp"
+                            android:paddingLeft="0dp"
+                            android:paddingTop="0dp"
+                            android:paddingEnd="0dp"
+                            android:paddingRight="0dp"
+                            android:paddingBottom="0dp"
+                            android:singleLine="true"
+                            android:textAllCaps="true"
+                            android:textColor="#0101ff"
+                            android:textColorLink="#0101ff"
+                            android:textSize="8sp"
+                            app:icon="@drawable/ic_baseline_remove_red_eye_24"
+
+
+                            app:iconPadding="0dp"
+                            app:iconSize="24dp"
+                            app:iconTint="#000000"
+                            app:strokeColor="#2655BB"
+                            app:strokeWidth="0dp" />
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="3dp"
+                            android:layout_weight="1"
+                            android:text="Black"
+                            android:textSize="14sp"
+                            android:textStyle="bold" />
+
+                        <Button
+
+                            android:id="@+id/message__envio_especial__black"
+                            android:layout_width="50dp"
+                            android:layout_height="30dp"
+
+                            android:layout_gravity="center"
+                            android:layout_weight="0"
+                            android:clickable="false"
+                            android:ellipsize="end"
+                            android:foregroundGravity="center"
+                            android:gravity="center"
+                            android:insetTop="0dp"
+                            android:insetBottom="0dp"
+                            android:maxWidth="50dp"
+                            android:minWidth="50dp"
+                            android:padding="0dp"
+                            android:paddingStart="0dp"
+                            android:paddingLeft="0dp"
+                            android:paddingTop="0dp"
+                            android:paddingEnd="0dp"
+                            android:paddingRight="0dp"
+                            android:paddingBottom="0dp"
+                            android:singleLine="true"
+                            android:textAllCaps="true"
+                            android:textColor="#0101ff"
+                            android:textColorLink="#0101ff"
+                            android:textSize="8sp"
+                            app:cornerRadius="20dp"
+                            app:icon="@drawable/ic_baseline_send_comun_24"
+                            app:iconGravity="textTop"
+                            app:iconPadding="0dp"
+                            app:iconSize="18dp"
+                            app:iconTint="#FFFFFF"
+                            app:strokeWidth="0dp" />
+                    </LinearLayout>
+
+                    <View
+                        android:id="@+id/divider6"
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:layout_weight="0"
+                        android:background="?android:attr/listDivider" />
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="40dp"
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginTop="5dp"
+                        android:layout_marginBottom="5dp"
+                        android:layout_weight="0"
+                        android:foregroundGravity="center_vertical"
+                        android:gravity="center_vertical"
+                        android:orientation="horizontal">
+
+                        <Button
+                            style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                            android:layout_width="24dp"
+                            android:layout_height="26dp"
+                            android:layout_gravity="center"
+                            android:background="@drawable/rounf"
+                            android:clickable="false"
+                            android:ellipsize="end"
+
+                            android:foregroundGravity="center"
+                            android:gravity="center"
+                            android:insetTop="0dp"
+                            android:insetBottom="0dp"
+                            android:padding="0dp"
+                            android:paddingStart="0dp"
+                            android:paddingLeft="0dp"
+                            android:paddingTop="0dp"
+                            android:paddingEnd="0dp"
+                            android:paddingRight="0dp"
+                            android:paddingBottom="0dp"
+                            android:singleLine="true"
+                            android:textAllCaps="true"
+                            android:textColor="#0101ff"
+                            android:textColorLink="#0101ff"
+                            android:textSize="8sp"
+                            app:icon="@drawable/ic_anonimo"
+
+
+                            app:iconPadding="0dp"
+                            app:iconSize="24dp"
+                            app:iconTint="#000000"
+                            app:strokeColor="#2655BB"
+                            app:strokeWidth="0dp" />
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="3dp"
+                            android:layout_weight="1"
+                            android:text="@string/general__message_type__anonimous"
+                            android:textSize="14sp"
+                            android:textStyle="bold" />
+
+                        <Button
+
+                            android:id="@+id/message__envio_especial__anonimo"
+                            android:layout_width="50dp"
+                            android:layout_height="30dp"
+
+                            android:layout_gravity="center"
+                            android:layout_weight="0"
+                            android:clickable="false"
+                            android:ellipsize="end"
+                            android:foregroundGravity="center"
+                            android:gravity="center"
+                            android:insetTop="0dp"
+                            android:insetBottom="0dp"
+                            android:maxWidth="50dp"
+                            android:minWidth="50dp"
+                            android:padding="0dp"
+                            android:paddingStart="0dp"
+                            android:paddingLeft="0dp"
+                            android:paddingTop="0dp"
+                            android:paddingEnd="0dp"
+                            android:paddingRight="0dp"
+                            android:paddingBottom="0dp"
+                            android:singleLine="true"
+                            android:textAllCaps="true"
+                            android:textColor="#0101ff"
+                            android:textColorLink="#0101ff"
+                            android:textSize="8sp"
+                            app:cornerRadius="20dp"
+                            app:icon="@drawable/ic_baseline_send_comun_24"
+                            app:iconGravity="textTop"
+                            app:iconPadding="0dp"
+                            app:iconSize="18dp"
+                            app:iconTint="#FFFFFF"
+                            app:strokeWidth="0dp" />
+                    </LinearLayout>
+
+                </LinearLayout>
+
+                <!--                <ScrollView
+                    android:id="@+id/common__help__info__scroll"
+                    android:layout_width="match_parent"
+                    android:layout_height="300dp">
+
+                    <TextView
+                        android:id="@+id/common__help__txt"
+                        style="@style/Widget.AppCompat.TextView.SpinnerItem"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:breakStrategy="balanced"
+                        android:clickable="true"
+                        android:ellipsize="none"
+                        android:fadeScrollbars="false"
+                        android:fadingEdge="horizontal"
+                        android:fadingEdgeLength="100dp"
+                        android:focusable="auto"
+                        android:focusableInTouchMode="true"
+                        android:focusedByDefault="false"
+                        android:isScrollContainer="false"
+                        android:maxHeight="200dp"
+                        android:overScrollMode="never"
+                        android:requiresFadingEdge="vertical"
+                        android:scrollIndicators="right"
+                        android:scrollbars="vertical"
+                        android:singleLine="false"
+                        android:text="   Best pornstars Prince Yahshua Liza Del Sierra Bambi Brooks Peter North Tigerr Benson Hime Marie Kali Rose Alex Coal Mike Adriano Anastasia Lux Katie Kox Devon Lee Melissa Monet Shay Evans Alexis Monroe Abella Anderson Amber Lynn Bach Vanessa Cage Gia Paige Nat Turnher Lyra Law Sienna West Alyssa Cole Jodi West Amber Lynn Kristy Black Victoria Cakes Little Caprice Alyssa Reece Jordi El Niño Polla Carmella Bing Selena Santana Josephine James Madison Rose Markus Dupree Zoe Bloom Dolly Little Mila Azul Dakota Sky Valentina Jewels Bella Reese Aubrey Black Goldie Rush Nina Hartley Esperanza Gomez Staci Silverstone Liv Revamped Katie Cummings Tiffany Mynx Foxy Di Shona River Lucy Li Jane Wilde Jayden Jaymes Diamond Kitty Stephanie West Christian Clay London Keyes Luna Lovely Kimber Lee All Pornstars    Best pornstars Prince Yahshua Liza Del Sierra Bambi Brooks Peter North Tigerr Benson Hime Marie Kali Rose Alex Coal Mike Adriano Anastasia Lux Katie Kox Devon Lee Melissa Monet Shay Evans Alexis Monroe Abella Anderson Amber Lynn Bach Vanessa Cage Gia Paige Nat Turnher Lyra Law Sienna West Alyssa Cole Jodi West Amber Lynn Kristy Black Victoria Cakes Little Caprice Alyssa Reece Jordi El Niño Polla Carmella Bing Selena Santana Josephine James Madison Rose Markus Dupree Zoe Bloom Dolly Little Mila Azul Dakota Sky Valentina Jewels Bella Reese Aubrey Black Goldie Rush Nina Hartley Esperanza Gomez Staci Silverstone Liv Revamped Katie Cummings Tiffany Mynx Foxy Di Shona River Lucy Li Jane Wilde Jayden Jaymes Diamond Kitty Stephanie West Christian Clay London Keyes Luna Lovely Kimber Lee All Pornstars Select a Category   Best pornstars Prince Yahshua Liza Del Sierra Bambi Brooks Peter North Tigerr Benson Hime Marie Kali Rose Alex Coal Mike Adriano Anastasia Lux Katie Kox Devon Lee Melissa Monet Shay Evans Alexis Monroe Abella Anderson Amber Lynn Bach Vanessa Cage Gia Paige Nat Turnher Lyra Law Sienna West Alyssa Cole Jodi West Amber Lynn Kristy Black Victoria Cakes Little Caprice Alyssa Reece Jordi El Niño Polla Carmella Bing Selena Santana Josephine James Madison Rose Markus Dupree Zoe Bloom Dolly Little Mila Azul Dakota Sky Valentina Jewels Bella Reese Aubrey Black Goldie Rush Nina Hartley Esperanza Gomez Staci Silverstone Liv Revamped Katie Cummings Tiffany Mynx Foxy Di Shona River Lucy Li Jane Wilde Jayden Jaymes Diamond Kitty Stephanie West Christian Clay London Keyes Luna Lovely Kimber Lee All Pornstars Select a Category   Best pornstars Prince Yahshua Liza Del Sierra Bambi Brooks Peter North Tigerr Benson Hime Marie Kali Rose Alex Coal Mike Adriano Anastasia Lux Katie Kox Devon Lee Melissa Monet Shay Evans Alexis Monroe Abella Anderson Amber Lynn Bach Vanessa Cage Gia Paige Nat Turnher Lyra Law Sienna West Alyssa Cole Jodi West Amber Lynn Kristy Black Victoria Cakes Little Caprice Alyssa Reece Jordi El Niño Polla Carmella Bing Selena Santana Josephine James Madison Rose Markus Dupree Zoe Bloom Dolly Little Mila Azul Dakota Sky Valentina Jewels Bella Reese Aubrey Black Goldie Rush Nina Hartley Esperanza Gomez Staci Silverstone Liv Revamped Katie Cummings Tiffany Mynx Foxy Di Shona River Lucy Li Jane Wilde Jayden Jaymes Diamond Kitty Stephanie West Christian Clay London Keyes Luna Lovely Kimber Lee All Pornstars Select a Category"
+                        android:textAlignment="viewStart"
+                        android:textColor="#000000"
+                        android:textDirection="inherit"
+                        android:textSize="14sp"
+                        android:visibility="visible"
+                        tools:visibility="visible" />
+                </ScrollView>-->
+
+            </LinearLayout>
+
+
+            <LinearLayout
+                android:id="@+id/message__envio_especial__content__close"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:orientation="vertical">
+
+                <Button
+                    android:id="@+id/message__envio_especial__close"
+                    android:layout_width="70dp"
+                    android:layout_height="70dp"
+                    android:layout_gravity="center"
+                    android:layout_weight="0"
+                    android:backgroundTint="#B4A233"
+                    android:padding="20dp"
+                    android:paddingLeft="20dp"
+                    android:textSize="8sp"
+                    app:cornerRadius="150dp"
+                    app:icon="@drawable/ic_baseline_close_24"
+                    app:iconGravity="textTop"
+                    app:iconPadding="0dp" />
+            </LinearLayout>
+
+        </LinearLayout>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</FrameLayout>

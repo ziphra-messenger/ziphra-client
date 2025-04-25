@@ -1,0 +1,482 @@
+<resources>
+    <string name="general__password">Senha</string>
+    <string name="general__role">Papel</string>
+    <string name="menu_message__empty_list">Mensagens vazias</string>
+    <string name="menu_message__get_historial">Carregar 10 mensagens anteriores</string>
+    <string name="menu_message__add_member">Adicionar contato ao grupo</string>
+    <string name="menu_message__grupo_info">Informações do grupo</string>
+    <string name="general__actual_password">Senha atual</string>
+    <string name="general__new_password">Nova Senha</string>
+    <string name="general__password_confirmar">Confirmação</string>
+    <string name="general__save">Manter</string>
+    <string name="general__confirm">Confirmar</string>
+    <string name="general__are_u_sure">Você tem certeza?</string>
+    <string name="general__cancel">Cancelar</string>
+    <string name="general__accept">Aceitar</string>
+    <string name="general__reset">Reiniciar</string>
+    <string name="general__ignore">Ignorar</string>
+    <string name="general__saved">Salvo</string>
+    <string name="general__share">Compartilhar</string>
+    <string name="general__available">Disponível</string>
+    <string name="general__not_available">Não disponível</string>
+    <string name="general__recomendado">Recomendado</string>
+    <string name="general__default">Reiniciar</string>
+    <string name="general__error_ph1">Erro: %1$s</string>
+    <string name="general__error__no_description">código: %1$s - sem descrição</string>
+    <string name="general__error_message">Mensagem de erro</string>
+    <string name="general__error_message_ph1">Mensagem de erro: %1$s</string>
+    <string name="general__error__call_rest__title">Erro ao chamar o servidor: %1$s</string>
+    <string name="general__roles__admin">Administrador</string>
+    <string name="general__roles__moderator">Moderador</string>
+    <string name="general__save__not_changes">Não há modificações para salvar</string>
+    <string name="frame_my_account_lang__title">Linguagem</string>
+    <string name="general__roles__member">Membro</string>
+    <string name="general__roles__readonly">Somente leitura</string>
+    <string name="general__message_type__anonimous">Anônimo</string>
+    <string name="general__message_type__temporal">Temporário</string>
+    <string name="general__message_type__black">Preto</string>
+    <string name="general__message_type__extra_encriptado">Extra criptografado</string>
+    <string name="general__alert__validation__password_incorrect">Senha incorreta</string>
+    <string name="general__alert__validation__role__only_admin">Esta tela é apenas para Administradores. Sua função é %1$s</string>
+    <string name="general__message_status__my_message_error_not_send">Erro</string>
+    <string name="general__message_status__my_message_sending">Enviando</string>
+    <string name="general__message_status__my_message_sent">Enviado</string>
+    <string name="general__message_status__destiny_server">Servidor</string>
+    <string name="general__message_status__destiny_delivered">Entregue</string>
+    <string name="general__message_status__destiny_readed">Ler</string>
+    <string name="dialog_to_show__alert__validation_by_role">Ação não permitida. Sua função no grupo é %1$s</string>
+    <string name="copy_paste_util__no_data_to_copy">Não há dados para copiar</string>
+    <string name="copy_paste_util__copied">Copiado</string>
+    <string name="menu_grupo__item__create_grupo">Criar grupo</string>
+    <string name="menu_grupo__item__invitation_code">Código de convite</string>
+    <string name="menu_grupo__item__my_account">Minha conta</string>
+    <string name="menu_grupo__item__about_this">Sobre</string>
+    <string name="menu_grupo__item__exit">Sair</string>
+    <string name="accept_invitation_callrest__invitation_accepted">Convite aceito</string>
+    <string name="grupo_info_activity__title">Informações do grupo: %1$s</string>
+    <string name="grupo_info_activity__remove_me__success">Você saiu do grupo</string>
+    <string name="grupo_info_activity__delete_grupo__success">Grupo excluído</string>
+    <string name="frame_grupo_info__bloqueo_remoto__title">Bloqueio Remoto</string>
+    <string name="general__enter_password__for_action">Digite sua senha para realizar esta ação</string>
+    <string name="frame_grupo_info__members__title">Membros</string>
+    <string name="frame_grupo_info__members__add_member">Adicionar novo membro</string>
+    <string name="message_activity__envio_especial__title">Envio Especial</string>
+    <string name="message_activity__delete_message__for_me">Excluir para meu</string>
+    <string name="message_activity__delete_message__for_everyone">Excluir para todos</string>
+    <string name="message_activity__delete_message__for_everyone_and_resend">Exclui para todos e encaminha</string>
+    <string name="message_activity_message_actions__delete">Eliminar</string>
+    <string name="message_activity_message_actions__forward">Avançar</string>
+    <string name="message_activity_message_actions__response">Responder</string>
+    <string name="message_activity_message_actions__reintentar">Tente novamente</string>
+    <string name="message_activity_audio__error__init">Não foi possível inicializar o AudioTrack, verifique as configurações</string>
+    <string name="message_activity__extra_encrypt__delete__question">Deseja excluir a chave de criptografia extra?</string>
+    <string name="message_activity__extra_encrypt__add_key">Insira a chave de criptografia extra</string>
+    <string name="message_resend_activity__title">Avançar</string>
+    <string name="message_resend_activity__resend__sucess">Mensagem/s encaminhadas</string>
+    <string name="message_resend_activity__resend__fail">Erro ao encaminhar</string>
+    <string name="main_login__registrarse">Cadastre-se</string>
+    <string name="main_login__ingresar">Entre em</string>
+    <string name="main_login__usuario">Usuário</string>
+    <string name="main_login__password">Senha</string>
+    <string name="main_login__alert__sin_internet__title">Sem Internet</string>
+    <string name="main_login__alert__sin_internet__detail">Verifique sua conexão com a Internet.</string>
+    <string name="main_login__validate_password__empty">Não pode estar vazio</string>
+    <string name="main_login__validate_usuario__empty">Não pode estar vazio</string>
+    <string name="main_login__title">Privacidade</string>
+    <string name="main_login__alert__servidor_no_responde__title">Servidor</string>
+    <string name="main_login__alert__servidor_no_responde___detail">O servidor configurado não está respondendo: %1$s</string>
+    <string name="main_login__alert__alert__error_rest__title">ERRO</string>
+    <string name="main_login__alert__alert__error_rest__detail">Descanso de corrida: %1$s</string>
+    <string name="main_login__menu__item__configuration">Configurações</string>
+    <string name="main_login__menu__item__espanol">Espanhol</string>
+    <string name="main_login__menu__item__english">Inglês</string>
+    <string name="main_login__version">Versão %1$s</string>
+    <string name="lock_activity__bloqueo_remoto_mensaje">Algum grupo enviou um bloqueio remoto</string>
+    <string name="register_activity__usuario">Usuário</string>
+    <string name="register_activity__password">Senha</string>
+    <string name="register_activity__password_confirmar">Confirmar</string>
+    <string name="register_activity__requerido">* Obrigatório</string>
+    <string name="register_activity__submit">CRIAR UMA CONTA</string>
+    <string name="register_activity__submit__procesando">Processando</string>
+    <string name="registro_title">Registro</string>
+    <string name="registro_validation_user_empty">O usuário não pode estar vazio</string>
+    <string name="registro_validation_user_too_short">O usuário deve ter pelo menos %1$</string>
+    <string name="registro_validation_user_too_long">caracteres
+O usuário deve ter no máximo %1$</string>
+    <string name="registro_validation_nickname_empty">caracteres
+O apelido não pode estar vazio</string>
+    <string name="registro_validation_nickname_too_long">O apelido deve ter no máximo %1$s</string>
+    <string name="registro_validation_user_exists">caracteres
+O nome de usuário já está sendo usado</string>
+    <string name="registro_validation_user_ok">O nome de usuário é válido</string>
+    <string name="registro_validation_error">Há um(s) erro(s) na</string>
+    <string name="registro_validation_password2_no_change">validação
+Deve ser diferente do</string>
+    <string name="registro_validation_password2">atual
+As senhas são diferentes</string>
+    <string name="registro_validation_password1_too_short">Deve ter pelo menos %1$s</string>
+    <string name="registro_validation_sugerencia_password1_too_short">caracteres
+Poderia ter pelo menos %1$s</string>
+    <string name="registro_validation_password1_too_long">caracteres
+Deve ter no máximo %1$s</string>
+    <string name="registro_validation_password1_empty">caracteres
+Não pode estar vazio</string>
+    <string name="registro_validation_password1_contains_white_space">Não pode conter espaços em branco</string>
+    <string name="registro_validation_sugerencia_password1_contains_white_space">Não pode conter espaços em branco</string>
+    <string name="registro_validation_password1_must_contains_special">Deve ter pelo menos %1$s caractere especial</string>
+    <string name="registro_validation_password1_must_contains_specials">Deve ter pelo menos %1$s caracteres especiais</string>
+    <string name="registro_validation_sugerencia_password1_must_contains_special">Ter pelo menos %1$s caractere especial</string>
+    <string name="registro_validation_sugerencia_password1_must_contains_specials">Tenha pelo menos %1$s caracteres especiais</string>
+    <string name="registro_validation_sugerencia">Sugestão:</string>
+    <string name="registro_validation_sugerencia_muy_seguro">Muito Seguro</string>
+    <string name="registro_validation_password1_must_contains_mayuscula">Deve ter pelo menos %1$s maiúsculos</string>
+    <string name="registro_validation_password1_must_contains_mayusculas">Deve ter pelo menos %1$s maiúsculos</string>
+    <string name="registro_validation_sugerencia_password1_must_contains_mayuscula">Tenha pelo menos %1$s maiúsculos</string>
+    <string name="registro_validation_sugerencia_password1_must_contains_mayusculas">Tenha pelo menos %1$s maiúsculos</string>
+    <string name="registro_validation_password1_must_contains_minuscula">Deve ter pelo menos %1$s letras minúsculas</string>
+    <string name="registro_validation_password1_must_contains_minusculas">Deve ter pelo menos %1$s letras minúsculas</string>
+    <string name="registro_validation_sugerencia_password1_must_contains_minuscula">Tenha pelo menos %1$s letras minúsculas</string>
+    <string name="registro_validation_sugerencia_password1_must_contains_minusculas">Tenha pelo menos %1$s letras minúsculas</string>
+    <string name="registro_validation_password1_must_contains_numero">Deve ter pelo menos %1$s número</string>
+    <string name="registro_validation_password1_must_contains_numeros">Deve ter pelo menos %1$s</string>
+    <string name="registro_validation_sugerencia_password1_must_contains_numero">números
+Ter pelo menos %1$s número</string>
+    <string name="registro_validation_sugerencia_password1_must_contains_numeros">Tenha pelo menos %1$s números</string>
+    <string name="registro_validation_password1_must_contains_ilegal_match">Não é possível ter %1$s</string>
+    <string name="registro_validation_password1_must_contains_sugerencia_ilegal_match">caracteres consecutivos
+Não pode ter %1$s caracteres</string>
+    <string name="registro_validation_password1_contains_usuario">consecutivos
+O usuário não pode estar presente</string>
+    <string name="registro_validation_password1_contains_sugerencia_usuario">O usuário pode não estar presente</string>
+    <string name="registro_validation_password1_contains_nickname">O apelido não pode estar presente</string>
+    <string name="registro_validation_password1_contains_sugerencia_nickname">O apelido pode não estar presente</string>
+    <string name="registro_validation_password1_contains_password">A senha não pode estar presente</string>
+    <string name="registro_validation_password1_contains_sugerencia_password">A senha pode não estar presente</string>
+    <string name="registro_validation_password1_ok">A senha é válida</string>
+    <string name="registro_validation_password2_ok">As senhas estão corretas</string>
+    <string name="registro_nickname_notification">Se deixado em branco, um será gerado aleatoriamente - poderá então ser alterado.</string>
+    <string name="registro_user_created">O usuário foi criado</string>
+    <string name="password_old_new_equals">A nova senha deve ser diferente da Atual</string>
+    <string name="password_validation__TOO_SHORT">Deve ter pelo menos %1$s</string>
+    <string name="password_validation__TOO_LONG">caracteres
+Deve ter pelo menos %1$s</string>
+    <string name="addmember_activity__invitation_message__validate__caracteres_disponibles">caracteres
+Caracteres disponíveis %1$s.</string>
+    <string name="addmember_activity__invitation_code__validate__empty">O código do convite não pode ficar vazio</string>
+    <string name="addmember_activity__send_invitation__success">O usuário foi convidado</string>
+    <string name="grupo_activity__title">Privacidade - Grupos</string>
+    <string name="grupo_activity__query_hint">Título de pesquisa</string>
+    <string name="grupo_activity__powerservice__title">PEDIDO DE PERMISSÃO</string>
+    <string name="grupo_activity__powerservice__detail">Na próxima tela, serão solicitadas permissões para continuar recebendo mensagens quando o celular entrar no modo de suspensão. O aplicativo utiliza recepção de mensagens própria, por questões de segurança exclui soluções de terceiros como as fornecidas pelo Google. Garantimos que isso não afetará o consumo da bateria ou de dados mais do que o estritamente necessário.\\nSe aceitar, poderá alterar as configurações a qualquer momento. Caso não aceite, ele continuará funcionando, mas no modo Sleep você não receberá nenhuma notificação.</string>
+    <string name="grupo_activity__exit__cerrar_app">Fechar aplicativo</string>
+    <string name="grupo_activity__exit__cerrar_session">Sair</string>
+    <string name="grupo_activity__exit__minimizar">Minimizar</string>
+    <string name="grupo_activity__members__online__title">Membros</string>
+    <string name="grupo_activity__members__online__detail">Conectado: %1$s de %2$s</string>
+    <string name="grupo_activity__invitation__response">Responder à solicitação</string>
+    <string name="grupo_activity__invitation__response_details1">Você foi convidado por %1$s</string>
+    <string name="grupo_activity__invitation__response_details2">Com o papel de %1$s</string>
+    <string name="imagefull_activity__title">Visualizador de imagens</string>
+    <string name="imagefull_activity__validation__download__not_allowed">As configurações de mensagem não permitem download</string>
+    <string name="imagefull_activity__validation__download__success">Arquivo baixado</string>
+    <string name="lock_activity__validation__password__fail">Senha incorreta\\nTentativa %1$s de %2$s</string>
+    <string name="addgrupo_activity__title">Privacidade - Criar Grupo</string>
+    <string name="addgrupo_activity__grupo_created">GRUPO CRIADO</string>
+    <string name="addgrupo_activity__alert__error_encrypt_title">ERRO DE CRIPTOGRAFIA</string>
+    <string name="addgrupo_activity__submit">Criar</string>
+    <string name="addgrupo_activity__add_new_member">Adicionar um membro</string>
+    <string name="addgrupo_activity__goto_grupoinfo">Informações do grupo</string>
+    <string name="addgrupo_activity__create_another_grupo">criar novo grupo</string>
+    <string name="addgrupo_activity__go_back">Retornar</string>
+    <string name="addgrupo_activity__name_grupo__hint">Novo nome do grupo</string>
+    <string name="codigoinvitacion_activity__generate_and_save">Gerar novo e salvar</string>
+    <string name="codigoinvitacion_activity__title">Código de convite</string>
+    <string name="codigoinvitacion_activity__reset">Reiniciar</string>
+    <string name="codigoinvitacion_activity__save">Manter</string>
+    <string name="codigoinvitacion_activity__codigo_sin_cambios">Código inalterado</string>
+    <string name="codigoinvitacion_activity__codigo_validate__empty">Não pode estar vazio</string>
+    <string name="codigoinvitacion_activity__codigo_validate__no_save">Você deve salvar ou redefinir para compartilhar</string>
+    <string name="acodigoinvitacion_activity__alert__error_generated_title">Erro ao gerar o código de convite</string>
+    <string name="codigoinvitacion_activity__save__ok">Salvo</string>
+    <string name="codigoinvitacion_activity__share__message__body">Meu código de convite é: %1$s</string>
+    <string name="codigoinvitacion_activity__share__message__extra_subject">Junte-se ao aplicativo de mensagens mais seguro do mundo</string>
+    <string name="grupo_info__lock_title">Senha e Bloqueio</string>
+    <string name="grupo_info_password_enabled">Senha habilitada</string>
+    <string name="grupo_info_lock_enabled">Encerre a conversa</string>
+    <string name="grupo_info_lock__detail_message">A senha está ativa apenas no aplicativo. Se você quiser mais segurança inclua um Extra Encrypt.</string>
+    <string name="mainconfiguracion_activity__validation__error__url">URL inválido</string>
+    <string name="frame_reconnect__desconexiones">Desconexões:</string>
+    <string name="frame_reconnect__reintentos_total">Total de tentativas:</string>
+    <string name="frame_reconnect__intentar_reconecta_en">Tente se reconectar em</string>
+    <string name="general__segundos">segundos</string>
+    <string name="frame_reconnect__reconnet_trying">reconexão - tentando novamente...</string>
+    <string name="my_account_conf_descarga_imagen_txt">Permitir download de anexos de minhas mensagens</string>
+    <string name="my_account_conf_gen_ocultar_estado_txt">Ocultar a leitura de mensagens recebidas</string>
+    <string name="my_account_conf_temporal_obligatorio_txt">Sempre envie mensagens temporárias</string>
+    <string name="my_account_conf_temporal_maximo_tiempo_permitido_titulo">Tempo</string>
+    <string name="my_account_conf_black_obligatorio_adjunto_txt">Sempre receba imagens e vídeos no modo Black</string>
+    <string name="my_account_activity__title">Minha conta</string>
+    <string name="frame_reconnect__server_disconnectad">O dispositivo foi desconectado do servidor</string>
+    <string name="frame_my_account__password_title">Alterar a senha</string>
+    <string name="frame_grupo_info_nickname__generator">Gere um apelido aleatório</string>
+    <string name="frame_grupo_info_nickname__message_info">Se deixado em branco, será usado o Apelido Geral, que atualmente é: %1$s</string>
+    <string name="frame_grupo_info_nickname__title">NICKNAME PARA SEU USUÁRIO</string>
+    <string name="message_activity__allow_audio__not_allow">As configurações do grupo não permitem o envio de mensagens</string>
+    <string name="grupo_info_conf_gen__allow_audio_txt">áudio Permitir mensagens de áudio</string>
+    <string name="grupo_info_conf_gen__audio_max_time">Tempo máximo</string>
+    <string name="grupo_info_conf_gen__random_nickname_txt">Use um apelido aleatório para todos os membros</string>
+    <string name="grupo_info_conf_gen__hide_member_list_txt">Ocultar lista de membros</string>
+    <string name="grupo_info_conf_gen__hide_message_read_state_txt">Ocultar status de leitura de</string>
+    <string name="grupo_info_conf_gen__hide_message_details_txt">mensagens Ocultar detalhes da mensagem</string>
+    <string name="grupo_info_conf_gen__black_message_attach_mandatory_txt">Obrigatório quando contém imagem ou vídeo</string>
+    <string name="grupo_info_conf_gen__title">CONFIGURAÇÕES GERAIS</string>
+
+    <string name="frame_grupo_info__name_title">Configurações pessoais</string>
+    <string name="frame_grupo_info__name_personal__title">Configurações pessoais</string>
+    <string name="activity__add_members_to_grupo__accept_and_send">Aceitar e\\nConvidar outra pessoa</string>
+    <string name="activity__add_members_to_grupo__accept_and_close">Aceitar e fechar</string>
+    <string name="activity__add_members_to_grupo__add_message_invitation">Adicione uma mensagem para seu convidado</string>
+    <string name="activity__add_members_to_grupo__codigo_invitation__hint">Código de convite</string>
+    <string name="activity__add_members_to_grupo__codigo_invitation__scan_qr">Digitalize QR</string>
+    <string name="frame_my_account_gral_conf_title">CONFIGURAÇÕES GERAIS</string>
+    <string name="frame_my_account_lock_activar">Bloquear</string>
+    <string name="frame_my_account_lock_validate_min_seconds">Deve ter pelo menos %1$s segundos</string>
+    <string name="frame_my_account_lock_mensaje">Se você ativar esta opção pelo número de minutos estabelecido, será exibida uma tela de bloqueio onde você deverá inserir a senha novamente.</string>
+    <string name="frame_my_account_lock">Bloqueio de aplicativo</string>
+    <string name="frame_my_account_login_skip__activar">Ignorar autenticação ativada</string>
+    <string name="frame_my_account_nickname__generator">Gere um apelido aleatório</string>
+    <string name="frame_my_account_nickname__title">NICKNAME PARA SEU USUÁRIO</string>
+    <string name="frame_my_account_loguin_skip__title">Pular tela de entrada</string>
+    <string name="message_detail_activity__hide_read_message">Está oculto aos membros do grupo que você leu esta mensagem</string>
+    <string name="message_detail__hide_state_grupo_txt">O grupo está configurado para ocultar o status de todas as mensagens, só você pode ver o status da sua atividade</string>
+    <string name="message_detail_activity__title">Privacidade – Detalhes da mensagem</string>
+    <string name="frame_grupo_info__member__title">Membros</string>
+    <string name="frame_grupo_info__hide_member__admin_message_txt">O grupo está configurado para que apenas o Administrador possa ver a lista completa de Membros</string>
+    <string name="privacity_environment">Em geral</string>
+    <string name="app_name">Privacidade</string>
+    <string name="error_codigo">CÓDIGO DE ERRO</string>
+    <string name="ok">OK</string>
+    <string name="close">Fechar</string>
+    <string name="cancel">Cancelar</string>
+    <string name="error_code__CL_V_1001">O CAMPO DE VALIDAÇÃO DO CLIENTE É NULO</string>
+    <string name="error_code__GI_000">GERAL INESPERADO</string>
+    <string name="error_code__GRAL_1000">ACESSO GERAL INVÁLIDO</string>
+    <string name="error_code__GRAL_1001">GERAL NÃO SALVE PORQUE NÃO HÁ ALTERAÇÕES DE DADOS</string>
+    <string name="error_code__GRAL_1002">GERAL SEM ACESSO À INTERNET</string>
+    <string name="error_code__GRAL_1003">PROTOCOLO GERAL DE ACESSO INVÁLIDO</string>
+    <string name="error_code__GRAL_1004">DADOS GERAIS INVÁLIDOS ENVIADOS</string>
+    <string name="error_code__G_1000">O GRUPO DE USUÁRIOS NÃO EXISTE CÓDIGO DE CONVITE</string>
+    <string name="error_code__G_1001">O GRUPO DE USUÁRIOS ESTÁ NO GRUPO</string>
+    <string name="error_code__G_1002">O GRUPO ID DO GRUPO MALFORMADO</string>
+    <string name="error_code__G_1003">O GRUPO NÃO EXISTE</string>
+    <string name="error_code__G_1004">O GRUPO DE USUÁRIOS NÃO ESTÁ NO GRUPO</string>
+    <string name="error_code__G_1005">O GRUPO DE USUÁRIOS NÃO TEM PERMISSÃO NESTE GRUPO PARA ADICIONAR MEMBROS</string>
+    <string name="error_code__G_1006">O PAPEL DO GRUPO NÃO EXISTE</string>
+    <string name="error_code__G_1007">O CÓDIGO DE CONVITE DO USUÁRIO DO GRUPO É NULO</string>
+    <string name="error_code__G_1008">O CONVITE DE GRUPO EXISTE CONVITE</string>
+    <string name="error_code__G_1009">O CONVITE DO USUÁRIO DO GRUPO NÃO PODE SER O MESMO</string>
+    <string name="error_code__G_1010">O GRUPO DE USUÁRIOS NÃO PODE ENVIAR MENSAGEM</string>
+    <string name="error_code__G_1011">O GRUPO DE USUÁRIOS NÃO PODE ENVIAR MENSAGEM SOMENTE LEITURA</string>
+    <string name="error_code__G_1012">BLOQUEIO GERAL DE CONF. DE GRUPO MIN SEGUNDOS VALIDAÇÃO</string>
+    <string name="error_code__G_1013">GRUPO DE FUNÇÕES NÃO PERMITE ESTA AÇÃO</string>
+    <string name="error_code__CPWV_1000">ALTERAR VALIDAÇÃO DE SENHA SENHA ANTERIOR É NULA</string>
+    <string name="error_code__CPWV_1001">ALTERAR VALIDAÇÃO DE SENHA NOVA SENHA É NULA</string>
+    <string name="error_code__CPWV_1002">ALTERAR VALIDAÇÃO DE SENHA CONFIRMAR QUE A NOVA SENHA É NULA</string>
+    <string name="error_code__CPWV_1003">ALTERAR VALIDAÇÃO DE SENHA NOVA SENHA É DIFERENTE NOVA CONFIRMAR SENHA</string>
+    <string name="error_code__CPWV_1004">ALTERAR VALIDAÇÃO DE SENHA SENHA ANTERIOR INCORRETA</string>
+    <string name="error_code__CPWV_1005">ALTERAR VALIDAÇÃO DE SENHA A NOVA SENHA É A MESMA SENHA ANTIGA</string>
+    <string name="error_code__CPWV_1008">ALTERAR SENHA VALIDAÇÃO A SENHA ANTERIOR É DIFERENTE DA SENHA REGISTRADA</string>
+    <string name="error_code__CPWV_1006">ALTERAR VALIDAÇÃO DE SENHA NOME DE USUÁRIO INCORRETO</string>
+    <string name="error_code__CPWV_10007">ALTERAR VALIDAÇÃO DE SENHA NOME DE USUÁRIO É NULO</string>
+    <string name="error_code__Z_1001">CEP ZIP</string>
+    <string name="error_code__Z_1002">Descompacte ZIP</string>
+    <string name="error_code__DC_1001">CONVERTER BYTES DE DADOS EM STRING</string>
+    <string name="error_code__RI_1000">ID DE PEDIDO DE COMPRIMENTO INCORRETO</string>
+    <string name="error_code__RI_1001">ID DO PEDIDO NÃO EXISTE</string>
+    <string name="error_code__RI_1002">O ID DO PEDIDO EXPIRARÁ</string>
+    <string name="error_code__RI_1003">O ID DA SOLICITAÇÃO NÃO PODE SER NULO</string>
+    <string name="error_code__RI_1004">O ID DO PEDIDO NÃO PODE SER USADO VÁRIAS VEZES</string>
+    <string name="error_code__RI_1005">ID DE PEDIDO OFFLINE</string>
+    <string name="error_code__U_1000">SISTEMA DO USUÁRIO NÃO EXISTE</string>
+    <string name="error_code__U_1001">USUÁRIO NÃO CADASTRA USUÁRIO</string>
+    <string name="error_code__U_1002">NOME DE USUÁRIO É NULO</string>
+    <string name="error_code__U_1003">NOME DE USUÁRIO MUITO LONGO</string>
+    <string name="error_code__U_1004">NOME DE USUÁRIO MUITO CURTO0</string>
+    <string name="error_code__U_1005">USUÁRIO NÃO EXISTE</string>
+    <string name="error_code__A_1000">NOME DE USUÁRIO AUTORIZADO EXISTE</string>
+    <string name="error_code__A_1001">O NOME DE USUÁRIO AUTORIZADO É NULO</string>
+    <string name="error_code__A_1002">O NOME DE USUÁRIO AUTORIZADO É MUITO CURTO0</string>
+    <string name="error_code__A_1003">CREDENCIAL DE AUTORIZAÇÃO RUIM</string>
+    <string name="error_code__A_1004">SESSÃO DE AUTENTICAÇÃO FORA DE SINCRONIZAÇÃO</string>
+    <string name="error_code__A1005">FALHA NA OBTENÇÃO DO TOKEN DE AUTENTICAÇÃO</string>
+    <string name="error_code__M_1000">ID DA MENSAGEM MENSAGEM FORMATO RUIM</string>
+    <string name="error_code__M_1001">MENSAGEM NÃO EXISTE</string>
+    <string name="error_code__M_1002">MENSAGEM DE NÃO CRIADOR</string>
+    <string name="error_code__MDD_1001">MENSAGEM MEDIADATA NÃO EXISTE</string>
+    <string name="error_code__MD_1000">ID DA MENSAGEM DETALHADA MENSAGEM DETALHADA FORMATO RUIM</string>
+    <string name="error_code__MD_1001">MENSAGEM DETALHADA NÃO EXISTE</string>
+    <string name="error_code__MD_1002">DETALHE DA MENSAGEM EXCLUÍDA</string>
+    <string name="error_code__MD_1003">DETALHE DA MENSAGEM NÃO EXISTE HORA DA MENSAGEM</string>
+    <string name="error_code__MY_1000">MEU CÓDIGO DE CONVITE DE CONTA NÃO DISPONÍVEL</string>
+    <string name="error_code__MY_1001">O CÓDIGO DE CONVITE DA MINHA CONTA NÃO PODE ESTAR VAZIO</string>
+    <string name="error_code__MY_1002">VALIDAÇÃO DE SEGUNDOS DE BLOQUEIO DA MINHA CONTA</string>
+    <string name="error_code__E_1000">CRIPTOGRAFIA É NULO</string>
+    <string name="error_code__E_1001">A CHAVE DE CRIPTOGRAFIA PRIVADA É NULA</string>
+    <string name="error_code__E_1002">A CHAVE PÚBLICA DE CRIPTOGRAFIA É NULA</string>
+    <string name="error_code__E_1003">A CHAVE PÚBLICA DE CRIPTOGRAFIA NÃO É NULA</string>
+    <string name="error_code__E_1006">O CONVITE DE CHAVE PÚBLICA DE CRIPTOGRAFIA DEVE SER NULO</string>
+    <string name="error_code__EA_1001">PROCESSO DE CRIPTOGRAFIA</string>
+    <string name="error_code__DP_1001">PROCESSO DE DESCRIPTOGRAFIA</string>
+    <string name="error_code__EA_1003">A ENCRIPTAÇÃO AES É NULA</string>
+    <string name="error_code__EA_1004">A CHAVE SECRETA DE CRIPTOGRAFIA AES É NULA</string>
+    <string name="error_code__EA_1005">SAL ENCRYPT AES É NULO</string>
+    <string name="error_code__EA_1007">FALHA NA CRIAÇÃO DE CRIPTOGRAFIA AES</string>
+    <string name="error_code__DID_1001">ID DE DESCRIÇÃO</string>
+    <string name="error_code__EID_1001">FALHA NO PROCESSO
+ID DE CRIPTOGRAFIA</string>
+    <string name="error_code__WE_1001">FALHA NO PROCESSO
+MENSAGENS OFFLINE</string>
+    <string name="error_code__ME_1002">PROTOCOLO DE ACESSO A MENSAGENS INVÁLIDO</string>
+    <string name="error_code__WE_1003">ERRO OBTENDO MEMBROS DE MENSAGENS ONLINE</string>
+    <string name="error_code__SM_1001">GERENCIADOR DE SESSÃO OFFLINE</string>
+    <string name="error_code__HC_1001">PING DO VERIFICADOR DE SAÚDE SEM RESPOSTA</string>
+    <string name="error_code__IP_1003">ERRO GERAL DO PROVEDOR DE IDs</string>
+    <string name="error_code__IP_1001">PROVEDOR DE ID OFFLINE</string>
+    <string name="error_code__IP_1002">A ATUALIZAÇÃO DO PROVEDOR DE IDS NÃO DEVE SER INVOCADA NESTE CASO</string>
+    <string name="error_code__KL_1001">ERRO DE BLOQUEIO DE TECLA</string>
+    <string name="error_code__KL_1002">ERRO DE ATUALIZAÇÃO DE BLOQUEIO DE TECLA</string>
+    <string name="system__message__grupo__change__user_role__ADMIN">Um administrador atribuiu a você a função Admin</string>
+    <string name="system__message__grupo__change__user_role__READONLY">Um administrador atribuiu a você a função somente leitura</string>
+    <string name="system__message__grupo__change__user_role__MODERATOR">Um administrador atribuiu a você a função de moderador</string>
+    <string name="system__message__grupo__change__user_role__MEMBER">Um administrador atribuiu a você a função de membro</string>
+    <string name="system__message__grupo__bloque_de_emergencia">Bloco de Emergência</string>
+    <string name="system__message__grupo__lock_config__modified">UM ADMINISTRADOR ALTEROU AS CONFIGURAÇÕES DE BLOCO DO GRUPO</string>
+    <string name="system__message__grupo__general_config__modified">UM ADMINISTRADOR ALTEROU A CONFIGURAÇÃO GERAL DO GRUPO</string>
+
+    <string-array name="grupo_sort">
+        <item>Ordenar:</item>
+        <item>\t\t\tpor Nombre</item>
+        <item>\t\t\tpor Miembros Conectados</item>
+        <item>\t\t\tpor Mensajes sin leer</item>
+    </string-array>
+
+    <string-array name="main_configuration_app_servers">
+        <item>10.0.2.2</item>
+        <item>100.118.42.131</item>
+        <item>192.168.0.10</item>
+    </string-array>
+
+    <string name="configuration_server__default__ws_protocol">ws</string>
+    <string name="configuration_server__default__ws_url">10.0.2.2</string>
+    <string name="configuration_server__default__ws_port">8090</string>
+    <string name="configuration_server__default__app_protocol">http</string>
+    <string name="configuration_server__default__app_url">10.0.2.2</string>
+    <string name="configuration_server__default__app_port">8080</string>
+
+
+    <string-array name="servers_http">
+        <item>http/ws</item>
+        <item>https/wss</item>
+    </string-array>
+
+    <string-array name="servers_ports">
+        <item>80/80</item>
+        <item>80/90</item>
+        <item>8080/8080</item>
+        <item>8080/8090</item>
+    </string-array>
+
+    <string-array name="servers_ws">
+        <item>ws://</item>
+        <item>wss://</item>
+    </string-array>
+
+    <string-array name="servers_configuration">
+        <item>DESARROLLO</item>
+        <item>HEROKU</item>
+        <item>GOOGLE</item>
+    </string-array>
+
+
+    <string-array name="audio_message_time_configuration">
+        <item>1 m</item>
+        <item>2 m</item>
+        <item>3 m</item>
+        <item>4 m</item>
+        <item>5 m</item>
+        <item>6 m</item>
+        <item>7 m</item>
+        <item>8 m</item>
+        <item>9 m</item>
+        <item>10 m</item>
+    </string-array>
+
+
+    <string-array name="my_account_message_spinner_values">
+        <item></item>
+        <item>✔</item>
+        <item>✘</item>
+    </string-array>
+    <string name="cruz">✘</string>
+    <string-array name="roles">
+        <item>Lectura</item>
+        <item>Miembro</item>
+        <item>Moderador</item>
+        <item>Admin</item>
+    </string-array>
+
+
+    <string-array name="time_messages_values">
+        <item>15 s</item>
+        <item>30 s</item>
+        <item> 1 m</item>
+        <item> 5 m</item>
+        <item>10 m</item>
+        <item>30 m</item>
+        <item> 1 h</item>
+    </string-array>
+
+    <string-array name="time_messages_values_in_seconds">
+        <item>15</item>
+        <item>30</item>
+        <item>60</item>
+        <item>300</item>
+        <item>600</item>
+        <item>1800</item>
+        <item>3600</item>
+    </string-array>
+
+
+    <string name="help_tag_grupo_info_noadmin">/grupoinfo/noadmin.html</string>
+    <string name="help_tag_grupo_info_actions">/grupoinfo/actions.html</string>
+    <string name="help_tag_grupo_info_gruponame">/grupoinfo/gruponame.html</string>
+    <string name="help_tag_grupo_info_passandlock">/grupoinfo/passandlock.html</string>
+    <string name="help_tag_grupo_info_granconf">/grupoinfo/granconf.html</string>
+    <string name="help_tag_grupo_info_members">/grupoinfo/members.html</string>
+
+    <string name="help_tag_message_avanzado">/message/avanzado.html</string>
+
+    <string name="help_tag_add_member_to_grupo">/grupo/addmember.html</string>
+    <string name="help_tag_add_grupo">/grupo/addgrupo.html</string>
+
+    <string name="help_tag_invitationcode_save">/invitationcode/save.html</string>
+
+    <string name="help_tag_myaccount_nickname">/myaccount/nickname.html</string>
+    <string name="help_tag_myaccount_password">/myaccount/password.html</string>
+    <string name="help_tag_myaccount_lock">/myaccount/lock.html</string>
+    <string name="help_tag_myaccount_gralconf">/myaccount/gralconf.html</string>
+    <string name="help_tag_myaccount_login_skip">/myaccount/loginskip.html</string>
+
+    <!-- General -->
+    <string name="general__title">Privacity</string>
+    <string name="tag_admin_gone">[Admin][gone]</string>
+    <string name="tag_admin_disabled">[Admin][disabled]</string>
+    <string name="tag_admin_clickcontext">[Admin][clickcontext]</string>
+    <string name="tag_admin_enabledfalse">[Admin][enabledfalse]</string>
+
+    <string name="not_translate_general__roles__moderator">Moderador</string>
+    <string name="not_translate_general__roles__member">Miembro</string>
+    <string name="not_translate_general__roles__readonly">Solo Lectura</string>
+    <string name="rol_no_admin_message">NO_ADMIN_MESSAGE</string>
+    <string name="error_code__M_1003">El mensaje original esta configurado para bloquear su reenvio</string>
+</resources>

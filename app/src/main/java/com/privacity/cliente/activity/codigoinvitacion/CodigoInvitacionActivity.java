@@ -7,12 +7,12 @@ import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.MenuItem;
-import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TableLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -25,25 +25,32 @@ import com.google.zxing.MultiFormatWriter;
 import com.google.zxing.WriterException;
 import com.google.zxing.common.BitMatrix;
 import com.privacity.cliente.R;
+import com.privacity.cliente.activity.common.ButtonLongClickMaquee;
 import com.privacity.cliente.activity.common.CustomAppCompatActivity;
+import com.privacity.cliente.activity.common.GetButtonReady;
 import com.privacity.cliente.common.error.SimpleErrorDialog;
 import com.privacity.cliente.encrypt.EncryptUtil;
+import com.privacity.cliente.includes.ProgressBarUtil;
 import com.privacity.cliente.model.Grupo;
 import com.privacity.cliente.rest.CallbackRest;
 import com.privacity.cliente.rest.RestExecute;
 import com.privacity.cliente.singleton.Observers;
-import com.privacity.cliente.singleton.SingletonValues;
+import com.privacity.cliente.singleton.SingletonValues;import com.privacity.cliente.singleton.Singletons;
+import com.privacity.cliente.singleton.UtilsStringSingleton;
 import com.privacity.cliente.singleton.interfaces.ObservadoresPasswordGrupo;
-import com.privacity.cliente.util.GsonFormated;
-import com.privacity.cliente.util.ToolsUtil;
+import com.privacity.cliente.singleton.interfaces.ViewCallbackActionInterface;
+import com.privacity.cliente.util.CopyPasteUtil;
 import com.privacity.common.dto.EncryptKeysDTO;
-import com.privacity.common.dto.ProtocoloDTO;
+import com.privacity.cliente.model.dto.Protocolo;
 import com.privacity.common.dto.UserInvitationCodeDTO;
 import com.privacity.common.dto.response.MyAccountGenerateInvitationCodeResponseDTO;
 import com.privacity.common.enumeration.ProtocoloActionsEnum;
 import com.privacity.common.enumeration.ProtocoloComponentsEnum;
 
 import org.springframework.http.ResponseEntity;
+
+import lombok.Getter;
+import lombok.Setter;
 
 import static android.graphics.Color.WHITE;
 
@@ -59,55 +66,68 @@ public class CodigoInvitacionActivity extends CustomAppCompatActivity implements
     String originalValue;
     private Button btMyAccountCodigoInvitacionGuardar;
     private ImageButton ibCodigoInvitacionCopy;
-
+    @Setter
+    @Getter
+    EncryptKeysDTO ek;
+    @Getter
+    private ProgressBar progressBar;
     @Override
     protected boolean isOnlyAdmin() {
         return false;
     }
-
+    @Setter
+    @Getter
+    private boolean errorGenerandoCodigoInvitacion=false;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_codigo_invitacion);
 
-        ActionBar actionBar = getSupportActionBar();
-        actionBar.setTitle("Codigo de Invitacion");
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        originalValue = Singletons.usuario().getInvitationCode().trim();
+
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    ek = EncryptUtil.invitationCodeEncryptKeysGenerator(SingletonValues.getInstance().getPersonalAEStoUse());
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    errorGenerandoCodigoInvitacion=true;
+                    ProgressBarUtil.hide(CodigoInvitacionActivity.this, progressBar);
+                    SimpleErrorDialog.errorDialog(CodigoInvitacionActivity.this, getString(R.string.acodigoinvitacion_activity__alert__error_generated_title), e.getMessage());
+                    return;
+                }
+            }
+        }).start();
+
+        initActionBar();
         Observers.passwordGrupo().suscribirse(this);
 
-        qr = (ImageView)findViewById(R.id.qr);
-        btMyAccountGenerarCodigoInvitacion = (Button)findViewById(R.id.bt_myaccount_generar_codigo_invitacion);
-        tvCodigoInvitacion = (EditText)findViewById(R.id.codigo_invitacion);
-        tvCodigoInvitacionValidate = (TextView) findViewById(R.id.codigo_invitacion_validate);
-         tlMyaccountMenuCodigoInvitacionContent = (TableLayout)findViewById(R.id.tl_myaccount_menu_codigo_invitacion_content);
-        btMyaccountShare = (ImageButton)findViewById(R.id.bt_myaccount_share);
-        btCodigoInvitacionReset = (Button)findViewById(R.id.bt_codigo_invitacion_reset);
+        initView();
+        initValues();
 
-        ibCodigoInvitacionCopy = (ImageButton)findViewById(R.id.ib_codigo_invitacion_copy);
+        setListeners();
 
+
+    }
+
+    private void setListeners() {
         ibCodigoInvitacionCopy.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ToolsUtil.setClipboard(CodigoInvitacionActivity.this, tvCodigoInvitacion.getText().toString());
+                CopyPasteUtil.setClipboard(CodigoInvitacionActivity.this, tvCodigoInvitacion.getText().toString());
             }
         });
-        btMyAccountCodigoInvitacionGuardar = (Button)findViewById(R.id.bt_myaccount_codigo_invitacion_guardar);
 
-        btMyAccountCodigoInvitacionGuardar.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                guardar();
-            }
-        });
-        originalValue = SingletonValues.getInstance().getInvitationCode();
 
+        ButtonLongClickMaquee.setListener(btCodigoInvitacionReset);
         btCodigoInvitacionReset.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 initValues();
             }
         });
-        initValues();
+
         tvCodigoInvitacion.addTextChangedListener(new TextWatcher(){
 
             @Override
@@ -129,18 +149,18 @@ public class CodigoInvitacionActivity extends CustomAppCompatActivity implements
                     e.printStackTrace();
                 }
 
-                if ( tvCodigoInvitacion.getText().toString().equals(originalValue)){
-
+                if ( tvCodigoInvitacion.getText().toString().trim().equals(originalValue)){
+                    btMyAccountCodigoInvitacionGuardar.setEnabled(false);
                     tvCodigoInvitacionValidate.setTextColor(Color.BLACK);
-                    tvCodigoInvitacionValidate.setText("Codigo sin cambios");
+                    tvCodigoInvitacionValidate.setText(getString(R.string.codigoinvitacion_activity__codigo_sin_cambios));
 
                     return;
                 }
 
-                if ( tvCodigoInvitacion.getText().toString().equals("")){
-
+                if ( tvCodigoInvitacion.getText().toString().trim().equals("")){
+                    btMyAccountCodigoInvitacionGuardar.setEnabled(false);
                     tvCodigoInvitacionValidate.setTextColor(Color.RED);
-                    tvCodigoInvitacionValidate.setText("No puede estar vacio");
+                    tvCodigoInvitacionValidate.setText(getString(R.string.codigoinvitacion_activity__codigo_validate__empty));
 
                     return;
                 }
@@ -159,99 +179,116 @@ public class CodigoInvitacionActivity extends CustomAppCompatActivity implements
         });
 
 
+        CopyPasteUtil.setListenerIconClearText(tvCodigoInvitacion);
 
-        tvCodigoInvitacion.setOnTouchListener(new View.OnTouchListener() {
-            @Override
-            public boolean onTouch(View v, MotionEvent event) {
-                final int DRAWABLE_LEFT = 0;
-                final int DRAWABLE_TOP = 1;
-                final int DRAWABLE_RIGHT = 2;
-                final int DRAWABLE_BOTTOM = 3;
 
-                if(event.getAction() == MotionEvent.ACTION_UP) {
-                    if(event.getRawX() >= (tvCodigoInvitacion.getRight() - tvCodigoInvitacion.getCompoundDrawables()[DRAWABLE_RIGHT].getBounds().width())) {
-                        tvCodigoInvitacion.setText("");
-
-                        return true;
-                    }
-                }
-                return false;
-            }
-        });
-
-        btMyAccountGenerarCodigoInvitacion.setOnClickListener(new View.OnClickListener() {
+        btMyaccountShare.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ProtocoloDTO p = new ProtocoloDTO();
-                p.setComponent(ProtocoloComponentsEnum.MY_ACCOUNT);
-                p.setAction(ProtocoloActionsEnum.MY_ACCOUNT_INVITATION_CODE_GENERATOR);
+                if (tvCodigoInvitacion.getText().toString().trim().equals("")) return;
 
-
-                EncryptKeysDTO ek = null;
-                try {
-                    ek = EncryptUtil.invitationCodeEncryptKeysGenerator(SingletonValues.getInstance().getPersonalAEStoUse());
-                } catch (Exception e) {
-                    e.printStackTrace();
-                    SimpleErrorDialog.errorDialog(CodigoInvitacionActivity.this, "Error generando invitation Code", e.getMessage());
+                if ( !tvCodigoInvitacion.getText().toString().trim().equals(originalValue.trim())){
+                    tvCodigoInvitacionValidate.setTextColor(Color.RED);
+                    tvCodigoInvitacionValidate.setText(getString(R.string.codigoinvitacion_activity__codigo_validate__no_save));
                     return;
+
                 }
 
+                Intent sharingIntent = new Intent(Intent.ACTION_SEND);
+                sharingIntent.setType("text/plain");
+                String shareBody = getString(R.string.codigoinvitacion_activity__share__message__body,tvCodigoInvitacion.getText().toString());
+                sharingIntent.putExtra(Intent.EXTRA_SUBJECT, getString(R.string.codigoinvitacion_activity__share__message__extra_subject));
+                sharingIntent.putExtra(Intent.EXTRA_TEXT, shareBody);
+                startActivity(Intent.createChooser(sharingIntent, getString(R.string.general__share)));
+            }
+        });
+    }
+private ViewCallbackActionInterface getListenerGenerarCodigoInvitacion(){
+   return new ViewCallbackActionInterface() {
+        @Override
+        public void action(View v) {
+            ProgressBarUtil.show(CodigoInvitacionActivity.this, progressBar);
+            ProgresBarAsynk task = new ProgresBarAsynk(CodigoInvitacionActivity.this, progressBar);
+            task.doInBackground();
 
-                p.setObjectDTO(GsonFormated.get().toJson(ek));
+        }
+    };
+}
+    private void initView() {
+        progressBar = (ProgressBar) findViewById(R.id.common__progress_bar);
+        ProgressBarUtil.hide(this, progressBar);
+        qr = (ImageView)findViewById(R.id.qr);
 
-                RestExecute.doit(CodigoInvitacionActivity.this, p,
-                        new CallbackRest(){
+        tvCodigoInvitacion = (EditText)findViewById(R.id.codigo_invitacion);
+        tvCodigoInvitacionValidate = (TextView) findViewById(R.id.codigo_invitacion_validate);
+        tlMyaccountMenuCodigoInvitacionContent = (TableLayout)findViewById(R.id.tl_myaccount_menu_codigo_invitacion_content);
+        btMyaccountShare = (ImageButton)findViewById(R.id.bt_myaccount_share);
 
-                            @Override
-                            public void response(ResponseEntity<ProtocoloDTO> response) {
+        ibCodigoInvitacionCopy = (ImageButton)findViewById(R.id.ib_codigo_invitacion_copy);
 
-                                MyAccountGenerateInvitationCodeResponseDTO m = GsonFormated.get().fromJson(response.getBody().getObjectDTO(), MyAccountGenerateInvitationCodeResponseDTO.class);
+        btMyAccountCodigoInvitacionGuardar = GetButtonReady.get(this,R.id.bt_myaccount_codigo_invitacion_guardar, v -> guardar());
 
 
-                                SingletonValues.getInstance().setInvitationCode(m.getInvitationCode());
-                                originalValue=m.getInvitationCode();
-                                tvCodigoInvitacion.setText(m.getInvitationCode());
 
-                                try {
-                                    qr.setImageBitmap(encodeAsBitmap(tvCodigoInvitacion.getText().toString()));
-                                } catch (WriterException e) {
-                                    e.printStackTrace();
-                                }
+        btCodigoInvitacionReset = GetButtonReady.get(this,R.id.bt_codigo_invitacion_reset);
+        btMyAccountGenerarCodigoInvitacion =GetButtonReady.get(this,R.id.bt_myaccount_generar_codigo_invitacion,getListenerGenerarCodigoInvitacion());
 
-                                tvCodigoInvitacionValidate.setText("");
-                                Toast.makeText(getApplicationContext(),"Guardado",Toast. LENGTH_SHORT).show();
-                            }
+    }
 
-                            @Override
-                    public void onError(ResponseEntity<ProtocoloDTO> response) {
+    public void callGenerator(){
+        Protocolo p = new Protocolo();
+        p.setComponent(ProtocoloComponentsEnum.MY_ACCOUNT);
+        p.setAction(ProtocoloActionsEnum.MY_ACCOUNT_INVITATION_CODE_GENERATOR);
 
+        p.setObjectDTO(UtilsStringSingleton.getInstance().gsonToSend(ek));
+
+
+        RestExecute.doit(CodigoInvitacionActivity.this, p,
+                new CallbackRest(){
+
+                    @Override
+                    public void response(ResponseEntity<Protocolo> response) {
+
+                        MyAccountGenerateInvitationCodeResponseDTO m = UtilsStringSingleton.getInstance().gson().fromJson(response.getBody().getObjectDTO(), MyAccountGenerateInvitationCodeResponseDTO.class);
+
+
+                        Singletons.usuario().setInvitationCode(m.getInvitationCode());
+                        originalValue=m.getInvitationCode().trim();
+                        tvCodigoInvitacion.setText(m.getInvitationCode());
+
+                        try {
+                            qr.setImageBitmap(encodeAsBitmap(tvCodigoInvitacion.getText().toString().trim()));
+                        } catch (WriterException e) {
+                            e.printStackTrace();
+                        }
+
+                        tvCodigoInvitacionValidate.setText("");
+                        ProgressBarUtil.hide(CodigoInvitacionActivity.this, progressBar);
+                        Toast.makeText(getApplicationContext(),getString(R.string.codigoinvitacion_activity__save__ok),Toast. LENGTH_SHORT).show();
+                    }
+
+                    @Override
+                    public void onError(ResponseEntity<Protocolo> response) {
+                        ProgressBarUtil.hide(CodigoInvitacionActivity.this, progressBar);
                     }
 
                     @Override
                     public void beforeShowErrorMessage(String msg) {
-
+                        ProgressBarUtil.hide(CodigoInvitacionActivity.this, progressBar);
                     }
-                        });
-
-            }
-        });
-        btMyaccountShare.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent sharingIntent = new Intent(android.content.Intent.ACTION_SEND);
-                sharingIntent.setType("text/plain");
-                String shareBody = "Mi codigo de invitacion es: " + tvCodigoInvitacion.getText().toString();
-                sharingIntent.putExtra(android.content.Intent.EXTRA_SUBJECT, "Unite a la app de mensajeria mas segura del mundo");
-                sharingIntent.putExtra(android.content.Intent.EXTRA_TEXT, shareBody);
-                startActivity(Intent.createChooser(sharingIntent, "Compartir"));
-            }
-        });
-
-
+                });
     }
+    private void initActionBar() {
+        ActionBar actionBar = getSupportActionBar();
+        if(actionBar==null)return;
+        actionBar.setTitle(getString(R.string.codigoinvitacion_activity__title));
+        actionBar.setDisplayHomeAsUpEnabled(true);
+    }
+
     @Override
     public void onBackPressed() {
         super.onBackPressed();
+        ProgressBarUtil.hide(this, progressBar);
         this.finish();
     }
 
@@ -262,66 +299,67 @@ public class CodigoInvitacionActivity extends CustomAppCompatActivity implements
     }
     private void guardar() {
 
-        if (tvCodigoInvitacion.getText().toString().equals("")) return;
+        if (tvCodigoInvitacion.getText().toString().trim().equals("")) return;
 
-        if ( tvCodigoInvitacion.getText().toString().equals(originalValue)){
+        if ( tvCodigoInvitacion.getText().toString().trim().equals(originalValue.trim())){
             return;
+
         }
-        ProtocoloDTO p = new ProtocoloDTO();
+
+        ProgressBarUtil.show(CodigoInvitacionActivity.this, progressBar);
+
+        while (ek == null || errorGenerandoCodigoInvitacion){}
+        Protocolo p = new Protocolo();
         p.setComponent(ProtocoloComponentsEnum.MY_ACCOUNT);
         p.setAction(ProtocoloActionsEnum.MY_ACCOUNT_SAVE_CODE_AVAILABLE);
 
 
-        EncryptKeysDTO ek = null;
-        try {
-            ek = EncryptUtil.invitationCodeEncryptKeysGenerator(SingletonValues.getInstance().getPersonalAEStoUse());
-        } catch (Exception e) {
-            e.printStackTrace();
-            SimpleErrorDialog.errorDialog(CodigoInvitacionActivity.this, "Error generando invitation Code", e.getMessage());
-            return;
-        }
+
         UserInvitationCodeDTO obj = new UserInvitationCodeDTO();
         obj.setEncryptKeysDTO(ek);
-        obj.setInvitationCode(tvCodigoInvitacion.getText().toString());
+        obj.setInvitationCode(tvCodigoInvitacion.getText().toString().trim());
 
-        p.setObjectDTO(GsonFormated.get().toJson(obj));
+        p.setObjectDTO(UtilsStringSingleton.getInstance().gsonToSend(obj));
 
         RestExecute.doit(CodigoInvitacionActivity.this, p,
                 new CallbackRest(){
 
                     @Override
-                    public void response(ResponseEntity<ProtocoloDTO> response) {
+                    public void response(ResponseEntity<Protocolo> response) {
 
-                        MyAccountGenerateInvitationCodeResponseDTO m = GsonFormated.get().fromJson(response.getBody().getObjectDTO(), MyAccountGenerateInvitationCodeResponseDTO.class);
+                        MyAccountGenerateInvitationCodeResponseDTO m = UtilsStringSingleton.getInstance().gson().fromJson(response.getBody().getObjectDTO(), MyAccountGenerateInvitationCodeResponseDTO.class);
 
-                        SingletonValues.getInstance().setInvitationCode(m.getInvitationCode());
+                        Singletons.usuario().setInvitationCode(m.getInvitationCode());
                         try {
                             qr.setImageBitmap(encodeAsBitmap(tvCodigoInvitacion.getText().toString()));
                         } catch (WriterException e) {
                             e.printStackTrace();
                         }
-                        originalValue=m.getInvitationCode();
+                        originalValue=m.getInvitationCode().trim();
                         tvCodigoInvitacionValidate.setText("");
-                        Toast.makeText(getApplicationContext(),"Guardado",Toast. LENGTH_SHORT).show();
+                        ProgressBarUtil.hide(CodigoInvitacionActivity.this, progressBar);
+                        btMyAccountCodigoInvitacionGuardar.setEnabled(false);
+                        Toast.makeText(getApplicationContext(),getApplicationContext().getString(R.string.general__saved),Toast. LENGTH_SHORT).show();
                     }
 
                     @Override
-                    public void onError(ResponseEntity<ProtocoloDTO> response) {
-
+                    public void onError(ResponseEntity<Protocolo> response) {
+                        ProgressBarUtil.hide(CodigoInvitacionActivity.this, progressBar);
                     }
 
                     @Override
                     public void beforeShowErrorMessage(String msg) {
-
+                        ProgressBarUtil.hide(CodigoInvitacionActivity.this, progressBar);
                     }
                 });
 
     }
 
     private void initValues()  {
-        tvCodigoInvitacion.setText(originalValue);
+        btMyAccountCodigoInvitacionGuardar.setEnabled(false);
+        tvCodigoInvitacion.setText(originalValue.trim());
         try {
-            qr.setImageBitmap(encodeAsBitmap(originalValue));
+            qr.setImageBitmap(encodeAsBitmap(originalValue.trim()));
         } catch (WriterException e) {
             e.printStackTrace();
         }
@@ -356,40 +394,42 @@ public class CodigoInvitacionActivity extends CustomAppCompatActivity implements
     private void validarCodigoInvitacionRest() throws Exception {
 
 
-        ProtocoloDTO p = new ProtocoloDTO();
+        Protocolo p = new Protocolo();
         p.setComponent(ProtocoloComponentsEnum.MY_ACCOUNT);
         p.setAction(ProtocoloActionsEnum.MY_ACCOUNT_IS_INVITATION_CODE_AVAILABLE);
 
 
-        p.setObjectDTO(GsonFormated.get().toJson(tvCodigoInvitacion.getText().toString()));
+        p.setObjectDTO(UtilsStringSingleton.getInstance().gsonToSend(tvCodigoInvitacion.getText().toString().trim()));
 
 
         RestExecute.doit(CodigoInvitacionActivity.this, p,
                 new CallbackRest(){
 
                     @Override
-                    public void response(ResponseEntity<ProtocoloDTO> response) {
+                    public void response(ResponseEntity<Protocolo> response) {
 
-                        Boolean disponible = GsonFormated.get().fromJson(response.getBody().getObjectDTO(),Boolean.class);
+                        Boolean disponible = UtilsStringSingleton.getInstance().gson().fromJson(response.getBody().getObjectDTO(),Boolean.class);
                         if ( disponible){
                             tvCodigoInvitacionValidate.setTextColor(Color.BLACK);
-                            tvCodigoInvitacionValidate.setText("Disponible");
+                            tvCodigoInvitacionValidate.setText(getString(R.string.general__available));
+                            btMyAccountCodigoInvitacionGuardar.setEnabled(true);
                         }else{
                             tvCodigoInvitacionValidate.setTextColor(Color.RED);
-                            tvCodigoInvitacionValidate.setText("No Disponible");
+                            tvCodigoInvitacionValidate.setText(getString(R.string.general__not_available));
+                            btMyAccountCodigoInvitacionGuardar.setEnabled(false);
 
                         }
 
                     }
 
                     @Override
-                    public void onError(ResponseEntity<ProtocoloDTO> response) {
-
+                    public void onError(ResponseEntity<Protocolo> response) {
+                        btMyAccountCodigoInvitacionGuardar.setEnabled(false);
                     }
 
                     @Override
                     public void beforeShowErrorMessage(String msg) {
-
+                        btMyAccountCodigoInvitacionGuardar.setEnabled(false);
                     }
                 });
 
@@ -397,6 +437,7 @@ public class CodigoInvitacionActivity extends CustomAppCompatActivity implements
     @Override
     public void finish() {
         super.finish();
+        ProgressBarUtil.hide(this, progressBar);
         Observers.passwordGrupo().remove(this);
     }
     @Override
@@ -418,6 +459,14 @@ public class CodigoInvitacionActivity extends CustomAppCompatActivity implements
 
     @Override
     public void lock(Grupo g) {
+
+    }
+    @Override
+    protected void onResume() {
+
+
+        super.onResume();
+        ProgressBarUtil.hide(this, progressBar);
 
     }
 }

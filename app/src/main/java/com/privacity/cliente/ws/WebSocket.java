@@ -3,26 +3,24 @@ package com.privacity.cliente.ws;
 import android.app.Activity;
 import android.content.Intent;
 import android.util.Log;
-import android.view.View;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import com.privacity.cliente.activity.loading.LoadingActivity;
 import com.privacity.cliente.activity.lock.LockActivity;
-import com.privacity.cliente.activity.main.MainActivity;
-import com.privacity.cliente.rest.restcalls.grupo.GrupoById;
 import com.privacity.cliente.singleton.Observers;
 import com.privacity.cliente.singleton.SingletonValues;
+import com.privacity.cliente.singleton.UtilsStringSingleton;
 import com.privacity.cliente.singleton.countdown.SingletonMyAccountConfLockDownTimer;
 import com.privacity.cliente.singleton.impl.SingletonServer;
-import com.privacity.cliente.util.GsonFormated;
+import com.privacity.common.dto.GrupoGralConfDTO;
+import com.privacity.common.dto.IdGrupoDTO;
+import com.privacity.cliente.model.dto.Protocolo;
+import com.privacity.common.dto.request.GrupoChangeUserRoleDTO;
 import com.privacity.common.dto.response.SaveGrupoGralConfLockResponseDTO;
-import com.privacity.common.enumeration.ProtocoloComponentsEnum;import com.privacity.common.enumeration.ProtocoloActionsEnum;
-
-import com.privacity.common.dto.MessageDetailDTO;
-import com.privacity.common.dto.ProtocoloDTO;
+import com.privacity.common.enumeration.ProtocoloActionsEnum;
+import com.privacity.common.enumeration.ProtocoloComponentsEnum;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -34,6 +32,7 @@ import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.schedulers.Schedulers;
+import lombok.Getter;
 import ua.naiksoftware.stomp.ActionI;
 import ua.naiksoftware.stomp.LineStatus;
 import ua.naiksoftware.stomp.Stomp;
@@ -43,14 +42,18 @@ import ua.naiksoftware.stomp.dto.StompHeader;
 public class WebSocket {
 
 
-    private static final String TAG = "WebSockcet";
+    private static final String TAG = "WebSocket";
     private CompositeDisposable compositeDisposable;
 
-    private Gson mGson = new GsonBuilder().create();
+    private final Gson mGson = new GsonBuilder().create();
 
     private StompClient mStompClient;
     private Disposable mRestPingDisposable;
-    private AppCompatActivity context;
+    private final AppCompatActivity context;
+
+    @Getter
+    private boolean connected=false;
+
 
     public WebSocket(AppCompatActivity context){
         this.context = context;
@@ -64,9 +67,14 @@ public class WebSocket {
     public void connectStomp(ActionI connectWS, Activity activity) {
 
 
-
+        Log.e(TAG, "SingletonValues.getInstance().getToken() " + SingletonValues.getInstance().getToken());
+        if (SingletonValues.getInstance().getToken() == null){
+            connectWS.actionFail("Stomp connection error");
+            LineStatus.statusOffLine(activity);
+            return;
+        }
         Map<String,String> h = new HashMap<String,String>();
-        h.put("Authorization", SingletonValues.getInstance().getToken());
+        h.put(org.apache.hc.core5.http.HttpHeaders.AUTHORIZATION, SingletonValues.getInstance().getToken());
 
         mStompClient = Stomp.over(Stomp.ConnectionProvider.OKHTTP,  SingletonServer.getInstance().getWsServer()+ "/gs-guide-websocket/websocket",h);
 
@@ -87,11 +95,13 @@ public class WebSocket {
                         case OPENED:
                             toast("Stomp connection opened");
                             if ( connectWS != null ){
+                                connected=true;
                                 connectWS.actionSucess("Stomp connection opened");
                             }
                             break;
                         case ERROR:
                             //Log.e(TAG, "Stomp connection error", lifecycleEvent.getException());
+                            connected=false;
                             toast("Stomp connection error");
                             if ( connectWS != null ){
                                 connectWS.actionFail("Stomp connection error");
@@ -100,7 +110,7 @@ public class WebSocket {
                             break;
                         case CLOSED:
                             //toast("Stomp connection closed");
-
+                            connected=false;
                             if ( connectWS != null ){
 
                                 connectWS.actionFail("Stomp connection closed");
@@ -109,6 +119,7 @@ public class WebSocket {
                             //resetSubscriptions();
                             break;
                         case FAILED_SERVER_HEARTBEAT:
+                            connected=false;
                             //toast("Stomp failed server heartbeat");
                             System.out.println(" ******* FALLO HEARTBEAT !!! ");
                             if ( connectWS != null ){
@@ -155,10 +166,17 @@ public class WebSocket {
 
                     try {
                         Log.d(TAG, "MENSAJE RECIbIDO CRUDO" + topicMessage.getPayload());
-                        String protocoloJson = SingletonValues.getInstance().getSessionAEStoUseWS().getAESDecrypt(topicMessage.getPayload());
 
-                        ProtocoloDTO p = GsonFormated.get().fromJson(protocoloJson, ProtocoloDTO.class);
-                        Log.d(TAG, "MENSAJE RECIbIDO GSON " + GsonFormated.get().toJson(p));
+
+                        Log.d(TAG, "entrada :" + topicMessage.getPayload());
+/*                        String uncompressB64 = UtilsStringSingleton.getInstance().uncompressB64(topicMessage.getPayload());
+                        Log.d(TAG, "uncompressB64 :" + uncompressB64);
+
+                        String protocoloJson = SingletonValues.getInstance().getSessionAEStoUseWS().getAESDecrypt(uncompressB64);*/
+
+                        Protocolo p = Protocolo.convert(UtilsStringSingleton.getInstance().protocoloToSendDecrypt(SingletonValues.getInstance().getSessionAEStoUseWS(), topicMessage.getPayload()));
+
+                        Log.d(TAG, "MENSAJE RECIbIDO GSON " + UtilsStringSingleton.getInstance().gsonToSend(p));
 
 
                         if (p.getComponent().equals(ProtocoloComponentsEnum.MESSAGE)) {
@@ -167,26 +185,30 @@ public class WebSocket {
 
                             if (p.getAction().equals(ProtocoloActionsEnum.MESSAGE_RECIVIED)) {
 
-                                //MessageDTO id = GsonFormated.get().fromJson(p.getObjectDTO(), MessageDTO.class);
+                                //MessageDTO id = UtilsStringSingleton.getInstance().gson().fromJson(p.getObjectDTO(), MessageDTO.class);
                                 Observers.message().mensajeNuevoWS(p, true, activity);
                                 //GetMessageById.get(activity, id.getIdGrupo(), id.getIdMessage());
 
 
                             } else if (p.getAction().equals(ProtocoloActionsEnum.MESSAGE_CHANGE_STATE)) {
                                 changeStateDetail(p);
-                            } else if (p.getAction().equals("/message/deleteForEveryone" )) {
+                            } else if (p.getAction().equals(ProtocoloActionsEnum.MESSAGE_DELETE_FOR_EVERYONE )) {
 
                                 Observers.message().removeMessage(p);
                             }
                         } else if (p.getComponent().equals(ProtocoloComponentsEnum.GRUPO)) {
-                            if (p.getAction().equals("/grupo/addUser/addMe" )) {
+                            if (p.getAction().equals(ProtocoloActionsEnum.GRUPO_ADDUSER_ADDME )) {
 
 
                             } else if (p.getAction().equals(ProtocoloActionsEnum.GRUPO_INVITATION_RECIVED)) {
                                 Observers.grupo().addGrupo(p);
-                            } else if (p.getAction().equals(ProtocoloActionsEnum.GRUPO_REMOVE_USER)) {
+                            } else if (p.getAction().equals(ProtocoloActionsEnum.GRUPO_REMOVE_OTHER)) {
                                 //ObservatorGrupos.getInstance().removeUserFromGrupo(p);
                                 Observers.message().removeAllMessageFromUser(p);
+                            } else if (p.getAction().equals(ProtocoloActionsEnum.GRUPO_REMOVE_ME)) {
+                                //ObservatorGrupos.getInstance().removeUserFromGrupo(p);
+                                IdGrupoDTO g = UtilsStringSingleton.getInstance().gson().fromJson(p.getObjectDTO(), IdGrupoDTO.class);
+                                Observers.grupo().avisarGrupoRemove(g.getIdGrupo());
                             } else if (p.getAction().equals(ProtocoloActionsEnum.GRUPO_WRITTING)) {
                                 //ObservatorGrupos.getInstance().removeUserFromGrupo(p);
                                 Observers.message().writting(p);
@@ -197,7 +219,7 @@ public class WebSocket {
                                 //ObservatorGrupos.getInstance().removeUserFromGrupo(p);
                                 Observers.grupo().updateOnline(p);
                             } else if (p.getAction().equals(ProtocoloActionsEnum.GRUPO_SAVE_GENERAL_CONFIGURATION_LOCK)) {
-                                System.out.println(GsonFormated.get().toJson(p));
+                                System.out.println(UtilsStringSingleton.getInstance().gsonToSend(p));
                                 SaveGrupoGralConfLockResponseDTO sgglr = mGson.fromJson(p.getObjectDTO(), SaveGrupoGralConfLockResponseDTO.class);
                                 Observers.grupo().updateGrupoLock(sgglr);
 
@@ -209,18 +231,26 @@ public class WebSocket {
                                 if (SingletonValues.getInstance().getGrupoSeleccionado().getPassword().isEnabled()
                                 && !oldPasswordIsEnabled) {
                                     {
-                                        Intent intent = new Intent("finish_message_activity");
+                                        Intent intent = new Intent(BroadcastConstant.BROADCAST__FINISH_MESSAGE_ACTIVITY);
                                         activity.sendBroadcast(intent);
                                     }
 
                                     {
-                                        Intent intent = new Intent("finish_activity");
+                                        Intent intent = new Intent(BroadcastConstant.BROADCAST__FINISH_ACTIVITY);
                                         activity.sendBroadcast(intent);
                                     }
                                 }
                             }*/
-                            } else if (p.getAction().equals("/grupo/blockGrupoRemoto" )) {
-                                System.out.println(GsonFormated.get().toJson(p));
+                            } else if (p.getAction().equals(ProtocoloActionsEnum.GRUPO_CHANGE_USER_ROLE_OUTPUT)) {
+                                System.out.println(UtilsStringSingleton.getInstance().gsonToSend(p));
+                                GrupoChangeUserRoleDTO sgglr = mGson.fromJson(p.getObjectDTO(), GrupoChangeUserRoleDTO.class);
+                                Observers.grupo().updateGrupoUserRole(sgglr);
+                            } else if (p.getAction().equals(ProtocoloActionsEnum.GRUPO_SAVE_GENERAL_CONFIGURATION)) {
+                                System.out.println(UtilsStringSingleton.getInstance().gsonToSend(p));
+                                GrupoGralConfDTO sgglr = mGson.fromJson(p.getObjectDTO(), GrupoGralConfDTO.class);
+                                Observers.grupo().updateGrupoGralConf(sgglr);
+                            } else if (p.getAction().equals(ProtocoloActionsEnum.GRUPO_BLOCK_REMOTO )) {
+                                System.out.println("BLOQUEO REMOTO " + UtilsStringSingleton.getInstance().gsonToSend(p));
 
                                 if (!SingletonMyAccountConfLockDownTimer.getInstance().isLocked()) {
                                     Intent i = new Intent(activity, LockActivity.class);
@@ -241,7 +271,7 @@ public class WebSocket {
                     if ( connectWS != null ){
                         connectWS.actionFail("Error on Subscribe Personal Channel");
                     }
-                    Log.e(TAG, "Error on subscribe topic", throwable);
+                    Log.e(TAG, "Error on subscribe topic: " + throwable.getMessage());
                 });
 
 
@@ -250,15 +280,15 @@ public class WebSocket {
         mStompClient.connect(headers, connectWS, activity);
     }
 
-    private void addItem(ProtocoloDTO protocoloDTO) {
-        Observers.message().mensaje(protocoloDTO,context, null);
+    private void addItem(Protocolo protocolo) {
+        Observers.message().mensaje(protocolo,context, null);
     }
     /*
-    private void changeState(MessageDetailDTO messageDetailDTODTO) {
-        Observers.message().mensajeChangeState(messageDetailDTODTO,context);
+    private void changeState(MessageDetail messageDetailDTO) {
+        Observers.message().mensajeChangeState(messageDetailDTO,context);
     }*/
-    private void changeStateDetail(ProtocoloDTO protocoloDTO) {
-        Observers.message().mensajeDetailChangeState(protocoloDTO);
+    private void changeStateDetail(Protocolo protocolo) {
+        Observers.message().mensajeDetailChangeState(protocolo);
     }
 
     private void toast(String text) {
@@ -288,4 +318,5 @@ public class WebSocket {
         if (compositeDisposable != null) compositeDisposable.dispose();
 
     }
+
 }

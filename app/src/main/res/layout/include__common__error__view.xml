@@ -1,0 +1,363 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/frameLayout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_gravity="center"
+    android:clickable="false"
+    android:contextClickable="false"
+    android:longClickable="false">
+
+    <LinearLayout
+        android:id="@+id/common__error__view__scroll"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#B1000000"
+        android:clickable="true"
+        android:contextClickable="false"
+        android:gravity="center"
+        android:longClickable="true"
+        android:orientation="vertical"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:visibility="visible">
+
+        <LinearLayout
+            android:id="@+id/common__error__view__content_all"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_gravity="center"
+
+
+            android:clickable="true"
+            android:contextClickable="false"
+            android:foregroundTintMode="multiply"
+            android:gravity="center"
+            android:maxWidth="270dp"
+            android:minWidth="200dp"
+            android:minHeight="150dp"
+            android:orientation="vertical"
+            android:paddingLeft="15dp"
+            android:paddingRight="15dp"
+            android:visibility="visible"
+            tools:visibility="visible">
+
+            <Button
+                android:id="@+id/common__error__view__close2"
+                android:layout_width="55dp"
+                android:layout_height="65dp"
+                android:layout_gravity="center"
+                android:layout_weight="0"
+                android:alpha="1"
+                android:backgroundTint="#000000"
+                android:textSize="8sp"
+                app:cornerRadius="150dp"
+                app:icon="@drawable/ic_warning_sign"
+                app:iconGravity="textTop"
+                app:iconPadding="0dp"
+                app:iconSize="35dp"
+                app:iconTint="#FFEA00" />
+
+            <LinearLayout
+                android:id="@+id/common__error__view__content_info"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+
+                android:background="@drawable/rounderrorview"
+                android:clickable="true"
+                android:foregroundTint="#FFFFFF"
+                android:orientation="vertical"
+                android:paddingLeft="20dp"
+                android:paddingTop="10dp"
+                android:paddingRight="20dp"
+                android:paddingBottom="10dp"
+                android:visibility="visible"
+                tools:visibility="visible">
+
+                <LinearLayout
+                    android:id="@+id/common__error__view__content_description"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/common__error__view__error_description"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="15dp"
+                        android:layout_marginEnd="15dp"
+                        android:inputType="textMultiLine"
+
+                        android:maxHeight="300dp"
+                        android:maxLines="2"
+                        android:text="1"
+                        android:textAlignment="center"
+                        android:textColor="#000000"
+                        android:textSize="16sp"
+                        android:textStyle="bold" />
+                </LinearLayout>
+
+                <TextView
+                    android:id="@+id/common__error__view__recomendacion"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="15dp"
+                    android:layout_marginTop="10dp"
+                    android:inputType="textMultiLine"
+                    android:maxHeight="300dp"
+
+                    android:scrollbars="vertical"
+                    android:text="1"
+                    android:textAlignment="center"
+                    android:textColor="#000000"
+                    android:textFontWeight="5"
+                    android:textSize="14sp" />
+
+                <LinearLayout
+                    android:id="@+id/common__error__view__content_code"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="10dp"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:id="@+id/common__error__view__error_code_txt"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:paddingEnd="10dp"
+                        android:text="Código"
+                        android:textColor="#000000"
+                        android:textSize="10sp" />
+
+                    <TextView
+                        android:id="@+id/common__error__view__error_code"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:inputType="textMultiLine"
+                        android:maxHeight="300dp"
+                        android:maxLines="2"
+                        android:scrollbars="vertical"
+
+                        android:text="1"
+                        android:textColor="#000000"
+                        android:textSize="10sp" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/common__error__view__content_url"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:id="@+id/common__error__view__error_url_txt"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:paddingEnd="10dp"
+                        android:text="URL"
+                        android:textColor="#000000"
+                        android:textSize="10sp"
+                        android:visibility="gone" />
+
+                    <TextView
+                        android:id="@+id/common__error__view__error_url"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:inputType="textMultiLine"
+                        android:maxHeight="300dp"
+                        android:scrollbars="vertical"
+                        android:text="1"
+
+                        android:textColor="#000000"
+                        android:textSize="10sp" />
+                </LinearLayout>
+
+                <TextView
+                    android:id="@+id/common__error__view__version"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="textMultiLine"
+                    android:maxHeight="300dp"
+                    android:scrollbars="vertical"
+                    android:text="1"
+
+                    android:textAlignment="center"
+                    android:textColor="#000000"
+                    android:textSize="10sp"
+                    android:visibility="visible" />
+
+                <TextView
+                    android:id="@+id/common__error__view__stacktrace"
+                    android:layout_width="match_parent"
+                    android:layout_height="100dp"
+                    android:layout_marginTop="15dp"
+                    android:background="@drawable/roundtextview"
+                    android:backgroundTint="#FFFFFF"
+
+                    android:inputType="textMultiLine"
+                    android:maxHeight="250dp"
+                    android:padding="10dp"
+                    android:scrollbarAlwaysDrawHorizontalTrack="true"
+                    android:scrollbarAlwaysDrawVerticalTrack="true"
+                    android:scrollbars="horizontal|vertical"
+                    android:scrollHorizontally="true"
+                    android:text="1"
+                    android:textColor="#000000"
+                    android:textSize="10sp"
+                    android:visibility="visible" />
+
+                <LinearLayout
+                    android:id="@+id/common__error__view__content_informar"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/common__error__view__informar"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="5dp"
+                        android:inputType="textMultiLine"
+                        android:maxHeight="300dp"
+                        android:scrollbars="vertical"
+
+                        android:text="@string/general__inform__problem"
+                        android:textAlignment="center"
+                        android:textColor="#000000"
+                        android:textSize="12sp" />
+
+                    <TextView
+                        android:id="@+id/common__error__view__contacto"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="10dp"
+                        android:autoLink="email"
+                        android:inputType="textMultiLine"
+
+                        android:linksClickable="true"
+                        android:maxHeight="300dp"
+                        android:scrollbars="vertical"
+                        android:text="jorgekagiagian@gmail.com"
+                        android:textAlignment="center"
+                        android:textColor="#000000"
+                        android:textColorLink="#27739F"
+                        android:textSize="12sp" />
+                </LinearLayout>
+
+                <LinearLayout
+
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:gravity="center"
+                    android:orientation="horizontal">
+
+                    <Button
+                        android:id="@+id/common__error__view__copy_all"
+                        style="@style/botonMarquee"
+                        android:layout_width="wrap_content"
+                        android:layout_height="35dp"
+                        android:layout_margin="0dp"
+                        android:layout_marginTop="0dp"
+                        android:layout_marginBottom="0dp"
+                        android:layout_weight="0"
+                        android:paddingTop="0dp"
+                        android:paddingBottom="0dp"
+                        android:text="Copiar"
+                        android:textSize="10sp"
+                        app:icon="@drawable/ic_baseline_content_copy_20"
+                        app:iconSize="16dp" />
+
+                    <Space
+                        android:layout_width="5dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1" />
+
+                    <Button
+                        android:id="@+id/common__error__view__share_all"
+                        style="@style/botonMarquee"
+                        android:layout_width="wrap_content"
+                        android:layout_height="35dp"
+                        android:layout_margin="0dp"
+                        android:layout_marginTop="0dp"
+                        android:layout_marginBottom="0dp"
+                        android:layout_weight="0"
+                        android:paddingTop="0dp"
+                        android:paddingBottom="0dp"
+                        android:text="Informar"
+                        android:textSize="10sp"
+                        app:icon="@drawable/ic_share22"
+                        app:iconSize="16dp" />
+                </LinearLayout>
+                <!--                <ScrollView
+                    android:id="@+id/common__error__view__info__scroll"
+                    android:layout_width="match_parent"
+                    android:layout_height="300dp">
+
+                    <TextView
+                        android:id="@+id/common__error__view__txt"
+                        style="@style/Widget.AppCompat.TextView.SpinnerItem"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:breakStrategy="balanced"
+                        android:clickable="true"
+                        android:ellipsize="none"
+                        android:fadeScrollbars="false"
+                        android:fadingEdge="horizontal"
+                        android:fadingEdgeLength="100dp"
+                        android:focusable="auto"
+                        android:focusableInTouchMode="true"
+                        android:focusedByDefault="false"
+                        android:isScrollContainer="false"
+                        android:maxHeight="200dp"
+                        android:overScrollMode="never"
+                        android:requiresFadingEdge="vertical"
+                        android:scrollIndicators="right"
+                        android:scrollbars="vertical"
+                        android:singleLine="false"
+                        android:text="   Best pornstars Prince Yahshua Liza Del Sierra Bambi Brooks Peter North Tigerr Benson Hime Marie Kali Rose Alex Coal Mike Adriano Anastasia Lux Katie Kox Devon Lee Melissa Monet Shay Evans Alexis Monroe Abella Anderson Amber Lynn Bach Vanessa Cage Gia Paige Nat Turnher Lyra Law Sienna West Alyssa Cole Jodi West Amber Lynn Kristy Black Victoria Cakes Little Caprice Alyssa Reece Jordi El Niño Polla Carmella Bing Selena Santana Josephine James Madison Rose Markus Dupree Zoe Bloom Dolly Little Mila Azul Dakota Sky Valentina Jewels Bella Reese Aubrey Black Goldie Rush Nina Hartley Esperanza Gomez Staci Silverstone Liv Revamped Katie Cummings Tiffany Mynx Foxy Di Shona River Lucy Li Jane Wilde Jayden Jaymes Diamond Kitty Stephanie West Christian Clay London Keyes Luna Lovely Kimber Lee All Pornstars    Best pornstars Prince Yahshua Liza Del Sierra Bambi Brooks Peter North Tigerr Benson Hime Marie Kali Rose Alex Coal Mike Adriano Anastasia Lux Katie Kox Devon Lee Melissa Monet Shay Evans Alexis Monroe Abella Anderson Amber Lynn Bach Vanessa Cage Gia Paige Nat Turnher Lyra Law Sienna West Alyssa Cole Jodi West Amber Lynn Kristy Black Victoria Cakes Little Caprice Alyssa Reece Jordi El Niño Polla Carmella Bing Selena Santana Josephine James Madison Rose Markus Dupree Zoe Bloom Dolly Little Mila Azul Dakota Sky Valentina Jewels Bella Reese Aubrey Black Goldie Rush Nina Hartley Esperanza Gomez Staci Silverstone Liv Revamped Katie Cummings Tiffany Mynx Foxy Di Shona River Lucy Li Jane Wilde Jayden Jaymes Diamond Kitty Stephanie West Christian Clay London Keyes Luna Lovely Kimber Lee All Pornstars Select a Category   Best pornstars Prince Yahshua Liza Del Sierra Bambi Brooks Peter North Tigerr Benson Hime Marie Kali Rose Alex Coal Mike Adriano Anastasia Lux Katie Kox Devon Lee Melissa Monet Shay Evans Alexis Monroe Abella Anderson Amber Lynn Bach Vanessa Cage Gia Paige Nat Turnher Lyra Law Sienna West Alyssa Cole Jodi West Amber Lynn Kristy Black Victoria Cakes Little Caprice Alyssa Reece Jordi El Niño Polla Carmella Bing Selena Santana Josephine James Madison Rose Markus Dupree Zoe Bloom Dolly Little Mila Azul Dakota Sky Valentina Jewels Bella Reese Aubrey Black Goldie Rush Nina Hartley Esperanza Gomez Staci Silverstone Liv Revamped Katie Cummings Tiffany Mynx Foxy Di Shona River Lucy Li Jane Wilde Jayden Jaymes Diamond Kitty Stephanie West Christian Clay London Keyes Luna Lovely Kimber Lee All Pornstars Select a Category   Best pornstars Prince Yahshua Liza Del Sierra Bambi Brooks Peter North Tigerr Benson Hime Marie Kali Rose Alex Coal Mike Adriano Anastasia Lux Katie Kox Devon Lee Melissa Monet Shay Evans Alexis Monroe Abella Anderson Amber Lynn Bach Vanessa Cage Gia Paige Nat Turnher Lyra Law Sienna West Alyssa Cole Jodi West Amber Lynn Kristy Black Victoria Cakes Little Caprice Alyssa Reece Jordi El Niño Polla Carmella Bing Selena Santana Josephine James Madison Rose Markus Dupree Zoe Bloom Dolly Little Mila Azul Dakota Sky Valentina Jewels Bella Reese Aubrey Black Goldie Rush Nina Hartley Esperanza Gomez Staci Silverstone Liv Revamped Katie Cummings Tiffany Mynx Foxy Di Shona River Lucy Li Jane Wilde Jayden Jaymes Diamond Kitty Stephanie West Christian Clay London Keyes Luna Lovely Kimber Lee All Pornstars Select a Category"
+                        android:textAlignment="viewStart"
+                        android:textColor="#000000"
+                        android:textDirection="inherit"
+                        android:textSize="14sp"
+                        android:visibility="visible"
+                        tools:visibility="visible" />
+                </ScrollView>-->
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/common__error__view__content_close"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <Button
+                    android:id="@+id/common__error__view__close"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:layout_gravity="center"
+                    android:layout_weight="0"
+                    android:backgroundTint="#B4A233"
+                    android:padding="20dp"
+                    android:paddingLeft="20dp"
+                    android:textSize="8sp"
+                    app:cornerRadius="150dp"
+                    app:icon="@drawable/ic_baseline_close_24"
+                    app:iconGravity="textTop"
+                    app:iconPadding="0dp" />
+
+
+            </LinearLayout>
+
+        </LinearLayout>
+    </LinearLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

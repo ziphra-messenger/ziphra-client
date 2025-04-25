@@ -1,9 +1,7 @@
 package com.privacity.cliente.util.notificacion;
 
-import android.content.Intent;
 import android.os.CountDownTimer;
 
-import com.privacity.cliente.model.Grupo;
 import com.privacity.cliente.singleton.Observers;
 import com.privacity.cliente.singleton.observers.ObserverGrupo;
 
@@ -40,6 +38,7 @@ public class GrupoCountDownTimer {
         if ( passwordCountDownTimer != null){
             passwordCountDownTimer.cancel();
         }
+
 
         if (  !ObserverGrupo.getInstance().getGrupoById(idGrupo).getLock().isEnabled()){
 
