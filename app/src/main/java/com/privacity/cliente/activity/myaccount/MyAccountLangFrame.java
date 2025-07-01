@@ -1,5 +1,6 @@
 package com.privacity.cliente.activity.myaccount;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.content.res.Resources;
@@ -12,6 +13,7 @@ import android.widget.RadioGroup;
 
 import com.privacity.cliente.R;
 import com.privacity.cliente.activity.common.GetButtonReady;
+import com.privacity.cliente.activity.main.MainActivi2ty;
 import com.privacity.cliente.common.enumerators.ButtonSetupEnum;
 import com.privacity.cliente.frame.help.HelpFrame;
 import com.privacity.cliente.singleton.activity.SingletonCurrentActivity;
@@ -27,7 +29,7 @@ public class MyAccountLangFrame {
 
     private final Button title;
 
-    private final MyAccountActivity activity;
+    private final Activity activity;
 
     private final MenuAcordeonObject menuAcordeon;
     private final RadioGroup radioGruopLangs1;
@@ -35,8 +37,12 @@ public class MyAccountLangFrame {
     private final RadioGroup radioGruopButtonSetup;
     private final Button example;
 
-    public MyAccountLangFrame(MyAccountActivity activity) {
+    public MyAccountLangFrame(Activity activity) {
         currentLanguage = activity.getIntent().getStringExtra("currentLang");
+
+        if ((currentLanguage == null) || (currentLanguage.equals(""))){
+            currentLanguage=SingletonLang.getInstance().get(activity);
+        }
         example =(GetButtonReady.get(activity, R.id.frame_my_account__button__example));
         radioGruopLangs1 = (RadioGroup) activity.findViewById(R.id.frame_my_account__radio_group__lang_1);
         radioGruopLangs2 = (RadioGroup) activity.findViewById(R.id.frame_my_account__radio_group__lang_2);
@@ -60,10 +66,10 @@ public class MyAccountLangFrame {
 
     }
     Locale myLocale;
-    String currentLanguage = SingletonLang.getInstance().get();
+    String currentLanguage;
     public void setLocale(String idioma) {
         if (currentLanguage==null) currentLanguage="";
-        if  (idioma.equals(SingletonLang.getInstance().get(activity))) return;
+    //    if  (idioma.equals(SingletonLang.getInstance().get(activity))) return;
 
         //if  (currentLanguage.equals(idioma)) return;
         SingletonLang.getInstance().save(activity, idioma);
@@ -74,7 +80,7 @@ public class MyAccountLangFrame {
         conf.locale = myLocale;
         res.updateConfiguration(conf, dm);
 
-        Intent refresh = new Intent(activity, MyAccountActivity.class);
+        Intent refresh = new Intent(activity, activity.getClass());
         refresh.putExtra("currentLang", idioma);
         currentLanguage=idioma;
         SingletonCurrentActivity.getInstance().setReLoad(true);
@@ -111,7 +117,7 @@ public class MyAccountLangFrame {
             @Override
             public void onCheckedChanged(RadioGroup radioGroup, int i) {
                 SingletonButtonSetup.getInstance().save(activity, ButtonSetupEnum.valueOf(((RadioButton)activity.findViewById(radioGruopButtonSetup.getCheckedRadioButtonId())).getTag().toString()));
-                Intent refresh = new Intent(activity, MyAccountActivity.class);
+                Intent refresh = new Intent(activity, activity.getClass());
                 SingletonCurrentActivity.getInstance().setReLoad(true);
                 activity.startActivity(refresh);
                 activity.finish();
@@ -138,8 +144,9 @@ public class MyAccountLangFrame {
 
             ((RadioButton)radioGruopLangs.getChildAt(i)).setChecked(false);
 
+
             try {
- //               Log.d(TAG, "setCurrentLang radio for:" + (ButtonSetupEnum.valueOf(radioGruopLangs.getChildAt(i).getTag().toString())));
+//                Log.d(TAG, "setCurrentLang radio for:" + (ButtonSetupEnum.valueOf(radioGruopLangs.getChildAt(i).getTag().toString())));
 
                 if (
                        radioGruopLangs.getChildAt(i).getTag().toString().equals(currentLang)
@@ -148,6 +155,7 @@ public class MyAccountLangFrame {
                 }
             }catch (Exception e){
                 Log.e(TAG, "setCurrentLang :" + e.getMessage());
+            //    e.printStackTrace();
 
             }
 
@@ -169,11 +177,12 @@ public class MyAccountLangFrame {
            }
         }
 
-        if (SingletonCurrentActivity.getInstance().isReLoad()){
-            MenuAcordeonUtil.changeVisibily(menuAcordeon);
-            SingletonCurrentActivity.getInstance().setReLoad(false);
-        }
 
+            if (SingletonCurrentActivity.getInstance().isReLoad()) {
+                MenuAcordeonUtil.changeVisibily(menuAcordeon);
+                SingletonCurrentActivity.getInstance().setReLoad(false);
+
+        }
     }
 
     private void setCurrentLang() {

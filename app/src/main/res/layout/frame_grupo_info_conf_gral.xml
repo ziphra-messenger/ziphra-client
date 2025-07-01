@@ -1060,7 +1060,9 @@
                                             android:layout_gravity="center_vertical"
                                             android:layout_marginStart="3dp"
                                             android:layout_marginBottom="7dp"
-                                            android:gravity="center_vertical">
+                                            android:gravity="center_vertical"
+                                            android:visibility="gone"
+                                            tools:visibility="gone">
 
                                             <LinearLayout
                                                 android:layout_width="match_parent"
@@ -1087,7 +1089,9 @@
                                             android:layout_height="match_parent"
                                             android:layout_marginStart="3dp"
                                             android:layout_weight="1"
-                                            android:textAlignment="center">
+                                            android:textAlignment="center"
+                                            android:visibility="gone"
+                                            tools:visibility="gone">
 
                                             <LinearLayout
                                                 android:layout_width="match_parent"

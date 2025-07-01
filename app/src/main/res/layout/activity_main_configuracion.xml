@@ -16,8 +16,10 @@
 
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="1.0">
 
         <Button
             android:id="@+id/main_conf_server_title"
@@ -27,150 +29,189 @@
             android:text="SERVIDOR"
             app:iconGravity="end" />
 
-        <TableLayout
-            android:id="@+id/main_conf_server_content"
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginStart="3dp"
-            android:layout_marginTop="10dp"
-            android:layout_marginEnd="3dp"
-            android:background="#E4DFB4"
-            android:visibility="visible">
+            android:orientation="vertical">
 
-            <TableRow
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:gravity="center">
+                android:layout_weight="0"
+                android:gravity="center"
+                android:orientation="horizontal">
 
-                <TableLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent">
+                <TextView
+                    android:id="@+id/textView36"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0"
+                    android:text="@string/main_configuration_protocol" />
 
-                    <TableRow
-                        android:layout_width="200dp"
-                        android:layout_height="match_parent">
+                <Spinner
+                    android:id="@+id/main_conf_app_server_conf_prot"
+                    android:layout_width="wrap_content"
+                    android:layout_height="50dp"
+                    android:layout_gravity="center|center_horizontal|center_vertical"
+                    android:layout_weight="0"
+                    android:dropDownWidth="match_parent"
+                    android:entries="@array/servers_http"
+                    android:foregroundGravity="center_vertical|center|center_horizontal"
+                    android:gravity="center|center_horizontal|center_vertical"
+                    android:spinnerMode="dialog"
+                    android:textSize="12sp"
+                    android:textStyle="bold" />
+            </LinearLayout>
 
-                        <LinearLayout
-                            android:layout_width="wrap_content"
-                            android:layout_height="match_parent"
-                            android:orientation="horizontal">
-
-                            <Spinner
-                                android:id="@+id/main_conf_app_server_conf_prot"
-                                android:layout_width="140dp"
-                                android:layout_height="50dp"
-                                android:layout_gravity="center|center_horizontal|center_vertical"
-                                android:layout_weight="0"
-                                android:dropDownWidth="match_parent"
-                                android:entries="@array/servers_http"
-                                android:foregroundGravity="center_vertical|center|center_horizontal"
-                                android:gravity="center|center_horizontal|center_vertical"
-                                android:spinnerMode="dialog"
-                                android:textSize="12sp"
-                                android:textStyle="bold" />
-
-                            <EditText
-                                android:id="@+id/main_conf_app_server_conf"
-                                android:layout_width="150dp"
-                                android:layout_height="50dp"
-                                android:layout_gravity="center|center_horizontal|center_vertical"
-                                android:layout_marginTop="1dp"
-                                android:layout_marginBottom="1dp"
-                                android:layout_weight="0"
-                                android:foregroundGravity="center_vertical|center|center_horizontal"
-                                android:gravity="center|center_horizontal|center_vertical"
-                                android:maxWidth="100dp"
-                                android:singleLine="true"
-                                android:text="100.11.11.11"
-                                android:textSize="18sp"
-                                android:textStyle="bold" />
-
-                            <Spinner
-                                android:id="@+id/main_conf_app_server_conf_port"
-                                android:layout_width="110dp"
-                                android:layout_height="50dp"
-                                android:layout_gravity="center|center_horizontal|center_vertical"
-                                android:layout_weight="5"
-                                android:dropDownWidth="wrap_content"
-                                android:entries="@array/servers_ports"
-                                android:foregroundGravity="center_vertical|center|center_horizontal"
-                                android:gravity="center|center_horizontal|center_vertical"
-                                android:spinnerMode="dialog" />
-                        </LinearLayout>
-
-                    </TableRow>
-
-                    <TableRow
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent">
-
-                        <LinearLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:layout_gravity="center|center_horizontal"
-                            android:foregroundGravity="center_vertical|center|center_horizontal"
-                            android:gravity="center|center_horizontal|center_vertical"
-                            android:orientation="horizontal">
-
-                            <Spinner
-                                android:id="@+id/main_conf_app_server_list"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_gravity="center|center_horizontal|center_vertical"
-                                android:dropDownWidth="match_parent"
-                                android:entries="@array/main_configuration_app_servers"
-                                android:fadeScrollbars="false"
-                                android:focusable="true"
-                                android:foregroundGravity="center_vertical|center|center_horizontal"
-                                android:gravity="center|center_horizontal|center_vertical"
-                                android:isScrollContainer="true"
-                                android:layoutMode="clipBounds"
-                                android:scrollbarAlwaysDrawHorizontalTrack="true"
-                                android:scrollbarAlwaysDrawVerticalTrack="true"
-                                android:scrollbarSize="15dp"
-                                android:spinnerMode="dialog" />
-                        </LinearLayout>
-
-                    </TableRow>
-
-                </TableLayout>
-
-            </TableRow>
-
-            <TableRow
+            <LinearLayout
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:gravity="center">
+                android:layout_height="match_parent"
+                android:layout_gravity="center"
+                android:foregroundGravity="center"
+                android:gravity="center"
+                android:orientation="horizontal"
+                android:paddingStart="3dp"
+                android:paddingEnd="3dp">
+
+                <TextView
+                    android:id="@+id/textView35"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0"
+                    android:text="@string/main_configuration_url_port" />
+
+                <EditText
+                    android:id="@+id/main_conf_app_server_conf"
+                    android:layout_width="140dp"
+                    android:layout_height="50dp"
+                    android:layout_gravity="center|center_horizontal|center_vertical"
+                    android:layout_marginTop="1dp"
+                    android:layout_marginBottom="1dp"
+                    android:layout_weight="0"
+                    android:foregroundGravity="center_vertical|center|center_horizontal"
+                    android:gravity="center|center_horizontal|center_vertical"
+                    android:maxWidth="200dp"
+                    android:singleLine="true"
+                    android:text="100.11.11.11"
+                    android:textSize="14sp"
+                    android:textStyle="bold" />
+
+                <Spinner
+                    android:id="@+id/main_conf_app_server_conf_port"
+                    android:layout_width="wrap_content"
+                    android:layout_height="50dp"
+                    android:layout_gravity="center|center_horizontal|center_vertical"
+                    android:dropDownWidth="wrap_content"
+                    android:entries="@array/servers_ports"
+                    android:foregroundGravity="center_vertical|center|center_horizontal"
+                    android:gravity="center|center_horizontal|center_vertical"
+                    android:spinnerMode="dialog" />
+            </LinearLayout>
+
+            <Space
+                android:layout_width="match_parent"
+                android:layout_height="10dp"
+                android:layout_weight="0" />
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_gravity="center"
+                android:layout_weight="0"
+                android:gravity="center"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/textView37"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="@string/main_configuration_ips_default" />
+
+                <Spinner
+                    android:id="@+id/main_conf_app_server_list"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center|center_horizontal|center_vertical"
+                    android:dropDownWidth="match_parent"
+                    android:entries="@array/main_configuration_app_servers"
+                    android:fadeScrollbars="false"
+                    android:focusable="true"
+                    android:foregroundGravity="center_vertical|center|center_horizontal"
+                    android:gravity="center|center_horizontal|center_vertical"
+                    android:isScrollContainer="true"
+                    android:layoutMode="clipBounds"
+                    android:scrollbarAlwaysDrawHorizontalTrack="true"
+                    android:scrollbarAlwaysDrawVerticalTrack="true"
+                    android:scrollbarSize="15dp"
+                    android:spinnerMode="dialog" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="0"
+                android:orientation="horizontal">
+
+                <Space
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="20dp"
+                    android:layout_weight="1" />
 
                 <Button
                     android:id="@+id/main_conf_app_server_select"
+
+
                     style="@style/botonMarquee"
                     android:layout_width="wrap_content"
                     android:layout_height="40dp"
-                    android:layout_marginStart="3dp"
+                    android:layout_gravity="center"
+
+
+                    android:layout_margin="3dp"
+                    android:layout_marginStart="15dp"
+
+                    android:layout_span="3"
                     android:layout_weight="0"
+                    android:ellipsize="marquee"
+                    android:enabled="true"
+                    android:foregroundGravity="center_vertical"
+                    android:gravity="center"
+                    android:maxWidth="140dp"
+                    android:minWidth="10dp"
+                    android:paddingLeft="10dp"
+                    android:paddingTop="2dp"
+                    android:paddingRight="10dp"
+                    android:scrollHorizontally="true"
+
+                    android:singleLine="true"
                     android:text="@string/general__save"
-                    android:textSize="12sp"
+                    android:textSize="12dp"
+                    android:visibility="visible"
                     app:cornerRadius="20dp"
-                    app:icon="@drawable/ic_action_confirm_tilde" />
-            </TableRow>
+                    app:icon="@drawable/ic_action_confirm_tilde"
+                    app:iconPadding="4dp"
+                    app:iconSize="20dp" />
 
 
-            <TableRow
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:gravity="right">
+                <Space
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1" />
 
                 <ImageButton
+                    android:id="@+id/main_conf_app_server__help"
                     android:layout_width="wrap_content"
                     android:layout_height="30dp"
-                    android:layout_gravity="right"
+                    android:layout_gravity="right|center_vertical"
+
                     android:backgroundTint="#E4DFB4"
-
+                    android:foregroundGravity="center_vertical"
                     app:srcCompat="@drawable/ic_baseline_help_outline_24" />
-            </TableRow>
+            </LinearLayout>
 
-        </TableLayout>
+        </LinearLayout>
 
         <LinearLayout
             android:id="@+id/main_conf__check__all"
@@ -209,7 +250,10 @@
                     android:id="@+id/textView11"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Check Conexiones" />
+                    android:paddingTop="10dp"
+                    android:paddingBottom="10dp"
+                    android:text="@string/main_configuration__check_connections"
+                    android:textStyle="bold" />
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -218,10 +262,10 @@
 
                     <TextView
                         android:id="@+id/text3View7"
-                        android:layout_width="wrap_content"
+                        android:layout_width="140dp"
                         android:layout_height="wrap_content"
                         android:minWidth="100dp"
-                        android:text="Datos Moviles" />
+                        android:text="@string/general__mobile_data" />
 
                     <TextView
                         android:id="@+id/main_conf__check__datos_moviles"
@@ -236,16 +280,18 @@
 
                     <TextView
                         android:id="@+id/textView7"
-                        android:layout_width="wrap_content"
+                        android:layout_width="140dp"
                         android:layout_height="wrap_content"
                         android:minWidth="100dp"
-                        android:text="Wifi" />
+                        android:text="@string/general__wifi" />
 
                     <TextView
                         android:id="@+id/main_conf__check__wifi"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content" />
                 </LinearLayout>
+
+
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -254,10 +300,10 @@
 
                     <TextView
                         android:id="@+id/textVi432432ew7"
-                        android:layout_width="wrap_content"
+                        android:layout_width="140dp"
                         android:layout_height="wrap_content"
                         android:minWidth="100dp"
-                        android:text="internet" />
+                        android:text="@string/general__internet" />
 
                     <TextView
                         android:id="@+id/main_conf__check__internet"
@@ -272,10 +318,10 @@
 
                     <TextView
 
-                        android:layout_width="wrap_content"
+                        android:layout_width="140dp"
                         android:layout_height="wrap_content"
                         android:minWidth="100dp"
-                        android:text="server" />
+                        android:text="@string/general__server" />
 
                     <TextView
                         android:id="@+id/main_conf__check__server"
@@ -301,62 +347,77 @@
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:orientation="vertical" />
+                    android:orientation="vertical"
+                    android:paddingBottom="15dp" />
 
 
-                <TextView
-                    android:id="@+id/main_conf__check__en_horas"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:gravity="center"
-                    android:padding="10dp"
-                    android:text="TextView"
-                    android:visibility="visible" />
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="horizontal">
 
-                <Button
-                    android:id="@+id/main_conf__check__start"
+                    <Space
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:paddingStart="20dp" />
 
-
-                    style="@style/botonMarquee"
-
-                    android:layout_width="wrap_content"
-                    android:layout_height="40dp"
-                    android:layout_gravity="center"
-                    android:layout_margin="3dp"
-                    android:layout_marginStart="15dp"
-
-                    android:layout_span="3"
-                    android:layout_weight="0"
-                    android:ellipsize="marquee"
-                    android:enabled="true"
-                    android:foregroundGravity="center_vertical"
-                    android:gravity="center"
-                    android:maxWidth="140dp"
-                    android:minWidth="10dp"
-                    android:paddingLeft="10dp"
-                    android:paddingRight="10dp"
-                    android:scrollHorizontally="true"
-                    android:singleLine="true"
-
-                    android:text="Probar"
-                    android:textSize="12dp"
-                    app:cornerRadius="20dp"
-                    app:icon="@drawable/ic_starttest"
-                    app:iconPadding="4dp"
-                    app:iconSize="20dp" />
+                    <Button
+                        android:id="@+id/main_conf__check__start"
 
 
-                <include
-                    android:id="@+id/main_conf__check__help_include"
-                    layout="@layout/frame_help__open" />
+                        style="@style/botonMarquee"
+                        android:layout_width="wrap_content"
+                        android:layout_height="40dp"
+                        android:layout_gravity="center"
+
+
+                        android:layout_margin="3dp"
+                        android:layout_marginStart="25dp"
+
+                        android:layout_span="3"
+                        android:layout_weight="0"
+                        android:ellipsize="marquee"
+                        android:enabled="true"
+                        android:foregroundGravity="center_vertical"
+                        android:gravity="center"
+                        android:maxWidth="140dp"
+                        android:minWidth="10dp"
+                        android:paddingLeft="10dp"
+                        android:paddingTop="2dp"
+                        android:paddingRight="10dp"
+                        android:scrollHorizontally="true"
+
+                        android:singleLine="true"
+                        android:text="@string/general__test"
+                        android:textSize="12dp"
+                        app:cornerRadius="20dp"
+                        app:icon="@drawable/ic_starttest"
+                        app:iconPadding="4dp"
+                        app:iconSize="20dp" />
+
+                    <Space
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1" />
+
+                    <ImageButton
+                        android:id="@+id/main_conf_app_server__check"
+                        android:layout_width="wrap_content"
+                        android:layout_height="30dp"
+                        android:layout_gravity="right|center_vertical"
+
+                        android:backgroundTint="#E4DFB4"
+                        android:foregroundGravity="center_vertical"
+                        app:srcCompat="@drawable/ic_baseline_help_outline_24" />
+                </LinearLayout>
+
             </LinearLayout>
 
 
         </LinearLayout>
 
     </LinearLayout>
-
     <include
 
         layout="@layout/incllude__common__all"
@@ -364,9 +425,5 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:visibility="visible"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
         tools:visibility="visible" />
 </androidx.constraintlayout.widget.ConstraintLayout>

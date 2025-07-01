@@ -515,19 +515,311 @@
                                                         tools:srcCompat="@tools:sample/avatars" />
                                                 </LinearLayout>
 
-                                                <Button
-                                                    android:id="@+id/reply_msg_list_tv_state"
-                                                    style="@style/Widget.MaterialComponents.Button.OutlinedButton"
-                                                    android:layout_width="match_parent"
-                                                    android:layout_height="wrap_content"
-                                                    android:background="@drawable/rounf"
-                                                    android:text="Button"
-                                                    android:textAlignment="textEnd"
-                                                    android:textColor="#0101ff"
-                                                    android:textColorLink="#0101ff"
-                                                    app:icon="@drawable/ic_block_resend"
-                                                    app:iconTint="#D5092E"
-                                                    app:strokeColor="#2655BB" />
+                                                <LinearLayout
+                                                    android:layout_width="wrap_content"
+                                                    android:layout_height="match_parent"
+                                                    android:layout_gravity="right"
+                                                    android:foregroundGravity="right"
+                                                    android:gravity="right"
+                                                    android:orientation="horizontal">
+
+                                                    <Button android:id="@+id/reply_msg_list_hide_read_state_icon"
+                                                        style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+
+                                                        android:layout_width="25dp"
+                                                        android:layout_height="25dp"
+                                                        android:layout_gravity="right|center_vertical|end"
+                                                        android:background="@drawable/rounf"
+                                                        android:clickable="false"
+                                                        android:foregroundGravity="center"
+                                                        android:gravity="center"
+                                                        android:insetTop="0dp"
+
+                                                        android:insetBottom="0dp"
+                                                        android:minWidth="0dp"
+                                                        android:textAllCaps="true"
+                                                        android:textColor="#0101ff"
+                                                        android:textColorLink="#0101ff"
+                                                        android:textSize="8sp"
+                                                        android:visibility="visible"
+                                                        app:icon="@drawable/ic_read"
+                                                        app:iconGravity="textStart"
+                                                        app:iconPadding="0dp"
+                                                        app:iconSize="17dp"
+                                                        app:iconTint="#D5092E"
+                                                        app:strokeColor="#2655BB"
+                                                        app:strokeWidth="0dp" />
+
+                                                    <Button android:id="@+id/reply_msg_list_extraencrypt_icon"
+                                                        style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+
+                                                        android:layout_width="25dp"
+                                                        android:layout_height="28dp"
+                                                        android:layout_gravity="right|center_vertical|end"
+                                                        android:background="@drawable/rounf"
+                                                        android:clickable="false"
+                                                        android:foregroundGravity="center"
+                                                        android:gravity="center"
+                                                        android:insetTop="0dp"
+
+                                                        android:insetBottom="0dp"
+                                                        android:minWidth="0dp"
+                                                        android:textAllCaps="true"
+                                                        android:textColor="#0101ff"
+                                                        android:textColorLink="#0101ff"
+                                                        android:textSize="8sp"
+                                                        android:visibility="visible"
+                                                        app:icon="@drawable/ic_lockminiopen"
+                                                        app:iconGravity="textStart"
+                                                        app:iconPadding="0dp"
+                                                        app:iconSize="16dp"
+                                                        app:iconTint="#00369A"
+                                                        app:strokeWidth="0dp" />
+
+                                                    <Button android:id="@+id/reply_msg_list_black_icon"
+                                                        style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+
+                                                        android:layout_width="25dp"
+                                                        android:layout_height="25dp"
+                                                        android:layout_gravity="right|center_vertical|end"
+                                                        android:clickable="false"
+                                                        android:foregroundGravity="center"
+                                                        android:gravity="center"
+                                                        android:insetTop="0dp"
+
+                                                        android:insetBottom="0dp"
+                                                        android:minWidth="0dp"
+                                                        android:textAllCaps="true"
+                                                        android:textColor="#0101ff"
+                                                        android:textColorLink="#0101ff"
+                                                        android:textSize="8sp"
+                                                        android:visibility="visible"
+                                                        app:icon="@drawable/ic_baseline_remove_red_eye_24"
+                                                        app:iconGravity="textStart"
+                                                        app:iconPadding="0dp"
+                                                        app:iconSize="16dp"
+                                                        app:iconTint="#000000"
+                                                        app:strokeColor="#FFFFFF"
+                                                        app:strokeWidth="0dp" />
+                                                    <Button android:id="@+id/reply_msg_list_random_nickname_icon"
+                                                        style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+
+                                                        android:layout_width="25dp"
+                                                        android:layout_height="25dp"
+                                                        android:layout_gravity="right|center_vertical|end"
+                                                        android:clickable="false"
+                                                        android:foregroundGravity="center"
+                                                        android:gravity="center"
+                                                        android:insetTop="0dp"
+
+                                                        android:insetBottom="0dp"
+                                                        android:minWidth="0dp"
+                                                        android:textAllCaps="true"
+                                                        android:textColor="#0101ff"
+                                                        android:textColorLink="#0101ff"
+                                                        android:textSize="8sp"
+                                                        android:visibility="visible"
+                                                        app:icon="@drawable/ic_anon"
+                                                        app:iconGravity="textStart"
+                                                        app:iconPadding="0dp"
+                                                        app:iconSize="16dp"
+                                                        app:iconTint="#000000"
+                                                        app:strokeColor="#FFFFFF"
+                                                        app:strokeWidth="0dp" />
+                                                    <Button android:id="@+id/reply_msg_list_anonimo_icon"
+                                                        style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+
+                                                        android:layout_width="25dp"
+                                                        android:layout_height="25dp"
+                                                        android:layout_gravity="right|center_vertical|end"
+                                                        android:background="@drawable/rounf"
+                                                        android:clickable="false"
+                                                        android:foregroundGravity="center"
+                                                        android:gravity="center"
+                                                        android:insetTop="0dp"
+
+                                                        android:insetBottom="0dp"
+                                                        android:minWidth="0dp"
+                                                        android:textAllCaps="true"
+                                                        android:textColor="#0101ff"
+                                                        android:textColorLink="#0101ff"
+                                                        android:textSize="8sp"
+                                                        android:visibility="visible"
+                                                        app:icon="@drawable/ic_anonimo"
+                                                        app:iconGravity="textStart"
+                                                        app:iconPadding="0dp"
+                                                        app:iconSize="16dp"
+                                                        app:iconTint="#000000"
+                                                        app:strokeColor="#2655BB"
+                                                        app:strokeWidth="0dp" />
+
+                                                    <Button android:id="@+id/reply_msg_list_is_resend_icon"
+                                                        style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+
+                                                        android:layout_width="25dp"
+                                                        android:layout_height="25dp"
+                                                        android:layout_gravity="right|center_vertical|end"
+                                                        android:background="@drawable/rounf"
+                                                        android:clickable="false"
+                                                        android:foregroundGravity="center"
+                                                        android:gravity="center"
+                                                        android:insetTop="0dp"
+
+                                                        android:insetBottom="0dp"
+                                                        android:minWidth="0dp"
+                                                        android:textAllCaps="true"
+                                                        android:textColor="#0101ff"
+                                                        android:textColorLink="#0101ff"
+                                                        android:textSize="8sp"
+                                                        android:visibility="visible"
+                                                        app:icon="@drawable/ic_baseline_dynamic_message_toolbar_resend_feed_24"
+                                                        app:iconGravity="textStart"
+                                                        app:iconPadding="0dp"
+                                                        app:iconSize="16dp"
+                                                        app:iconTint="#000000"
+                                                        app:strokeColor="#2655BB"
+                                                        app:strokeWidth="0dp" />
+
+                                                    <Button android:id="@+id/reply_msg_list_block_download_icon"
+                                                        style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+
+                                                        android:layout_width="25dp"
+                                                        android:layout_height="25dp"
+                                                        android:layout_gravity="right|center_vertical|end"
+                                                        android:background="@drawable/rounf"
+                                                        android:clickable="false"
+                                                        android:foregroundGravity="center"
+                                                        android:gravity="center"
+                                                        android:insetTop="0dp"
+
+                                                        android:insetBottom="0dp"
+                                                        android:minWidth="0dp"
+                                                        android:textAllCaps="true"
+                                                        android:textColor="#0101ff"
+                                                        android:textColorLink="#0101ff"
+                                                        android:textSize="8sp"
+                                                        android:visibility="visible"
+                                                        app:icon="@drawable/ic_block_download"
+                                                        app:iconGravity="textStart"
+                                                        app:iconPadding="0dp"
+                                                        app:iconSize="16dp"
+                                                        app:iconTint="#D5092E"
+                                                        app:strokeColor="#2655BB"
+                                                        app:strokeWidth="0dp" />
+
+                                                    <Button android:id="@+id/reply_msg_list_is_time_icon"
+                                                        style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+
+                                                        android:layout_width="25dp"
+                                                        android:layout_height="25dp"
+                                                        android:layout_gravity="right|center_vertical|end"
+                                                        android:background="@drawable/rounf"
+                                                        android:clickable="false"
+                                                        android:foregroundGravity="center"
+                                                        android:gravity="center"
+                                                        android:insetTop="0dp"
+
+                                                        android:insetBottom="0dp"
+                                                        android:minWidth="0dp"
+                                                        android:textAllCaps="true"
+                                                        android:textColor="#0101ff"
+                                                        android:textColorLink="#0101ff"
+                                                        android:textSize="8sp"
+                                                        android:visibility="visible"
+                                                        app:icon="@drawable/ic_baseline_access_time_24"
+                                                        app:iconGravity="textStart"
+                                                        app:iconPadding="0dp"
+                                                        app:iconSize="16dp"
+                                                        app:iconTint="#000000"
+                                                        app:strokeColor="#2655BB"
+                                                        app:strokeWidth="0dp" />
+
+                                                    <Button android:id="@+id/reply_msg_list_is_audio_message_icon"
+                                                        style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+
+                                                        android:layout_width="25dp"
+                                                        android:layout_height="25dp"
+                                                        android:layout_gravity="right|center_vertical|end"
+                                                        android:background="@drawable/rounf"
+                                                        android:clickable="false"
+                                                        android:foregroundGravity="center"
+                                                        android:gravity="center"
+                                                        android:insetTop="0dp"
+
+                                                        android:insetBottom="0dp"
+                                                        android:minWidth="0dp"
+                                                        android:textAllCaps="true"
+                                                        android:textColor="#0101ff"
+                                                        android:textColorLink="#0101ff"
+                                                        android:textSize="8sp"
+                                                        android:visibility="visible"
+                                                        app:icon="@drawable/ic_baseline_mic_red_24"
+                                                        app:iconGravity="textStart"
+                                                        app:iconPadding="0dp"
+                                                        app:iconSize="16dp"
+                                                        app:iconTint="#000000"
+                                                        app:strokeColor="#2655BB"
+                                                        app:strokeWidth="0dp" />
+                                                    <Button android:id="@+id/reply_msg_list_block_resend_icon"
+                                                        style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                                                        android:layout_width="25dp"
+                                                        android:layout_height="25dp"
+                                                        android:layout_gravity="center_vertical"
+                                                        android:background="@drawable/rounf"
+                                                        android:clickable="false"
+                                                        android:foregroundGravity="center"
+                                                        android:gravity="center"
+                                                        android:insetTop="0dp"
+
+                                                        android:insetBottom="0dp"
+                                                        android:minWidth="0dp"
+                                                        android:textAllCaps="true"
+                                                        android:textColor="#0101ff"
+                                                        android:textColorLink="#0101ff"
+                                                        android:textSize="8sp"
+                                                        android:visibility="visible"
+                                                        app:icon="@drawable/ic_block_resend"
+                                                        app:iconGravity="textStart"
+                                                        app:iconPadding="0dp"
+                                                        app:iconSize="16dp"
+                                                        app:iconTint="#D5092E"
+                                                        app:strokeColor="#2655BB"
+                                                        app:strokeWidth="0dp" />
+
+                                                    <TextView android:id="@+id/reply_msg_list_tv_state"
+                                                        style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                                                        android:layout_width="wrap_content"
+                                                        android:layout_height="25dp"
+                                                        android:layout_gravity="right|center_vertical|end"
+                                                        android:background="@drawable/rounf"
+                                                        android:clickable="false"
+                                                        android:fontFamily="sans-serif-condensed"
+                                                        android:foregroundGravity="right"
+                                                        android:gravity="right|center_vertical"
+                                                        android:insetTop="0dp"
+                                                        android:insetBottom="0dp"
+
+                                                        android:letterSpacing="0.01"
+                                                        android:maxLines="1"
+                                                        android:minWidth="0dp"
+                                                        android:minHeight="0dp"
+
+                                                        android:padding="0dp"
+                                                        android:paddingLeft="0dp"
+                                                        android:paddingTop="0dp"
+                                                        android:paddingRight="0dp"
+                                                        android:text="Button"
+
+                                                        android:textAllCaps="false"
+                                                        android:textColor="#0101ff"
+                                                        android:textColorLink="#0101ff"
+                                                        android:textSize="8sp"
+                                                        android:tooltipText="@string/grupo_activity__powerservice__detail"
+                                                        app:iconPadding="0dp"
+                                                        app:iconTint="#D5092E"
+                                                        app:strokeColor="#2655BB"
+                                                        app:strokeWidth="0dp" />
+                                                </LinearLayout>
 
                                                 <ImageButton
                                                     android:id="@+id/reply_ib_msg_list_error"
@@ -828,8 +1120,7 @@
                                     android:gravity="right"
                                     android:orientation="horizontal">
 
-                                    <Button
-                                        android:id="@+id/msg_list_hide_read_state_icon"
+                                    <Button android:id="@+id/msg_list_hide_read_state_icon"
                                         style="@style/Widget.MaterialComponents.Button.OutlinedButton"
 
                                         android:layout_width="25dp"
@@ -856,8 +1147,7 @@
                                         app:strokeColor="#2655BB"
                                         app:strokeWidth="0dp" />
 
-                                    <Button
-                                        android:id="@+id/msg_list_extraencrypt_icon"
+                                    <Button android:id="@+id/msg_list_extraencrypt_icon"
                                         style="@style/Widget.MaterialComponents.Button.OutlinedButton"
 
                                         android:layout_width="25dp"
@@ -883,8 +1173,7 @@
                                         app:iconTint="#00369A"
                                         app:strokeWidth="0dp" />
 
-                                    <Button
-                                        android:id="@+id/msg_list_black_icon"
+                                    <Button android:id="@+id/msg_list_black_icon"
                                         style="@style/Widget.MaterialComponents.Button.OutlinedButton"
 
                                         android:layout_width="25dp"
@@ -909,8 +1198,7 @@
                                         app:iconTint="#000000"
                                         app:strokeColor="#FFFFFF"
                                         app:strokeWidth="0dp" />
-                                    <Button
-                                        android:id="@+id/msg_list_random_nickname_icon"
+                                    <Button android:id="@+id/msg_list_random_nickname_icon"
                                         style="@style/Widget.MaterialComponents.Button.OutlinedButton"
 
                                         android:layout_width="25dp"
@@ -935,8 +1223,7 @@
                                         app:iconTint="#000000"
                                         app:strokeColor="#FFFFFF"
                                         app:strokeWidth="0dp" />
-                                    <Button
-                                        android:id="@+id/msg_list_anonimo_icon"
+                                    <Button android:id="@+id/msg_list_anonimo_icon"
                                         style="@style/Widget.MaterialComponents.Button.OutlinedButton"
 
                                         android:layout_width="25dp"
@@ -963,8 +1250,7 @@
                                         app:strokeColor="#2655BB"
                                         app:strokeWidth="0dp" />
 
-                                    <Button
-                                        android:id="@+id/msg_list_is_resend_icon"
+                                    <Button android:id="@+id/msg_list_is_resend_icon"
                                         style="@style/Widget.MaterialComponents.Button.OutlinedButton"
 
                                         android:layout_width="25dp"
@@ -991,8 +1277,7 @@
                                         app:strokeColor="#2655BB"
                                         app:strokeWidth="0dp" />
 
-                                    <Button
-                                        android:id="@+id/msg_list_block_download_icon"
+                                    <Button android:id="@+id/msg_list_block_download_icon"
                                         style="@style/Widget.MaterialComponents.Button.OutlinedButton"
 
                                         android:layout_width="25dp"
@@ -1019,8 +1304,7 @@
                                         app:strokeColor="#2655BB"
                                         app:strokeWidth="0dp" />
 
-                                    <Button
-                                        android:id="@+id/msg_list_is_time_icon"
+                                    <Button android:id="@+id/msg_list_is_time_icon"
                                         style="@style/Widget.MaterialComponents.Button.OutlinedButton"
 
                                         android:layout_width="25dp"
@@ -1047,8 +1331,7 @@
                                         app:strokeColor="#2655BB"
                                         app:strokeWidth="0dp" />
 
-                                    <Button
-                                        android:id="@+id/msg_list_is_audio_message_icon"
+                                    <Button android:id="@+id/msg_list_is_audio_message_icon"
                                         style="@style/Widget.MaterialComponents.Button.OutlinedButton"
 
                                         android:layout_width="25dp"
@@ -1074,8 +1357,7 @@
                                         app:iconTint="#000000"
                                         app:strokeColor="#2655BB"
                                         app:strokeWidth="0dp" />
-                                    <Button
-                                        android:id="@+id/msg_list_block_resend_icon"
+                                    <Button android:id="@+id/msg_list_block_resend_icon"
                                         style="@style/Widget.MaterialComponents.Button.OutlinedButton"
                                         android:layout_width="25dp"
                                         android:layout_height="25dp"
@@ -1101,8 +1383,7 @@
                                         app:strokeColor="#2655BB"
                                         app:strokeWidth="0dp" />
 
-                                    <TextView
-                                        android:id="@+id/msg_list_tv_state"
+                                    <TextView android:id="@+id/msg_list_tv_state"
                                         style="@style/Widget.MaterialComponents.Button.OutlinedButton"
                                         android:layout_width="wrap_content"
                                         android:layout_height="25dp"

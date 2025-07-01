@@ -94,7 +94,8 @@
             android:layout_weight="1"
             android:backgroundTint="#3DACFA"
             android:tint="#00FFFFFF"
-            app:srcCompat="@drawable/ic_twotone_reply_message_toolbar_24" />
+            app:srcCompat="@drawable/ic_twotone_reply_message_toolbar_24"
+            tools:ignore="UseAppTint" />
 
         <ImageButton
             android:id="@+id/message_custom_actionbar_delete"

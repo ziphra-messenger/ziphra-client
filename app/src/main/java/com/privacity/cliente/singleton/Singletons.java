@@ -3,12 +3,14 @@ package com.privacity.cliente.singleton;
 
 import com.privacity.cliente.singleton.countdown.SingletonMyAccountConfLockDownTimer;
 import com.privacity.cliente.singleton.countdown.SingletonPasswordInMemoryLifeTime;
+import com.privacity.cliente.singleton.devtools.GeneratorMessageTestSingleton;
 import com.privacity.cliente.singleton.localconfiguration.SingletonTimeMessage;
 import com.privacity.cliente.singleton.observers.ObserverGrupo;
 import com.privacity.cliente.singleton.observers.ObserverMessage;
 import com.privacity.cliente.singleton.observers.ObserverPassword;
 import com.privacity.cliente.singleton.observers.ObserverPasswordGrupo;
 import com.privacity.cliente.singleton.observers.ObserverUnread;
+import com.privacity.cliente.singleton.randomphrases.RandomPhrasesSingleton;
 import com.privacity.cliente.singleton.reconnect.SingletonReconnect;
 import com.privacity.cliente.singleton.serverconfiguration.SingletonServerConfiguration;
 import com.privacity.cliente.singleton.serverconfiguration.SingletonServerTime;
@@ -29,6 +31,16 @@ public class Singletons {
 
     public static SingletonReconnect reconnect() {
         return SingletonReconnect.getInstance();
+    }
+
+    public static GeneratorMessageTestSingleton generatorMessageTest() {
+        return GeneratorMessageTestSingleton.getInstance();
+    }
+
+
+
+    public static RandomPhrasesSingleton randomPhrases() {
+        return RandomPhrasesSingleton.getInstance();
     }
 
     public static SingletonUsuario usuario() {

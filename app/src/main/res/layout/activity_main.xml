@@ -7,6 +7,7 @@
     android:layout_height="match_parent"
     android:background="@drawable/ciudad"
     android:fadingEdge="vertical"
+    android:outlineSpotShadowColor="#A2EB5D"
     android:scrollbarDefaultDelayBeforeFade="0"
     android:scrollbarFadeDuration="0"
     android:scrollbarSize="0dp"
@@ -203,7 +204,8 @@
                             <EditText
                                 android:id="@+id/textView19"
                                 android:layout_width="match_parent"
-                                android:layout_height="50dp" />
+                                android:layout_height="50dp"
+                                android:visibility="gone" />
 
                             <EditText
                                 android:id="@+id/textView20"
@@ -212,7 +214,8 @@
                                 android:ems="10"
                                 android:gravity="start|top"
                                 android:inputType="textMultiLine"
-                                android:text="aavwoworohjorhjo1323" />
+                                android:text="aavwoworohjorhjo1323"
+                                android:visibility="gone" />
 
                             <LinearLayout
                                 android:layout_width="match_parent"
@@ -252,7 +255,8 @@
                             <LinearLayout
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:orientation="horizontal">
+                                android:orientation="horizontal"
+                                android:visibility="gone">
 
                                 <Button
                                     android:id="@+id/developer__main_login__button_4"
@@ -288,7 +292,8 @@
                             <LinearLayout
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:orientation="horizontal">
+                                android:orientation="horizontal"
+                                android:visibility="gone">
 
                                 <Button
                                     android:id="@+id/developer__main_login__button_7"
@@ -398,7 +403,6 @@
             </LinearLayout>
 
 
-
             <com.google.android.material.floatingactionbutton.FloatingActionButton
                 android:id="@+id/develop_lock"
                 android:layout_width="wrap_content"
@@ -413,6 +417,29 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/tableLayout3"
                 app:srcCompat="@drawable/ic_baseline_lock_open_24_grupo" />
+
+            <TextView
+                android:id="@+id/main_login__random_phrase"
+                style="@style/Widget.AppCompat.TextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="#77FFFFFF"
+                android:gravity="center"
+                android:paddingLeft="20dp"
+                android:paddingTop="5dp"
+                android:paddingRight="20dp"
+                android:paddingBottom="5dp"
+                android:shadowColor="#FFFFFF"
+                android:text="TextView"
+                android:textColor="#000000"
+                android:textSize="14sp"
+                android:textStyle="bold"
+                app:layout_constraintBottom_toTopOf="@+id/main_login_content__registrarse"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/develop_lock"
+
+                app:layout_constraintVertical_bias="0.0" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </ScrollView>
@@ -430,6 +457,16 @@
         tools:visibility="gone" />
 
 
+    <include
 
+        layout="@layout/include__main__login__lang"
 
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:visibility="gone" />
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -531,33 +531,37 @@
                     android:layout_width="match_parent"
                     android:layout_height="1dp"
                     android:background="?android:attr/listDivider" />
+
+<!--                <LinearLayout-->
+<!--                    android:layout_width="match_parent"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:orientation="horizontal"-->
+<!--                    tools:visibility="gone">-->
+
+<!--                    <Spinner-->
+
+<!--                        android:id="@+id/sp_message_avanzado_allow_download_imagen"-->
+<!--                        android:layout_width="105dp"-->
+<!--                        android:layout_height="match_parent"-->
+
+<!--                        android:spinnerMode="dialog"-->
+<!--                        android:textSize="16sp" />-->
+
+<!--                    <TextView-->
+<!--                        android:id="@+id/tv_message_avanzado_allow_download_imagen"-->
+<!--                        android:layout_width="wrap_content"-->
+<!--                        android:layout_height="wrap_content"-->
+<!--                        android:text="TextView"-->
+<!--                        android:visibility="gone" />-->
+
+<!--                </LinearLayout>-->
+
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal">
-
-                    <Spinner
-
-                        android:id="@+id/sp_message_avanzado_allow_download_imagen"
-                        android:layout_width="105dp"
-                        android:layout_height="match_parent"
-
-                        android:spinnerMode="dialog"
-                        android:textSize="16sp" />
-
-                    <TextView
-                        android:id="@+id/tv_message_avanzado_allow_download_imagen"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="TextView"
-                        android:visibility="gone" />
-
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal">
+                    android:orientation="horizontal"
+                    android:visibility="gone"
+                    tools:visibility="gone">
 
                     <TextView
                         android:id="@+id/textView28"
@@ -612,57 +616,14 @@
 
                 </LinearLayout>
 
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="27dp"
-                    android:orientation="horizontal">
 
-                    <TextView
-                        android:id="@+id/grupo_info_conf_extra_encrip_titulo"
-                        android:layout_width="65dp"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="3dp"
-                        android:text="Extra" />
-
-                    <Spinner
-
-                        android:id="@+id/sp_message_avanzado_extra_aes_always"
-                        android:layout_width="105dp"
-                        android:layout_height="wrap_content"
-
-                        android:spinnerMode="dialog"
-                        android:textSize="16sp" />
-
-                    <TextView
-                        android:id="@+id/tv_message_avanzado_extra_aes_always"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="TextView"
-                        android:visibility="gone" />
-
-
-                    <TextView
-                        android:id="@+id/Descarga"
-                        android:layout_width="65dp"
-                        android:layout_height="wrap_content"
-                        android:text="Descarga" />
-
-                    <Spinner
-
-                        android:id="@+id/sp_message_avanzado_descarga"
-                        android:layout_width="105dp"
-                        android:layout_height="wrap_content"
-
-                        android:spinnerMode="dialog"
-                        android:textSize="16sp"
-                        android:visibility="visible" />
-
-                </LinearLayout>
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="20dp"
-                    android:orientation="horizontal">
+                    android:orientation="horizontal"
+                    android:visibility="gone"
+                    tools:visibility="gone">
 
                     <Button
 
@@ -698,14 +659,6 @@
                         app:strokeColor="#2655BB"
                         app:strokeWidth="0dp" />
 
-                    <Spinner
-                        android:id="@+id/sp_message_avanzado_time_values"
-                        android:layout_width="105dp"
-                        android:layout_height="match_parent"
-                        android:addStatesFromChildren="false"
-                        android:focusedByDefault="false"
-                        android:spinnerMode="dialog"
-                        android:textAlignment="center" />
 
 
                     <TextView
@@ -715,28 +668,14 @@
                         android:layout_marginStart="3dp"
                         android:text="Time" />
 
-                    <Spinner
-
-                        android:id="@+id/sp_message_avanzado_time_always"
-                        android:layout_width="105dp"
-                        android:layout_height="wrap_content"
-
-                        android:spinnerMode="dialog"
-                        android:textSize="16sp" />
-
-                    <TextView
-                        android:id="@+id/tv_message_avanzado_time_always"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="TextView"
-                        android:visibility="gone" />
 
                 </LinearLayout>
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="20dp"
-                    android:orientation="horizontal">
+                    android:orientation="horizontal"
+                    tools:visibility="gone">
 
 
                     <Space
@@ -744,21 +683,7 @@
                         android:layout_height="wrap_content"
                         android:layout_weight="1" />
 
-                    <Spinner
 
-                        android:id="@+id/sp_message_avanzado_anonimo_always"
-                        android:layout_width="105dp"
-                        android:layout_height="wrap_content"
-
-                        android:spinnerMode="dialog"
-                        android:textSize="16sp" />
-
-                    <TextView
-                        android:id="@+id/tv_message_avanzado_anonimo_always"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="TextView"
-                        android:visibility="gone" />
 
                 </LinearLayout>
 

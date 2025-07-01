@@ -10,4 +10,5 @@ public class HelpFrame {
     public void show(String s){
         view.show(s);
     }
+
 }

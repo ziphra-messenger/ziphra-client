@@ -608,12 +608,12 @@ public class MessageActivity extends GrupoSelectedCustomAppCompatActivity
 
         if (SingletonServer.getInstance().isDeveloper()) {
             findViewById(R.id.mensaje_de_prueba_boton).setOnClickListener(v -> {
-                txt.setText("Mensaje de prueba");
+                txt.setText("Mensaje de prueba " +  Singletons.generatorMessageTest().getCount());
                 //enviarMessageButtonOnClick();
             });
 
             findViewById(R.id.mensaje_de_prueba_boton2).setOnClickListener(v -> {
-                txt.setText("www.google.com");
+                txt.setText("www.google.com " +  Singletons.generatorMessageTest().getCount());
                 enviarMessageButtonOnClick();
             });
 

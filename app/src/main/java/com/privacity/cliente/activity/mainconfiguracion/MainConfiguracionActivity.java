@@ -8,6 +8,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.Spinner;
 import android.widget.Toast;
 
@@ -17,6 +18,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.privacity.cliente.R;
 import com.privacity.cliente.activity.mainconfiguracion.check.MainConfigurationCheckView;
+import com.privacity.cliente.frame.help.HelpFrame;
 import com.privacity.cliente.singleton.activity.SingletonCurrentActivity;
 import com.privacity.cliente.singleton.sharedpreferences.SharedPreferencesUtil;
 
@@ -34,13 +36,16 @@ public class MainConfiguracionActivity extends AppCompatActivity {
     private boolean flag = false;
 
     private MainConfigurationCheckView checkView;
+    private ImageButton serverHelp;
+    private ImageButton serverCheck;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_configuracion);
 
 
-        confSelected = (EditText) findViewById(R.id.main_conf_app_server_conf);
+
 
         SingletonCurrentActivity.getInstance().set(this);
         initActionBar();
@@ -57,6 +62,9 @@ public class MainConfiguracionActivity extends AppCompatActivity {
     }
 
     private void setListeners() {
+        serverHelp.setOnClickListener(view -> new HelpFrame().show(getServerHelp()));
+        serverCheck.setOnClickListener(view -> new HelpFrame().show(getServerCheck()));
+
         serverList.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
@@ -123,7 +131,9 @@ public class MainConfiguracionActivity extends AppCompatActivity {
     }
 
     private void initView() {
-
+        confSelected = (EditText) findViewById(R.id.main_conf_app_server_conf);
+        serverCheck = (ImageButton) findViewById(R.id.main_conf_app_server__check);
+        serverHelp = (ImageButton) findViewById(R.id.main_conf_app_server__help);
         serverList = (Spinner) findViewById(R.id.main_conf_app_server_list);
         protConf = (Spinner) findViewById(R.id.main_conf_app_server_conf_prot);
         portConf = (Spinner) findViewById(R.id.main_conf_app_server_conf_port);
@@ -164,7 +174,14 @@ public class MainConfiguracionActivity extends AppCompatActivity {
             } else if (portConf.getSelectedItemPosition() == 3) {
                 port = "8080";
                 portws = "8090";
+            } else if (portConf.getSelectedItemPosition() == 4) {
+                port = "80";
+                portws = "3000";
+            } else if (portConf.getSelectedItemPosition() == 5) {
+                port = "443";
+                portws = "8443";
             }
+
             SharedPreferencesUtil.saveWsServerProtocol(MainConfiguracionActivity.this, protws);
             SharedPreferencesUtil.saveAppServerProtocol(MainConfiguracionActivity.this, prot);
 
@@ -198,7 +215,7 @@ public class MainConfiguracionActivity extends AppCompatActivity {
     @Override
     public void onBackPressed() {
         super.onBackPressed();
-
+        validateUrl(true);
         this.finish();
     }
 
@@ -221,6 +238,8 @@ public class MainConfiguracionActivity extends AppCompatActivity {
         if ((appPort + CONSTANT__SLASH + wsPort).equals("80/90")) portConf.setSelection(1);
         if ((appPort + CONSTANT__SLASH + wsPort).equals("8080/8080")) portConf.setSelection(2);
         if ((appPort + CONSTANT__SLASH + wsPort).equals("8080/8090")) portConf.setSelection(3);
+        if ((appPort + CONSTANT__SLASH + wsPort).equals("80/3000")) portConf.setSelection(4);
+        if ((appPort + CONSTANT__SLASH + wsPort).equals("443/8443")) portConf.setSelection(5);
 
         if (appProto.contains("https")) {
             protConf.setSelection(1);
@@ -230,4 +249,13 @@ public class MainConfiguracionActivity extends AppCompatActivity {
 
 
     }
+
+    private String getServerHelp(){
+
+        return getString( R.string.main_configuration__check_connections__help);
+  }
+
+    private String getServerCheck(){
+        return getString( R.string.main_configuration_url_port__help);
+    };
 }

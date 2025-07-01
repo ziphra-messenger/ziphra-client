@@ -1,4 +1,17 @@
 <resources>
+
+
+
+    <string name="main_configuration_url_port">URL</string>
+    <string name="main_configuration_protocol">Protocolo</string>
+    <string name="main_configuration_ips_default">URL Default</string>
+
+
+    <string name="main_configuration_url_port__help">&lt;h1&gt;&#x1F4E1; Verificar conectividad del dispositivo&lt;/h1&gt;&lt;p&gt;Esta herramienta realiza un chequeo completo para asegurarse de que tu dispositivo pueda conectarse correctamente al servidor de la aplicación. A continuación te explicamos qué se verifica y qué significa cada paso.&lt;/p&gt;&lt;h2&gt;&#x1F4DD; Pasos del chequeo de conectividad&lt;/h2&gt;&lt;div class=&quot;paso&quot;&gt;&lt;h3&gt;1. Conexión Wi-Fi&lt;/h3&gt;&lt;p&gt;Se verifica si el dispositivo está conectado a una red Wi-Fi activa. Si no estás conectado, podés activar el Wi-Fi desde los ajustes del dispositivo.&lt;/p&gt;&lt;/div&gt;&lt;div class=&quot;paso&quot;&gt;&lt;h3&gt;2. Conexión por datos móviles&lt;/h3&gt;&lt;p&gt;En caso de no haber Wi-Fi, se comprueba si tenés datos móviles habilitados y disponibles. Asegurate de tener cobertura y un plan de datos activo.&lt;/p&gt;&lt;/div&gt;&lt;div class=&quot;paso&quot;&gt;&lt;h3&gt;3. Acceso a Internet&lt;/h3&gt;&lt;p&gt;Se intenta hacer una conexión a un sitio confiable para comprobar si el dispositivo tiene acceso real a Internet (no solo red local).&lt;/p&gt;&lt;/div&gt;&lt;div class=&quot;paso&quot;&gt;&lt;h3&gt;4. Conectividad con el servidor de la aplicación&lt;/h3&gt;&lt;p&gt;Finalmente, se prueba si el dispositivo puede acceder al servidor que configuraste previamente en la app.&lt;/p&gt;&lt;p&gt;Esto permite detectar si el servidor está en línea y accesible desde tu red actual.&lt;/p&gt;&lt;/div&gt;&lt;h2&gt;&#x1F50D; ¿Qué hacer si falla alguna prueba?&lt;/h2&gt;&lt;ul&gt;&lt;li&gt;Verificá que estés conectado a una red Wi-Fi o que los datos móviles estén activados.&lt;/li&gt;&lt;li&gt;Probá abrir una página web desde el navegador del dispositivo para confirmar el acceso a Internet.&lt;/li&gt;&lt;li&gt;Comprobá que la dirección del servidor esté bien escrita y sea accesible.&lt;/li&gt;&lt;li&gt;Consultá con tu proveedor de red o con el administrador del sistema si el servidor está bloqueado por alguna razón.&lt;/li&gt;&lt;/ul&gt;&lt;h2&gt;&#x1F4A1; Consejo&lt;/h2&gt;&lt;p&gt;Realizar este chequeo regularmente ayuda a prevenir errores de conexión antes de que afecten el funcionamiento de la aplicación.&lt;/p&gt;</string>
+    <string name="main_configuration__check_connections__help">&lt;h1&gt;&#x1F4D8; Configurar conexión&lt;/h1&gt;&lt;p&gt;Esta pantalla te permite configurar una conexión personalizada. Aquí podrás elegir el protocolo, escribir la URL del servidor y seleccionar el puerto correspondiente. Sigue los pasos a continuación para completar la configuración.&lt;/p&gt;&lt;h2&gt;1. Seleccionar el protocolo&lt;/h2&gt;&lt;p&gt;En el primer campo desplegable, elegí el tipo de protocolo que deseas usar:&lt;/p&gt;&lt;ul&gt;&lt;li&gt;&lt;strong&gt;http / ws&lt;/strong&gt;: Usado para conexiones no seguras.&lt;/li&gt;&lt;li&gt;&lt;strong&gt;https / wss&lt;/strong&gt;: Usado para conexiones seguras.&lt;/li&gt;&lt;/ul&gt;&lt;h2&gt;2. Escribir la URL&lt;/h2&gt;&lt;p&gt;En el campo de texto, ingresá la URL o dominio del servidor al que querés conectarte. No incluyas el protocolo ni el puerto, solo el nombre del dominio o dirección IP (por ejemplo: &lt;code&gt;mi-servidor.com&lt;/code&gt; o &lt;code&gt;192.168.0.10&lt;/code&gt;).&lt;/p&gt;&lt;h2&gt;3. Elegir el puerto&lt;/h2&gt;&lt;p&gt;Según el protocolo elegido, el sistema mostrará un segundo menú desplegable con los puertos disponibles:&lt;/p&gt;&lt;ul&gt;&lt;li&gt;Para &lt;strong&gt;http / ws&lt;/strong&gt;, los puertos comunes son: &lt;code&gt;80&lt;/code&gt; y &lt;code&gt;3000&lt;/code&gt;.&lt;/li&gt;&lt;li&gt;Para &lt;strong&gt;https / wss&lt;/strong&gt;, los puertos comunes son: &lt;code&gt;443&lt;/code&gt; y &lt;code&gt;8443&lt;/code&gt;.&lt;/li&gt;&lt;/ul&gt;&lt;p&gt;Seleccioná el puerto correspondiente desde el menú desplegable.&lt;/p&gt;&lt;h2&gt;4. Guardar la configuración&lt;/h2&gt;&lt;p&gt;Una vez que hayas seleccionado el protocolo, ingresado la URL y elegido el puerto, presioná el botón &lt;strong&gt;&quot;Guardar&quot;&lt;/strong&gt;.&lt;/p&gt;&lt;p&gt;Esto generará una dirección final con el siguiente formato:&lt;/p&gt;&lt;p&gt;&lt;code&gt;protocolo://URL:puerto&lt;/code&gt;&lt;/p&gt;&lt;p&gt;Por ejemplo: &lt;code&gt;https://mi-servidor.com:443&lt;/code&gt;&lt;/p&gt;&lt;h2&gt;&#x1F4A1; Consejo&lt;/h2&gt;&lt;p&gt;Si no estás seguro de qué protocolo o puerto usar, consultá con el administrador del sistema o revisá la documentación del servidor al que te estás conectando.&lt;/p&gt;</string>
+
+<string name="main_configuration__check_connections">Chequear Conexiones</string>
+
     <string name="general__inform__problem">Si el problema persiste infórmelo</string>
 
 
@@ -60,6 +73,14 @@
     <string name="general__new_password">Nueva contraseña</string>
     <string name="general__password_confirmar">Confirmación</string>
     <string name="general__save">Guardar</string>
+    <string name="general__test">Probar</string>
+
+
+    <string name="general__internet">Internet</string>
+    <string name="general__mobile_data">Datos Móviles</string>
+    <string name="general__wifi">WIFI</string>
+    <string name="general__server">Servidor</string>
+
     <string name="general__save_close">Guardar y Cerrar</string>
     <string name="general__confirm">Confirmar</string>
     <string name="general__are_u_sure">¿Estás Seguro?</string>
@@ -138,7 +159,7 @@
     <string name="main_login__alert__sin_internet__detail">Verifique su conexión a internet.</string>
     <string name="main_login__validate_password__empty">No puede estar vacío</string>
     <string name="main_login__validate_usuario__empty">No puede estar vacío</string>
-    <string name="main_login__title">Privacity</string>
+    <string name="main_login__title">Ziphra</string>
     <string name="main_login__alert__servidor_no_responde__title">El servidor configurado no responde</string>
     <string name="main_login__alert__servidor_no_responde___detail">Verifique la configuración</string>
 
@@ -208,7 +229,7 @@
     <string name="addmember_activity__invitation_message__validate__caracteres_disponibles">Caracteres disponibles %1$s.</string>
     <string name="addmember_activity__invitation_code__validate__empty">El código de invitación no puede estar vacío</string>
     <string name="addmember_activity__send_invitation__success">El Usuario ha sido Invitado</string>
-    <string name="grupo_activity__title">Privacity - Grupos</string>
+    <string name="grupo_activity__title">Ziphra - Grupos</string>
     <string name="grupo_activity__query_hint">Buscar título</string>
     <string name="grupo_activity__powerservice__title">SOLICITUD DE PERMISO</string>
     <string name="grupo_activity__powerservice__detail">En la siguiente pantalla se le solicitara permisos para poder continuar recibiendo mensajes cuando el móvil entre en modo reposo. La aplicación utiliza su propia recepción de mensajes, por seguridad descarta soluciones de terceros como las proporcionadas por Google. Garantizamos que no afectará en consumo de la batería, ni del consumo de datos más de lo estrictamente necesario.\nSi acepta puede cambiar la configuración en cualquier momento. Si no acepta seguirá funcionando, pero en Modo Reposo no recibirá notificación alguna.</string>
@@ -224,7 +245,7 @@
     <string name="imagefull_activity__validation__download__not_allowed">La configuración del Mensaje no permite la descarga</string>
     <string name="imagefull_activity__validation__download__success">Archivo Descargado</string>
     <string name="lock_activity__validation__password__fail">Contraseña Incorrecta\nIntento %1$s de %2$s</string>
-    <string name="addgrupo_activity__title">Privacity - Crear Grupo</string>
+    <string name="addgrupo_activity__title">Ziphra - Crear Grupo</string>
     <string name="addgrupo_activity__grupo_created">GRUPO CREADO</string>
     <string name="addgrupo_activity__alert__error_encrypt_title">ERROR ENCRIPTACION</string>
     <string name="addgrupo_activity__submit">Crear</string>
@@ -297,13 +318,13 @@
     <string name="frame_my_account_loguin_skip__title">Saltar pantalla de ingreso</string>
     <string name="message_detail_activity__hide_read_message">Se oculta a los miembros del grupo que has leído este mensaje</string>
     <string name="message_detail__hide_state_grupo_txt">El grupo está configurado para ocultar el estado de todos los mensajes, solo tú puedes ver el estado de tu actividad</string>
-    <string name="message_detail_activity__title">Privacity – Detalles del Mensaje</string>
+    <string name="message_detail_activity__title">Ziphra – Detalles del Mensaje</string>
 
 
     <string name="frame_grupo_info__member__title">Integrantes</string>
     <string name="frame_grupo_info__hide_member__admin_message_txt">El grupo está configurado para que unicamente el Administrador pueda ver la lista completa de Integrantes</string>
-    <string name="privacity_environment">General</string>
-    <string name="app_name">Privacity</string>
+    <string name="Ziphra_environment">General</string>
+    <string name="app_name">Ziphra</string>
     <string name="error_codigo">ERROR CÓDIGO</string>
     <string name="ok">OK</string>
     <string name="close">Cerrar</string>
@@ -522,7 +543,7 @@
     <string name="help_tag_myaccount_login_skip">/myaccount/loginskip.html</string>
 
     <!-- General -->
-    <string name="general__title">Privacity</string>
+    <string name="general__title">Ziphra</string>
     <string name="tag_admin_gone">[Admin][gone]</string>
     <string name="tag_admin_disabled">[Admin][disabled]</string>
     <string name="tag_admin_clickcontext">[Admin][clickcontext]</string>
@@ -532,4 +553,88 @@
     <string name="not_translate_general__roles__member">Miembro</string>
     <string name="not_translate_general__roles__readonly">Solo Lectura</string>
     <string name="rol_no_admin_message">NO_ADMIN_MESSAGE</string>
+
+
+    <string name="random_phrases_0">Mensajes que desaparecen.\nConfianza que permanece.</string>
+    <string name="random_phrases_1">Privacidad total, cero rastro.</string>
+    <string name="random_phrases_2">Habla libremente.\nNo dejes nada atrás.</string>
+    <string name="random_phrases_3">Sin huella.\nSin compromiso.</string>
+    <string name="random_phrases_4">Privacidad reinventada.</string>
+    <string name="random_phrases_5">Porque Ziphra no deja evidencia.</string>
+    <string name="random_phrases_6">Habla inteligentemente.\nDesaparece más inteligentemente.</string>
+    <string name="random_phrases_7">Di lo que sea.\nNo te arrepientas de nada.</string>
+    <string name="random_phrases_8">Confidencial por diseño.</string>
+    <string name="random_phrases_9">Para conversaciones que no deberían quedarse.</string>
+    <string name="random_phrases_10">Donde la privacidad no es opcional.</string>
+    <string name="random_phrases_11">Tus palabras, tus reglas.</string>
+    <string name="random_phrases_12">Libertad para Hablar.\nPoder del Anonimato</string>
+    <string name="random_phrases_13">Habla con audacia.\nNo dejes ninguna pista.</string>
+    <string name="random_phrases_14">Solo tú decides quién recuerda.</string>
+    <string name="random_phrases_15">La privacidad tiene un nuevo nombre.</string>
+    <string name="random_phrases_16">Nada guardado.\nNada robado.</string>
+    <string name="random_phrases_17">Encriptado.\nEfímero.\nEmpoderado.</string>
+    <string name="random_phrases_18">Sin rastros.\nSolo la verdad.</string>
+    <string name="random_phrases_19">Desaparece después de la entrega.</string>
+    <string name="random_phrases_20">Comparte sin sacrificios.</string>
+    <string name="random_phrases_21">Conversaciones sin consecuencias.</string>
+    <string name="random_phrases_22">Diseñado para ti.\nHecho para una libertad sin miedo.</string>
+    <string name="random_phrases_23">Un mensajero que olvida a propósito.</string>
+    <string name="random_phrases_24">Habla sin dejar rastro.</string>
+    <string name="random_phrases_25">Envíalo como si nunca hubiera sucedido.</string>
+    <string name="random_phrases_26">La verdadera privacidad comienza aquí.</string>
+    <string name="random_phrases_27">Habla.\nDesaparece.\nRepite.</string>
+    <string name="random_phrases_28">No dejes rastro, solo impacto.</string>
+    <string name="random_phrases_29">Cuando la privacidad no es negociable.</string>
+    <string name="random_phrases_30">Conversaciones instantáneas.\nCero evidencia.</string>
+    <string name="random_phrases_31">Dilo en voz alta.\nDesaparece rápido.</string>
+    <string name="random_phrases_32">Palabras que se desvanecen, confianza duradera.</string>
+    <string name="random_phrases_33">Mensajes que no se quedan.</string>
+    <string name="random_phrases_34">Para aquellos que valoran la privacidad.</string>
+    <string name="random_phrases_35">Habla extraoficialmente, siempre.</string>
+    <string name="random_phrases_36">Borra el pasado, al instante.</string>
+    <string name="random_phrases_37">Lo que sucede en el chat, se queda en el chat.</string>
+    <string name="random_phrases_38">Sé escuchado.\nLuego desaparece.</string>
+    <string name="random_phrases_39">Privado por defecto.\nSiempre.</string>
+    <string name="random_phrases_40">Habla sin dejar rastro.</string>
+    <string name="random_phrases_41">Olvidable por las razones correctas.</string>
+    <string name="random_phrases_42">Anónimo.\nSeguro.\nProtegido.</string>
+    <string name="random_phrases_43">Di lo que piensas, luego desaparece.</string>
+    <string name="random_phrases_44">Mensajería a nivel fantasma.</string>
+    <string name="random_phrases_45">Invisible por intención.</string>
+    <string name="random_phrases_46">Sin copias.\nSin registros.\nSin preocupaciones.</string>
+    <string name="random_phrases_47">Comparte sin miedo.</string>
+    <string name="random_phrases_48">Habla con seguridad.\nBorra automáticamente.</string>
+    <string name="random_phrases_49">Nada que filtrar.\nNada que hackear.</string>
+    <string name="random_phrases_50">Conversación privada.\nConfianza pública.</string>
+    <string name="random_phrases_51">Seguridad que puedes sentir.\nMensajes que no puedes encontrar.</string>
+    <string name="random_phrases_52">El futuro de los mensajes olvidados.</string>
+    <string name="random_phrases_53">Borra a medida que avanzas.</string>
+    <string name="random_phrases_54">Desaparece con dignidad.</string>
+    <string name="random_phrases_55">Porque borrar no es suficiente.</string>
+    <string name="random_phrases_56">Diseñado para los preocupados por la privacidad.</string>
+    <string name="random_phrases_57">Dilo.\nAprópiate.\nPiérdelo.</string>
+    <string name="random_phrases_58">Adelante.\nDi lo que sea.</string>
+    <string name="random_phrases_59">Cero datos dejados atrás.</string>
+    <string name="random_phrases_60">Como hablar con el viento.</string>
+    <string name="random_phrases_61">Habla sin filtros.\nNo dejes registro.</string>
+    <string name="random_phrases_62">Habla como si nadie estuviera mirando.</string>
+    <string name="random_phrases_63">Desaparecido en segundos.\nSeguro de por vida.</string>
+    <string name="random_phrases_64">Porque no todo necesita ser recordado.</string>
+    <string name="random_phrases_65">Di más, deja menos.</string>
+    <string name="random_phrases_66">Habla con valentía.\nDesaparece limpiamente.</string>
+    <string name="random_phrases_67">No solo encriptado.\Borrado.</string>
+    <string name="random_phrases_68">El anonimato es la verdadera seguridad.</string>
+    <string name="random_phrases_69">Nada almacenado.\nNada compartido.</string>
+    <string name="random_phrases_70">Elimina el riesgo.</string>
+    <string name="random_phrases_71">Habla fuerte.\nDesaparece con orgullo.</string>
+    <string name="random_phrases_72">Tranquilidad en cada mensaje.</string>
+    <string name="random_phrases_73">Donde los secretos permanecen secretos.</string>
+    <string name="random_phrases_74">Envía con confianza.\nDesaparece con elegancia.</string>
+    <string name="random_phrases_75">Nada que guardar, nada que temer.</string>
+    <string name="random_phrases_76">Tus mensajes, tu estrategia de salida.</string>
+    <string name="random_phrases_77">Elimina la duda.</string>
+    <string name="random_phrases_78">Solo dilo.\nLo haremos desaparecer.</string>
+    <string name="random_phrases_79">Porque la memoria puede ser una responsabilidad.</string>
+    <string name="random_phrases_80">Dilo.\nEnvíalo.\nDesaparecido.</string>
+
 </resources>

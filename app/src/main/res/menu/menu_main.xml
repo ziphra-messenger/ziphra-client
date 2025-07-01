@@ -16,4 +16,7 @@
     <item
         android:id="@+id/main_login__lang_portuguese"
         android:title="🇧🇷  Português" />
+    <item android:title="@string/frame_my_account_lang__title"
+        android:id="@+id/main_login__lang"
+        />
 </menu>

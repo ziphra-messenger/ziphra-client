@@ -94,8 +94,8 @@ public class RecyclerHolder extends RecyclerView.ViewHolder /*implements View.On
     private final ImageButton ibMessageItemlistMediaDownloadReply;
     private final ProgressBar progressBarMessageItemlistMediaDownloadReply;
 
-    private final Button tvStateReply;
-
+    private final TextView tvStateReply;
+    private final StateIcons stateIconsReply;
     //my_message
     private final LinearLayout layoutPersonalEncrypt;
     private final Button btPersonalEncryptLockClose;
@@ -274,6 +274,7 @@ public class RecyclerHolder extends RecyclerView.ViewHolder /*implements View.On
             rch.getReply().setProgressBarMessageItemlistMediaDownload(progressBarMessageItemlistMediaDownloadReply);
 
             rch.getReply().setTvState(tvStateReply);
+            rch.getReply().setStateIcons(stateIconsReply);
             rch.getReply().setLayoutRemitenteContent(layoutRemitenteContentReply);
 
 
@@ -615,8 +616,7 @@ public class RecyclerHolder extends RecyclerView.ViewHolder /*implements View.On
         RandomNickname.processRandomNickname(item,rch,isReply,messageActivity);
         if(!item.getMessage().isBlackMessage() &&
                 !item.getMessage().amITimeMessage() &&
-                !item.getMessage().isSecretKeyPersonal() &&
-                !item.getMessage().amIReplyMessage()     ){
+                !item.getMessage().isSecretKeyPersonal()  ){
 
             rch.getLayoutMessageFrame().setVisibility(View.VISIBLE);
 
@@ -788,7 +788,22 @@ public class RecyclerHolder extends RecyclerView.ViewHolder /*implements View.On
         ibMessageItemlistMediaDownloadReply = (ImageButton) itemView.findViewById(R.id.reply_msg_list_layout_image_download);
         progressBarMessageItemlistMediaDownloadReply = (ProgressBar) itemView.findViewById(R.id.reply_msg_list_layout_progressbar_download);
 
-        tvStateReply = (Button) itemView.findViewById(R.id.reply_msg_list_tv_state);
+
+
+        tvStateReply = (TextView) itemView.findViewById(R.id.reply_msg_list_tv_state);
+
+        this.stateIconsReply = new StateIcons()
+                .isHideReadState((Button) itemView.findViewById(R.id.reply_msg_list_hide_read_state_icon))
+                .isExtraEncrypt((Button) itemView.findViewById(R.id.reply_msg_list_extraencrypt_icon))
+                .isBlack((Button) itemView.findViewById(R.id.reply_msg_list_black_icon))
+                .isRandomNickname((Button) itemView.findViewById(R.id.reply_msg_list_random_nickname_icon))
+                .isAnonimo((Button) itemView.findViewById(R.id.reply_msg_list_anonimo_icon))
+                .isResend((Button) itemView.findViewById(R.id.reply_msg_list_is_resend_icon))
+                .isBlockDownload((Button) itemView.findViewById(R.id.reply_msg_list_block_download_icon))
+                .isTime((Button) itemView.findViewById(R.id.reply_msg_list_is_time_icon))
+                .isAudioMessage((Button) itemView.findViewById(R.id.reply_msg_list_is_audio_message_icon))
+                .isBlockResend((Button) itemView.findViewById(R.id.reply_msg_list_block_resend_icon));
+
         //my_message
         layoutAllMessage = (LinearLayout) itemView.findViewById(R.id.msg_list_layout_all_message);
         layoutPersonalEncrypt = (LinearLayout) itemView.findViewById(R.id.msg_list_layout_personal_encrypt);

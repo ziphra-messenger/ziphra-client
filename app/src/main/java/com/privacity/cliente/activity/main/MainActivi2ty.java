@@ -41,6 +41,7 @@ import com.privacity.cliente.activity.common.DeveloperElements;
 import com.privacity.cliente.activity.common.GetButtonReady;
 import com.privacity.cliente.activity.grupo.GrupoActivity;
 import com.privacity.cliente.activity.mainconfiguracion.MainConfiguracionActivity;
+import com.privacity.cliente.activity.myaccount.MyAccountLangFrame;
 import com.privacity.cliente.activity.reconnect.ReconnectFrame;
 import com.privacity.cliente.activity.registro.RegistroActivity;
 import com.privacity.cliente.common.component.SecureFieldAndEye;
@@ -92,7 +93,7 @@ public class MainActivi2ty extends AppCompatActivity {
     private TextView tvVersion;
     private View contentAll;
     //private String version="";
-
+    TextView randomPhrase;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         try {
@@ -193,18 +194,18 @@ public class MainActivi2ty extends AppCompatActivity {
     protected void onStart() {
         super.onStart();
         setDefaultServer();
-        ServerConfRest.getTime(this, null, new InnerCallbackRest() {
-            @Override
-            public void action(Context context) {
-            }
-        });
+//        ServerConfRest.getTime(this, null, new InnerCallbackRest() {
+//            @Override
+//            public void action(Context context) {
+//            }
+//        });
 
     }
 
     @Override
     protected void onResume() {
 
-
+        new MyAccountLangFrame(this);
         super.onResume();
         //restart(this);
 
@@ -322,9 +323,23 @@ public class MainActivi2ty extends AppCompatActivity {
         initMainView();
     }
 
+    private void setRandomPhrase() {
+        String frase = Singletons.randomPhrases().getPhrase();
+        randomPhrase.setText(frase);
+    }
+
     private void initMainView() {
+        randomPhrase = (TextView) findViewById(R.id.main_login__random_phrase);
 
-
+        {
+            setRandomPhrase();
+            randomPhrase.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    setRandomPhrase();
+                }
+            });
+        }
 
 
 
@@ -363,6 +378,8 @@ public class MainActivi2ty extends AppCompatActivity {
 
 
     }
+
+
 
     private void initListener() {
 
@@ -486,6 +503,9 @@ public class MainActivi2ty extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem itemMenu) {
+        if ( itemMenu.getItemId() == R.id.main_login__lang) {
+            findViewById(R.id.my_account_lang_all).setVisibility(View.VISIBLE);
+        }
         if ( itemMenu.getItemId() == R.id.main_login__lang_espanol) {
             setLocale(LanguageCode.es.toString());}
         if ( itemMenu.getItemId() == R.id.main_login__lang_english){

@@ -3,6 +3,7 @@ package com.privacity.cliente.frame.help;
 import android.animation.Animator;
 import android.app.Activity;
 import android.os.Build;
+import android.text.Html;
 import android.text.method.ScrollingMovementMethod;
 import android.view.View;
 import android.view.ViewAnimationUtils;
@@ -90,14 +91,23 @@ public class HelpView {
     }
 
     private Activity getActivity() {
-        return SingletonCurrentActivity.getInstance().get();
+        Activity activity = SingletonCurrentActivity.getInstance().get();
+        return activity;
     }
 
     public void show(String s) {
+        txt.setText("");
+        txt.setText(Html.fromHtml(s, Html.FROM_HTML_MODE_LEGACY));
+
+        changeVisibility(View.VISIBLE);
+
+    }/*
+    public void show(String s) {
+
         txt.setText(s);
 
         changeVisibility(View.VISIBLE);
-    }
+    }*/
 
     private String getStringResourceByName(String aString) {
         String packageName =getActivity().getPackageName();
