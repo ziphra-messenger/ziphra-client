@@ -28,10 +28,15 @@
 
 privacity-client/
 ├── app/
+
 │   ├── java/com/privacity/         # Android client source code
+
 │   ├── res/                        # UI resources
+
 │   └── build.gradle                # Client build config
+
 ├── lib/                            # Shared libraries (local module)
+
 └── version.properties              # Auto-managed versioning info
 
 ````
