@@ -1,12 +1,14 @@
 package com.privacity.cliente.util;
 
 import android.app.Activity;
+import android.graphics.Color;
 import android.text.InputFilter;
+import android.view.View;
 import android.widget.TextView;
 
 import com.privacity.cliente.R;
 import com.privacity.cliente.singleton.Observers;
-import com.privacity.cliente.singleton.SingletonValues;
+import com.privacity.cliente.singleton.Singletons;
 import com.privacity.common.config.ConstantValidation;
 
 import org.apache.commons.lang3.RandomStringUtils;
@@ -22,7 +24,7 @@ public class NicknameUtil {
                 RandomStringUtils.randomNumeric(4);
     }
     public static boolean compareCurrentNickname(TextView t) {
-        return SingletonValues.getInstance().getUsuario().getNickname().equals(t.getText().toString());
+        return Singletons.usuario().getUsuario().getNickname().equals(t.getText().toString());
     }
 
     public static boolean compareCurrentNickname(String idGrupo , TextView t) {
@@ -33,6 +35,7 @@ public class NicknameUtil {
     public static boolean validarNickname(Activity activity, TextView t) {
         return validarNickname(activity,t, false);
     }
+
     public static boolean validarNickname(Activity activity, TextView t, boolean empty) {
 
         if (t.getText().toString().equals("") && empty== false){
@@ -40,10 +43,31 @@ public class NicknameUtil {
 
             return false;
         } else if (t.getText().toString().length() > ConstantValidation.USER_NICKNAME_MAX_LENGTH){
-            t.setError(activity.getResources().getString(R.string.registro_validation_nickname_too_long));
+            t.setError(activity.getResources().getString(R.string.registro_validation_nickname_too_long,ConstantValidation.USER_NICKNAME_MAX_LENGTH+""));
             return false;
 
         }
+        return true;
+    }
+
+    public static boolean validarNickname(Activity activity, TextView t, TextView errorField) {
+        return validarNickname(activity,t,errorField,false);
+    }
+    public static boolean validarNickname(Activity activity, TextView t, TextView errorField, boolean empty) {
+
+        if (t.getText().toString().equals("") && empty== false){
+            errorField.setText(activity.getResources().getString(R.string.registro_validation_nickname_empty));
+            errorField.setVisibility(View.VISIBLE);
+            errorField.setTextColor(Color.RED);
+            return false;
+        } else if (t.getText().toString().length() > ConstantValidation.USER_NICKNAME_MAX_LENGTH){
+            errorField.setText(activity.getResources().getString(R.string.registro_validation_nickname_too_long,ConstantValidation.USER_NICKNAME_MAX_LENGTH+""));
+            errorField.setVisibility(View.VISIBLE);
+            errorField.setTextColor(Color.RED);
+            return false;
+
+        }
+        errorField.setVisibility(View.GONE);
         return true;
     }
 }

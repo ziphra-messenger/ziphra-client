@@ -1,7 +1,8 @@
 package com.privacity.cliente.singleton.observers;
 
 import com.privacity.cliente.singleton.interfaces.ObservadoresPassword;
-import com.privacity.cliente.singleton.interfaces.SingletonReset;
+import com.privacity.cliente.util.ToolsUtil;
+import com.privacity.common.SingletonReset;
 
 import java.util.LinkedHashSet;
 import java.util.Set;
@@ -22,7 +23,9 @@ public class ObserverPassword implements SingletonReset {
 
     @Override
     public void reset() {
-        instance = null;
+        ToolsUtil.forceGarbageCollector(o);
+        ToolsUtil.forceGarbageCollector(instance);
+
     }
 
 

@@ -5,10 +5,11 @@ import com.privacity.cliente.rest.CallbackRest;
 import com.privacity.cliente.rest.RestExecute;
 import com.privacity.cliente.singleton.Observers;
 import com.privacity.cliente.singleton.SingletonValues;
-import com.privacity.cliente.util.GsonFormated;
-import com.privacity.common.config.ConstantProtocolo;
-import com.privacity.common.dto.IdDTO;
-import com.privacity.common.dto.ProtocoloDTO;
+import com.privacity.cliente.singleton.UtilsStringSingleton;
+import com.privacity.common.dto.GrupoDTO;
+import com.privacity.cliente.model.dto.Protocolo;
+import com.privacity.common.enumeration.ProtocoloActionsEnum;
+import com.privacity.common.enumeration.ProtocoloComponentsEnum;
 
 import org.springframework.http.ResponseEntity;
 
@@ -18,6 +19,8 @@ import java.util.List;
 import ua.naiksoftware.stomp.StateProcess;
 
 public class LoadingActivityGrupoRestDelegate {
+
+    private static final String TAG = "LoadingActivityGrupoRestDelegate";
     private final LoadingActivity loadingActivity;
 
     public LoadingActivityGrupoRestDelegate(LoadingActivity loadingActivity) {
@@ -29,19 +32,32 @@ public class LoadingActivityGrupoRestDelegate {
         loadingActivity.addTextConsole("Getting Ids My Grupos");
         SingletonValues.getInstance().setGrupoSeleccionado(null);
 
-        ProtocoloDTO p = new ProtocoloDTO();
-        p.setComponent(ConstantProtocolo.PROTOCOLO_COMPONENT_GRUPO);
-        p.setAction(ConstantProtocolo.PROTOCOLO_ACTION_GRUPO_GET_IDS_MY_GRUPOS
+        Protocolo p = new Protocolo();
+        p.setComponent(ProtocoloComponentsEnum.GRUPO);
+        p.setAction(ProtocoloActionsEnum.GRUPO_GET_IDS_MY_GRUPOS
         );
         RestExecute.doit(loadingActivity, p,
                 new CallbackRest() {
 
                     @Override
-                    public void response(ResponseEntity<ProtocoloDTO> response) {
-
+                    public void response(ResponseEntity<Protocolo> response) {
+                        GrupoDTO[] l;
                         try {
-                            IdDTO[] l = GsonFormated.get().fromJson(response.getBody().getObjectDTO(), IdDTO[].class);
+                            if (response.getBody().getObjectDTO() == null){
+                                l = new GrupoDTO[0];
+                            }else{
+                                l = UtilsStringSingleton.getInstance().gson().fromJson(response.getBody().getObjectDTO(), GrupoDTO[].class);
+                            }
 
+
+//                            if (l==null){
+//                                loadingActivity.addTextConsole("My Ids Grupos Count:" + 0);
+//                                loadingActivity.setCountGruposOK(0);
+//                                loadingActivity.setCountGruposPROCESSED(0);
+//                                loadingActivity.setGetGrupos(StateProcess.SUCESS);
+//                                loadingActivity.endProcess();
+//                                return;
+//                            }
                             loadingActivity.setCountGruposTOTAL(l.length);
 
                             loadingActivity.addTextConsole("My Ids Grupos Count:" + l.length);
@@ -68,7 +84,7 @@ public class LoadingActivityGrupoRestDelegate {
                     }
 
                     @Override
-                    public void onError(ResponseEntity<ProtocoloDTO> response) {
+                    public void onError(ResponseEntity<Protocolo> response) {
                         loadingActivity.setGetGrupos(StateProcess.FAIL);
 
                         loadingActivity.addTextConsole("get Grupos onError STATUS: " + response.getStatusCode());
@@ -88,13 +104,13 @@ public class LoadingActivityGrupoRestDelegate {
 
     }
 
-    void getGruposThread(IdDTO[] g) {
+    void getGruposThread(GrupoDTO[] g) {
 
-        final List<List<IdDTO>> toProcess = new ArrayList<List<IdDTO>>();
+        final List<List<GrupoDTO>> toProcess = new ArrayList<List<GrupoDTO>>();
         int j = 0;
         for (int i = 1; i < g.length + 1; i++) {
             if (toProcess.size() < j + 1) {
-                toProcess.add(j, new ArrayList<IdDTO>());
+                toProcess.add(j, new ArrayList<GrupoDTO>());
             }
             toProcess.get(j).add(g[i - 1]);
 
@@ -109,34 +125,36 @@ public class LoadingActivityGrupoRestDelegate {
 
     }
 
-    public void getGrupoById(List<IdDTO> g) {
+    public void getGrupoById(List<GrupoDTO> g) {
         loadingActivity.addTextConsole("Getting Grupo by Ids");
         g.stream().forEach(grupo ->
-                loadingActivity.addTextConsole("Getting Grupo id : " + grupo.getId())
+                loadingActivity.addTextConsole("Getting Grupo id : " + grupo.getIdGrupo())
         );
-        ProtocoloDTO p = new ProtocoloDTO();
-        p.setComponent(ConstantProtocolo.PROTOCOLO_COMPONENT_GRUPO);
-        p.setAction(ConstantProtocolo.PROTOCOLO_ACTION_GRUPO_GET_GRUPO_BY_IDS);
+        Protocolo p = new Protocolo();
+        p.setComponent(ProtocoloComponentsEnum.GRUPO);
+        p.setAction(ProtocoloActionsEnum.GRUPO_GET_GRUPO_BY_IDS);
 
-        p.setObjectDTO(GsonFormated.get().toJson(g));
+        p.setObjectDTO(UtilsStringSingleton.getInstance().gsonToSend(g));
 
         RestExecute.doit(loadingActivity, p,
                 new CallbackRest() {
 
                     private int countGruposPROCESSEDInterno=0;
                     @Override
-                    public void response(ResponseEntity<ProtocoloDTO> response) {
+                    public void response(ResponseEntity<Protocolo> response) {
+                        //Log.d(TAG,"response.getBody(): " + response.getBody());
+                        //Log.d(TAG,"response.getBody().getObjectDTO(): " + response.getBody().getObjectDTO());
+                        GrupoDTO[] l = UtilsStringSingleton.getInstance().gson().fromJson(response.getBody().getObjectDTO(), GrupoDTO[].class);
 
-                        Grupo[] l = GsonFormated.get().fromJson(response.getBody().getObjectDTO(), Grupo[].class);
-
-                        for (int i = 0; i < l.length; i++) {
-                            Observers.grupo().addGrupo(l[i], false);
+                        for (GrupoDTO grupoDTO : l) {
+                            Observers.grupo().addGrupo(new Grupo(grupoDTO), false);
+                            //Log.d(TAG,"l[i]: " + UtilsStringSingleton.getInstance().gson().toJson(l[i]));
                             countGruposPROCESSEDInterno++;
                         }
                     }
 
                     @Override
-                    public void onError(ResponseEntity<ProtocoloDTO> response) {
+                    public void onError(ResponseEntity<Protocolo> response) {
                         loadingActivity.addTextConsole("Group onError: " + response.getStatusCode() + " Codigo Error: " + response.getBody().getCodigoRespuesta());
                         loadingActivity.setCountGruposPROCESSED(loadingActivity.getCountGruposPROCESSED() +  g.size() - countGruposPROCESSEDInterno);
                         loadingActivity.addTextConsole("Grupo Procesados : " + loadingActivity.getCountGruposPROCESSED() + "/" + loadingActivity.getCountGruposTOTAL());

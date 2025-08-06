@@ -9,7 +9,7 @@
     <LinearLayout
         android:id="@+id/linearLayout3"
         android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="450dp"
         android:layout_marginStart="3dp"
         android:layout_marginTop="10dp"
         android:layout_marginEnd="3dp"
@@ -68,6 +68,7 @@
                         android:drawableEnd="@drawable/ic_baseline_clear_24"
                         android:gravity="center|center_horizontal|center_vertical"
                         android:inputType="textPersonName"
+                        android:maxLines="1"
                         android:textAlignment="center" />
 
                     <ImageButton
@@ -100,8 +101,12 @@
                 <TextView
                     android:id="@+id/codigo_invitacion_validate"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:gravity="center" />
+                    android:layout_height="35dp"
+                    android:gravity="center"
+                    android:maxWidth="280dp"
+                    android:maxHeight="35dp"
+                    android:maxLines="2"
+                    android:minHeight="35dp" />
             </TableRow>
 
             <TableRow
@@ -129,14 +134,24 @@
 
                 <Button
                     android:id="@+id/bt_myaccount_generar_codigo_invitacion"
+                    style="@style/botonMarquee"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_height="40dp"
                     android:layout_gravity="center|center_vertical"
+
                     android:layout_marginTop="10dp"
+                    android:ellipsize="marquee"
+                    android:enabled="true"
                     android:gravity="center|center_horizontal|center_vertical"
-                    android:text="Generar Nuevo \n y Guardar"
+                    android:maxWidth="280dp"
+                    android:minWidth="10dp"
+                    android:scrollHorizontally="true"
+                    android:singleLine="true"
+                    android:text="@string/codigoinvitacion_activity__generate_and_save"
                     app:cornerRadius="20dp"
-                    app:icon="@drawable/ic_baseline_miscellaneous_services_24" />
+                    app:icon="@drawable/ic_baseline_miscellaneous_services_24"
+                    app:strokeColor="#8FFF0000"
+                    app:strokeWidth="7px" />
 
             </TableRow>
 
@@ -161,25 +176,37 @@
 
                         <Button
                             android:id="@+id/bt_codigo_invitacion_reset"
+                            style="@style/botonMarquee"
                             android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
+                            android:layout_height="40dp"
                             android:layout_marginEnd="15dp"
-                            android:text="Reset"
+                            android:ellipsize="marquee"
+
+                            android:maxWidth="180dp"
+                            android:scrollHorizontally="true"
+                            android:singleLine="true"
+                            android:text="@string/codigoinvitacion_activity__reset"
                             app:cornerRadius="20dp"
-                            app:icon="@drawable/ic_baseline_360_24" />
+                            app:icon="@drawable/ic_action_undo" />
 
                         <Button
                             android:id="@+id/bt_myaccount_codigo_invitacion_guardar"
+                            style="@style/botonMarquee"
                             android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
+                            android:layout_height="40dp"
                             android:layout_marginStart="15dp"
-                            android:text="Guardar"
+                            android:ellipsize="marquee"
+
+                            android:maxWidth="180dp"
+                            android:scrollHorizontally="true"
+                            android:singleLine="true"
+                            android:text="@string/codigoinvitacion_activity__save"
                             app:cornerRadius="20dp"
-                            app:icon="@drawable/ic_baseline_cloud_upload_24" />
+                            app:icon="@drawable/ic_action_confirm_tilde" />
                     </LinearLayout>
 
                     <include
-                        layout="@layout/frame_help"
+                        layout="@layout/frame_help__open"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="right"
@@ -191,4 +218,14 @@
         </TableLayout>
     </LinearLayout>
 
+    <include
+
+        layout="@layout/incllude__common__all"
+
+        android:visibility="visible"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:visibility="gone" />
 </androidx.constraintlayout.widget.ConstraintLayout>

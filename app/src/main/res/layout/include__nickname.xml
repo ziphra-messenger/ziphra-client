@@ -1,0 +1,202 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <ScrollView
+        android:id="@+id/include__nickname__content__all"
+        style="@android:style/Widget.ScrollView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:animationCache="false"
+        android:background="#703470F2"
+        android:backgroundTint="#80000000"
+        android:fadingEdge="horizontal|vertical"
+        android:foregroundTint="#000000"
+        android:foregroundTintMode="multiply"
+        android:touchscreenBlocksFocus="true"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.25"
+        tools:visibility="visible">
+
+        <LinearLayout
+            android:id="@+id/include__nickname__content_all"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_gravity="center"
+
+
+            android:clickable="true"
+            android:contextClickable="true"
+            android:foregroundTintMode="multiply"
+            android:gravity="top"
+            android:maxWidth="270dp"
+            android:minWidth="200dp"
+            android:minHeight="150dp"
+            android:orientation="vertical"
+            android:padding="8dp">
+
+            <LinearLayout
+                android:id="@+id/include__nickname__content_info"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+
+                android:background="@drawable/toolhint"
+                android:clickable="true"
+                android:foregroundTint="#FFFFFF"
+                android:orientation="vertical"
+                android:paddingStart="10dp"
+                android:paddingTop="20dp"
+                android:paddingEnd="10dp"
+                android:paddingBottom="20dp">
+
+                <LinearLayout
+                    android:id="@+id/include__nickname_content"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <EditText
+                        android:id="@+id/include__nickname_new"
+                        android:layout_width="287dp"
+                        android:layout_height="40dp"
+                        android:layout_gravity="center"
+                        android:drawableEnd="@drawable/ic_baseline_clear_24"
+                        android:ems="10"
+                        android:foregroundGravity="center"
+                        android:gravity="center"
+                        android:inputType="textPersonName" />
+
+                    <TextView
+                        android:id="@+id/include__nickname__mensaje__info"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_marginStart="40dp"
+                        android:layout_marginEnd="40dp"
+                        android:breakStrategy="balanced"
+                        android:gravity="center"
+                        android:text="@string/frame_grupo_info_nickname__message_info"
+                        />
+
+                    <Button
+                        android:id="@+id/include__nickname_generate"
+
+
+                        style="@style/botonMarquee"
+                        android:layout_height="40dp"
+                        android:maxWidth="300dp"
+                        android:minWidth="10dp"
+
+                        android:paddingLeft="10dp"
+                        android:paddingRight="10dp"
+                        android:text="@string/frame_grupo_info_nickname__generator"
+                        app:cornerRadius="20dp"
+                        app:icon="@drawable/ic_baseline_miscellaneous_services_24"
+                        app:iconPadding="4dp"
+                        tools:visibility="visible" />
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:gravity="center"
+                        android:orientation="horizontal">
+
+                        <LinearLayout
+                            android:id="@+id/linearLayout4"
+                            android:layout_width="match_parent"
+                            android:layout_height="32dp"
+                            android:gravity="center"
+                            android:orientation="horizontal">
+
+                            <Button
+                                android:id="@+id/include__nickname_reset"
+
+                                style="@style/botonMarquee"
+                                android:layout_width="wrap_content"
+                                android:layout_height="40dp"
+                                android:layout_gravity="center"
+
+
+                                android:layout_margin="3dp"
+                                android:layout_weight="0"
+                                android:backgroundTint="#438BE3"
+                                android:ellipsize="marquee"
+                                android:foregroundGravity="center_vertical"
+                                android:gravity="center"
+                                android:maxWidth="170dp"
+                                android:minWidth="10dp"
+
+                                android:paddingLeft="10dp"
+
+                                android:paddingRight="10dp"
+                                android:scrollHorizontally="true"
+                                android:singleLine="true"
+                                android:text="@string/general__default"
+
+                                android:textSize="12dp"
+                                app:cornerRadius="20dp"
+                                app:icon="@drawable/ic_action_undo"
+                                app:iconPadding="4dp"
+                                tools:visibility="visible" />
+
+                            <Button
+
+                                android:id="@+id/include__nickname_save"
+                                style="@style/botonMarquee"
+                                android:layout_width="wrap_content"
+
+                                android:layout_height="40dp"
+                                android:layout_weight="0"
+                                android:ellipsize="marquee"
+                                android:gravity="center"
+                                android:maxWidth="140dp"
+
+                                android:minWidth="10dp"
+                                android:paddingLeft="10dp"
+                                android:paddingRight="10dp"
+                                android:scrollHorizontally="true"
+                                android:singleLine="true"
+                                android:text="@string/general__save"
+                                android:textSize="12dp"
+                                app:cornerRadius="20dp"
+                                app:icon="@drawable/ic_action_confirm_tilde"
+                                app:iconPadding="4dp"
+                                app:iconSize="20dp" />
+                        </LinearLayout>
+
+                    </LinearLayout>
+                </LinearLayout>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/include__nickname__content_close"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+
+                <Button
+                    android:id="@+id/include__nickname__close"
+                    android:layout_width="70dp"
+                    android:layout_height="70dp"
+                    android:layout_gravity="center"
+                    android:layout_weight="0"
+                    android:backgroundTint="#B4A233"
+                    android:textSize="8sp"
+                    app:cornerRadius="150dp"
+                    app:icon="@drawable/ic_baseline_close_24"
+                    app:iconGravity="textTop"
+                    app:iconPadding="0dp" />
+            </LinearLayout>
+
+        </LinearLayout>
+    </ScrollView>
+
+</FrameLayout>

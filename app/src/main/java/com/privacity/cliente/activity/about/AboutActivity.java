@@ -1,18 +1,23 @@
 package com.privacity.cliente.activity.about;
 
 import android.os.Bundle;
+import android.text.method.ScrollingMovementMethod;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ScrollView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.google.gson.Gson;
 import com.privacity.cliente.R;
-import com.privacity.cliente.singleton.SingletonValues;
+import com.privacity.cliente.activity.common.CustomAppCompatActivity;
+import com.privacity.cliente.singleton.UtilsStringSingleton;
 import com.privacity.cliente.singleton.impl.SingletonServer;
+import com.privacity.cliente.singleton.serverconfiguration.SingletonServerConfiguration;
 import com.privacity.cliente.util.MenuAcordeonObject;
 import com.privacity.cliente.util.MenuAcordeonUtil;
 import com.privacity.common.dto.servergralconf.SGCAESDTO;
@@ -21,7 +26,12 @@ import com.privacity.common.dto.servergralconf.SGCAsymEncrypt;
 import com.privacity.common.dto.servergralconf.SGCAuth;
 import com.privacity.common.dto.servergralconf.SGCServerInfo;
 
-public class AboutActivity extends AppCompatActivity {
+public class AboutActivity extends CustomAppCompatActivity {
+
+    @Override
+    protected boolean isOnlyAdmin() {
+        return false;
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,7 +42,7 @@ public class AboutActivity extends AppCompatActivity {
         actionBar.setTitle("Acerca de Privacity");
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         {
-            SGCServerInfo conf = SingletonValues.getInstance().getSystemGralConf().getServerInfo();
+            SGCServerInfo conf = SingletonServerConfiguration.getInstance().getSystemGralConf().getServerInfo();
             MenuAcordeonUtil.setActionMenu(new MenuAcordeonObject(
                     (Button) this.findViewById(R.id.about_server_info_title),
                     (View) this.findViewById(R.id.about_server_info_content))
@@ -41,22 +51,23 @@ public class AboutActivity extends AppCompatActivity {
             String appServer = SingletonServer.getInstance().getAppServer();
             String wsServer = SingletonServer.getInstance().getWsServer();
             String helpServer = SingletonServer.getInstance().getHelpServer();
-            boolean developerMode = SingletonServer.getInstance().isDeveloperMode();
+            boolean developerMode = SingletonServer.getInstance().isDeveloper();
 
             TextView tv = (TextView) findViewById(R.id.about_server_info_text);
             tv.setKeyListener(null);
-            String text =
-                    "Nombre: " + conf.getName() + "\n" +
-                            "Version: " + conf.getVersion() + "\n" +
-                            "Api Rest: " + appServer + "\n" +
-                            "WebSocket: " + wsServer + "\n" +
-                            "HelpServer: " + helpServer + "\n" +
-                            "developerMode: " + developerMode + "\n";
+            String text = UtilsStringSingleton.getInstance().gsonPretty().toJson( SingletonServerConfiguration.getInstance().getSystemGralConf());
             tv.setText(text);
-        }
 
+            tv.setMovementMethod(ScrollingMovementMethod.getInstance());
+            //txt.setScrollBarStyle(0x03000000);
+            tv.setHorizontallyScrolling(true);
+            tv.setNestedScrollingEnabled(true);
+            tv.setVerticalScrollBarEnabled(true);
+            tv.setHorizontalScrollBarEnabled(true);
+        }
+/*
         {
-            SGCAsymEncrypt conf = SingletonValues.getInstance().getSystemGralConf().getAsymEncrypt();
+            SGCAsymEncrypt conf = SingletonServerConfiguration.getInstance().getSystemGralConf().getAsymEncrypt();
             MenuAcordeonUtil.setActionMenu(new MenuAcordeonObject(
                     (Button) this.findViewById(R.id.about_asym_encrypt_title),
                     (View) this.findViewById(R.id.about_asym_encrypt_content))
@@ -70,12 +81,12 @@ public class AboutActivity extends AppCompatActivity {
             tv.setText(text);
         }
 
-        aes(SingletonValues.getInstance().getSystemGralConf().getPublicAES(), R.id.about_public_aes_title, R.id.about_public_aes_content, R.id.about_public_aes_text);
-        aes(SingletonValues.getInstance().getSystemGralConf().getSessionAES(), R.id.about_session_aes_title, R.id.about_session_aes_content, R.id.about_session_aes_text);
-        aes(SingletonValues.getInstance().getSystemGralConf().getMessagingAES(), R.id.about_messaging_aes_title, R.id.about_messaging_aes_content, R.id.about_messaging_aes_text);
-        aes(SingletonValues.getInstance().getSystemGralConf().getInvitationAES(), R.id.about_invitation_aes_title, R.id.about_invitation_aes_content, R.id.about_invitation_aes_text);
+        aes(SingletonServerConfiguration.getInstance().getSystemGralConf().getPublicAES(), R.id.about_public_aes_title, R.id.about_public_aes_content, R.id.about_public_aes_text);
+        aes(SingletonServerConfiguration.getInstance().getSystemGralConf().getSessionAES(), R.id.about_session_aes_title, R.id.about_session_aes_content, R.id.about_session_aes_text);
+        aes(SingletonServerConfiguration.getInstance().getSystemGralConf().getMessagingAES(), R.id.about_messaging_aes_title, R.id.about_messaging_aes_content, R.id.about_messaging_aes_text);
+        aes(SingletonServerConfiguration.getInstance().getSystemGralConf().getInvitationAES(), R.id.about_invitation_aes_title, R.id.about_invitation_aes_content, R.id.about_invitation_aes_text);
         {
-            SGCAESDTO conf = SingletonValues.getInstance().getSystemGralConf().getPrivacityIdAES();
+            SGCAESDTO conf = SingletonServerConfiguration.getInstance().getSystemGralConf().getPrivacityIdAES();
             MenuAcordeonUtil.setActionMenu(new MenuAcordeonObject(
                     (Button) this.findViewById(R.id.about_privacity_id_aes_title),
                     (View) this.findViewById(R.id.about_privacity_id_aes_content))
@@ -98,16 +109,16 @@ public class AboutActivity extends AppCompatActivity {
                             "Min Iteration: " + conf.getIterationMinValue() + "\n" +
                             "Max Iteration: " + conf.getIterationMaxValue() + "\n" +
                             "\n"+
-                            "Status: " + SingletonValues.getInstance().getSystemGralConf().isPrivacityIdAESOn() + "\n" ;
+                            "Status: " + SingletonServerConfiguration.getInstance().getSystemGralConf().isPrivacityIdAESOn() + "\n" ;
 
             tv.setText(text);
         }
 
-        simpleAes(SingletonValues.getInstance().getSystemGralConf().getPersonalAES(), R.id.about_personal_aes_title, R.id.about_personal_aes_content, R.id.about_personal_aes_text);
-        simpleAes(SingletonValues.getInstance().getSystemGralConf().getExtraAES(), R.id.about_extra_aes_title, R.id.about_extra_aes_content, R.id.about_extra_aes_text);
+        simpleAes(SingletonServerConfiguration.getInstance().getSystemGralConf().getPersonalAES(), R.id.about_personal_aes_title, R.id.about_personal_aes_content, R.id.about_personal_aes_text);
+        simpleAes(SingletonServerConfiguration.getInstance().getSystemGralConf().getExtraAES(), R.id.about_extra_aes_title, R.id.about_extra_aes_content, R.id.about_extra_aes_text);
 
         {
-            SGCAuth conf = SingletonValues.getInstance().getSystemGralConf().getAuth();
+            SGCAuth conf = SingletonServerConfiguration.getInstance().getSystemGralConf().getAuth();
             MenuAcordeonUtil.setActionMenu(new MenuAcordeonObject(
                     (Button) this.findViewById(R.id.about_auth_title),
                     (View) this.findViewById(R.id.about_auth_content))
@@ -118,7 +129,6 @@ public class AboutActivity extends AppCompatActivity {
             String text =
                     "Token: " + conf.getTokenType() + "\n" +
                             "Length: " + conf.getTokenLenght() + "\n";
-;
 
 
             tv.setText(text);
@@ -137,7 +147,6 @@ public class AboutActivity extends AppCompatActivity {
                     "Desarrollador: Jorge Kagiagian" + "\n" +
                             "Fecha de Inicio: 05/2021"+ "\n" +
                             "Todos los Derechos Reservados"+ "\n";
-            ;
 
 
             tv.setText(text);
@@ -188,11 +197,8 @@ public class AboutActivity extends AppCompatActivity {
                         "Max Iteration: " + conf.getIterationMaxValue() + "\n";
 
         tv.setText(text);
-    }
+    }*/
 
-    @Override
-    public void finish() {
-        super.finish();
     }
 
     @Override

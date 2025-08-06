@@ -16,19 +16,19 @@
             android:orientation="vertical">
             <include layout="@layout/frame_about_team"></include>
             <include layout="@layout/frame_about_server_info"></include>
-            <include layout="@layout/frame_about_asym_encrypt"></include>
-            <include layout="@layout/frame_about_public_aes"></include>
-            <include layout="@layout/frame_about_session_aes"></include>
-            <include layout="@layout/frame_about_messaging_aes"></include>
-            <include layout="@layout/frame_about_invitation_aes"></include>
-            <include layout="@layout/frame_about_privacity_id_aes"></include>
-            <include layout="@layout/frame_about_personal_aes"></include>
-            <include layout="@layout/frame_about_extra_aes"></include>
-            <include layout="@layout/frame_about_auth"></include>
         </LinearLayout>
     </ScrollView>
 
+    <include
 
+        layout="@layout/incllude__common__all"
+
+        android:visibility="visible"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:visibility="gone" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

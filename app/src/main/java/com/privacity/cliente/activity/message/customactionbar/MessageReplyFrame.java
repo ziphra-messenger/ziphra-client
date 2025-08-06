@@ -81,12 +81,12 @@ public class MessageReplyFrame {
             }
         }
 
-        if ( parentReply.getMessage().getMediaDTO() != null ){
-            if (parentReply.getMessage().getMediaDTO().getMediaType().equals(MediaTypeEnum.AUDIO_MESSAGE)){
+        if ( parentReply.getMessage().getMedia() != null ){
+            if (parentReply.getMessage().getMedia().getMediaType().equals(MediaTypeEnum.AUDIO_MESSAGE)){
                 text.setText("Mensaje de Audio");
             }
 
-            if (parentReply.getMessage().getMediaDTO().getMediaType().equals(MediaTypeEnum.IMAGE)){
+            if (parentReply.getMessage().getMedia().getMediaType().equals(MediaTypeEnum.IMAGE)){
                 image.setImageDrawable(parentReply.getRch().getIvItemListImageMedia().getDrawable());
             }else{
                 image.setVisibility(View.GONE);

@@ -10,13 +10,12 @@ import android.widget.Toast;
 import org.apache.commons.lang3.RandomStringUtils;
 
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 
 public class Save {
  
     private Context TheThis;
-    private String NameOfFolder = "";///""/Nuevacarpeta";
+    private final String NameOfFolder = "";///""/Nuevacarpeta";
     //private String NameOfFile = "imagen";
 
     public static String generate() {
@@ -44,17 +43,11 @@ public class Save {
             MakeSureFileWasCreatedThenMakeAvabile(file);
             AbleToSave();
 
-        }
- 
-        catch(FileNotFoundException e) {
+        } catch(Exception e) {
             e.printStackTrace();
             UnableToSave();
         }
-        catch(Exception e) {
-            e.printStackTrace();
-            UnableToSave();
-        }
- 
+
     }
  
     private void MakeSureFileWasCreatedThenMakeAvabile(File file){

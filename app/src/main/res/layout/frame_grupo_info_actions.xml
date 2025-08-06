@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="wrap_content">
 
     <LinearLayout
         android:id="@+id/linearLayout2"
@@ -22,6 +22,7 @@
 
         <Button
             android:id="@+id/bt_grupoinfo_menu_acciones"
+            style="@style/menuAcordeonTituloStyle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:backgroundTint="#57AE74"
@@ -31,7 +32,7 @@
         <LinearLayout
             android:id="@+id/tl_grupoinfo_menu_acciones_content"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:orientation="vertical"
             android:tag="@string/help_tag_grupo_info_actions"
             android:visibility="gone"
@@ -40,8 +41,8 @@
             <TableLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_margin="5dp"
-                android:layout_marginBottom="10dp"
+                android:layout_margin="2dp"
+                android:layout_marginBottom="3dp"
                 android:layout_weight="1"
                 android:background="#E4DFB4"
                 android:visibility="visible"
@@ -55,18 +56,20 @@
 
                     <Button
                         android:id="@+id/bt_grupoinfo_delete_grupo"
+                        style="@style/botonMarquee"
                         android:layout_width="150dp"
-                        android:layout_height="65dp"
+                        android:layout_height="40dp"
                         android:layout_margin="5dp"
-                        android:tag="@string/rol_admin"
+                        android:tag="@string/tag_admin_gone"
                         android:text="ELIMINAR\ngrupo"
                         app:cornerRadius="20dp"
                         app:icon="@drawable/ic_baseline_delete_forever_24" />
 
                     <Button
                         android:id="@+id/bt_grupoinfo_salir"
+                        style="@style/botonMarquee"
                         android:layout_width="150dp"
-                        android:layout_height="65dp"
+                        android:layout_height="40dp"
                         android:layout_margin="5dp"
                         android:text="Salir"
                         app:cornerRadius="20dp"
@@ -74,67 +77,83 @@
 
                 </TableRow>
 
+                <TableRow></TableRow>
             </TableLayout>
 
-            <TextView
-                android:id="@+id/textView35"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="Grupo Bloqueo Remoto a Todos" />
 
+            <Button
+                android:id="@+id/bt_grupoinfo_menu_bloqueo_title"
+                style="@style/menuAcordeonTituloStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+
+                android:layout_gravity="center"
+                android:backgroundTint="#57AE74"
+
+                android:ellipsize="marquee"
+                android:scrollHorizontally="true"
+                android:singleLine="true"
+                android:tag="@string/tag_admin_gone"
+                android:text="@string/frame_grupo_info__bloqueo_remoto__title"
+                app:iconGravity="end" />
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:dividerPadding="30dp"
-                android:orientation="horizontal"
-                android:padding="10dp">
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
 
                 <Button
                     android:id="@+id/bt_grupo_info_bloqueo_remoto_1"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="4dp"
+                    android:layout_height="37dp"
+                    android:layout_marginStart="7dp"
+                    android:layout_marginEnd="4dp"
                     android:layout_weight="1"
                     android:gravity="center"
+                    android:tag="@string/tag_admin_gone"
                     android:text="1"
                     app:cornerRadius="15dp" />
 
                 <Button
                     android:id="@+id/bt_grupo_info_bloqueo_remoto_2"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="4dp"
+                    android:layout_height="37dp"
+                    android:layout_marginStart="4dp"
+                    android:layout_marginEnd="4dp"
                     android:layout_weight="1"
                     android:gravity="center"
+                    android:tag="@string/tag_admin_gone"
                     android:text="2"
                     app:cornerRadius="15dp" />
 
                 <Button
                     android:id="@+id/bt_grupo_info_bloqueo_remoto_3"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="4dp"
+                    android:layout_height="37dp"
+                    android:layout_marginStart="4dp"
+                    android:layout_marginEnd="4dp"
                     android:layout_weight="1"
                     android:gravity="center"
+                    android:tag="@string/tag_admin_gone"
                     android:text="3"
                     app:cornerRadius="15dp" />
 
                 <Button
                     android:id="@+id/bt_grupo_info_bloqueo_remoto_4"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="4dp"
+                    android:layout_height="37dp"
+                    android:layout_marginStart="4dp"
+                    android:layout_marginEnd="7dp"
                     android:layout_weight="1"
                     android:gravity="center"
+                    android:tag="@string/tag_admin_gone"
                     android:text="4"
                     app:cornerRadius="15dp" />
             </LinearLayout>
 
             <include
                 android:id="@+id/help_grupo_info_actions"
-                layout="@layout/frame_help"></include>
+                layout="@layout/frame_help__open"></include>
 
         </LinearLayout>
     </LinearLayout>

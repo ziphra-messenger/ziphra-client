@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/frame_text_resize__content_all"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:id="@+id/frame_text_resize__content"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:clickable="true"
+        android:contextClickable="true"
+        android:importantForContentCapture="yes"
+        android:orientation="horizontal"
+        android:paddingHorizontal="3dp"
+        android:paddingTop="6dp">
+
+        <Space
+            android:layout_width="5dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_weight="0" />
+
+
+        <Button
+            android:id="@+id/frame_text_resize__increase"
+            android:layout_width="54dp"
+            android:layout_height="52dp"
+            android:layout_gravity="center_horizontal"
+            android:layout_weight="0"
+            android:alpha="0.8"
+            android:insetTop="0dp"
+            android:textSize="8sp"
+            app:cornerRadius="29dp"
+            app:icon="@drawable/format_font_size_increase_icon"
+            app:iconGravity="textTop"
+            app:iconPadding="3dp"
+
+            />
+
+        <Space
+            android:layout_width="5dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_weight="0" />
+
+
+        <Button
+            android:id="@+id/frame_text_resize__decrease"
+            android:layout_width="54dp"
+            android:layout_height="52dp"
+            android:layout_gravity="center_horizontal"
+            android:layout_weight="0"
+            android:alpha="0.8"
+            android:insetTop="0dp"
+            android:textSize="8sp"
+            app:cornerRadius="29dp"
+            app:icon="@drawable/format_font_size_decrease_icon"
+            app:iconGravity="textTop"
+            app:iconPadding="3dp" />
+
+        <Space
+            android:layout_width="8dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_weight="0" />
+
+        <Button
+            android:id="@+id/frame_text_resize__close"
+            android:layout_width="28dp"
+            android:layout_height="35dp"
+            android:layout_gravity="center_horizontal"
+            android:layout_weight="0"
+            android:alpha="0.8"
+            android:textSize="8sp"
+            app:cornerRadius="50dp"
+            app:icon="@drawable/ic_baseline_close_24"
+            app:iconGravity="textTop"
+            app:iconPadding="0dp" />
+
+    </LinearLayout>
+
+
+</FrameLayout>

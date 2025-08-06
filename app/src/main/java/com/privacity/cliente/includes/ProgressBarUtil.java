@@ -19,6 +19,7 @@ public class ProgressBarUtil {
 
     public static void hide(Activity context, ProgressBar progressBar){
         if (progressBar == null) return;
+        if (progressBar.getVisibility()== View.GONE) return;
             progressBar.setVisibility(View.GONE);
             context.getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
 
@@ -28,7 +29,9 @@ public class ProgressBarUtil {
 
     public static void show(Activity context, ProgressBar progressBar){
         if (progressBar == null) return;
+        if (progressBar.getVisibility()== View.VISIBLE) return;
         progressBar.setVisibility(View.VISIBLE);
+
         context.getWindow().setFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE,
                 WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
 

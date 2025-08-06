@@ -9,12 +9,19 @@ import android.os.CountDownTimer;
 
 import com.privacity.cliente.activity.common.CustomAppCompatActivity;
 import com.privacity.cliente.enumeration.WsStatusEnum;
+import com.privacity.cliente.model.dto.MessageDetail;
 import com.privacity.cliente.rest.restcalls.message.GetMessageById;
-import com.privacity.cliente.singleton.SingletonValues;
-import com.privacity.cliente.singleton.interfaces.SingletonReset;
+import com.privacity.cliente.rest.restcalls.message.MessageChangeState;
+import com.privacity.cliente.singleton.SingletonValues;import com.privacity.cliente.singleton.Singletons;
+import com.privacity.cliente.singleton.observers.ObserverConnection;
+import com.privacity.cliente.singleton.observers.ObserverMessage;
+import com.privacity.cliente.singleton.usuario.SingletonSessionClosing;
+import com.privacity.cliente.util.ToolsUtil;
+import com.privacity.common.BroadcastConstant;
+import com.privacity.common.SingletonReconnectionLog;
+import com.privacity.common.SingletonReset;
 
-import java.text.SimpleDateFormat;
-import java.util.Date;
+import java.util.List;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -23,7 +30,7 @@ import ua.naiksoftware.stomp.ActionI;
 @Getter
 @Setter
 public class SingletonReconnect implements SingletonReset {
-
+    private static final String TAG = "SingletonReconnect";
     private long secondsValueInicial=5;
     private long secondsValue=5;
 
@@ -33,7 +40,7 @@ public class SingletonReconnect implements SingletonReset {
     private int disconnetedCount=1;
     private int reintentosCount=0;
     private int reintentosTotalCount=0;
-    //private String log="";
+
     private SingletonReconnect() {
     }
 
@@ -44,6 +51,13 @@ public class SingletonReconnect implements SingletonReset {
         return instance;
     }
 
+    public void addLog(String txt){
+       // if (ObserverConnection.getInstance().isOnline()) {
+            SingletonReconnectionLog.getInstance().addLog(txt);
+        //}
+    }
+
+
     @Getter
     private CountDownTimer countDownTimer;
     private boolean running =false;
@@ -51,15 +65,14 @@ public class SingletonReconnect implements SingletonReset {
     public boolean showingLock;
 
     public WsStatusEnum status= WsStatusEnum.CONNECTED;
-    public static String getCurrentTimeStamp() {
-        SimpleDateFormat sdfDate = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");//dd/MM/yyyy
-        Date now = new Date();
-        String strDate = sdfDate.format(now);
-        return strDate + "\n";
-    }
+
     public void reset(){
         if (countDownTimer != null )  countDownTimer.cancel();
-        instance=null;
+        SingletonReconnectionLog.getInstance().reset();
+        ToolsUtil.forceGarbageCollector(countDownTimer);
+        ToolsUtil.forceGarbageCollector(instance);
+
+
     }
     private void connected(CustomAppCompatActivity activity){
         reintentosCount=0;
@@ -74,14 +87,20 @@ public class SingletonReconnect implements SingletonReset {
             countDownTimer.cancel();
 
         }
-        //log = log + "Connected >> " + getCurrentTimeStamp();
+        addLog("Connected");
         if (activity != null){
             Intent intent = new Intent("connection_open");
             activity.sendBroadcast(intent);
 
+            List<MessageDetail> dl = ObserverMessage.getInstance().getAllMyMensajesDetailsToChangeStateOnReconnect();
+
+            for (MessageDetail d : dl){
+                MessageChangeState.mensajeChangeState(d, activity);
+            }
             GetMessageById.loadMessagesContador(activity);
 
         }else {
+            addLog("activity null connect");
             System.out.println("activity null connect");
         }
 
@@ -97,7 +116,7 @@ public class SingletonReconnect implements SingletonReset {
 
 
 //        if (activity != null){
-//            Intent intent = new Intent("connection_closed");
+//            Intent intent = new Intent(BroadcastConstant.BROADCAST__MESSAGING__CONNECTION_CLOSED);
 //            activity.sendBroadcast(intent);
 //        }
 
@@ -108,7 +127,7 @@ public class SingletonReconnect implements SingletonReset {
         status = WsStatusEnum.WAITING;
 
         //Notificacion.getInstance().notificacion2("descontect > " + getCurrentTimeStamp());
-        //log = log + "Desconnect >> " + getCurrentTimeStamp();
+        addLog("Desconnect");
 
         countDownTimer = new CountDownTimer(
                 secondsValueInicial*1000
@@ -128,49 +147,58 @@ public class SingletonReconnect implements SingletonReset {
             }
 
             public void onFinish() {
-
+                if (SingletonSessionClosing.getInstance().isClosing())return;
                 status = WsStatusEnum.TRYING;
                 reintentosCount++;
                 reintentosTotalCount++;
+
                 if (activity != null){
                     Intent intent = new Intent("connection_trying");
                     activity.sendBroadcast(intent);
                 }
-                SingletonValues.getInstance().getWebSocket().connectStomp(new ActionI(){
-                    @Override
-                    public void actionSucess(String msg) {
-                        running =false;
-                        System.out.println("actionSucess  >> " +  msg);
+                try {
+                    SingletonValues.getInstance().getWebSocket().connectStomp(new ActionI(){
+                        @Override
+                        public void actionSucess(String msg) {
+                            running =false;
+                            addLog("actionSucess  >> " +  msg);
 
-                            connected(activity);
+                                connected(activity);
 
 
-                    }
-
-                    @Override
-                    public void actionFail(String msg) {
-                        status = WsStatusEnum.WAITING;
-                        running =false;
-                        System.out.println("actionFail  >> " +  msg);
-
-                        //Intent intent = new Intent("connection_closed");
-                        //activity.sendBroadcast(intent);
-                    }
-
-                    @Override
-                    public void sendInfoMessage(String msg) {
-                        System.out.println("sendInfoMessage  >> " +  msg);
-                    }
-
-                    @Override
-                    public void isNotOnline() {
-                        if (activity != null){
-                            Intent intent = new Intent("connection_off_line");
-                            activity.sendBroadcast(intent);
                         }
 
-                    }
-                }, activity );
+                        @Override
+                        public void actionFail(String msg) {
+                            status = WsStatusEnum.WAITING;
+                            running =false;
+                            addLog("actionFail  >> " +  msg);
+
+                            //Intent intent = new Intent(BroadcastConstant.BROADCAST__MESSAGING__CONNECTION_CLOSED);
+                            //activity.sendBroadcast(intent);
+                        }
+
+                        @Override
+                        public void sendInfoMessage(String msg) {
+                            addLog("sendInfoMessage  >> " +  msg);
+                        }
+
+                        @Override
+                        public void isNotOnline() {
+                            if (activity != null){
+                                Intent intent = new Intent("connection_off_line");
+                                activity.sendBroadcast(intent);
+                            }
+
+                        }
+                    }, activity );
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    status = WsStatusEnum.WAITING;
+                    running =false;
+
+                    addLog("InesperadpactionFail  >> " +  e.getMessage());
+                }
             }
         };
 
@@ -182,11 +210,7 @@ public class SingletonReconnect implements SingletonReset {
     public static boolean isOnline(Activity activity) {
         ConnectivityManager cm = (ConnectivityManager) activity.getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo netInfo = cm.getActiveNetworkInfo();
-        if (netInfo != null && netInfo.isConnectedOrConnecting()) {
-            return true;
-        } else {
-            return false;
-        }
+        return netInfo != null && netInfo.isConnectedOrConnecting();
     }
 
 }

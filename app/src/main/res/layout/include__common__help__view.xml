@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:visibility="visible">
+
+    <ScrollView
+        android:id="@+id/common__help__scroll"
+        style="@android:style/Widget.ScrollView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:animationCache="false"
+        android:background="#703470F2"
+        android:backgroundTint="#80000000"
+        android:fadingEdge="horizontal|vertical"
+        android:foregroundTint="#000000"
+        android:foregroundTintMode="multiply"
+        android:touchscreenBlocksFocus="true"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.25"
+        tools:visibility="visible">
+
+        <LinearLayout
+            android:id="@+id/common__help__content_all"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_gravity="center"
+
+
+            android:layout_margin="10dp"
+            android:clickable="true"
+            android:contextClickable="true"
+            android:foregroundTintMode="multiply"
+            android:gravity="top"
+            android:maxWidth="270dp"
+            android:minWidth="200dp"
+            android:minHeight="150dp"
+            android:orientation="vertical"
+            android:padding="15dp"
+            android:visibility="visible"
+            tools:visibility="visible">
+
+            <LinearLayout
+                android:id="@+id/common__help__content_info"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+
+                android:background="@drawable/toolhint"
+                android:clickable="true"
+                android:foregroundTint="#FFFFFF"
+                android:orientation="vertical"
+                android:padding="20dp"
+                android:visibility="visible"
+                tools:visibility="visible">
+
+                <TextView
+                    android:id="@+id/common__help__txt"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:editable="false"
+                    android:enabled="true"
+                    android:freezesText="true"
+
+                    android:maxHeight="300dp"
+                    android:minHeight="60dp"
+                    android:scrollbars="vertical"
+                    android:text="1"
+                    android:textColor="#000000"
+                    android:textIsSelectable="false"
+                    android:textSize="14sp" />
+                <!--                <ScrollView
+                    android:id="@+id/common__help__info__scroll"
+                    android:layout_width="match_parent"
+                    android:layout_height="300dp">
+
+                    <TextView
+                        android:id="@+id/common__help__txt"
+                        style="@style/Widget.AppCompat.TextView.SpinnerItem"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:breakStrategy="balanced"
+                        android:clickable="true"
+                        android:ellipsize="none"
+                        android:fadeScrollbars="false"
+                        android:fadingEdge="horizontal"
+                        android:fadingEdgeLength="100dp"
+                        android:focusable="auto"
+                        android:focusableInTouchMode="true"
+                        android:focusedByDefault="false"
+                        android:isScrollContainer="false"
+                        android:maxHeight="200dp"
+                        android:overScrollMode="never"
+                        android:requiresFadingEdge="vertical"
+                        android:scrollIndicators="right"
+                        android:scrollbars="vertical"
+                        android:singleLine="false"
+                        android:text="   Best pornstars Prince Yahshua Liza Del Sierra Bambi Brooks Peter North Tigerr Benson Hime Marie Kali Rose Alex Coal Mike Adriano Anastasia Lux Katie Kox Devon Lee Melissa Monet Shay Evans Alexis Monroe Abella Anderson Amber Lynn Bach Vanessa Cage Gia Paige Nat Turnher Lyra Law Sienna West Alyssa Cole Jodi West Amber Lynn Kristy Black Victoria Cakes Little Caprice Alyssa Reece Jordi El Niño Polla Carmella Bing Selena Santana Josephine James Madison Rose Markus Dupree Zoe Bloom Dolly Little Mila Azul Dakota Sky Valentina Jewels Bella Reese Aubrey Black Goldie Rush Nina Hartley Esperanza Gomez Staci Silverstone Liv Revamped Katie Cummings Tiffany Mynx Foxy Di Shona River Lucy Li Jane Wilde Jayden Jaymes Diamond Kitty Stephanie West Christian Clay London Keyes Luna Lovely Kimber Lee All Pornstars    Best pornstars Prince Yahshua Liza Del Sierra Bambi Brooks Peter North Tigerr Benson Hime Marie Kali Rose Alex Coal Mike Adriano Anastasia Lux Katie Kox Devon Lee Melissa Monet Shay Evans Alexis Monroe Abella Anderson Amber Lynn Bach Vanessa Cage Gia Paige Nat Turnher Lyra Law Sienna West Alyssa Cole Jodi West Amber Lynn Kristy Black Victoria Cakes Little Caprice Alyssa Reece Jordi El Niño Polla Carmella Bing Selena Santana Josephine James Madison Rose Markus Dupree Zoe Bloom Dolly Little Mila Azul Dakota Sky Valentina Jewels Bella Reese Aubrey Black Goldie Rush Nina Hartley Esperanza Gomez Staci Silverstone Liv Revamped Katie Cummings Tiffany Mynx Foxy Di Shona River Lucy Li Jane Wilde Jayden Jaymes Diamond Kitty Stephanie West Christian Clay London Keyes Luna Lovely Kimber Lee All Pornstars Select a Category   Best pornstars Prince Yahshua Liza Del Sierra Bambi Brooks Peter North Tigerr Benson Hime Marie Kali Rose Alex Coal Mike Adriano Anastasia Lux Katie Kox Devon Lee Melissa Monet Shay Evans Alexis Monroe Abella Anderson Amber Lynn Bach Vanessa Cage Gia Paige Nat Turnher Lyra Law Sienna West Alyssa Cole Jodi West Amber Lynn Kristy Black Victoria Cakes Little Caprice Alyssa Reece Jordi El Niño Polla Carmella Bing Selena Santana Josephine James Madison Rose Markus Dupree Zoe Bloom Dolly Little Mila Azul Dakota Sky Valentina Jewels Bella Reese Aubrey Black Goldie Rush Nina Hartley Esperanza Gomez Staci Silverstone Liv Revamped Katie Cummings Tiffany Mynx Foxy Di Shona River Lucy Li Jane Wilde Jayden Jaymes Diamond Kitty Stephanie West Christian Clay London Keyes Luna Lovely Kimber Lee All Pornstars Select a Category   Best pornstars Prince Yahshua Liza Del Sierra Bambi Brooks Peter North Tigerr Benson Hime Marie Kali Rose Alex Coal Mike Adriano Anastasia Lux Katie Kox Devon Lee Melissa Monet Shay Evans Alexis Monroe Abella Anderson Amber Lynn Bach Vanessa Cage Gia Paige Nat Turnher Lyra Law Sienna West Alyssa Cole Jodi West Amber Lynn Kristy Black Victoria Cakes Little Caprice Alyssa Reece Jordi El Niño Polla Carmella Bing Selena Santana Josephine James Madison Rose Markus Dupree Zoe Bloom Dolly Little Mila Azul Dakota Sky Valentina Jewels Bella Reese Aubrey Black Goldie Rush Nina Hartley Esperanza Gomez Staci Silverstone Liv Revamped Katie Cummings Tiffany Mynx Foxy Di Shona River Lucy Li Jane Wilde Jayden Jaymes Diamond Kitty Stephanie West Christian Clay London Keyes Luna Lovely Kimber Lee All Pornstars Select a Category"
+                        android:textAlignment="viewStart"
+                        android:textColor="#000000"
+                        android:textDirection="inherit"
+                        android:textSize="14sp"
+                        android:visibility="visible"
+                        tools:visibility="visible" />
+                </ScrollView>-->
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/common__help__content_close"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+
+                <Button
+                    android:id="@+id/common__help__close"
+                    android:layout_width="70dp"
+                    android:layout_height="70dp"
+                    android:layout_gravity="center"
+                    android:layout_weight="0"
+                    android:backgroundTint="#B4A233"
+                    android:textSize="8sp"
+                    app:cornerRadius="150dp"
+                    app:icon="@drawable/ic_baseline_close_24"
+                    app:iconGravity="textTop"
+                    app:iconPadding="0dp" />
+            </LinearLayout>
+
+        </LinearLayout>
+    </ScrollView>
+
+</FrameLayout>

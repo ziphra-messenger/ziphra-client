@@ -10,6 +10,7 @@ import android.os.CountDownTimer;
 import androidx.appcompat.app.AlertDialog;
 
 import com.privacity.cliente.singleton.impl.SingletonServer;
+import com.privacity.cliente.singleton.usuario.SingletonSessionClosing;
 
 import lombok.Data;
 
@@ -42,7 +43,10 @@ public class LoginCountDownTimer {
 
             public void onFinish() {
                 countDownTimerRunning=false;
-                alertClose();
+                try {
+                    alertClose();
+                }catch (Exception e){}
+
             }
         };
 
@@ -96,7 +100,13 @@ public class LoginCountDownTimer {
         builder.setMessage("La llamada al servidor esta tardando mas tiempo de lo esperado. " + SingletonServer.getInstance().getAppServer());
         this.dialog = builder.create();
 
-        dialog.show();
+        try {
+            if (SingletonSessionClosing.getInstance().isClosing())return;
+            dialog.show();
+        }catch (Exception e){
+
+        }
+
 
     }
 }

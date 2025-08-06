@@ -25,8 +25,8 @@ public class RecyclerHolderGeneric {
     private Button btPersonalEncryptLockOpen;
     private LinearLayout layoutAllMessageSinPersonalEncrypt;
     private LinearLayout layoutBlackmessageLocks;
-    private View btMessageBlackEyeShow;
-    private View btMessageBlackEyeHide;
+    private Button btMessageBlackEyeShow;
+    private Button btMessageBlackEyeHide;
     private LinearLayout layoutMessageFrame;
     private LinearLayout layoutMessageFrameContentUsuario;
     private TextView tvRemitente;
@@ -56,11 +56,11 @@ public class RecyclerHolderGeneric {
 
     private TextView tvState;
 
-    private boolean messageBlackActive=false;
+    private StateIcons stateIcons;
+
     private boolean messageTimeActive=false;
     private boolean hasMediaAudioChat=false;
     private boolean hasMediaImage=false;
-    private boolean ownMessage=false;
     private boolean isSecretPersonal=false;
 
     private String errors="";

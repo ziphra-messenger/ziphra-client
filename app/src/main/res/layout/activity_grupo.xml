@@ -22,8 +22,6 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
-        <include layout="@layout/frame_reconnect" />
-
         <Button
             android:id="@+id/ws_disconnect"
             android:layout_width="match_parent"
@@ -44,16 +42,19 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 app:iconifiedByDefault="false"
-                app:queryHint="Buscar titulo">
+                app:queryHint="@string/grupo_activity__query_hint">
 
 
             </androidx.appcompat.widget.SearchView>
 
             <Spinner
                 android:id="@+id/grupo_sort_spinner"
-                android:layout_width="wrap_content"
+                android:layout_width="50dp"
                 android:layout_height="match_parent"
+                android:autofillHints="Sort"
                 android:entries="@array/grupo_sort"
+                android:pointerIcon="arrow"
+                android:spinnerMode="dialog"
                 android:textAlignment="textEnd" />
         </LinearLayout>
 
@@ -69,9 +70,13 @@
         app:layout_constraintTop_toBottomOf="@+id/linearLayout5" />
 
     <include
-        android:id="@+id/user"
-        layout="@layout/custom_comp_general_progress_bar"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:visibility="visible" />
+
+        layout="@layout/incllude__common__all"
+
+        android:visibility="visible"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:visibility="visible" />
 </androidx.constraintlayout.widget.ConstraintLayout>

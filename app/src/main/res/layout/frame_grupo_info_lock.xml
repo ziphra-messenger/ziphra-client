@@ -6,7 +6,7 @@
     android:layout_height="match_parent">
 
     <LinearLayout
-        android:id="@+id/grupo_info_password_all"
+        android:id="@+id/grupo_info_lock_all"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="3dp"
@@ -24,58 +24,93 @@
 
         <Button
             android:id="@+id/grupo_info_lock_title"
+            style="@style/menuAcordeonTituloStyle"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:backgroundTint="#57AE74"
-            android:text="Password y Bloqueo" />
+            android:text="@string/grupo_info__lock_title"
+            android:visibility="visible" />
 
         <LinearLayout
             android:id="@+id/grupo_info_lock_content"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="vertical"
-            android:tag="@string/help_tag_grupo_info_passandlock"
+            android:tag="@string/tag_admin_clickcontext"
             android:visibility="gone"
             tools:visibility="visible">
 
-            <TextView
-                android:id="@+id/textView7"
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:padding="20dp"
-                android:text="El password esta activo en la aplicacion solamente. Si desea más seguridad incluya un Extra Encrypt." />
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                android:tag="@string/tag_admin_gone">
 
-            <include
-                layout="@layout/custom_comp_password_eye_change"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center|center_horizontal|center_vertical"
-                android:layout_marginTop="5dp"
-                android:foregroundGravity="center_vertical|center|center_horizontal"
-                android:visibility="visible"
-                tools:visibility="visible"></include>
+                <TextView
+                    android:id="@+id/grupo_info_lock__detail_message"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="20dp"
+                    android:tag="@string/tag_admin_gone"
+                    android:text="@string/grupo_info_lock__detail_message" />
 
-            <include
-                layout="@layout/custom_comp_password_eye_confirmation"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center|center_horizontal|center_vertical"
-                android:layout_marginTop="5dp"
-                android:foregroundGravity="center_vertical|center|center_horizontal"
-                android:visibility="visible"
-                tools:visibility="visible"></include>
+                <include
+                    layout="@layout/custom_comp_password_eye_change"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center|center_horizontal|center_vertical"
+                    android:layout_marginTop="5dp"
+                    android:foregroundGravity="center_vertical|center|center_horizontal"
+                    android:tag="@string/tag_admin_gone"
+                    android:visibility="visible"
+                    tools:visibility="visible"></include>
+
+                <include
+                    layout="@layout/custom_comp_password_eye_confirmation"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center|center_horizontal|center_vertical"
+                    android:layout_marginTop="5dp"
+                    android:foregroundGravity="center_vertical|center|center_horizontal"
+                    android:tag="@string/tag_admin_gone"
+                    android:visibility="visible"
+                    tools:visibility="visible"></include>
+            </LinearLayout>
 
             <Button
                 android:id="@+id/grupo_info_lock_password_save"
-                android:layout_width="130dp"
-                android:layout_height="wrap_content"
+                style="@style/botonMarquee"
+
+
+                android:layout_width="wrap_content"
+                android:layout_height="40dp"
                 android:layout_gravity="center"
-                android:layout_margin="10dp"
+
+                android:layout_margin="3dp"
+                android:layout_marginStart="15dp"
                 android:layout_span="3"
+                android:layout_weight="0"
+                android:ellipsize="marquee"
+                android:enabled="true"
                 android:foregroundGravity="center_vertical"
                 android:gravity="center"
-                android:text="Guardar"
-                app:cornerRadius="20dp" />
+                android:maxWidth="140dp"
+                android:minWidth="10dp"
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp"
+
+                android:scrollHorizontally="true"
+                android:singleLine="true"
+                android:tag="@string/tag_admin_gone"
+                android:text="@string/general__save"
+
+                android:textSize="12dp"
+                app:cornerRadius="20dp"
+                app:icon="@drawable/ic_action_confirm_tilde"
+                app:iconPadding="4dp"
+                app:iconSize="20dp"
+
+                />
 
             <View
                 android:id="@+id/divider"
@@ -85,7 +120,8 @@
                 android:layout_marginTop="15dp"
                 android:layout_marginEnd="40dp"
                 android:layout_marginBottom="15dp"
-                android:background="?android:attr/listDivider" />
+                android:background="?android:attr/listDivider"
+                android:tag="@string/tag_admin_gone" />
 
             <Switch
                 android:id="@+id/grupo_info_password_enabled"
@@ -97,7 +133,8 @@
                 android:width="300dp"
                 android:gravity="clip_vertical"
                 android:padding="10dp"
-                android:text="Password Activado" />
+                android:tag="@string/tag_admin_disabled"
+                android:text="@string/grupo_info_password_enabled" />
 
             <Switch
                 android:id="@+id/grupo_info_lock_enabled"
@@ -108,7 +145,8 @@
                 android:width="300dp"
                 android:foregroundGravity="center_vertical"
                 android:padding="10dp"
-                android:text="Cerrar la conversacion"
+                android:tag="@string/tag_admin_disabled"
+                android:text="@string/grupo_info_lock_enabled"
                 android:visibility="visible" />
 
 
@@ -140,7 +178,8 @@
                 android:layout_marginTop="15dp"
                 android:layout_marginEnd="40dp"
                 android:layout_marginBottom="15dp"
-                android:background="?android:attr/listDivider" />
+                android:background="?android:attr/listDivider"
+                android:tag="@string/tag_admin_gone" />
 
             <Switch
                 android:id="@+id/grupo_info_lock_delete_extra_encrypt_enabled"
@@ -150,8 +189,8 @@
                 android:width="300dp"
                 android:foregroundGravity="center_vertical"
                 android:padding="10dp"
-                android:visibility="gone"
-                android:text="Usar Contraseña en Extra Encrypt" />
+                android:text="Usar Contraseña en Extra Encrypt"
+                android:visibility="gone" />
 
             <View
                 android:id="@+id/divider3"
@@ -161,7 +200,8 @@
                 android:layout_marginTop="15dp"
                 android:layout_marginEnd="40dp"
                 android:layout_marginBottom="15dp"
-                android:background="?android:attr/listDivider" />
+                android:background="?android:attr/listDivider"
+                android:tag="@string/tag_admin_gone" />
 
             <EditText
                 android:id="@+id/grupo_info_lock_minutos"
@@ -187,12 +227,14 @@
                 android:visibility="gone" />
 
             <LinearLayout
+                android:id="@+id/grupo_info_lock_picker"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_gravity="center|center_vertical"
                 android:layout_margin="5dp"
                 android:gravity="center|center_vertical"
-                android:orientation="horizontal">
+                android:orientation="horizontal"
+                android:tag="@string/tag_admin_clickcontext">
 
                 <NumberPicker
                     android:id="@+id/grupo_info_lock_picker_hora"
@@ -201,6 +243,7 @@
                     android:layout_gravity="center|center_vertical"
                     android:background="#5EC8FAC4"
                     android:gravity="center|center_vertical"
+                    android:tag="@string/tag_admin_enabledfalse"
                     android:text="TextView" />
 
                 <TextView
@@ -219,6 +262,7 @@
                     android:layout_gravity="center|center_vertical"
                     android:background="#5EC8FAC4"
                     android:gravity="center|center_vertical"
+                    android:tag="@string/tag_admin_enabledfalse"
                     android:text="TextView" />
 
                 <TextView
@@ -237,6 +281,7 @@
                     android:layout_gravity="center|center_vertical"
                     android:background="#5EC8FAC4"
                     android:gravity="center|center_vertical"
+                    android:tag="@string/tag_admin_enabledfalse"
                     android:text="TextView" />
             </LinearLayout>
 
@@ -262,46 +307,122 @@
 
                 <Button
                     android:id="@+id/grupo_info_lock_default"
-                    android:layout_width="130dp"
-                    android:layout_height="wrap_content"
+
+                    style="@style/botonMarquee"
+                    android:layout_width="wrap_content"
+
+                    android:layout_height="40dp"
                     android:layout_gravity="center"
                     android:layout_margin="3dp"
+
+                    android:layout_weight="0"
+                    android:ellipsize="marquee"
+                    android:enabled="true"
                     android:foregroundGravity="center_vertical"
                     android:gravity="center"
-                    android:text="Default"
-                    app:cornerRadius="20dp" />
+                    android:maxWidth="170dp"
+                    android:minWidth="50dp"
+                    android:paddingLeft="10dp"
+                    android:paddingRight="10dp"
+                    android:scrollHorizontally="true"
+                    android:singleLine="true"
+                    android:text="@string/general__recomendado"
+                    android:textSize="12dp"
+                    android:visibility="visible"
+                    app:cornerRadius="20dp"
+                    app:icon="@drawable/ic_baseline_engineering_24"
+                    app:iconPadding="4dp"
+                    tools:visibility="visible"
+
+
+                    android:tag="@string/tag_admin_gone"
+                     />
 
                 <Button
                     android:id="@+id/grupo_info_lock_reset"
-                    android:layout_width="130dp"
-                    android:layout_height="wrap_content"
+                    style="@style/botonMarquee"
+
+                    android:layout_width="wrap_content"
+
+                    android:layout_height="40dp"
+                    android:layout_weight="0"
+                    android:ellipsize="marquee"
+                    android:enabled="true"
+                    android:gravity="center"
+
+                    android:maxWidth="140dp"
+                    android:minWidth="10dp"
+                    android:paddingLeft="10dp"
+                    android:paddingRight="10dp"
+                    android:scrollHorizontally="true"
+                    android:singleLine="true"
+
+                    android:textSize="12dp"
+                    app:cornerRadius="20dp"
+
+                    app:iconPadding="4dp"
+                    app:iconSize="20dp"
+
                     android:layout_gravity="center"
                     android:layout_margin="3dp"
-                    android:backgroundTint="#438BE3"
+                    android:layout_marginStart="15dp"
+                    android:layout_span="3"
                     android:foregroundGravity="center_vertical"
-                    android:gravity="center"
-                    android:text="Reset"
-                    app:cornerRadius="20dp" />
+                    android:tag="@string/tag_admin_gone"
+
+                    android:text="@string/general__default"
+
+
+                    android:visibility="visible"
+
+                    app:icon="@drawable/ic_action_undo"
+
+                    tools:visibility="visible"
+
+
+ />
 
 
             </LinearLayout>
 
             <Button
                 android:id="@+id/grupo_info_lock_save"
-                android:layout_width="130dp"
-                android:layout_height="wrap_content"
+                style="@style/botonMarquee"
+
+
+                android:layout_width="wrap_content"
+
+                android:layout_height="40dp"
+                android:layout_weight="0"
+                android:ellipsize="marquee"
+                android:enabled="true"
+                android:gravity="center"
+
+                android:maxWidth="140dp"
+                android:minWidth="10dp"
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp"
+                android:scrollHorizontally="true"
+                android:singleLine="true"
+                android:text="@string/general__save"
+                android:textSize="12dp"
+                app:cornerRadius="20dp"
+                app:icon="@drawable/ic_action_confirm_tilde"
+                app:iconPadding="4dp"
+                app:iconSize="20dp"
+
                 android:layout_gravity="center"
                 android:layout_margin="3dp"
                 android:layout_marginStart="15dp"
                 android:layout_span="3"
                 android:foregroundGravity="center_vertical"
-                android:gravity="center"
-                android:text="Guardar"
-                app:cornerRadius="20dp" />
+                android:tag="@string/tag_admin_gone"/>
+
 
             <include
                 android:id="@+id/grupo_info_lock_help_include"
-                layout="@layout/frame_help" />
+                layout="@layout/frame_help__open"
+                android:tag="@string/tag_admin_gone" />
         </LinearLayout>
 
 

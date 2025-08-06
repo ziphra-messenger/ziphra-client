@@ -1,17 +1,18 @@
 package com.privacity.cliente.singleton.interfaces;
 
-import com.privacity.common.dto.MessageDTO;
-import com.privacity.common.dto.MessageDetailDTO;
-import com.privacity.common.dto.ProtocoloDTO;
+import com.privacity.cliente.model.Message;
+import com.privacity.cliente.model.dto.MessageDetail;
+import com.privacity.cliente.model.dto.Protocolo;
 import com.privacity.common.dto.WrittingDTO;
 
 public interface ObservadoresMensajes {
 
-    public void nuevoMensaje(ProtocoloDTO protocoloDTO);
-    public void cambioEstado(MessageDetailDTO m);
-    public void emptyList();
-    public void mensajeAddItem(MessageDTO miMensaje, String asyncId);
-    void borrarMensaje(MessageDetailDTO detail);
+    void nuevoMensaje(Protocolo protocolo);
+    void cambioEstado(MessageDetail m);
+    void emptyList(String idGrupo);
+    void mensajeAddItem(Message miMensaje, String asyncId);
+    void borrarMessageDetail(MessageDetail detail);
+    void borrarMessage(String idMessageToMap);
 
     void writting(WrittingDTO w);
 

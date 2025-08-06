@@ -1,16 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.cardview.widget.CardView
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    app:cardElevation="10dp"
+    android:layout_margin="10dp"
+    android:orientation="vertical"
     app:cardCornerRadius="5dp"
-    android:layout_margin="10dp">
+    app:cardElevation="10dp">
 
     <LinearLayout
-        android:id="@+id/resend_item_list_layout"
+        android:id="@+id/item_list_view_message_detail__item_content"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="#E4DFB4"
@@ -25,8 +24,17 @@
 
             <TextView
                 android:id="@+id/tv_message_list_text"
-                android:layout_width="93dp"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:alpha="1"
+                android:clickable="true"
+                android:ellipsize="end"
+                android:gravity="center_vertical"
+                android:longClickable="true"
+                android:singleLine="true"
+                android:text="RBZP-2295RBZP-2295RBZP-2295RBZP-2295gerergerergregregregRBZP-2295RBZP-2295"
+                android:textColor="@color/black"
                 android:textSize="16sp"
                 android:textStyle="bold" />
 
@@ -36,14 +44,22 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:textSize="16sp"
-                android:textStyle="bold" />
+                android:textStyle="bold"
+                android:visibility="gone" />
 
             <TextView
                 android:id="@+id/bt_message_detail_item_state_tilde"
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="match_parent"
-                android:layout_weight="2"
-                android:text="432432434"
+                android:layout_weight="0"
+                android:alpha="1"
+                android:foregroundGravity="center_vertical"
+                android:gravity="right|center_vertical"
+                android:minWidth="45dp"
+                android:paddingStart="3dp"
+                android:paddingEnd="3dp"
+                android:text="1234"
+                android:textColor="@color/black"
                 android:textSize="16sp"
                 android:textStyle="bold" />
         </LinearLayout>

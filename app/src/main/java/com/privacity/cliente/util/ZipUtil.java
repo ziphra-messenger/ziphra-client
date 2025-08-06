@@ -1,9 +1,12 @@
 package com.privacity.cliente.util;
+import com.privacity.common.util.UtilsStringAbstract;
+
 import java.io.BufferedReader;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.util.Arrays;
 import java.util.zip.GZIPInputStream;
 import java.util.zip.GZIPOutputStream;
 
@@ -22,8 +25,8 @@ public class ZipUtil {
                 +"jbujsbjvugsduddbdj";
 
        System.out.println("after compress:");
-        byte[] compressed = new ZipUtil().compress(string.getBytes());
-        System.out.println(compressed.toString());
+        byte[] compressed = ZipUtil.compress(string.getBytes());
+        System.out.println(Arrays.toString(compressed));
         System.out.println("after decompress:");
         //String decomp = decompress(compressed);
         //System.out.println(decomp);
@@ -43,7 +46,7 @@ public class ZipUtil {
 	public byte[] decompress(byte[] compressed) throws IOException {
 		ByteArrayInputStream bis = new ByteArrayInputStream(compressed);
 		GZIPInputStream gis = new GZIPInputStream(bis);
-		BufferedReader br = new BufferedReader(new InputStreamReader(gis, "UTF-8"));
+		BufferedReader br = new BufferedReader(new InputStreamReader(gis, UtilsStringAbstract.CONSTANT__DEFAULT_CHARSET));
 		StringBuilder sb = new StringBuilder();
 		String line;
 		while((line = br.readLine()) != null) {

@@ -4,24 +4,21 @@ package com.privacity.cliente.util;
 import android.app.Activity;
 import android.content.Context;
 import android.content.DialogInterface;
-import android.graphics.Color;
-import android.graphics.drawable.Drawable;
+import android.content.res.Resources;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
-import android.widget.CheckBox;
-import android.widget.ImageButton;
 import android.widget.Spinner;
-import android.widget.TextView;
 
 import androidx.appcompat.app.AlertDialog;
-import androidx.core.graphics.drawable.DrawableCompat;
 
 import com.privacity.cliente.R;
 import com.privacity.cliente.activity.grupo.GrupoUtil;
+import com.privacity.cliente.model.Grupo;
 import com.privacity.cliente.singleton.Observers;
-import com.privacity.common.enumeration.GrupoRolesEnum;
+import com.privacity.cliente.singleton.SingletonValues;import com.privacity.cliente.singleton.Singletons;
+import com.privacity.cliente.singleton.toast.SingletonToastManager;
 
 import java.util.ArrayList;
 
@@ -30,14 +27,18 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 public class DialogsToShow {
+    public static void noAdminDialog(Activity activity, Grupo grupo, View parent) {
+        if (grupo == null) return;
+        noAdminDialog(activity,grupo.getIdGrupo(),parent);
 
+    }
     public static void noAdminDialog(Activity activity, String idGrupo, View parent) {
 
         if (!Observers.grupo().amIAdmin(idGrupo)) {
             ArrayList<View> views = getAllChildren(parent);
             for (View v : views) {
 
-                if (activity.getResources().getString(R.string.rol_admin).equals(v.getTag())) {
+                if (v.getTag() != null && v.getTag().toString().contains("[Admin]")) {
                     noAdminDialog(activity, v, idGrupo,false);
                 }else{
                     if (activity.getResources().getString(R.string.rol_no_admin_message).equals(v.getTag())) {
@@ -58,7 +59,7 @@ public class DialogsToShow {
         noAdminDialog(activity, idGrupo, activity.getWindow().getDecorView().findViewById(android.R.id.content));
     }
 
-    private static ArrayList<View> getAllChildren(View v) {
+    public static ArrayList<View> getAllChildren(View v) {
 
         if (!(v instanceof ViewGroup) || (v instanceof Spinner)) {
             ArrayList<View> viewArrayList = new ArrayList<View>();
@@ -83,14 +84,62 @@ public class DialogsToShow {
     }
 
 
-    public static MyListener noAdminDialog(Activity context, View view, String idGrupo){
-        return noAdminDialog(context,view, idGrupo,true);
+    public static void noAdminDialog(Activity context, View view, String idGrupo){
+        noAdminDialog(context,view, idGrupo,true);
     }
-    public static MyListener noAdminDialog(Activity context, View view, String idGrupo, boolean showDialog){
+    public static void noAdminDialog(Activity activity, View view, String idGrupo, boolean showDialog){
 
-        GrupoRolesEnum myRole = Observers.grupo().whichIsMyRole(idGrupo);
+        try {
+            view.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
 
-        view.setBackgroundColor(Color.LTGRAY);
+
+                    String mes = (activity.getString(R.string.dialog_to_show__alert__validation_by_role,
+                            GrupoUtil.transformGrupoRoleEnumToCompleteString(activity, Observers.grupo().whichIsMyRole(idGrupo))));
+                    SingletonToastManager.getInstance().showToadShort(activity,mes);
+                }
+            });
+        } catch (Exception e) {
+
+        }
+
+        try {
+            System.out.println(activity.
+                    getResources().getResourceEntryName(view.getId()) +   "  - " + view.getTag());
+        } catch (Resources.NotFoundException e) {
+           // e.printStackTrace();
+        }
+
+        boolean iamadmin = SingletonValues.getInstance().getGrupoSeleccionado().iAmAdmin();
+
+        if (!iamadmin && view.getTag() != null &&view.getTag().toString().contains("[gone]")){
+
+            view.setVisibility(View.GONE);
+        }
+        if (!iamadmin && view.getTag() != null && view.getTag().toString().contains("[disabled]")){
+
+            view.setClickable(false);
+            view.setContextClickable(false);
+        }
+        if (!iamadmin && view.getTag() != null && view.getTag().toString().contains("[clickcontext]")){
+
+            view.setClickable(true);
+            view.setContextClickable(true);
+
+
+        }
+        if (!iamadmin && view.getTag() != null && view.getTag().toString().contains("[enabledfalse]")){
+
+            view.setEnabled(false);
+            view.setClickable(true);
+            view.setContextClickable(false);
+        }
+       // noAdminDialog(activity, idGrupo,view);
+
+
+//        view.setBackgroundColor(Color.LTGRAY);
+/*
         view.setFocusable(false);
         view.setLongClickable(false);
 
@@ -101,7 +150,7 @@ public class DialogsToShow {
 
         MyListener r = new DialogsToShow.MyListener();
         r.setContext(context);
-        r.setMessage("Accion no permitida. Su rol en el grupo es " + GrupoUtil.transformGrupoRoleEnumToCompleteString(myRole));
+        r.setMessage(context.getString(R.string.dialog_to_show__alert__validation_by_role, GrupoUtil.transformGrupoRoleEnumToCompleteString(context, myRole)));
         r.setHasNegativeButton(false);
         r.setHasPositiveButton(true);
         r.setShowDialog(showDialog);
@@ -110,8 +159,9 @@ public class DialogsToShow {
             ImageButton button = (ImageButton) view;
             Drawable buttonDrawable = button. getBackground();
             buttonDrawable = DrawableCompat.wrap(buttonDrawable);
-            DrawableCompat. setTint(buttonDrawable, Color.LTGRAY);
+  //          DrawableCompat. setTint(buttonDrawable, Color.LTGRAY);
             button.setBackground(buttonDrawable);
+            button.setVisibility(View.GONE);
         }
 
         if (view instanceof CheckBox) {
@@ -187,6 +237,7 @@ public class DialogsToShow {
 
         }
         return r;
+*/
     }
 
 

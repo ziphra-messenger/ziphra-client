@@ -3,12 +3,13 @@ package com.privacity.cliente.rest;
 import android.app.Activity;
 import android.os.AsyncTask;
 
+import com.privacity.cliente.common.constants.GeneralConfigurationConstant;
 import com.privacity.cliente.rest.restcalls.CallbackRestDownload;
 import com.privacity.cliente.singleton.SingletonValues;
+import com.privacity.cliente.singleton.UtilsStringSingleton;
 import com.privacity.cliente.singleton.impl.SingletonServer;
-import com.privacity.cliente.util.GsonFormated;
 import com.privacity.common.config.SystemGralConfURLs;
-import com.privacity.common.dto.ProtocoloDTO;
+import com.privacity.cliente.model.dto.Protocolo;
 import com.privacity.common.enumeration.ExceptionReturnCode;
 
 import org.springframework.http.HttpEntity;
@@ -17,6 +18,7 @@ import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.http.client.HttpComponentsClientHttpRequestFactory;
 import org.springframework.http.converter.FormHttpMessageConverter;
 import org.springframework.http.converter.HttpMessageConversionException;
 import org.springframework.http.converter.HttpMessageConverter;
@@ -36,13 +38,13 @@ import java.util.Map;
 
 public class RestTemplateProtocoloDownload extends AsyncTask<Void, Void, ResponseEntity<byte[]>> {
 
-    private CallbackRestDownload callbackRest;
-    private ProtocoloDTO protocoloDTO;
-    private Activity context;
+    private final CallbackRestDownload callbackRest;
+    private final Protocolo protocolo;
+    private final Activity context;
 
-    public RestTemplateProtocoloDownload(Activity context, ProtocoloDTO protocoloDTO, CallbackRestDownload callbackRest) {
+    public RestTemplateProtocoloDownload(Activity context, Protocolo protocolo, CallbackRestDownload callbackRest) {
         this.callbackRest = callbackRest;
-        this.protocoloDTO = protocoloDTO;
+        this.protocolo = protocolo;
         this.context = context;
     }
 
@@ -51,7 +53,11 @@ public class RestTemplateProtocoloDownload extends AsyncTask<Void, Void, Respons
     protected ResponseEntity<byte[]> doInBackground(Void... voids) {
 
             try {
+                HttpComponentsClientHttpRequestFactory httpRequestFactory = new HttpComponentsClientHttpRequestFactory();
+                httpRequestFactory.setConnectTimeout(GeneralConfigurationConstant.CONNECTION_TIMEOUT);
+                httpRequestFactory.setReadTimeout(GeneralConfigurationConstant.CONNECTION_TIMEOUT);
                 RestTemplate restTemplate = new RestTemplate();
+                restTemplate.setRequestFactory(httpRequestFactory);
 
 
 
@@ -63,10 +69,10 @@ public class RestTemplateProtocoloDownload extends AsyncTask<Void, Void, Respons
                 HttpHeaders headers = new HttpHeaders();
                 headers.setAccept(Collections.singletonList(MediaType.APPLICATION_OCTET_STREAM));
                 String authHeader = SingletonValues.getInstance().getToken();
-                headers.set( "Authorization", authHeader );
+                headers.set( org.apache.hc.core5.http.HttpHeaders.AUTHORIZATION, authHeader );
 
                 String toSend="";
-                toSend = SingletonValues.getInstance().getSessionAEStoUse().getAES(GsonFormated.get().toJson(protocoloDTO));
+                toSend = SingletonValues.getInstance().getSessionAEStoUse().getAES(UtilsStringSingleton.getInstance().gsonToSend(protocolo));
 
                 HashMap<String, Object> parameters = new HashMap<String, Object>();
                 parameters.put("request",toSend );
@@ -76,7 +82,7 @@ public class RestTemplateProtocoloDownload extends AsyncTask<Void, Void, Respons
 
                     entity = new HttpEntity<Map<String, Object>>(parameters, new HttpHeaders() {{
                         String authHeader = SingletonValues.getInstance().getToken();
-                        set( "Authorization", authHeader );
+                        set( org.apache.hc.core5.http.HttpHeaders.AUTHORIZATION, authHeader );
                     }});
                 ResponseEntity<byte[]> response = restTemplate.exchange(url, HttpMethod.POST, entity, byte[].class);
                 //System.out.println ( new String ( response.getBody(), Charset.defaultCharset()));
@@ -93,15 +99,15 @@ public class RestTemplateProtocoloDownload extends AsyncTask<Void, Void, Respons
 
                 if ("403".equals(e.getMessage().trim())){
 
-                    ProtocoloDTO p = new ProtocoloDTO();
+                    Protocolo p = new Protocolo();
                     p.setCodigoRespuesta(ExceptionReturnCode.AUTH_SESSION_OUTOFSYNC.getCode());
 
                     return new ResponseEntity<byte[]>(p.toString().getBytes(), HttpStatus.OK);
 
 
                 }
-                protocoloDTO.setCodigoRespuesta(e.getMessage());
-                return new ResponseEntity<byte[]>(protocoloDTO.toString().getBytes(), HttpStatus.OK);
+                protocolo.setCodigoRespuesta(e.getMessage());
+                return new ResponseEntity<byte[]>(protocolo.toString().getBytes(), HttpStatus.OK);
 
 
 
@@ -109,19 +115,19 @@ public class RestTemplateProtocoloDownload extends AsyncTask<Void, Void, Respons
 
                 e.printStackTrace();
 
-                protocoloDTO.setCodigoRespuesta(e.getMessage());
-                return new ResponseEntity<byte[]>(protocoloDTO.toString().getBytes(), HttpStatus.OK);
+                protocolo.setCodigoRespuesta(e.getMessage());
+                return new ResponseEntity<byte[]>(protocolo.toString().getBytes(), HttpStatus.OK);
 
             } catch (RestClientException e) {
                 e.printStackTrace();
-                protocoloDTO.setCodigoRespuesta(e.getMessage());
-                return new ResponseEntity<byte[]>(protocoloDTO.toString().getBytes(), HttpStatus.OK);
+                protocolo.setCodigoRespuesta(e.getMessage());
+                return new ResponseEntity<byte[]>(protocolo.toString().getBytes(), HttpStatus.OK);
 
             } catch (Exception e) {
                 e.printStackTrace();
-                protocoloDTO.setCodigoRespuesta(e.getMessage());
+                protocolo.setCodigoRespuesta(e.getMessage());
 
-                return new ResponseEntity<byte[]>(protocoloDTO.toString().getBytes(), HttpStatus.OK);
+                return new ResponseEntity<byte[]>(protocolo.toString().getBytes(), HttpStatus.OK);
 
             }
 
@@ -143,7 +149,11 @@ public class RestTemplateProtocoloDownload extends AsyncTask<Void, Void, Respons
 
 
     public  RestTemplate getRestTemplate() {
-        final RestTemplate restTemplate = new RestTemplate();
+        HttpComponentsClientHttpRequestFactory httpRequestFactory = new HttpComponentsClientHttpRequestFactory();
+        httpRequestFactory.setConnectTimeout(GeneralConfigurationConstant.CONNECTION_TIMEOUT);
+        httpRequestFactory.setReadTimeout(GeneralConfigurationConstant.CONNECTION_TIMEOUT);
+        RestTemplate restTemplate = new RestTemplate();
+        restTemplate.setRequestFactory(httpRequestFactory);
         //restTemplate.setRequestFactory(httpRequestFactory()); // apache http library
         restTemplate.setMessageConverters(getMessageConverters());
         return restTemplate;

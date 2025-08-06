@@ -2,9 +2,7 @@ package com.privacity.cliente.activity.common;
 
 import android.os.Bundle;
 
-import com.privacity.cliente.model.Grupo;
 import com.privacity.cliente.singleton.Observers;
-import com.privacity.cliente.singleton.SingletonValues;
 import com.privacity.cliente.singleton.interfaces.ObservadoresPasswordGrupo;
 
 public abstract class GrupoSelectedCustomAppCompatActivity

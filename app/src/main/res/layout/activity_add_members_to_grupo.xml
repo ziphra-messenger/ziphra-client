@@ -6,19 +6,11 @@
     android:layout_height="match_parent"
     tools:context=".activity.addmember.AddMembersToGrupoActivity">
 
-    <LinearLayout
-        android:id="@+id/linearLayout7"
-        android:layout_width="0dp"
+    <ScrollView
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="30dp"
-        android:layout_marginTop="10dp"
-        android:layout_marginEnd="30dp"
-        android:layout_marginBottom="9dp"
-        android:background="@drawable/login_stylo"
-        android:orientation="vertical"
-        android:padding="10dp"
-        android:tag="@string/help_tag_add_member_to_grupo"
-        app:layout_constraintBottom_toTopOf="@+id/bt_add_member_aceptar_e_invitar"
+        android:fillViewport="true"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
@@ -26,138 +18,203 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:gravity="center"
-            android:orientation="vertical"
-            android:paddingVertical="4dp">
+            android:orientation="vertical">
 
-            <EditText
-                android:id="@+id/add_member_cod_invitation"
+            <LinearLayout
+                android:id="@+id/linearLayout7"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="Codigo de Invitacion"
-                android:inputType="textPersonName"
-                android:textAlignment="center" />
+                android:layout_marginStart="30dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginEnd="30dp"
+                android:layout_marginBottom="9dp"
+                android:background="@drawable/login_stylo"
+                android:orientation="vertical"
+                android:padding="10dp"
+                android:tag="@string/help_tag_add_member_to_grupo">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:gravity="center"
+                    android:orientation="vertical"
+                    android:paddingVertical="4dp">
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:orientation="horizontal">
+
+                        <EditText
+                            android:id="@+id/add_member_cod_invitation"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center|center_horizontal|center_vertical"
+                            android:drawableEnd="@drawable/ic_baseline_clear_24"
+                            android:gravity="center|center_horizontal|center_vertical"
+                            android:hint="@string/activity__add_members_to_grupo__codigo_invitation__hint"
+                            android:inputType="textPersonName"
+                            android:maxWidth="200dp"
+                            android:textAlignment="center" />
+
+                        <ImageButton
+                            android:id="@+id/ib_add_member_to_grupo_paste"
+                            android:layout_width="29dp"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_vertical"
+                            android:layout_marginEnd="10dp"
+                            android:backgroundTint="#E4DFB4"
+                            android:foregroundGravity="center_vertical|center"
+                            app:srcCompat="@drawable/ic_action_name_paste" />
+                    </LinearLayout>
+
+                    <TextView
+                        android:id="@+id/add_member_cod_invitation_validation"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:gravity="center"
+                        android:textSize="14sp"
+                        android:textStyle="bold"
+                        android:visibility="visible" />
+
+                    <Button
+                        android:id="@+id/leerqr"
+                        style="@style/botonMarquee"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="10dp"
+                        android:layout_marginEnd="10dp"
+                        android:layout_span="2"
+                        android:ellipsize="marquee"
+
+                        android:maxWidth="200dp"
+                        android:padding="10dp"
+                        android:singleLine="true"
+                        android:text="@string/activity__add_members_to_grupo__codigo_invitation__scan_qr"
+                        app:cornerRadius="20dp"
+                        app:icon="@drawable/ic_baseline_qr_code_24"
+                        app:iconGravity="start"
+                        app:iconPadding="8dp" />
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:gravity="center"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:id="@+id/textView29"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:paddingTop="8dp"
+                            android:paddingBottom="8dp"
+                            android:text="@string/general__role" />
+
+                        <Spinner
+                            android:id="@+id/add_member_roles"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="0"
+                            android:entries="@array/roles"
+                            android:padding="10dp"
+                            android:textAlignment="center" />
+                    </LinearLayout>
+
+                    <TextView
+                        android:id="@+id/textView10"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:maxWidth="250dp"
+                        android:padding="5dp"
+                        android:text="@string/activity__add_members_to_grupo__add_message_invitation" />
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/sendtext"
+                        android:orientation="horizontal">
+
+                        <EditText
+                            android:id="@+id/add_members_message"
+                            android:layout_width="match_parent"
+                            android:layout_height="40dp"
+                            android:layout_margin="7dp"
+                            android:background="@drawable/sendtext"
+                            android:ems="10"
+                            android:enabled="true"
+                            android:gravity="start|top"
+                            android:inputType="textMultiLine"
+                            android:maxHeight="60dp"
+                            android:maxLength="200"
+                            android:maxLines="3"
+                            android:padding="10dp" />
+                    </LinearLayout>
+
+                    <TextView
+                        android:id="@+id/add_members_message_counter"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_marginTop="2dp"
+                        android:gravity="center"
+                        android:textSize="12sp" />
+
+                </LinearLayout>
+
+                <include layout="@layout/frame_help__open" />
+
+            </LinearLayout>
 
             <Button
-                android:id="@+id/leerqr"
+                android:id="@+id/bt_add_member_aceptar_e_invitar"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="10dp"
-                android:layout_marginEnd="10dp"
-                android:layout_span="2"
-                android:padding="10dp"
-                android:text="Escanear QR"
-                app:icon="@drawable/ic_baseline_qr_code_24"
-                app:iconGravity="start"
-                app:iconPadding="8dp" />
+                android:layout_gravity="center_horizontal"
+                android:layout_marginStart="60dp"
 
-            <TextView
-                android:id="@+id/add_member_cod_invitation_validation"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:gravity="center"
-                android:textSize="12sp" />
+                android:layout_marginTop="10dp"
+                android:layout_marginEnd="60dp"
+                android:layout_marginBottom="10dp"
+                android:maxWidth="250dp"
+                android:maxLines="2"
+                android:minWidth="10dp"
+                android:text="@string/activity__add_members_to_grupo__accept_and_send"
+                android:textSize="12sp"
+                app:cornerRadius="20dp"
+                app:icon="@drawable/ic_baseline_group_add_24" />
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:gravity="center"
-                android:orientation="horizontal">
+            <Button
+                android:id="@+id/bt_add_member_aceptar"
+                style="@style/botonMarquee"
+                android:layout_width="wrap_content"
+                android:layout_height="40dp"
+                android:layout_gravity="center_horizontal"
 
-                <TextView
-                    android:id="@+id/textView29"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:paddingTop="8dp"
-                    android:paddingBottom="8dp"
-                    android:text="Rol" />
-
-                <Spinner
-                    android:id="@+id/add_member_roles"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:entries="@array/roles"
-                    android:padding="10dp"
-                    android:textAlignment="center" />
-            </LinearLayout>
-
-            <TextView
-                android:id="@+id/textView10"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:gravity="center"
-                android:padding="5dp"
-                android:text="Puedes agregar un mensaje a tu invitacion" />
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@drawable/sendtext"
-                android:orientation="horizontal">
-
-                <EditText
-                    android:id="@+id/add_members_message"
-                    android:layout_width="match_parent"
-                    android:layout_height="40dp"
-                    android:layout_margin="7dp"
-                    android:background="@drawable/sendtext"
-                    android:ems="10"
-                    android:enabled="true"
-                    android:gravity="start|top"
-                    android:inputType="textMultiLine"
-                    android:maxHeight="60dp"
-                    android:maxLength="200"
-                    android:maxLines="3"
-                    android:padding="10dp" />
-            </LinearLayout>
-
-            <TextView
-                android:id="@+id/add_members_message_counter"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_marginTop="2dp"
-                android:gravity="center"
-                android:textSize="10sp" />
+                android:layout_marginStart="60dp"
+                android:layout_marginEnd="60dp"
+                android:layout_marginBottom="20dp"
+                android:maxWidth="250dp"
+                android:maxLines="2"
+                android:minHeight="40dp"
+                android:text="@string/activity__add_members_to_grupo__accept_and_close"
+                android:textSize="12sp"
+                app:cornerRadius="20dp"
+                app:icon="@drawable/ic_baseline_how_to_reg_24" />
 
         </LinearLayout>
+    </ScrollView>
+    <include
 
-        <include layout="@layout/frame_help" />
+        layout="@layout/incllude__common__all"
 
-    </LinearLayout>
-
-    <Button
-        android:id="@+id/bt_add_member_aceptar"
-        android:layout_width="273dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="60dp"
-        android:layout_marginEnd="60dp"
-        android:layout_marginBottom="20dp"
-        android:text="Aceptar y Cerrar"
-        android:textSize="12sp"
-        app:icon="@drawable/ic_baseline_how_to_reg_24"
+        android:visibility="visible"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.504"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/bt_add_member_aceptar_e_invitar" />
-
-    <Button
-        android:id="@+id/bt_add_member_aceptar_e_invitar"
-        android:layout_width="273dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="60dp"
-        android:layout_marginTop="10dp"
-        android:layout_marginEnd="60dp"
-        android:layout_marginBottom="10dp"
-        android:text="Aceptar e\nInvitar a alguien mas"
-        android:textSize="12sp"
-        app:icon="@drawable/ic_baseline_group_add_24"
-        app:layout_constraintBottom_toTopOf="@+id/bt_add_member_aceptar"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/linearLayout7" />
-
+        app:layout_constraintTop_toTopOf="parent"
+        tools:visibility="gone" />
 </androidx.constraintlayout.widget.ConstraintLayout>

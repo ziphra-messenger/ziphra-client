@@ -68,7 +68,7 @@ public class MyForeGroundService extends Service {
 
         String CHANNEL_ID=value+"";
 
-        NotificationManager mNotificationManager = (NotificationManager) this.getApplicationContext().getSystemService(this.NOTIFICATION_SERVICE);
+        NotificationManager mNotificationManager = (NotificationManager) this.getApplicationContext().getSystemService(NOTIFICATION_SERVICE);
 
         //For API 26+ you need to put some additional code like below:
         NotificationChannel mChannel;
@@ -96,7 +96,7 @@ public class MyForeGroundService extends Service {
                 .setSmallIcon(R.drawable.ic_baseline_location_city_24)
                 //.setOnlyAlertOnce(true)
                 .setContentTitle("Mensaje Nuevo")
-                .setContentText("privacity")
+                .setContentText(getString(R.string.general__title))
                 .setVibrate(new long[]{0, 500, 1000})
                 .setDefaults(Notification.DEFAULT_ALL)
                 .setContentIntent(pIntent);

@@ -13,8 +13,8 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.privacity.cliente.R;
 import com.privacity.cliente.singleton.Observers;
+import com.privacity.cliente.singleton.toast.SingletonToastManager;
 import com.privacity.cliente.util.CallbackAction;
-import com.privacity.cliente.util.DialogsToShow;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -26,10 +26,10 @@ import lombok.AllArgsConstructor;
 
 public class RecyclerMessageResendAdapter extends RecyclerView.Adapter<RecyclerMessageResendAdapter.RecyclerHolder> {
     private final Activity activity;
-    private List<ItemListMessageResend> items;
-    private List<ItemListMessageResend> originalItems;
-    private RecyclerItemClick itemClick;
-    private HashMap<String,Boolean> gruposChequeados = new HashMap<>();
+    private final List<ItemListMessageResend> items;
+    private final List<ItemListMessageResend> originalItems;
+    private final RecyclerItemClick itemClick;
+    private final HashMap<String,Boolean> gruposChequeados = new HashMap<>();
     public RecyclerMessageResendAdapter(List<ItemListMessageResend> items, RecyclerItemClick itemClick, Activity activity) {
         this.items = items;
         this.itemClick = itemClick;
@@ -61,15 +61,22 @@ public class RecyclerMessageResendAdapter extends RecyclerView.Adapter<RecyclerM
 
 
         if (Observers.grupo().amIReadOnly(item.getGrupo().getIdGrupo())){
-            //holder.cbMessageResendGrupoSelect.setEnabled(false);
-            {
+            holder.cbMessageResendGrupoSelect.setEnabled(false);
+            holder.fondo.setClickable(true);
+            holder.fondo.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    SingletonToastManager.getInstance().showToadShort(activity, "tu rol es solo lectura");
+                }
+            });
+/*            {
                 DialogsToShow.MyListener listener = DialogsToShow.noAdminDialog(activity, holder.fondo,item.getGrupo().getIdGrupo());
                 listener.setActionBeforeMessage(new CallbackActionCb(holder));
             }
             {
                 DialogsToShow.MyListener listener = DialogsToShow.noAdminDialog(activity, holder.cbMessageResendGrupoSelect,item.getGrupo().getIdGrupo());
                 listener.setActionBeforeMessage(new CallbackActionCb(holder));
-            }
+            }*/
         }else{
             holder.cbMessageResendGrupoSelect.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -87,7 +94,7 @@ public class RecyclerMessageResendAdapter extends RecyclerView.Adapter<RecyclerM
     @AllArgsConstructor
     private class CallbackActionCb implements CallbackAction{
 
-        private RecyclerHolder holder;
+        private final RecyclerHolder holder;
 
         @Override
         public void action() {
@@ -96,11 +103,7 @@ public class RecyclerMessageResendAdapter extends RecyclerView.Adapter<RecyclerM
     }
     private void ListenerNotReadOnly(View v, @NotNull RecyclerHolder holder, ItemListMessageResend item) {
         if (v instanceof LinearLayout){
-            if (holder.cbMessageResendGrupoSelect.isChecked()){
-                holder.cbMessageResendGrupoSelect.setChecked(false);
-            }else{
-                holder.cbMessageResendGrupoSelect.setChecked(true);
-            }
+            holder.cbMessageResendGrupoSelect.setChecked(!holder.cbMessageResendGrupoSelect.isChecked());
         }
         if (holder.cbMessageResendGrupoSelect.isChecked()){
             gruposChequeados.put(item.getGrupo().getIdGrupo(), true);
@@ -124,12 +127,8 @@ public class RecyclerMessageResendAdapter extends RecyclerView.Adapter<RecyclerM
         if (strSearch.length() == 0) {
             items.clear();
             for (ItemListMessageResend i : originalItems) {
-                    if (this.gruposChequeados.containsKey(i.getGrupo().getIdGrupo())) {
-                        i.setChecked(true);
-                    }else{
-                        i.setChecked(false);
-                    }
-                    items.add(i);
+                i.setChecked(this.gruposChequeados.containsKey(i.getGrupo().getIdGrupo()));
+                items.add(i);
             }
         }
         else {
@@ -137,11 +136,7 @@ public class RecyclerMessageResendAdapter extends RecyclerView.Adapter<RecyclerM
             items.clear();
             for (ItemListMessageResend i : originalItems) {
                 if (i.getGrupo().getName().toLowerCase().contains(strSearch.toLowerCase())) {
-                    if (this.gruposChequeados.containsKey(i.getGrupo().getIdGrupo())) {
-                        i.setChecked(true);
-                    }else{
-                        i.setChecked(false);
-                    }
+                    i.setChecked(this.gruposChequeados.containsKey(i.getGrupo().getIdGrupo()));
 
                     items.add(i);
                 }
@@ -154,8 +149,8 @@ public class RecyclerMessageResendAdapter extends RecyclerView.Adapter<RecyclerM
 
     public class RecyclerHolder extends RecyclerView.ViewHolder {
         private final View fondo;
-        private TextView tvMssageResendGrupoName;
-        private CheckBox cbMessageResendGrupoSelect;
+        private final TextView tvMssageResendGrupoName;
+        private final CheckBox cbMessageResendGrupoSelect;
         public RecyclerHolder(@NonNull View itemView_1) {
             super(itemView_1);
             fondo = itemView.findViewById(R.id.resend_item_list_layout);

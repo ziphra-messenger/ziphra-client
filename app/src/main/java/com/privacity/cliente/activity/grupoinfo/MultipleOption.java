@@ -6,6 +6,7 @@ import android.widget.RadioGroup;
 import android.widget.TextView;
 
 import com.privacity.common.enumeration.ConfigurationStateEnum;
+import com.privacity.common.enumeration.RulesConfEnum;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -29,22 +30,22 @@ public class MultipleOption {
         return false;
     }
 
-    public ConfigurationStateEnum getSelectedValue(){
-        if (permitir != null && permitir.isChecked()) return ConfigurationStateEnum.ALLOW;
-        else if (bloquear != null && bloquear.isChecked()) return ConfigurationStateEnum.BLOCK;
+    public RulesConfEnum getSelectedValue(){
+        if (permitir != null && permitir.isChecked()) return RulesConfEnum.NULL;
+        else if (bloquear != null && bloquear.isChecked()) return RulesConfEnum.BLOCK;
         else if ( obligatorio !=null) {
-            if (obligatorio.isChecked()) return ConfigurationStateEnum.MANDATORY;
+            if (obligatorio.isChecked()) return RulesConfEnum.MANDATORY;
         }
-        return ConfigurationStateEnum.ALLOW;
+        return RulesConfEnum.NULL;
     }
 
-    public void setValue(ConfigurationStateEnum value) {
+    public void setValue(RulesConfEnum value) {
         if (permitir != null) permitir.setChecked(false);
         if (bloquear != null) bloquear.setChecked(false);
         if (obligatorio != null) obligatorio.setChecked(false);
 
-        if (value.equals(ConfigurationStateEnum.ALLOW) && permitir != null ) permitir.setChecked(true);
-        if (value.equals(ConfigurationStateEnum.BLOCK) && bloquear != null ) bloquear.setChecked(true);
-        if (value.equals(ConfigurationStateEnum.MANDATORY) && obligatorio != null ) obligatorio.setChecked(true);
+        if (value.equals(RulesConfEnum.NULL) && permitir != null ) permitir.setChecked(true);
+        if (value.equals(RulesConfEnum.BLOCK) && bloquear != null ) bloquear.setChecked(true);
+        if (value.equals(RulesConfEnum.MANDATORY) && obligatorio != null ) obligatorio.setChecked(true);
     }
 }

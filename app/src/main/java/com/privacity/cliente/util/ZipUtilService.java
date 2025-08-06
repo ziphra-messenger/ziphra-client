@@ -1,5 +1,7 @@
 package com.privacity.cliente.util;
 
+import com.privacity.common.util.UtilsStringAbstract;
+
 import java.io.BufferedReader;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
@@ -37,7 +39,7 @@ public class ZipUtilService {
 		try {
 			ByteArrayInputStream bis = new ByteArrayInputStream(compressed);
 			GZIPInputStream gis = new GZIPInputStream(bis);
-			BufferedReader br = new BufferedReader(new InputStreamReader(gis, "UTF-8"));
+			BufferedReader br = new BufferedReader(new InputStreamReader(gis, UtilsStringAbstract.CONSTANT__DEFAULT_CHARSET));
 			sb = new StringBuilder();
 			String line;
 			while((line = br.readLine()) != null) {

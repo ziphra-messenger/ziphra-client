@@ -3,9 +3,11 @@ package com.privacity.cliente.activity.message;
 import android.os.CountDownTimer;
 
 import com.privacity.cliente.model.Message;
-import com.privacity.common.dto.MessageDetailDTO;
+import com.privacity.cliente.model.dto.MessageDetail;
+
 
 import java.io.Serializable;
+import java.util.List;
 
 import lombok.Data;
 
@@ -19,13 +21,15 @@ public class ItemListMessage implements Serializable {
         this.rch = rch;
     }
 
-    MessageDetailDTO messageDetailDTO;
+    MessageDetail messageDetail;
     Message message;
     RecyclerHolderGeneric rch;
     String nombreMostrado;
-
+    List<String> url;
     boolean mostrado;
-    boolean isPlaying=false;
+    boolean isPlaying = false;
+    RecyclerHolder holder;
+
     public CountDownTimer getCounter() {
         return counter;
     }
@@ -34,22 +38,23 @@ public class ItemListMessage implements Serializable {
         this.counter = counter;
     }
 
-    private CountDownTimer counter=null;
+
+    private CountDownTimer counter = null;
     private boolean running;
     private boolean ocularDetails;
-    private boolean messageBlackEyeShowOn;
-    public void startTimer(){
+
+    public void startTimer() {
         running = true;
         this.counter.start();
     }
-    public boolean isRunning(){
+
+    public boolean isRunning() {
         return running;
     }
 
-    public ItemListMessage(Message message, MessageDetailDTO messageDetailDTO) {
+    public ItemListMessage(Message message, MessageDetail messageDetail) {
         this.message = message;
-        this.messageDetailDTO = messageDetailDTO;
-        this.message = message;
+        this.messageDetail = messageDetail;
     }
 
     public Message getMessage() {
@@ -60,15 +65,12 @@ public class ItemListMessage implements Serializable {
         this.message = message;
     }
 
-    public MessageDetailDTO getMessageDetailDTO() {
-        return messageDetailDTO;
+    public MessageDetail getMessageDetail() {
+        return messageDetail;
     }
 
-    public void setMessageDetailDTO(MessageDetailDTO messageDetailDTO) {
-        this.messageDetailDTO = messageDetailDTO;
+    public void setMessageDetail(MessageDetail messageDetail) {
+        this.messageDetail = messageDetail;
     }
-
-
-
 
 }

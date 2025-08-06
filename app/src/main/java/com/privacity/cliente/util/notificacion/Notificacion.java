@@ -5,6 +5,7 @@ import android.app.Notification;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Build;
@@ -22,7 +23,7 @@ import static android.content.Context.VIBRATOR_SERVICE;
 public class Notificacion {
 
     private static Activity activity;
-    private static Notificacion instance = new Notificacion();
+    private static final Notificacion instance = new Notificacion();
 
     private Notificacion() {
     }
@@ -59,7 +60,7 @@ public class Notificacion {
 
 
 
-        NotificationManager mNotificationManager = (NotificationManager) activity.getApplicationContext().getSystemService(activity.NOTIFICATION_SERVICE);
+        NotificationManager mNotificationManager = (NotificationManager) activity.getApplicationContext().getSystemService(Context.NOTIFICATION_SERVICE);
 
         //For API 26+ you need to put some additional code like below:
         NotificationChannel mChannel;
@@ -87,7 +88,7 @@ public class Notificacion {
                 .setSmallIcon(R.drawable.ic_baseline_location_city_24)
                 .setOnlyAlertOnce(true)
                 .setContentTitle("Mensaje Nuevo")
-                //.setContentText("privacity")
+                .setContentText(activity.getString(R.string.general__title))
                 .setVibrate(new long[]{0, 500, 1000})
                 .setDefaults(Notification.DEFAULT_ALL)
                 .setContentIntent(pIntent);

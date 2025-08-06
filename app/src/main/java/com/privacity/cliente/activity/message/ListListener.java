@@ -1,7 +1,6 @@
 package com.privacity.cliente.activity.message;
 
 import android.app.Activity;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.text.InputType;
 import android.view.View;
@@ -14,7 +13,6 @@ import com.privacity.cliente.activity.message.avanzado.MessageAvanzado;
 import com.privacity.cliente.model.Message;
 import com.privacity.cliente.singleton.Observers;
 import com.privacity.cliente.singleton.SingletonValues;
-import com.privacity.common.enumeration.MessageState;
 
 public class ListListener {
 
@@ -60,43 +58,7 @@ public class ListListener {
         return txt;
     }
 
-    public static void setListenerMessageBlack(ItemListMessage item, RecyclerHolderGeneric rch, Activity context) {
-        rch.getBtMessageBlackEyeShow().setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
 
-                    rch.getBtMessageBlackEyeShow().setVisibility(View.GONE);
-                    rch.getBtMessageBlackEyeHide().setVisibility(View.VISIBLE);
-                    rch.getLayoutMessageFrame().setVisibility(View.VISIBLE);
-                    item.setMessageBlackEyeShowOn(true);
-
-                    new Runnable(){
-
-                        @Override
-                        public void run() {
-                            if (!rch.isHasMediaAudioChat() && !item.getMessage().isTimeMessage()){
-
-                                Observers.message().cambiarEstadoUso(item.getMessageDetailDTO(), true,context);
-                            }
-                        }
-                    }.run();
-
-
-            }
-        });
-
-        rch.getBtMessageBlackEyeHide().setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                rch.getBtMessageBlackEyeShow().setVisibility(View.VISIBLE);
-                rch.getBtMessageBlackEyeHide().setVisibility(View.GONE);
-
-               rch.getLayoutMessageFrame().setVisibility(View.GONE);
-
-                item.setMessageBlackEyeShowOn(false);
-            }
-        });
-    }
 
     public static void setListenerLockClose(MessageActivity context, RecyclerHolderGeneric rch){
 
@@ -128,19 +90,19 @@ public class ListListener {
         builder.setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int id) {
 
-                context.tvMessageSecretKey.setText("");
+                //context.getMessageAvanzado().getTvMessageSecretKey().setText("");
 
             }
         });
 
-        builder.setNegativeButton("Cancelar", new DialogInterface.OnClickListener() {
+        builder.setNegativeButton(context.getString(R.string.general__cancel), new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int id) {
 
                 //context.tvMessageSecretKey.setText(password.getText().toString());
 
             }
         });
-        builder.setTitle("Desea Borrar la Extra Encrypt Key?");
+        builder.setTitle(context.getString(R.string.message_activity__extra_encrypt__delete__question));
 
 
 
@@ -159,16 +121,16 @@ public class ListListener {
         builder.setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int id) {
 
-                context.tvMessageSecretKey.setText(password.getText().toString());
+                //context.getMessageAvanzado().getTvMessageSecretKey().setText(password.getText().toString());
 
                 if (actionMessageEncryptKeyI != null){
                     actionMessageEncryptKeyI.action();
                 }else{
-                    MessageAvanzado.aplicarExtraAES(
+/*                    MessageAvanzado.aplicarExtraAES(
                             SingletonValues.getInstance().getGrupoSeleccionado(),
                             context ,
-                            context.tvMessageSecretKey,
-                            null,true,null);
+                            context.getMessageAvanzado().getTvMessageSecretKey(),
+                            null,true,null);*/
                 }
 
 
@@ -177,8 +139,7 @@ public class ListListener {
 
         builder.setNegativeButton(R.string.close, (dialog, which) -> {});
 
-        builder.setTitle("Ingrese Extra Encrypt Key");
-
+        builder.setTitle(context.getString(R.string.message_activity__extra_encrypt__add_key));
 
 
 

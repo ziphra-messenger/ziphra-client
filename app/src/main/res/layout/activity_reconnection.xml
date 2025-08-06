@@ -22,6 +22,6 @@
 
     <include
         android:id="@+id/user"
-        layout="@layout/custom_comp_general_progress_bar"
+        layout="@layout/incllude__common__progress_bar"
         android:visibility="visible" />
 </androidx.constraintlayout.widget.ConstraintLayout>

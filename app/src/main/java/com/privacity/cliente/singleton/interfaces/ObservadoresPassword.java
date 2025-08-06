@@ -1,7 +1,7 @@
 package com.privacity.cliente.singleton.interfaces;
 
 public interface ObservadoresPassword {
-    public void passwordExpired();
+    void passwordExpired();
 
-    public void passwordSet();
+    void passwordSet();
 }

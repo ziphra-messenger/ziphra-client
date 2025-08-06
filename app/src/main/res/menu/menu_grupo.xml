@@ -4,17 +4,17 @@
 
     <item
         android:id="@+id/boton_add_grupo"
-        android:title="Crear Grupo" />
+        android:title="@string/menu_grupo__item__create_grupo" />
     <item
         android:id="@+id/menu_grupo_codigo_invitacion"
-        android:title="Codigo Invitacion" />
+        android:title="@string/menu_grupo__item__invitation_code" />
     <item
         android:id="@+id/menu_grupo_mi_cuenta"
-        android:title="Mi Cuenta" />
+        android:title="@string/menu_grupo__item__my_account" />
     <item
         android:id="@+id/menu_grupo_server_gral_conf"
-        android:title="Acerca de" />
+        android:title="@string/menu_grupo__item__about_this" />
     <item
         android:id="@+id/menu_item_grupo_logout"
-        android:title="Salir" />
+        android:title="@string/menu_grupo__item__exit" />
 </menu>

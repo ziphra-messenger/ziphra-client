@@ -9,7 +9,7 @@
 
     <LinearLayout
         android:layout_width="fill_parent"
-        android:layout_height="match_parent"
+        android:layout_height="0dp"
         android:layout_marginStart="2dp"
         android:layout_marginTop="2dp"
         android:layout_marginEnd="2dp"
@@ -52,7 +52,7 @@
 
                 <include
                     android:id="@+id/grupoinfo_help_include_no_admin"
-                    layout="@layout/frame_help"
+                    layout="@layout/frame_help__open"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content" />
             </LinearLayout>
@@ -66,38 +66,51 @@
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 android:orientation="vertical">
 
                 <include
                     layout="@layout/frame_grupo_info_name"
-                    tools:visibility="gone" />
+                    android:visibility="visible"
+                    tools:visibility="visible" />
 
                 <include
                     layout="@layout/frame_grupo_info_nickname"
-                    tools:visibility="gone" />
+                    android:visibility="visible"
+                    tools:visibility="visible" />
 
                 <include
                     layout="@layout/frame_grupo_info_actions"
                     tools:visibility="visible"></include>
 
                 <include
-                    layout="@layout/frame_grupo_info_lock"
-                    android:visibility="visible"
-                    tools:visibility="gone"></include>
-
-                <include layout="@layout/frame_grupo_info_conf_gral"></include>
+                    layout="@layout/frame_grupo_info_integrantes"
+                    tools:visibility="visible"></include>
 
                 <include
-                    layout="@layout/frame_grupo_info_integrantes"
-                    tools:visibility="gone"></include>
+                    layout="@layout/frame_grupo_info_lock"
+                    android:visibility="visible"
+                    tools:visibility="visible"></include>
+
+                <include
+                    layout="@layout/frame_grupo_info_conf_gral"
+                    android:visibility="visible"
+                    tools:visibility="visible"></include>
+
             </LinearLayout>
         </ScrollView>
 
     </LinearLayout>
 
+
     <include
-        android:id="@+id/user"
-        layout="@layout/custom_comp_general_progress_bar"
-        android:visibility="visible" />
+
+        layout="@layout/incllude__common__all"
+
+        android:visibility="visible"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:visibility="gone" />
 </androidx.constraintlayout.widget.ConstraintLayout>

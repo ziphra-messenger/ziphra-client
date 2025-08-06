@@ -1,0 +1,422 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main__login__lang__frame"
+    android:layout_width="wrap_content"
+    android:layout_height="match_parent"
+    android:layout_gravity="center"
+    android:foregroundGravity="center"
+    android:visibility="gone"
+    tools:visibility="gone">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/main__login__lang__content__all"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_gravity="center"
+        android:clickable="true"
+        android:contextClickable="false"
+        android:foregroundGravity="center"
+        android:longClickable="false"
+        android:visibility="gone"
+        tools:visibility="visible">
+
+
+        <LinearLayout
+            android:id="@+id/main__login__lang__content__dialog_close"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+
+
+            android:layout_gravity="center"
+            android:layout_margin="0dp"
+            android:background="#80000000"
+            android:clickable="true"
+            android:contextClickable="true"
+            android:foregroundGravity="center"
+            android:foregroundTintMode="multiply"
+            android:gravity="center"
+            android:maxWidth="270dp"
+            android:minWidth="200dp"
+            android:minHeight="150dp"
+            android:orientation="vertical"
+            android:padding="15dp"
+            android:visibility="visible"
+
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:visibility="visible">
+
+
+            <LinearLayout
+                android:id="@+id/main__login__lang__content__dialog"
+                android:layout_width="wrap_content"
+
+                android:layout_height="wrap_content"
+                android:background="@drawable/toolhint_smooth_selectview"
+                android:clickable="true"
+                android:foregroundTint="#FFFFFF"
+                android:orientation="vertical"
+                android:padding="15dp"
+                android:visibility="visible"
+                tools:visibility="visible">
+
+                <LinearLayout
+                    android:id="@+id/my_account_lang_all"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="3dp"
+                    android:layout_marginTop="2dp"
+                    android:layout_marginEnd="3dp"
+                    android:layout_marginBottom="10dp"
+                    android:background="#E4DFB4"
+                    android:orientation="vertical"
+                    android:visibility="visible"
+                    app:layout_constraintBottom_toTopOf="@+id/linearLayout3"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/linearLayout2"
+                    tools:visibility="visible">
+
+                    <Button
+                        android:id="@+id/my_account_lang_title"
+                        style="@style/menuAcordeonTituloStyle"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:backgroundTint="#57AE74"
+                        android:insetTop="4dp"
+                        android:insetBottom="4dp"
+                        android:minHeight="38dp"
+                        android:text="@string/frame_my_account_lang__title"
+                        android:visibility="visible"
+                        app:iconGravity="end"
+                        tools:visibility="visible" />
+
+                    <LinearLayout
+                        android:id="@+id/my_account_lang_content"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:gravity="center"
+                        android:orientation="vertical"
+                        android:visibility="visible"
+                        tools:visibility="visible">
+
+                        <TextView
+                            android:id="@+id/textView34"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:gravity="center"
+                            android:text="Visualización"
+                            android:textSize="20sp"
+                            android:textStyle="bold" />
+
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal">
+
+                            <RadioGroup
+                                android:id="@+id/frame_my_account__radio_group__lang_hide"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent">
+
+                                <RadioButton
+                                    android:id="@+id/radioButton15"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:tag="HIDE_ICON"
+                                    android:text="Ocultar íconos de los Botones" />
+
+                                <RadioButton
+                                    android:id="@+id/radioButton14"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:tag="HIDE_TEXT"
+                                    android:text="Ocultar textos de los Botones" />
+
+                                <RadioButton
+                                    android:id="@+id/radioButton16"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:tag="SHOW_ALL"
+                                    android:text="No ocultar ningunos" />
+                            </RadioGroup>
+                        </LinearLayout>
+
+                        <Button
+                            android:id="@+id/frame_my_account__button__example"
+                            android:layout_width="wrap_content"
+                            android:layout_height="40dp"
+
+                            android:layout_gravity="center"
+                            android:layout_margin="3dp"
+                            android:layout_weight="0"
+
+                            android:height="40dp"
+                            android:ellipsize="marquee"
+                            android:enabled="true"
+                            android:foregroundGravity="center_vertical"
+                            android:gravity="center"
+                            android:maxWidth="170dp"
+                            android:minWidth="10dp"
+                            android:paddingLeft="10dp"
+                            android:paddingRight="10dp"
+                            android:scrollHorizontally="true"
+                            android:singleLine="true"
+                            android:text="@string/general__example"
+                            android:textSize="12dp"
+                            android:visibility="visible"
+                            app:cornerRadius="20dp"
+                            app:icon="@drawable/ic_baseline_engineering_24"
+                            app:iconPadding="4dp"
+                            tools:visibility="visible" />
+
+
+                        <TextView
+                            android:id="@+id/textView21"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:gravity="center"
+                            android:text="Idiomas"
+                            android:textSize="20sp"
+                            android:textStyle="bold" />
+
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:orientation="horizontal">
+
+                            <LinearLayout
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:orientation="vertical">
+
+                                <RadioGroup
+                                    android:id="@+id/frame_my_account__radio_group__lang_1"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content">
+
+                                    <RadioButton
+                                        android:id="@+id/radioButton5"
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"
+                                        android:layout_marginLeft="20dp"
+                                        android:layout_marginRight="20dp"
+                                        android:capitalize="words"
+                                        android:ellipsize="end"
+                                        android:singleLine="true"
+                                        android:tag="es"
+                                        android:text="🇪🇸  Castellano"
+                                        android:textAlignment="viewStart"
+                                        android:textSize="16sp" />
+
+                                    <RadioButton
+                                        android:id="@+id/radioButton4"
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"
+                                        android:layout_marginLeft="20dp"
+                                        android:layout_marginRight="20dp"
+                                        android:capitalize="words"
+                                        android:ellipsize="end"
+                                        android:singleLine="true"
+                                        android:tag="en"
+                                        android:text="🇬🇧English"
+                                        android:textAlignment="viewStart"
+                                        android:textSize="16sp" />
+
+                                    <RadioButton
+                                        android:id="@+id/radioButton7"
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"
+                                        android:layout_marginLeft="20dp"
+                                        android:layout_marginRight="20dp"
+                                        android:capitalize="words"
+                                        android:ellipsize="end"
+                                        android:singleLine="true"
+                                        android:text="🇨🇵  Français"
+                                        android:textAlignment="viewStart"
+                                        android:textSize="16sp" />
+
+                                    <RadioButton
+                                        android:id="@+id/radioButton6"
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"
+                                        android:layout_marginLeft="20dp"
+                                        android:layout_marginRight="20dp"
+                                        android:capitalize="words"
+                                        android:ellipsize="end"
+                                        android:singleLine="true"
+                                        android:tag="pt"
+                                        android:text="🇧🇷  Português"
+                                        android:textAlignment="viewStart"
+                                        android:textSize="16sp" />
+
+                                    <RadioButton
+                                        android:id="@+id/radioButton8"
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"
+                                        android:layout_marginLeft="20dp"
+                                        android:layout_marginRight="20dp"
+                                        android:capitalize="words"
+                                        android:ellipsize="end"
+                                        android:singleLine="true"
+                                        android:text="🇦🇲  Հայերեն"
+                                        android:textAlignment="viewStart"
+                                        android:textSize="16sp" />
+
+                                </RadioGroup>
+
+                            </LinearLayout>
+
+                            <LinearLayout
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:orientation="vertical">
+
+                                <RadioGroup
+                                    android:id="@+id/frame_my_account__radio_group__lang_2"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="match_parent">
+
+                                    <RadioButton
+                                        android:id="@+id/radioButton9"
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"
+                                        android:layout_marginLeft="20dp"
+                                        android:layout_marginRight="20dp"
+                                        android:capitalize="words"
+                                        android:ellipsize="end"
+                                        android:singleLine="true"
+                                        android:text="🇮🇱  עברית"
+                                        android:textAlignment="viewStart"
+                                        android:textSize="16sp" />
+
+                                    <RadioButton
+                                        android:id="@+id/radioButton10"
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"
+                                        android:layout_marginLeft="20dp"
+                                        android:layout_marginRight="20dp"
+                                        android:capitalize="words"
+                                        android:ellipsize="end"
+                                        android:singleLine="true"
+                                        android:text="🇷🇺  Россия"
+                                        android:textAlignment="viewStart"
+                                        android:textSize="16sp" />
+
+                                    <RadioButton
+                                        android:id="@+id/radioButton11"
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"
+                                        android:layout_marginLeft="20dp"
+                                        android:layout_marginRight="20dp"
+                                        android:capitalize="words"
+                                        android:ellipsize="end"
+                                        android:singleLine="true"
+                                        android:text="🇺🇦  Українська"
+                                        android:textAlignment="viewStart"
+                                        android:textSize="16sp" />
+
+                                    <RadioButton
+                                        android:id="@+id/radioButton12"
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"
+                                        android:layout_marginLeft="20dp"
+                                        android:layout_marginRight="20dp"
+                                        android:capitalize="words"
+                                        android:ellipsize="end"
+                                        android:singleLine="true"
+                                        android:text="🇨🇳  中文"
+                                        android:textAlignment="viewStart"
+                                        android:textSize="16sp" />
+
+                                    <RadioButton
+                                        android:id="@+id/radioButton13"
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"
+                                        android:layout_marginLeft="20dp"
+                                        android:layout_marginRight="20dp"
+                                        android:capitalize="words"
+                                        android:ellipsize="end"
+                                        android:singleLine="true"
+                                        android:text="🇸🇦  العربية"
+                                        android:textAlignment="viewStart"
+                                        android:textSize="16sp" />
+                                </RadioGroup>
+
+                            </LinearLayout>
+                        </LinearLayout>
+
+                    </LinearLayout>
+
+                </LinearLayout>
+                <!--                <ScrollView
+                    android:id="@+id/common__help__info__scroll"
+                    android:layout_width="match_parent"
+                    android:layout_height="300dp">
+
+                    <TextView
+                        android:id="@+id/common__help__txt"
+                        style="@style/Widget.AppCompat.TextView.SpinnerItem"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:breakStrategy="balanced"
+                        android:clickable="true"
+                        android:ellipsize="none"
+                        android:fadeScrollbars="false"
+                        android:fadingEdge="horizontal"
+                        android:fadingEdgeLength="100dp"
+                        android:focusable="auto"
+                        android:focusableInTouchMode="true"
+                        android:focusedByDefault="false"
+                        android:isScrollContainer="false"
+                        android:maxHeight="200dp"
+                        android:overScrollMode="never"
+                        android:requiresFadingEdge="vertical"
+                        android:scrollIndicators="right"
+                        android:scrollbars="vertical"
+                        android:singleLine="false"
+                        android:text="   Best pornstars Prince Yahshua Liza Del Sierra Bambi Brooks Peter North Tigerr Benson Hime Marie Kali Rose Alex Coal Mike Adriano Anastasia Lux Katie Kox Devon Lee Melissa Monet Shay Evans Alexis Monroe Abella Anderson Amber Lynn Bach Vanessa Cage Gia Paige Nat Turnher Lyra Law Sienna West Alyssa Cole Jodi West Amber Lynn Kristy Black Victoria Cakes Little Caprice Alyssa Reece Jordi El Niño Polla Carmella Bing Selena Santana Josephine James Madison Rose Markus Dupree Zoe Bloom Dolly Little Mila Azul Dakota Sky Valentina Jewels Bella Reese Aubrey Black Goldie Rush Nina Hartley Esperanza Gomez Staci Silverstone Liv Revamped Katie Cummings Tiffany Mynx Foxy Di Shona River Lucy Li Jane Wilde Jayden Jaymes Diamond Kitty Stephanie West Christian Clay London Keyes Luna Lovely Kimber Lee All Pornstars    Best pornstars Prince Yahshua Liza Del Sierra Bambi Brooks Peter North Tigerr Benson Hime Marie Kali Rose Alex Coal Mike Adriano Anastasia Lux Katie Kox Devon Lee Melissa Monet Shay Evans Alexis Monroe Abella Anderson Amber Lynn Bach Vanessa Cage Gia Paige Nat Turnher Lyra Law Sienna West Alyssa Cole Jodi West Amber Lynn Kristy Black Victoria Cakes Little Caprice Alyssa Reece Jordi El Niño Polla Carmella Bing Selena Santana Josephine James Madison Rose Markus Dupree Zoe Bloom Dolly Little Mila Azul Dakota Sky Valentina Jewels Bella Reese Aubrey Black Goldie Rush Nina Hartley Esperanza Gomez Staci Silverstone Liv Revamped Katie Cummings Tiffany Mynx Foxy Di Shona River Lucy Li Jane Wilde Jayden Jaymes Diamond Kitty Stephanie West Christian Clay London Keyes Luna Lovely Kimber Lee All Pornstars Select a Category   Best pornstars Prince Yahshua Liza Del Sierra Bambi Brooks Peter North Tigerr Benson Hime Marie Kali Rose Alex Coal Mike Adriano Anastasia Lux Katie Kox Devon Lee Melissa Monet Shay Evans Alexis Monroe Abella Anderson Amber Lynn Bach Vanessa Cage Gia Paige Nat Turnher Lyra Law Sienna West Alyssa Cole Jodi West Amber Lynn Kristy Black Victoria Cakes Little Caprice Alyssa Reece Jordi El Niño Polla Carmella Bing Selena Santana Josephine James Madison Rose Markus Dupree Zoe Bloom Dolly Little Mila Azul Dakota Sky Valentina Jewels Bella Reese Aubrey Black Goldie Rush Nina Hartley Esperanza Gomez Staci Silverstone Liv Revamped Katie Cummings Tiffany Mynx Foxy Di Shona River Lucy Li Jane Wilde Jayden Jaymes Diamond Kitty Stephanie West Christian Clay London Keyes Luna Lovely Kimber Lee All Pornstars Select a Category   Best pornstars Prince Yahshua Liza Del Sierra Bambi Brooks Peter North Tigerr Benson Hime Marie Kali Rose Alex Coal Mike Adriano Anastasia Lux Katie Kox Devon Lee Melissa Monet Shay Evans Alexis Monroe Abella Anderson Amber Lynn Bach Vanessa Cage Gia Paige Nat Turnher Lyra Law Sienna West Alyssa Cole Jodi West Amber Lynn Kristy Black Victoria Cakes Little Caprice Alyssa Reece Jordi El Niño Polla Carmella Bing Selena Santana Josephine James Madison Rose Markus Dupree Zoe Bloom Dolly Little Mila Azul Dakota Sky Valentina Jewels Bella Reese Aubrey Black Goldie Rush Nina Hartley Esperanza Gomez Staci Silverstone Liv Revamped Katie Cummings Tiffany Mynx Foxy Di Shona River Lucy Li Jane Wilde Jayden Jaymes Diamond Kitty Stephanie West Christian Clay London Keyes Luna Lovely Kimber Lee All Pornstars Select a Category"
+                        android:textAlignment="viewStart"
+                        android:textColor="#000000"
+                        android:textDirection="inherit"
+                        android:textSize="14sp"
+                        android:visibility="visible"
+                        tools:visibility="visible" />
+                </ScrollView>-->
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/main__login__lang__content__close"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:orientation="vertical">
+
+                <Button
+                    android:id="@+id/main__login__lang__close"
+                    android:layout_width="70dp"
+                    android:layout_height="70dp"
+                    android:layout_gravity="center"
+                    android:layout_weight="0"
+                    android:backgroundTint="#B4A233"
+                    android:padding="20dp"
+                    android:paddingLeft="20dp"
+                    android:textSize="8sp"
+                    app:cornerRadius="150dp"
+                    app:icon="@drawable/ic_baseline_close_24"
+                    app:iconGravity="textTop"
+                    app:iconPadding="0dp" />
+            </LinearLayout>
+
+        </LinearLayout>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</FrameLayout>

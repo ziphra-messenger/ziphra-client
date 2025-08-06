@@ -1,7 +1,7 @@
 package com.privacity.cliente.singleton;
 
 import com.privacity.cliente.encrypt.AEStoUse;
-import com.privacity.cliente.singleton.interfaces.SingletonReset;
+import com.privacity.common.SingletonReset;
 import com.privacity.common.dto.AESDTO;
 
 import java.security.PublicKey;

@@ -23,10 +23,14 @@
 
         <Button
             android:id="@+id/bt_grupoinfo_menu_name"
+            style="@style/menuAcordeonTituloStyle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:backgroundTint="#57AE74"
-            android:text="NOMBRE DEL GRUPO"
+            android:ellipsize="marquee"
+            android:scrollHorizontally="true"
+            android:singleLine="true"
+            android:text="@string/frame_grupo_info__name_title"
             app:iconGravity="end" />
 
         <TableLayout
@@ -46,6 +50,7 @@
                 android:gravity="center">
 
                 <TextView
+                    android:id="@+id/grupo_info_name__mensaje__info"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="10dp"
@@ -59,7 +64,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_gravity="center"
-                android:gravity="center">
+                android:gravity="center"
+                android:tag="@string/tag_admin_clickcontext">
 
                 <EditText
                     android:id="@+id/grupoinfo_name_grupo_name"
@@ -68,14 +74,15 @@
                     android:layout_marginEnd="10dp"
                     android:ems="10"
                     android:inputType="textPersonName"
-                    android:tag="@string/rol_admin"
+                    android:tag="@string/tag_admin_enabledfalse"
                     android:textAlignment="center" />
             </TableRow>
 
             <TableRow
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:gravity="center">
+                android:gravity="center"
+                android:tag="@string/tag_admin_gone">
 
                 <TextView
                     android:id="@+id/tv_grupoinfo_name_validation"
@@ -83,6 +90,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="3dp"
                     android:gravity="center|center_vertical"
+                    android:tag="@string/tag_admin_gone"
                     android:text="TextView" />
             </TableRow>
 
@@ -100,25 +108,41 @@
                     android:textAlignment="center">
 
                     <Button
-                        android:id="@+id/bt_grupoinfo_name_reset"
+                        android:id="@+id/grupoinfo_name_reset"
+                        style="@style/botonMarquee"
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
+                        android:layout_height="40dp"
                         android:layout_marginEnd="15dp"
                         android:backgroundTint="#438BE3"
-                        android:tag="@string/rol_admin"
-                        android:text="Reset"
+                        android:ellipsize="marquee"
+                        android:maxWidth="170dp"
+
+                        android:minWidth="10dp"
+                        android:scrollHorizontally="true"
+                        android:singleLine="true"
+
+                        android:tag="@string/tag_admin_gone"
+                        android:text="@string/general__default"
                         app:cornerRadius="20dp"
-                        app:icon="@drawable/ic_baseline_360_24" />
+                        app:icon="@drawable/ic_action_undo" />
 
                     <Button
-                        android:id="@+id/bt_grupoinfo_name_save"
+                        android:id="@+id/grupoinfo_name_save"
+                        style="@style/botonMarquee"
                         android:layout_width="match_parent"
-                        android:layout_height="match_parent"
+                        android:layout_height="40dp"
                         android:layout_marginStart="15dp"
-                        android:tag="@string/rol_admin"
-                        android:text="Guardar"
+
+                        android:ellipsize="marquee"
+                        android:maxWidth="170dp"
+                        android:minWidth="10dp"
+
+                        android:scrollHorizontally="true"
+                        android:singleLine="true"
+                        android:tag="@string/tag_admin_gone"
+                        android:text="@string/general__save"
                         app:cornerRadius="20dp"
-                        app:icon="@drawable/ic_baseline_cloud_upload_24" />
+                        app:icon="@drawable/ic_action_confirm_tilde" />
                 </LinearLayout>
 
             </TableRow>
@@ -140,13 +164,20 @@
 
                     <Button
                         android:id="@+id/bt_grupoinfo_menu_nickname"
+                        style="@style/menuAcordeonTituloStyle"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+
                         android:backgroundTint="#57AE74"
-                        android:text="Configuracion Personal"
+                        android:ellipsize="marquee"
+                        android:scrollHorizontally="true"
+
+                        android:singleLine="true"
+                        android:text="@string/frame_grupo_info__name_personal__title"
                         app:iconGravity="end" />
 
                     <TextView
+                        android:id="@+id/grupo_info_name__mensaje__info_personal"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center|center_horizontal"
@@ -193,7 +224,9 @@
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="3dp"
                     android:gravity="center|center_vertical"
-                    android:text="TextView" />
+                    android:text="TextView"
+                    android:visibility="invisible"
+                    tools:visibility="visible" />
 
             </TableRow>
 
@@ -212,24 +245,39 @@
                     android:textAlignment="center">
 
                     <Button
-                        android:id="@+id/bt_my_account_nickname_reset3"
+                        android:id="@+id/bt_grupoinfo_name_personal_reset"
+                        style="@style/botonMarquee"
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
+                        android:layout_height="40dp"
                         android:layout_marginEnd="15dp"
                         android:backgroundTint="#438BE3"
-                        android:text="Reset"
+                        android:ellipsize="marquee"
+                        android:maxWidth="170dp"
+
+                        android:minWidth="10dp"
+                        android:scrollHorizontally="true"
+
+                        android:singleLine="true"
+                        android:text="@string/general__default"
                         app:cornerRadius="20dp"
-                        app:icon="@drawable/ic_baseline_360_24" />
+                        app:icon="@drawable/ic_action_undo" />
 
                     <Button
-                        android:id="@+id/bt_my_account_nickname_save34"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
+                        android:id="@+id/bt_grupoinfo_name_personal_save"
+                        style="@style/botonMarquee"
+                        android:layout_width="match_parent"
+                        android:layout_height="40dp"
                         android:layout_marginStart="15dp"
-                        android:layout_span="3"
-                        android:text="Guardar"
+
+                        android:ellipsize="marquee"
+                        android:maxWidth="170dp"
+                        android:minWidth="10dp"
+
+                        android:scrollHorizontally="true"
+                        android:singleLine="true"
+                        android:text="@string/general__save"
                         app:cornerRadius="20dp"
-                        app:icon="@drawable/ic_baseline_cloud_upload_24" />
+                        app:icon="@drawable/ic_action_confirm_tilde" />
                 </LinearLayout>
 
             </TableRow>
@@ -243,7 +291,7 @@
 
                 <include
                     android:id="@+id/grupo_info_help_name"
-                    layout="@layout/frame_help" />
+                    layout="@layout/frame_help__open" />
             </TableRow>
 
         </TableLayout>
