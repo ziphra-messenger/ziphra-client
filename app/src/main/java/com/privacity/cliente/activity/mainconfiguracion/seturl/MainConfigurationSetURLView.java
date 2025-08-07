@@ -8,12 +8,11 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
-import android.widget.Toast;
 
 import com.privacity.cliente.R;
 import com.privacity.cliente.activity.mainconfiguracion.MainConfiguracionActivity;
+import com.privacity.cliente.common.constants.GeneralConfigurationConstant;
 import com.privacity.cliente.singleton.sharedpreferences.SharedPreferencesUtil;
-import com.privacity.common.config.ConstantValidation;
 
 public class MainConfigurationSetURLView {
 
@@ -33,12 +32,38 @@ public class MainConfigurationSetURLView {
 
     private Button developerConfiguration;
     private Button oficialConfiguration;
+    private EditText timeout;
 
     public MainConfigurationSetURLView(MainConfiguracionActivity activity){
         this.activity=activity;
         initView();
         setListeners();
         loadValues();
+    }
+
+    private void initView() {
+        timeout = (EditText) this.activity.findViewById(R.id.main_conf__timeout_ms);
+        timeout.setFilters(new InputFilter[]{new InputFilter.LengthFilter(5)});
+
+        reset = (Button) this.activity.findViewById(R.id.main_conf__reset);
+        developerConfiguration = (Button) this.activity.findViewById(R.id.main_conf__developer_server);
+        oficialConfiguration = (Button) this.activity.findViewById(R.id.main_conf__oficial_server);
+
+        protocoloConfWS = (Spinner) this.activity.findViewById(R.id.main_conf__ws__protoloco);
+        protocoloConfHTTP = (Spinner) this.activity.findViewById(R.id.main_conf__http__protoloco);
+
+        serverURLConfWS = (EditText) this.activity.findViewById(R.id.main_conf__ws__ip);
+        serverURLConfHTTP = (EditText) this.activity.findViewById(R.id.main_conf__http__ip);
+
+        serverURLConfWS.setFilters(new InputFilter[]{new InputFilter.LengthFilter(100)});
+        serverURLConfHTTP.setFilters(new InputFilter[]{new InputFilter.LengthFilter(100)});
+
+        portConfWS = (EditText) this.activity.findViewById(R.id.main_conf__ws__port);
+        portConfHTTP = (EditText) this.activity.findViewById(R.id.main_conf__http__port);
+
+        portConfWS.setFilters(new InputFilter[]{new InputFilter.LengthFilter(5)});
+        portConfHTTP.setFilters(new InputFilter[]{new InputFilter.LengthFilter(5)});
+
     }
 
     public ServerConfigurationPOJO getServerConfigurationPOJO(){
@@ -52,6 +77,9 @@ public class MainConfigurationSetURLView {
 
         r.setAppProtocolo( protocoloConfHTTP.getSelectedItem().toString());
         r.setWsProtocolo( protocoloConfWS.getSelectedItem().toString());
+
+        r.setTimeout(timeout.getText().toString());
+
         return r;
     }
 
@@ -67,11 +95,13 @@ public class MainConfigurationSetURLView {
         String wsPort = SharedPreferencesUtil.getWsServerPort(this.activity);
         String appPort = SharedPreferencesUtil.getAppServerPort(this.activity);
 
-        setValues(wsProtocolo,appProtocolo, wsServerURL, appServerURL, wsPort, appPort);
+        String timeoutStr = SharedPreferencesUtil.getServerTimeOut(activity);
+
+        setValues(timeoutStr, wsProtocolo,appProtocolo, wsServerURL, appServerURL, wsPort, appPort);
 
     }
 
-    private void setValues(String wsProtocol,  String appProtocolo, String wsServerURL, String appServerURL, String wsPort, String appPort) {
+    private void setValues(String timeoutStr, String wsProtocol,  String appProtocolo, String wsServerURL, String appServerURL, String wsPort, String appPort) {
 
         if (wsProtocol.equals("ws")){
             protocoloConfWS.setSelection(0);
@@ -84,6 +114,8 @@ public class MainConfigurationSetURLView {
         }else{
             protocoloConfHTTP.setSelection(1);
         }
+
+        timeout.setText(timeoutStr);
 
         serverURLConfWS.setText(wsServerURL);
         serverURLConfHTTP.setText(appServerURL);
@@ -107,26 +139,75 @@ public class MainConfigurationSetURLView {
         developerConfiguration.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                setValues("ws", "http", "10.0.2.2", "10.0.2.2", "8090", "8080");
+                setValues(GeneralConfigurationConstant.CONNECTION_TIMEOUT+"", "ws", "http", "10.0.2.2", "10.0.2.2", "8090", "8080");
             }
         });
 
         oficialConfiguration.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                setValues("ws", "http", "192.168.0.14", "192.168.0.14", "8090", "8080");
+                setValues(GeneralConfigurationConstant.CONNECTION_TIMEOUT+"","ws", "http", "192.168.0.14", "192.168.0.14", "8090", "8080");
             }
         });
 
         setTextChangeListener(serverURLConfHTTP);
         setTextChangeListener(serverURLConfWS);
+
+
+        timeout.addTextChangedListener(
+                new TextWatcher() {
+                    @Override
+                    public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+
+
+                    }
+
+                    // whenever text size changes it will check
+                    @Override
+                    public void onTextChanged(CharSequence s, int start, int before, int count) {
+                        int t;
+                        if (timeout.getText().toString().trim() ==""){
+                            t=0;
+                        }else{
+                            t= Integer.parseInt(timeout.getText().toString().trim());
+                        }
+
+                        if ( t < GeneralConfigurationConstant.CONNECTION_TIMEOUT  ){
+                            timeout.setError("Debe ser mayor a "+  GeneralConfigurationConstant.CONNECTION_TIMEOUT +" milisegundos");
+                        }else{
+                            timeout.setError(null);
+                        }
+
+
+                    }
+
+                    @Override
+                    public void afterTextChanged(Editable s) {
+                        enabledActionsButtons();
+
+                    }
+                });
+    }
+
+    private void enabledActionsButtons() {
+        if (serverURLConfHTTP.getError() == null &&
+                serverURLConfWS.getError() == null &&
+                timeout.getError() == null
+        ) {
+            activity.getSetActions().getStartTest().setEnabled(true);
+            activity.getSetActions().getSave().setEnabled(true);
+        }else{
+            activity.getSetActions().getStartTest().setEnabled(false);
+            activity.getSetActions().getSave().setEnabled(false);
+        }
     }
 
 
     private boolean validarURL(String url){
         return Patterns.WEB_URL.matcher(url).matches();
-       // confSelected.setError(this.activity.getString(R.string.mainconfiguracion_activity__validation__error__url));
     }
+
     private void setTextChangeListener(EditText e){
 
         e.addTextChangedListener(
@@ -139,49 +220,23 @@ public class MainConfigurationSetURLView {
             // whenever text size changes it will check
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                // if text written matches the pattern then
-                // it will show a toast of pattern matches
+                if (!validarURL(e.getText().toString())){
+                    e.setError(activity.getString(R.string.mainconfiguracion_activity__validation__error__url));
+                }else{
+                    e.setError(null);
+                }
 
 
             }
 
             @Override
             public void afterTextChanged(Editable s) {
-                if (!validarURL(e.getText().toString())){
-                    e.setError(activity.getString(R.string.mainconfiguracion_activity__validation__error__url));
-                    activity.getSetActions().getStartTest().setEnabled(false);
-                    activity.getSetActions().getSave().setEnabled(false);
-                }else{
-                    activity.getSetActions().getStartTest().setEnabled(true);
-                    activity.getSetActions().getSave().setEnabled(true);
-
-                }
+                enabledActionsButtons();
             }
         });
     }
 
 
-    private void initView() {
 
-        reset = (Button) this.activity.findViewById(R.id.main_conf__reset);
-        developerConfiguration = (Button) this.activity.findViewById(R.id.main_conf__developer_server);
-        oficialConfiguration = (Button) this.activity.findViewById(R.id.main_conf__oficial_server);
-
-        protocoloConfWS = (Spinner) this.activity.findViewById(R.id.main_conf__ws__protoloco);
-        protocoloConfHTTP = (Spinner) this.activity.findViewById(R.id.main_conf__http__protoloco);
-
-        serverURLConfWS = (EditText) this.activity.findViewById(R.id.main_conf__ws__ip);
-        serverURLConfHTTP = (EditText) this.activity.findViewById(R.id.main_conf__http__ip);
-
-        serverURLConfWS.setFilters(new InputFilter[]{new InputFilter.LengthFilter(100)});
-        serverURLConfHTTP.setFilters(new InputFilter[]{new InputFilter.LengthFilter(100)});
-
-        portConfWS = (EditText) this.activity.findViewById(R.id.main_conf__ws__port);
-        portConfHTTP = (EditText) this.activity.findViewById(R.id.main_conf__http__port);
-
-        portConfWS.setFilters(new InputFilter[]{new InputFilter.LengthFilter(5)});
-        portConfHTTP.setFilters(new InputFilter[]{new InputFilter.LengthFilter(5)});
-
-    }
 
 }

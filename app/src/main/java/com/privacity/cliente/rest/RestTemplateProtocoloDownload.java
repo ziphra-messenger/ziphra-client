@@ -54,8 +54,8 @@ public class RestTemplateProtocoloDownload extends AsyncTask<Void, Void, Respons
 
             try {
                 HttpComponentsClientHttpRequestFactory httpRequestFactory = new HttpComponentsClientHttpRequestFactory();
-                httpRequestFactory.setConnectTimeout(GeneralConfigurationConstant.CONNECTION_TIMEOUT);
-                httpRequestFactory.setReadTimeout(GeneralConfigurationConstant.CONNECTION_TIMEOUT);
+                httpRequestFactory.setConnectTimeout(SingletonServer.getInstance().getTimeOut());
+                httpRequestFactory.setReadTimeout(SingletonServer.getInstance().getTimeOut());
                 RestTemplate restTemplate = new RestTemplate();
                 restTemplate.setRequestFactory(httpRequestFactory);
 
@@ -150,8 +150,8 @@ public class RestTemplateProtocoloDownload extends AsyncTask<Void, Void, Respons
 
     public  RestTemplate getRestTemplate() {
         HttpComponentsClientHttpRequestFactory httpRequestFactory = new HttpComponentsClientHttpRequestFactory();
-        httpRequestFactory.setConnectTimeout(GeneralConfigurationConstant.CONNECTION_TIMEOUT);
-        httpRequestFactory.setReadTimeout(GeneralConfigurationConstant.CONNECTION_TIMEOUT);
+        httpRequestFactory.setConnectTimeout(SingletonServer.getInstance().getTimeOut());
+        httpRequestFactory.setReadTimeout(SingletonServer.getInstance().getTimeOut());
         RestTemplate restTemplate = new RestTemplate();
         restTemplate.setRequestFactory(httpRequestFactory);
         //restTemplate.setRequestFactory(httpRequestFactory()); // apache http library

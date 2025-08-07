@@ -15,7 +15,12 @@ public class ServerConfigurationPOJO {
     private String wsPort;
     private String appPort;
 
+    private String timeout;
+
     public String getAppServerToUse(){
         return appProtocolo + "://" + appServerURL + ":" + appPort;
+    }
+    public String getWsServerToCheck(){
+        return appProtocolo + "://" + wsServerURL + ":" + wsPort;
     }
 }

@@ -6,6 +6,7 @@ import android.content.SharedPreferences;
 
 import com.neovisionaries.i18n.LanguageCode;
 import com.privacity.cliente.R;
+import com.privacity.cliente.common.constants.GeneralConfigurationConstant;
 import com.privacity.cliente.common.enumerators.ButtonSetupEnum;
 import com.privacity.cliente.singleton.localconfiguration.SingletonTextSizeMessage;
 
@@ -42,7 +43,15 @@ public class SharedPreferencesUtil {
     public static void saveWsServerPort(Activity activity, String value){
         save(activity,SharedPreferencesEnum.WS_SERVER_PORT, value);
     }
-
+    public static void saveServerTimeOut(Activity activity, String value){
+        String valueToSave;
+        if ( value == null || value.trim().equals("") || Integer.parseInt(value)< GeneralConfigurationConstant.CONNECTION_TIMEOUT){
+            valueToSave= GeneralConfigurationConstant.CONNECTION_TIMEOUT+"";
+        }else{
+            valueToSave=value;
+        }
+        save(activity,SharedPreferencesEnum.SERVER_TIMEOUT, valueToSave);
+    }
     public static void saveAppServerProtocol(Activity activity, String value){
         save(activity,SharedPreferencesEnum.APP_SERVER_PROTOCOL, value);
     }
@@ -125,6 +134,11 @@ public class SharedPreferencesUtil {
     public static String getAppServerPort(Activity activity){
 //        String wsServer = activity.getResources().getStringArray(R.array.main_configuration_ws_servers)[0];
         return get(activity, SharedPreferencesEnum.APP_SERVER_PORT, activity.getString(R.string.configuration_server__default__app_port));
+    }
+
+    public static String getServerTimeOut(Activity activity){
+//        String wsServer = activity.getResources().getStringArray(R.array.main_configuration_ws_servers)[0];
+        return get(activity, SharedPreferencesEnum.SERVER_TIMEOUT, GeneralConfigurationConstant.CONNECTION_TIMEOUT+"");
     }
 
 /*    public static boolean getDeveloperMode(Activity activity){

@@ -69,7 +69,8 @@
     <string name="general__internet">Internet</string>
     <string name="general__mobile_data">Datos Móviles</string>
     <string name="general__wifi">WIFI</string>
-    <string name="general__server">Servidor</string>
+    <string name="general__server">Servidor Http/s</string>
+    <string name="general__server__ws">Servidor Ws/s</string>
     <string name="general__save_close">Guardar y Cerrar</string>
 
     <string name="general__confirm">Confirmar</string>

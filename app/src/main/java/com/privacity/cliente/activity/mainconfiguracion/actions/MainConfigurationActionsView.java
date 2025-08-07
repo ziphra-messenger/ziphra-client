@@ -21,7 +21,8 @@ public class MainConfigurationActionsView {
 
     private static final String CONSTANT__APP = "\nAPP: ";
     private static final String CONSTANT__WS = "\nWS: ";
-  //  private static final String CONSTANT__SLASH = "/";
+    private static final String CONSTANT__TIMEOUT = "\nTIMEOUT: ";
+
 
     @Getter
     private Button startTest;
@@ -29,7 +30,7 @@ public class MainConfigurationActionsView {
     private Button save;
     private MainConfiguracionActivity activity;
 
-    private ImageButton serverHelp;
+
     private ImageButton serverCheck;
 
     public MainConfigurationActionsView(MainConfiguracionActivity activity){
@@ -43,17 +44,14 @@ public class MainConfigurationActionsView {
         this.startTest = GetButtonReady.get(activity, R.id.main_conf__check__start, "Probar" );
         this.save = GetButtonReady.get(activity, R.id.main_conf__save, "Guardar" );
         serverCheck = (ImageButton) this.activity.findViewById(R.id.main_conf_app_server__check);
-        serverHelp = (ImageButton) this.activity.findViewById(R.id.main_conf_app_server__help);
-
-
     }
-    public void startTestEnabled(boolean b){
 
+    public void startTestEnabled(boolean b){
         startTest.setEnabled(b);
     }
 
     private void setListeners() {
-        serverHelp.setOnClickListener(view -> new HelpFrame().show(getServerHelp()));
+        serverCheck.setOnClickListener(view -> new HelpFrame().show(getServerHelp()));
         startTest.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -67,6 +65,8 @@ public class MainConfigurationActionsView {
 
                 ServerConfigurationPOJO pojo = activity.getSetUrl().getServerConfigurationPOJO();
 
+                SharedPreferencesUtil.saveServerTimeOut(activity, pojo.getTimeout());
+
                 SharedPreferencesUtil.saveWsServerProtocol(activity, pojo.getWsProtocolo());
                 SharedPreferencesUtil.saveAppServerProtocol(activity, pojo.getAppProtocolo());
 
@@ -79,8 +79,9 @@ public class MainConfigurationActionsView {
 
                 Toast.makeText(activity, activity.getString(R.string.general__saved) +
                             CONSTANT__APP + SharedPreferencesUtil.getAppServerToUse(activity) +
-                            CONSTANT__WS + SharedPreferencesUtil.getWsServerToUse(activity)
-                    , Toast.LENGTH_SHORT).show();
+                            CONSTANT__WS + SharedPreferencesUtil.getWsServerToUse(activity) +
+                            CONSTANT__TIMEOUT + SharedPreferencesUtil.getServerTimeOut(activity)
+                        , Toast.LENGTH_SHORT).show();
                 // onBackPressed();
 
 

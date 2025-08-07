@@ -6,6 +6,7 @@ import android.os.AsyncTask;
 import com.privacity.cliente.common.constants.GeneralConfigurationConstant;
 import com.privacity.cliente.rest.CallbackRest;
 import com.privacity.cliente.model.dto.Protocolo;
+import com.privacity.cliente.singleton.impl.SingletonServer;
 import com.privacity.common.enumeration.ExceptionReturnCode;
 
 import org.springframework.http.HttpEntity;
@@ -159,8 +160,8 @@ public class RestTemplateTest extends AsyncTask<Void, Void, ResponseEntity<Objec
     public  RestTemplate getRestTemplate() {
         HttpComponentsClientHttpRequestFactory httpRequestFactory = new HttpComponentsClientHttpRequestFactory();
 
-        httpRequestFactory.setConnectTimeout(GeneralConfigurationConstant.CONNECTION_TIMEOUT);
-        httpRequestFactory.setReadTimeout(GeneralConfigurationConstant.CONNECTION_TIMEOUT);
+        httpRequestFactory.setConnectTimeout(SingletonServer.getInstance().getTimeOut());
+        httpRequestFactory.setReadTimeout(SingletonServer.getInstance().getTimeOut());
 
         RestTemplate restTemplate = new RestTemplate();
         restTemplate.setRequestFactory(httpRequestFactory);

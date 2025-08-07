@@ -23,6 +23,7 @@ public class MainConfigurationCheckView {
     private TextView datosMoviles;
     private TextView internet;
     private TextView server;
+    private TextView serverWs;
 
     private MainConfiguracionActivity activity;
 
@@ -38,6 +39,7 @@ public class MainConfigurationCheckView {
         testDatosMovilesOn();
         testInternetOn();
         testServerOn();
+        testServerWsOn();
     }
 
     private void cleanView() {
@@ -45,25 +47,24 @@ public class MainConfigurationCheckView {
         internet.setText("");
         datosMoviles.setText("");
         server.setText("");
+        serverWs.setText("");
     }
     private void testInternetOn() {
         TextView v =  internet;
         String url="http://www.stackoverflow.com";
 
         checkSites(v, url);
-
-
     }
     private void testServerOn() {
         TextView v =  server;
-
         String url= activity.getSetUrl().getServerConfigurationPOJO().getAppServerToUse();
-
-
-
         checkSites(v, url);
+    }
 
-
+    private void testServerWsOn() {
+        TextView v =  serverWs;
+        String url= activity.getSetUrl().getServerConfigurationPOJO().getWsServerToCheck();
+        checkSites(v, url);
     }
 
     private void checkSites(TextView v, String url) {
@@ -76,7 +77,6 @@ public class MainConfigurationCheckView {
             @Override
             public void onError(ErrorPojo p) {
                 setTest(v, false, p);
-
             }
 
 
@@ -89,11 +89,6 @@ public class MainConfigurationCheckView {
     private void setTest(TextView internet, boolean b) {
         setTest(internet,b,new ErrorPojo().setUrl("wewe").setErrorDescription("eew"));
     }
-
-
-
-
-
 
     private void testDatosMovilesOn() {
         boolean mobileYN = false;
@@ -123,8 +118,6 @@ public class MainConfigurationCheckView {
                 public void run() {
                     try {
                         synchronized (this) {
-
-
                             getActivity().runOnUiThread(new Runnable() {
                                 @Override
                                 public void run() {
@@ -143,7 +136,6 @@ public class MainConfigurationCheckView {
                                     }
                                 }
                             });
-
                         }
                     } catch (Exception e) {
                         v.setText("❌ ver detalles");
@@ -158,8 +150,6 @@ public class MainConfigurationCheckView {
                 };
             };
             thread.start();
-
-
     }
 
     private void initView() {
@@ -167,12 +157,11 @@ public class MainConfigurationCheckView {
         this.wifi= (TextView)getActivity().findViewById(R.id.main_conf__check__wifi);
         this.internet= (TextView)getActivity().findViewById(R.id.main_conf__check__internet);
         this.server= (TextView)getActivity().findViewById(R.id.main_conf__check__server);
+        this.serverWs= (TextView)getActivity().findViewById(R.id.main_conf__check__server__ws);
         this.datosMoviles= (TextView)getActivity().findViewById(R.id.main_conf__check__datos_moviles);
     }
 
     private Activity getActivity() {
         return this.activity;
     }
-
-
 }

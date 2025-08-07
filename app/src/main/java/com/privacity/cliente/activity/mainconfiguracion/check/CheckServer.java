@@ -52,8 +52,8 @@ public class CheckServer extends AsyncTask<Void, Void, ResponseEntity<ErrorPojo>
     
         ErrorPojo pojo = new ErrorPojo();
         HttpComponentsClientHttpRequestFactory httpRequestFactory = new HttpComponentsClientHttpRequestFactory();
-        httpRequestFactory.setConnectTimeout(GeneralConfigurationConstant.CONNECTION_TIMEOUT);
-        httpRequestFactory.setReadTimeout(GeneralConfigurationConstant.CONNECTION_TIMEOUT);
+        httpRequestFactory.setConnectTimeout(SingletonServer.getInstance().getTimeOut());
+        httpRequestFactory.setReadTimeout(SingletonServer.getInstance().getTimeOut());
         RestTemplate rt = new RestTemplate();
 rt.setRequestFactory(httpRequestFactory);
         ResponseEntity<String> a = null;

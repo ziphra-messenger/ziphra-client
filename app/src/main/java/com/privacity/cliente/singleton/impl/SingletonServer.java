@@ -15,6 +15,13 @@ public class SingletonServer implements SingletonReset {
     private String wsServer;
     private String helpServer;
 
+    private int timeOut;
+
+    public void setTimeOut(String t){
+      //  t="5000";
+        this.timeOut = Integer.parseInt(t);
+    }
+
     private EnvironmentEnum environment;
 
     public int getVisibility() {

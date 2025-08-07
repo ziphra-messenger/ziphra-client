@@ -271,6 +271,11 @@ public class MainActi22vity extends AppCompatActivity {
         SingletonServer.getInstance().setAppServer(SharedPreferencesUtil.getAppServerToUse(this));
         SingletonServer.getInstance().setWsServer(SharedPreferencesUtil.getWsServerToUse(this));
         SingletonServer.getInstance().setHelpServer(SharedPreferencesUtil.getAppServerToUse(this));
+
+        SingletonServer.getInstance().setTimeOut(SharedPreferencesUtil.getServerTimeOut(this));
+
+
+
 //        SingletonServer.getInstance().setDeveloperMode(SharedPreferencesUtil.getDeveloperMode(this));
 
     }
