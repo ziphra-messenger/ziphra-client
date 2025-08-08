@@ -309,7 +309,7 @@
     <string name="frame_grupo_info__member__title">Members</string>
     <string name="frame_grupo_info__hide_member__admin_message_txt">The group is set so that only the Admin can see the full list of Members</string>
     <string name="Ziphra_environment">General</string>
-    <string name="app_name">Privacy</string>
+    <string name="app_name">Ziphra</string>
     <string name="error_codigo">ERROR CODE</string>
     <string name="ok">OK</string>
     <string name="close">Close</string>

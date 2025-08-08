@@ -10,6 +10,7 @@ import android.widget.EditText;
 import android.widget.Spinner;
 
 import com.privacity.cliente.R;
+import com.privacity.cliente.activity.common.GetButtonReady;
 import com.privacity.cliente.activity.mainconfiguracion.MainConfiguracionActivity;
 import com.privacity.cliente.common.constants.GeneralConfigurationConstant;
 import com.privacity.cliente.singleton.sharedpreferences.SharedPreferencesUtil;
@@ -45,9 +46,10 @@ public class MainConfigurationSetURLView {
         timeout = (EditText) this.activity.findViewById(R.id.main_conf__timeout_ms);
         timeout.setFilters(new InputFilter[]{new InputFilter.LengthFilter(5)});
 
-        reset = (Button) this.activity.findViewById(R.id.main_conf__reset);
-        developerConfiguration = (Button) this.activity.findViewById(R.id.main_conf__developer_server);
-        oficialConfiguration = (Button) this.activity.findViewById(R.id.main_conf__oficial_server);
+
+        developerConfiguration = GetButtonReady.get(activity, R.id.main_conf__developer_server);
+        reset = GetButtonReady.get(activity, R.id.main_conf__reset);
+        oficialConfiguration = GetButtonReady.get(activity, R.id.main_conf__oficial_server);
 
         protocoloConfWS = (Spinner) this.activity.findViewById(R.id.main_conf__ws__protoloco);
         protocoloConfHTTP = (Spinner) this.activity.findViewById(R.id.main_conf__http__protoloco);

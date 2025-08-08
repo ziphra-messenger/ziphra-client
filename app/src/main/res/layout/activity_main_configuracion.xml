@@ -48,7 +48,7 @@
                     android:layout_height="match_parent">
 
                     <TableRow
-                        android:layout_width="match_parent"
+                        android:layout_width="wrap_content"
                         android:layout_height="match_parent">
 
                         <TextView
@@ -57,7 +57,7 @@
                             android:layout_height="wrap_content"
                             android:layout_gravity="center"
                             android:text="PROTOCOLO"
-                            android:textSize="16sp"
+                            android:textSize="12sp"
                             android:textStyle="bold" />
 
                         <TextView
@@ -66,7 +66,7 @@
                             android:layout_height="wrap_content"
                             android:layout_gravity="center"
                             android:text="IP/URL"
-                            android:textSize="16sp"
+                            android:textSize="12sp"
                             android:textStyle="bold" />
 
                         <TextView
@@ -75,20 +75,20 @@
                             android:layout_height="wrap_content"
                             android:layout_gravity="center"
                             android:text="PORT"
-                            android:textSize="16sp"
+                            android:textSize="12sp"
                             android:textStyle="bold" />
                     </TableRow>
 
                     <TableRow
-                        android:layout_width="match_parent"
+                        android:layout_width="wrap_content"
                         android:layout_height="match_parent">
 
                         <Spinner
                             android:id="@+id/main_conf__http__protoloco"
-                            android:layout_width="wrap_content"
+                            android:layout_width="130dp"
                             android:layout_height="50dp"
                             android:layout_gravity="center|center_horizontal|center_vertical"
-                            android:layout_weight="1"
+                            android:layout_weight="0"
                             android:dropDownWidth="match_parent"
                             android:entries="@array/servers_http"
                             android:foregroundGravity="center_vertical|center|center_horizontal"
@@ -99,12 +99,12 @@
 
                         <EditText
                             android:id="@+id/main_conf__http__ip"
-                            android:layout_width="180dp"
+                            android:layout_width="120dp"
                             android:layout_height="wrap_content"
                             android:layout_gravity="center|center_horizontal|center_vertical"
                             android:layout_marginTop="1dp"
                             android:layout_marginBottom="1dp"
-                            android:layout_weight="0"
+                            android:layout_weight="1"
                             android:foregroundGravity="center_vertical|center|center_horizontal"
                             android:gravity="center|center_horizontal|center_vertical"
                             android:inputType="textMultiLine|textImeMultiLine"
@@ -112,7 +112,7 @@
                             android:minWidth="140dp"
                             android:singleLine="true"
                             android:text="100.11.11.11"
-                            android:textSize="14sp"
+                            android:textSize="12sp"
                             android:textStyle="bold" />
 
                         <EditText
@@ -120,22 +120,24 @@
                             android:layout_width="70dp"
                             android:layout_height="wrap_content"
                             android:layout_gravity="center"
+                            android:layout_weight="1"
                             android:ems="10"
                             android:gravity="center"
                             android:inputType="number"
-                            android:text="88888" />
+                            android:text="88888"
+                            android:textSize="14sp" />
                     </TableRow>
 
                     <TableRow
-                        android:layout_width="match_parent"
+                        android:layout_width="wrap_content"
                         android:layout_height="match_parent">
 
                         <Spinner
                             android:id="@+id/main_conf__ws__protoloco"
-                            android:layout_width="wrap_content"
+                            android:layout_width="130dp"
                             android:layout_height="50dp"
                             android:layout_gravity="center|center_horizontal|center_vertical"
-                            android:layout_weight="1"
+                            android:layout_weight="0"
                             android:dropDownWidth="match_parent"
                             android:entries="@array/servers_ws"
                             android:foregroundGravity="center_vertical|center|center_horizontal"
@@ -146,12 +148,12 @@
 
                         <EditText
                             android:id="@+id/main_conf__ws__ip"
-                            android:layout_width="180dp"
+                            android:layout_width="120dp"
                             android:layout_height="wrap_content"
                             android:layout_gravity="center|center_horizontal|center_vertical"
                             android:layout_marginTop="1dp"
                             android:layout_marginBottom="1dp"
-                            android:layout_weight="0"
+                            android:layout_weight="1"
                             android:foregroundGravity="center_vertical|center|center_horizontal"
                             android:gravity="center|center_horizontal|center_vertical"
                             android:inputType="textMultiLine|textImeMultiLine"
@@ -159,7 +161,7 @@
                             android:minWidth="140dp"
                             android:singleLine="true"
                             android:text="100.11.11.11"
-                            android:textSize="14sp"
+                            android:textSize="12sp"
                             android:textStyle="bold" />
 
                         <EditText
@@ -167,9 +169,11 @@
                             android:layout_width="70dp"
                             android:layout_height="wrap_content"
                             android:layout_gravity="center"
+                            android:layout_weight="1"
                             android:ems="10"
                             android:gravity="center"
-                            android:inputType="number" />
+                            android:inputType="number"
+                            android:textSize="14sp" />
                     </TableRow>
 
                     <TableRow
@@ -194,7 +198,7 @@
                     android:layout_weight="1"
                     android:paddingLeft="10dp"
                     android:text="TIMEOUT (ms)"
-                    android:textSize="16sp"
+                    android:textSize="12sp"
                     android:textStyle="bold" />
 
                 <EditText
@@ -205,7 +209,8 @@
                     android:ems="10"
                     android:gravity="center_horizontal"
                     android:inputType="number"
-                    android:text="5000" />
+                    android:text="5000"
+                    android:textSize="14sp" />
             </LinearLayout>
 
             <LinearLayout
@@ -223,8 +228,9 @@
                     android:layout_width="wrap_content"
                     android:layout_height="40dp"
                     android:layout_marginEnd="15dp"
-                    android:ellipsize="marquee"
+                    android:layout_weight="1"
 
+                    android:ellipsize="marquee"
                     android:maxWidth="180dp"
                     android:scrollHorizontally="true"
                     android:singleLine="true"
@@ -246,7 +252,7 @@
                     android:layout_marginStart="25dp"
 
                     android:layout_span="3"
-                    android:layout_weight="0"
+                    android:layout_weight="1"
                     android:ellipsize="marquee"
                     android:enabled="true"
                     android:foregroundGravity="center_vertical"
@@ -280,7 +286,7 @@
                     android:layout_marginStart="25dp"
 
                     android:layout_span="3"
-                    android:layout_weight="0"
+                    android:layout_weight="1"
                     android:ellipsize="marquee"
                     android:enabled="true"
                     android:foregroundGravity="center_vertical"
@@ -349,11 +355,11 @@
 
                     <TextView
                         android:id="@+id/text3View7"
-                        android:layout_width="140dp"
+                        android:layout_width="150dp"
                         android:layout_height="wrap_content"
                         android:minWidth="100dp"
                         android:text="@string/general__mobile_data"
-                        android:textSize="16sp"
+                        android:textSize="14sp"
                         android:textStyle="bold" />
 
                     <TextView
@@ -372,11 +378,11 @@
 
                     <TextView
                         android:id="@+id/textView7"
-                        android:layout_width="140dp"
+                        android:layout_width="150dp"
                         android:layout_height="wrap_content"
                         android:minWidth="100dp"
                         android:text="@string/general__wifi"
-                        android:textSize="16sp"
+                        android:textSize="14sp"
                         android:textStyle="bold" />
 
                     <TextView
@@ -396,11 +402,11 @@
 
                     <TextView
                         android:id="@+id/textVi432432ew7"
-                        android:layout_width="140dp"
+                        android:layout_width="150dp"
                         android:layout_height="wrap_content"
                         android:minWidth="100dp"
                         android:text="@string/general__internet"
-                        android:textSize="16sp"
+                        android:textSize="14sp"
                         android:textStyle="bold" />
 
                     <TextView
@@ -419,11 +425,11 @@
 
                     <TextView
 
-                        android:layout_width="140dp"
+                        android:layout_width="150dp"
                         android:layout_height="wrap_content"
                         android:minWidth="100dp"
                         android:text="@string/general__server"
-                        android:textSize="16sp"
+                        android:textSize="14sp"
                         android:textStyle="bold" />
 
                     <TextView
@@ -442,11 +448,11 @@
 
                     <TextView
 
-                        android:layout_width="140dp"
+                        android:layout_width="150dp"
                         android:layout_height="wrap_content"
                         android:minWidth="100dp"
                         android:text="@string/general__server__ws"
-                        android:textSize="16sp"
+                        android:textSize="14sp"
                         android:textStyle="bold" />
 
                     <TextView
@@ -475,8 +481,8 @@
                     android:id="@+id/divider9"
                     android:layout_width="match_parent"
                     android:layout_height="1dp"
-                    android:layout_marginTop="20dp"
-                    android:layout_marginBottom="20dp"
+                    android:layout_marginTop="15dp"
+                    android:layout_marginBottom="5dp"
                     android:layout_weight="1"
                     android:background="?android:attr/listDivider"
                     android:paddingTop="20dp"
